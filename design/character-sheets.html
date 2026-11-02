@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Character Style Sheets</title>
+<meta name="description" content="sim4love: four candidate art styles (A to D) for the five-heroine cast, with expression swaps and in-game textbox mockups.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff7fb; --bg2:#f3f0ff; --surface:#ffffff; --surface2:#fdf3f8; --ink:#3d2b45; --ink2:#6f5b78; --muted:#9a88a3;
+  --line:#efdbe8; --accent:#ff6fa3; --accent2:#8f7cf0; --accent-ink:#ffffff; --good:#2f9e7a; --bad:#d4486a;
+  --chip:#ffe3ef; --chip-ink:#a23a68; --shadow:0 6px 24px rgba(160,90,140,.12);
+  --paper:#fffaf1; --dot-off:#ead9e6;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1d1724; --bg2:#231c2e; --surface:#2a2234; --surface2:#2f2639; --ink:#f6eaf3; --ink2:#d2c0d6; --muted:#a493ab;
+    --line:#41354d; --accent:#ff8ab5; --accent2:#a99bff; --accent-ink:#2a1020; --good:#6fd6ad; --bad:#ff8ca6;
+    --chip:#4a2b40; --chip-ink:#ffc2da; --shadow:0 6px 24px rgba(0,0,0,.35);
+    --paper:#3a3330; --dot-off:#4b3d55;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1d1724; --bg2:#231c2e; --surface:#2a2234; --surface2:#2f2639; --ink:#f6eaf3; --ink2:#d2c0d6; --muted:#a493ab;
+  --line:#41354d; --accent:#ff8ab5; --accent2:#a99bff; --accent-ink:#2a1020; --good:#6fd6ad; --bad:#ff8ca6;
+  --chip:#4a2b40; --chip-ink:#ffc2da; --shadow:0 6px 24px rgba(0,0,0,.35);
+  --paper:#3a3330; --dot-off:#4b3d55;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"M PLUS Rounded 1c","Zen Maru Gothic",system-ui,sans-serif;line-height:1.55;font-size:16px;
+  background-image:radial-gradient(circle at 10% 0%,var(--bg2),transparent 40%),radial-gradient(circle at 100% 30%,var(--bg2),transparent 35%);background-attachment:fixed;overflow-x:hidden}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px 64px}
+header.top{padding:28px 0 8px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.brand{font-weight:800;color:var(--accent);letter-spacing:.02em;font-size:14px;text-transform:uppercase}
+h1{font-size:clamp(28px,5vw,44px);line-height:1.15;margin:4px 0 8px;font-weight:800;text-wrap:balance}
+h1 .heart{color:var(--accent)}
+.lede{color:var(--ink2);max-width:62ch;margin:0}
+.theme-btn{font:inherit;font-size:14px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;min-height:40px}
+.theme-btn:hover{border-color:var(--accent)}
+h2{font-size:clamp(22px,3.4vw,30px);margin:0;line-height:1.2;font-weight:800}
+h3{font-size:18px;margin:0 0 10px;font-weight:700}
+.pick{margin:24px 0 8px;padding:20px;border-radius:24px;background:var(--surface);box-shadow:var(--shadow);border:1px solid var(--line)}
+.pick-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.pick-head p{margin:0;color:var(--ink2);font-size:14px}
+.pick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.pcard{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:center;padding:12px;border-radius:18px;background:var(--surface2);border:1.5px solid transparent;color:inherit;text-decoration:none;transition:border-color .15s,transform .15s}
+.pcard:hover{border-color:var(--accent);transform:translateY(-2px)}
+.pcard .thumb{border-radius:14px;overflow:hidden;aspect-ratio:1;background:#fff}
+.pcard .thumb svg{width:100%;height:100%}
+.letter{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:800;font-size:16px;margin-right:6px;flex:none}
+.pcard b{font-size:15px;line-height:1.25;display:flex;align-items:center}
+.pcard .one{font-size:13px;color:var(--ink2);margin:6px 0 6px;line-height:1.4}
+.rate{display:grid;grid-template-columns:auto auto;gap:2px 8px;font-size:12px;color:var(--ink2);justify-content:start}
+.dots{display:inline-flex;gap:3px;align-items:center}
+.dots i{width:8px;height:8px;border-radius:50%;background:var(--dot-off);display:block}
+.dots i.on{background:var(--accent)}
+.legend{font-size:12px;color:var(--muted);margin-top:12px}
+section.style{margin-top:40px;padding:22px 20px 24px;border-radius:28px;background:var(--surface);box-shadow:var(--shadow);border:1px solid var(--line);scroll-margin-top:12px}
+.s-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:6px}
+.s-head .big{flex:none;width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:28px;font-weight:800;background:var(--accent);color:var(--accent-ink)}
+.s-head p{margin:4px 0 0;color:var(--ink2);max-width:70ch}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:18px 0 12px}
+.toolbar span{font-size:13px;color:var(--ink2);margin-right:4px}
+.seg{display:inline-flex;background:var(--surface2);border:1px solid var(--line);border-radius:999px;padding:3px}
+.seg button{font:inherit;font-size:13px;border:0;background:transparent;color:var(--ink2);padding:6px 12px;border-radius:999px;cursor:pointer;min-height:34px}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);font-weight:700}
+.cast{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.ccard{border-radius:18px;overflow:hidden;background:var(--surface2);border:1px solid var(--line);display:flex;flex-direction:column}
+.ccard .art{background:var(--art-bg,#fff5fa);position:relative}
+.ccard .meta{padding:8px 10px 10px}
+.ccard .meta b{display:block;font-size:14px;line-height:1.25}
+.ccard .meta small{display:block;color:var(--ink2);font-size:12px;line-height:1.35;margin-top:2px}
+.chip{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--chip);color:var(--chip-ink);margin-top:6px}
+.chip.trap{background:#ffe1e1;color:#a3283e}
+:root[data-theme="dark"] .chip.trap{background:#4d2430;color:#ffb4c2}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .chip.trap{background:#4d2430;color:#ffb4c2}}
+.spr{display:block;width:100%;height:auto}
+.spr .ex{display:none}
+.spr[data-expr="neutral"] .ex-n,.spr[data-expr="happy"] .ex-h,.spr[data-expr="upset"] .ex-u{display:inline}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:18px;margin-top:22px}
+.panel{border-radius:20px;background:var(--surface2);border:1px solid var(--line);padding:14px}
+.exprs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.exprs figure{margin:0;border-radius:14px;overflow:hidden;background:var(--art-bg,#fff5fa)}
+.exprs figcaption{font-size:12px;text-align:center;padding:4px 0 6px;color:#6f5b78;background:rgba(255,255,255,.7)}
+.code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--ink2);margin:10px 0 0;line-height:1.5;overflow-wrap:anywhere}
+.code code{background:var(--chip);color:var(--chip-ink);padding:1px 5px;border-radius:6px}
+.pc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}
+.pc ul{margin:0;padding-left:20px;font-size:14px}
+.pc li{margin:4px 0}
+.pc h4{margin:0 0 6px;font-size:14px;text-transform:uppercase;letter-spacing:.04em}
+.pc .pro h4{color:var(--good)} .pc .con h4{color:var(--bad)}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:18px}
+.metric{border-radius:14px;background:var(--surface2);border:1px solid var(--line);padding:10px 12px}
+.metric small{display:block;font-size:12px;color:var(--ink2)}
+.metric b{font-size:15px}
+/* VN mock */
+.vn{position:relative;aspect-ratio:16/10;border-radius:18px;overflow:hidden;background:#cde;isolation:isolate;container-type:inline-size}
+.vn .bg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.vn .who{position:absolute;bottom:0;left:42%;transform:translateX(-50%);height:96%;z-index:1;aspect-ratio:220/300}
+.vn .who.chibi{height:78%;bottom:20%;aspect-ratio:210/245}
+.vn .who svg{width:100%;height:100%}
+.vn .box{position:absolute;left:3%;right:3%;bottom:4%;z-index:2;padding:4.2cqw 4cqw 3cqw;min-height:30%;font-size:clamp(11px,3.1cqw,16px);line-height:1.45}
+.vn .name{position:absolute;top:0;left:4cqw;transform:translateY(-62%);padding:.25em 1em;font-weight:800;font-size:clamp(11px,3cqw,15px)}
+.vn .box p{margin:0}
+.vn .next{position:absolute;right:3cqw;bottom:1.8cqw;font-size:.8em;animation:bob 1s ease-in-out infinite}
+.vn .choices{position:absolute;right:4%;top:6%;z-index:2;display:flex;flex-direction:column;gap:2cqw;align-items:flex-end;max-width:52%}
+.vn .choices span{font-size:clamp(10px,2.6cqw,14px);padding:.45em .9em;line-height:1.25;text-align:right}
+.vn .lesson{position:absolute;left:4%;top:6%;z-index:2;font-size:clamp(9px,2.3cqw,12px);font-weight:700;padding:.3em .8em;border-radius:999px;background:rgba(255,255,255,.85);color:#7a3b5d}
+@keyframes bob{50%{transform:translateY(3px)}}
+@media (prefers-reduced-motion: reduce){.vn .next{animation:none}}
+/* per-style VN chrome */
+.vn-A .box{background:#fffdf6;border:3px solid #4a3046;border-radius:22px;color:#4a3046;box-shadow:0 4px 0 #4a3046}
+.vn-A .name{background:#ffd36e;border:3px solid #4a3046;border-radius:999px;color:#4a3046}
+.vn-A .choices span{background:#fff;border:3px solid #4a3046;border-radius:999px;color:#4a3046;font-weight:700;box-shadow:0 3px 0 #4a3046}
+.vn-B .box{background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,240,248,.9));border:1.5px solid rgba(255,255,255,.95);border-radius:14px;color:#4b2a44;box-shadow:0 0 0 4px rgba(214,90,140,.25),0 8px 24px rgba(80,20,60,.25);backdrop-filter:blur(4px)}
+.vn-B .name{background:linear-gradient(90deg,#d23a5c,#ff7aa2);color:#fff;border-radius:8px 8px 8px 0;letter-spacing:.06em;box-shadow:0 2px 8px rgba(120,20,50,.3)}
+.vn-B .choices span{background:rgba(255,255,255,.85);border:1.5px solid #f3a6c2;border-radius:10px;color:#6b2b4c;font-family:"Zen Maru Gothic",sans-serif;font-weight:700}
+.vn-C .box{background:#2c2a4a;border-radius:14px;color:#fff;font-weight:500}
+.vn-C .name{background:#ff6fae;color:#fff;border-radius:8px;transform:translateY(-55%)}
+.vn-C .choices span{background:#fff;color:#2c2a4a;border-radius:10px;font-weight:700;box-shadow:0 3px 0 rgba(44,42,74,.25)}
+.vn-D .box{background:rgba(255,250,240,.92);border-radius:6px 22px 8px 18px;color:#5b4033;font-family:"Zen Maru Gothic",sans-serif;box-shadow:0 0 0 1.5px #c9a88f inset,0 6px 18px rgba(120,80,50,.2)}
+.vn-D .name{background:#b7d3c3;color:#3d4d40;border-radius:12px 4px 12px 4px;font-family:"Zen Maru Gothic",sans-serif}
+.vn-D .choices span{background:rgba(255,250,240,.92);color:#5b4033;border-radius:4px 14px 4px 14px;box-shadow:0 0 0 1.5px #c9a88f inset;font-family:"Zen Maru Gothic",sans-serif;font-weight:700}
+.st-bgA{--art-bg:linear-gradient(180deg,#fff4f9,#f1ecff)}
+.st-bgB{--art-bg:radial-gradient(circle at 30% 20%,#fff,#ffe9f2 60%,#f4e4ff)}
+.st-bgC{--art-bg:#fff1d6}
+.st-bgD{--art-bg:#fffaf1 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .42 0 0 0 0 .3 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+.st-bgC .ccard:nth-child(2) .art{--art-bg:#ffd9de}.st-bgC .ccard:nth-child(3) .art{--art-bg:#e6e0ff}.st-bgC .ccard:nth-child(4) .art{--art-bg:#d6f2ef}.st-bgC .ccard:nth-child(5) .art{--art-bg:#ffe0f0}
+.foot{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
+@media (max-width:900px){.cast{grid-template-columns:repeat(3,minmax(0,1fr))}.two{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.cast{grid-template-columns:repeat(2,minmax(0,1fr))}.pc{grid-template-columns:1fr}section.style{padding:18px 14px 20px;border-radius:22px}.pick{padding:16px 14px}.s-head .big{width:44px;height:44px;font-size:24px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="brand">sim4love · art direction</div>
+      <h1>Character style sheets <span class="heart">♥</span></h1>
+      <p class="lede">The same five heroines drawn four ways. Every sprite is hand-built inline SVG, so you can see real file sizes. Each one swaps its eyes, brows, mouth and blush groups to change expression, the same way the game engine would.</p>
+    </div>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle colour theme">◐ Theme: auto</button>
+  </header>
+
+  <section class="pick" aria-labelledby="pickTitle">
+    <div class="pick-head">
+      <h2 id="pickTitle">Pick A, B, C or D</h2>
+      <p>Tap a card to jump to that style. More dots is better (smaller files, easier expressions, smoother animation).</p>
+    </div>
+    <div class="pick-grid" id="pickGrid"></div>
+    <div class="legend">Sizes are measured live from the SVG on this page: one character with all 3 expressions, unminified. Gzip usually cuts them by 3–4×.</div>
+  </section>
+
+  <div id="styles"></div>
+  <p class="foot">sim4love design exploration · original characters · all art is inline SVG drawn in code</p>
+</div>
+
+<script>
+/* ============ colour utils ============ */
+const hex2 = h => { h=h.replace('#',''); return [0,2,4].map(i=>parseInt(h.slice(i,i+2),16)); };
+const rgb2 = a => '#'+a.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('');
+const mix = (a,b,t) => { const A=hex2(a),B=hex2(b); return rgb2(A.map((v,i)=>v+(B[i]-v)*t)); };
+const f1 = n => (+n.toFixed(1)).toString();
+
+/* mirror a path made of absolute M/L/C/Q/Z commands across x=0 */
+function mirror(d){ let i=0; return d.replace(/[A-Za-z]|-?\d*\.?\d+/g, t=>{ if(/[A-Za-z]/.test(t)){ i=0; return t; } const v = (i++%2===0)? -parseFloat(t) : parseFloat(t); return f1(v); }); }
+/* hair fringe: alternating notch/tip points -> curved clumps */
+function fr(pts, sweep=0){ let s=''; for(let i=1;i<pts.length;i++){ const a=pts[i-1], b=pts[i]; const n = a[1]<b[1]? a:b, t = a[1]<b[1]? b:a; s+=` Q ${f1(n[0]+sweep)} ${f1(n[1]+0.62*(t[1]-n[1]))} ${b[0]} ${b[1]}`; } return s; }
+/* toothed highlight ring for hair */
+function ring(cy=-8, r1=50, r2=43, r3=37, a0=1.2, a1=1.8, N=16){
+  const top=[], bot=[];
+  for(let i=0;i<=N;i++){ const a=Math.PI*(a0+(a1-a0)*i/N); top.push([Math.cos(a)*r1, cy+Math.sin(a)*r1]); }
+  for(let i=N;i>=0;i--){ const a=Math.PI*(a0+(a1-a0)*i/N); const r=(i%2)? r3:r2; bot.push([Math.cos(a)*r, cy+Math.sin(a)*r]); }
+  return 'M'+top.concat(bot).map(p=>f1(p[0])+' '+f1(p[1])).join(' L')+' Z';
+}
+function smoothBand(cy=-8,r1=50,r2=42,a0=1.22,a1=1.62,N=12){
+  const top=[],bot=[]; for(let i=0;i<=N;i++){const a=Math.PI*(a0+(a1-a0)*i/N); top.push([Math.cos(a)*r1,cy+Math.sin(a)*r1]);}
+  for(let i=N;i>=0;i--){const a=Math.PI*(a0+(a1-a0)*i/N); const k=Math.sin(Math.PI*i/N); const r=r1-(r1-r2)*k; bot.push([Math.cos(a)*r,cy+Math.sin(a)*r]);}
+  return 'M'+top.concat(bot).map(p=>f1(p[0])+' '+f1(p[1])).join(' L')+' Z';
+}
+
+/* ============ base shapes (head frame: skull r≈50 at 0,0) ============ */
+const FACE = 'M -47 -14 C -48 18 -38 42 -16 57 Q 0 66 16 57 C 38 42 48 18 47 -14 C 46 -54 -46 -54 -47 -14 Z';
+const FACE_CHIBI = 'M -52 -8 C -54 30 -34 52 0 52 C 34 52 54 30 52 -8 C 50 -54 -50 -54 -52 -8 Z';
+const SKIN = { skin:'#ffe9dc', skinS:'#f7c7b5', skinL:'#c8826f', blush:'#ff8fa6' };
+const TORSO = 'M -15 76 C -42 81 -70 86 -80 108 C -88 134 -90 180 -92 222 L 92 222 C 90 180 88 134 80 108 C 70 86 42 81 15 76 Z';
+const NECK = 'M -12 44 C -12 60 -13 70 -15 84 L 15 84 C 13 70 12 60 12 44 Z';
+const NECKSH = 'M -12.5 50 Q 0 70 12.5 50 L 13 64 Q 0 78 -13 64 Z';
+
+/* chibi pieces */
+const CB = {
+  torso:'M -20 44 C -28 54 -31 72 -30 94 L 30 94 C 31 72 28 54 20 44 Z',
+  skirt:'M -30 86 C -36 98 -40 108 -43 118 Q 0 128 43 118 C 40 108 36 98 30 86 Z',
+  leg:'M -15 112 L -14.5 139 L -5 139 L -5 112 Z',
+  shoe:'M -17 137 C -20 146 -15 150 -9 150 C -3 150 -1.5 145 -3.5 137 Z',
+  armDown:'M -21 48 C -33 54 -39 68 -40 82 L -31 85 C -30 72 -27 62 -18 56 Z',
+  armUp:'M 20 49 C 32 46 39 36 41 24 L 32 21 C 30 31 26 38 17 42 Z',
+};
+
+/* ============ characters ============ */
+const CAST = [
+{ id:'hina', name:'Hina Aoki', role:'Childhood friend · warm & honest', lesson:'Healthy, secure love', trap:false,
+  c:{hair:'#a86a40', hairS:'#7c4729', hairH:'#e3ad7c', eye:'#c9782f', eyeD:'#5b2f13', eyeL:'#ffd27d', top:'#f8cc4a', topS:'#dda52a', top2:'#ffffff', top2S:'#e7e3ef', acc:'#ff6b81', skirt:'#46518a'},
+  hair(o){ return {
+    back:['M -58 6 C -62 -48 -32 -69 0 -69 C 32 -69 62 -48 58 6 C 58 26 61 40 55 51 Q 45 56 37 47 L -37 47 Q -45 56 -55 51 C -61 40 -58 26 -58 6 Z'],
+    front:['M -57 34 C -63 -8 -53 -59 0 -63 C 53 -59 63 -8 57 34 Q 53 12 43 -4'+fr([[43,-4],[37,-25],[31,-3],[25,-27],[15,-5],[7,-29],[-3,-4],[-11,-27],[-21,-5],[-29,-25],[-43,-4]],-1)+' Q -53 12 -57 34 Z', 'M -3 -61 C -8 -76 2 -86 15 -82 C 6 -80 1 -73 5 -61 Z'] }; },
+  acc(x){ return `<g transform="translate(35 -36) rotate(-38)"><rect x="-10" y="-6.5" width="20" height="4.6" rx="2.3" ${x.F(x.c.acc)}/><rect x="-10" y="1.5" width="20" height="4.6" rx="2.3" ${x.F(x.c.acc)}/></g>`; },
+  bust(x){ const c=x.c; return x.P(TORSO,x.F(c.top2))+x.P(NECK,x.F(SKIN.skin))+x.P(NECKSH,x.SH(SKIN.skinS))+
+    x.P('M -15 77 C -42 82 -70 86 -80 108 C -88 134 -90 180 -92 222 L -9 222 L -7 142 C -10 118 -14 98 -21 84 Z',x.F(c.top))+
+    x.P(mirror('M -15 77 C -42 82 -70 86 -80 108 C -88 134 -90 180 -92 222 L -9 222 L -7 142 C -10 118 -14 98 -21 84 Z'),x.F(c.top))+
+    (x.st!=='A'? x.P('M -80 108 C -86 134 -89 180 -91 222 L -75 222 C -75 180 -73 140 -67 116 Z',x.SH(c.topS))+x.P(mirror('M -80 108 C -86 134 -89 180 -91 222 L -75 222 C -75 180 -73 140 -67 116 Z'),x.SH(c.topS)):'')+
+    x.P('M 0 86 C -8 81 -13 78 -16 76 C -27 82 -29 94 -18 98 C -10 100 -4 94 0 86 Z',x.F(c.top2))+x.P(mirror('M 0 86 C -8 81 -13 78 -16 76 C -27 82 -29 94 -18 98 C -10 100 -4 94 0 86 Z'),x.F(c.top2))+
+    `<g transform="translate(0 99)">${x.P('M 0 0 C -8 -7 -15 -5 -14 1 C -13 7 -6 6 0 0 Z',x.F(c.acc))+x.P(mirror('M 0 0 C -8 -7 -15 -5 -14 1 C -13 7 -6 6 0 0 Z'),x.F(c.acc))}<circle r="3" ${x.F(c.acc)}/></g>`+
+    [150,182].map(y=>`<circle cx="-12" cy="${y}" r="3.2" ${x.F(mix(c.top,'#ffffff',.55))}/>`).join(''); },
+  chibi(x){ const c=x.c; return x.leg(SKIN.skin,'#ffffff')+x.shoes('#8a5a3c')+x.P(CB.skirt,x.F(c.skirt))+x.P(CB.torso,x.F(c.top))+
+    x.P('M -9 44 L 0 62 L 9 44 Z',x.F(c.top2))+`<circle cx="0" cy="74" r="2.4" ${x.F('#ffffff')}/><circle cx="0" cy="84" r="2.4" ${x.F('#ffffff')}/>`+
+    x.P(CB.armDown,x.F(c.top))+`<circle cx="-36" cy="87" r="6" ${x.F(SKIN.skin)}/>`+x.P(CB.armUp,x.F(c.top))+`<circle cx="37" cy="18" r="6.5" ${x.F(SKIN.skin)}/>`; } },
+
+{ id:'rei', name:'Rei Kurosawa', role:'Glamorous & flashy charmer', lesson:'Love-bombing / romance-scam trap', trap:true, eyeK:.9, wing:true,
+  c:{hair:'#2c2438', hairS:'#18121f', hairH:'#6b6399', eye:'#d4253f', eyeD:'#560614', eyeL:'#ff9a9a', top:'#e0283f', topS:'#a3122a', acc:'#f2c14e', lip:'#d81e3c'},
+  hair(o){ const L=o.L, Ll=o.chibi?72:132; return {
+    back:[`M -60 0 C -66 -52 -34 -71 0 -71 C 34 -71 66 -52 60 0 C 64 60 ${o.chibi?66:78} ${L-70} ${o.chibi?72:92} ${L} Q ${o.chibi?62:76} ${L-14} ${o.chibi?52:62} ${L-2} Q 46 ${L-16} 30 ${L-8} L -30 ${L-8} Q -46 ${L-16} ${o.chibi?-52:-62} ${L-2} Q ${o.chibi?-62:-76} ${L-14} ${o.chibi?-72:-92} ${L} C ${o.chibi?-66:-78} ${L-70} -64 60 -60 0 Z`],
+    front:['M 16 -66 C -22 -68 -57 -48 -55 6 Q -51 -12 -43 -20 Q -41 -8 -36 3 Q -33 -18 -23 -28 Q -18 -14 -10 -3 Q -8 -24 4 -34 Q 4 -20 9 -11 Q 12 -30 20 -41 Q 30 -24 42 -12 Q 41 -26 44 -32 Q 52 -18 55 -1 C 59 -34 46 -63 16 -66 Z',
+      `M -50 -22 C -61 20 -58 ${Ll-50} -66 ${Ll} Q -58 ${Ll-9} -53 ${Ll+5} Q -50 ${Ll-18} -46 ${Ll-12} C -44 ${Ll-60} -44 18 -39 -6 Z`,
+      mirror(`M -50 -22 C -61 20 -58 ${Ll-50} -66 ${Ll} Q -58 ${Ll-9} -53 ${Ll+5} Q -50 ${Ll-18} -46 ${Ll-12} C -44 ${Ll-60} -44 18 -39 -6 Z`)] }; },
+  mid(x){ return `<circle cx="-29" cy="35" r="1.3" fill="#5a2a3a"/>`; },
+  bust(x){ const c=x.c; return x.P(TORSO,x.F(SKIN.skin))+x.P(NECK,x.F(SKIN.skin))+x.P(NECKSH,x.SH(SKIN.skinS))+
+    `<path d="M -32 93 Q -19 97 -8 95 M 32 93 Q 19 97 8 95" ${x.LN(SKIN.skinL,.9)}/>`+
+    x.P('M -71 124 C -57 113 -35 113 -18 126 Q 0 140 18 126 C 35 113 57 113 71 124 C 77 152 81 190 83 222 L -83 222 C -81 190 -77 152 -71 124 Z',x.F(c.top))+
+    (x.st!=='A'? x.P('M 18 126 C 35 113 57 113 71 124 C 77 152 81 190 83 222 L 64 222 C 62 180 60 146 52 126 Z',x.SH(c.topS))+x.P('M -8 160 Q -4 190 -10 222 L -2 222 Q 2 190 -2 162 Z',x.SH(c.topS)):'')+
+    x.P('M -50 120 L -44 87 L -40 87 L -45 119 Z',x.F(c.top))+x.P(mirror('M -50 120 L -44 87 L -40 87 L -45 119 Z'),x.F(c.top))+
+    `<path d="M -16 82 Q 0 106 16 82" fill="none" stroke="${x.col(c.acc)}" stroke-width="1.4"/>`+
+    `<g transform="translate(0 106)">${x.P('M 0 6 C -9 -1 -6 -8 0 -4 C 6 -8 9 -1 0 6 Z',x.F(c.acc))}</g>`; },
+  chibi(x){ const c=x.c; return x.leg(SKIN.skin,SKIN.skin)+x.shoes(c.top)+
+    x.P('M -20 44 C -28 54 -31 72 -30 84 L 30 84 C 31 72 28 54 20 44 Z',x.F(SKIN.skin))+
+    x.P('M -27 60 Q 0 72 27 60 C 30 72 30 82 30 84 C 38 100 46 116 50 130 Q 0 140 -50 130 C -46 116 -38 100 -30 84 C -30 82 -30 72 -27 60 Z',x.F(c.top))+
+    `<path d="M -10 47 Q 0 58 10 47" fill="none" stroke="${x.col(c.acc)}" stroke-width="1.6"/>`+
+    x.P(CB.armDown,x.F(SKIN.skin))+`<circle cx="-36" cy="87" r="6" ${x.F(SKIN.skin)}/>`+
+    x.P('M 21 48 C 33 54 40 62 38 72 L 28 80 L 24 74 L 30 68 C 28 62 24 58 18 56 Z',x.F(SKIN.skin)); } },
+
+{ id:'mio', name:'Mio Shirakawa', role:'Shy bookworm', lesson:'Patience, boundaries & consent', trap:false, eyeK:1.04,
+  c:{hair:'#b9a3e6', hairS:'#8b72c7', hairH:'#ece4ff', eye:'#7c5cc4', eyeD:'#2e1c60', eyeL:'#cbb9ff', top:'#ffffff', topS:'#e4e1ef', navy:'#2f3c70', navyS:'#1f2a52', acc:'#e0435a', frame:'#5b3a6e'},
+  hair(o){ return {
+    back:['M -58 6 C -62 -48 -32 -70 0 -70 C 32 -70 62 -48 58 6 C 58 22 56 34 50 44 L -50 44 C -56 34 -58 22 -58 6 Z'],
+    front:['M -57 42 C -63 -10 -53 -61 0 -63 C 53 -61 63 -10 57 42 Q 51 31 47 37 Q 47 14 42 -2'+fr([[42,-2],[36,-15],[31,-1],[24,-15],[17,0],[10,-15],[3,-1],[-4,-15],[-11,0],[-18,-15],[-25,-1],[-32,-15],[-42,-2]])+' Q -47 14 -47 37 Q -51 31 -57 42 Z'] }; },
+  mid(x){ const fc=x.col(x.c.frame); const g = x.st==='C'? `fill="#ffffff" fill-opacity=".22" stroke="${fc}" stroke-width="2.6"` : `fill="#e3f2ff" fill-opacity=".2" stroke="${x.st==='A'?'#4a3046':fc}" stroke-width="${x.st==='A'?2.6:1.5}"`;
+    const [ex,ey,r] = x.st==='A'? [21,20,15.5] : [20,18,14.5];
+    return `<circle cx="${-ex}" cy="${ey}" r="${r}" ${g}/><circle cx="${ex}" cy="${ey}" r="${r}" ${g}/><path d="M ${-ex+r} ${ey-2} Q 0 ${ey-6} ${ex-r} ${ey-2} M ${-ex-r} ${ey-3} L -50 ${ey-6} M ${ex+r} ${ey-3} L 50 ${ey-6}" fill="none" stroke="${x.st==='A'?'#4a3046':fc}" stroke-width="${x.st==='A'?2.6:1.5}" stroke-linecap="round"/>`+
+      (x.st!=='C'?`<path d="M ${ex+3} ${ey-9} l 6 6 M ${-ex+3} ${ey-9} l 6 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".85"/>`:''); },
+  fore(x){ const c=x.c, ch=x.chibi; const top = ch? [40,30] : [44,36]; const end = ch? 104 : 150; const bx = ch? 46 : 62;
+    let s = x.P(ch? 'M 34 18 C 42 30 46 38 47 48 L 56 46 C 54 34 50 24 44 14 Z':'M 38 22 C 48 40 56 56 59 76 L 71 74 C 67 52 60 34 50 18 Z', x.F(c.hair));
+    const y0 = ch? 46 : 74, step = ch? 9 : 12; let i=0;
+    for(let y=y0; y<end; y+=step, i++){ const cx = bx + Math.sin(i*0.5)*1.5 + (ch?0:(y-y0)*0.04); s+=`<ellipse cx="${f1(cx)}" cy="${y+step/2}" rx="${ch?7.5:10}" ry="${ch?6:8}" transform="rotate(${i%2?28:-28} ${f1(cx)} ${y+step/2})" ${x.F(i%2?c.hair:mix(c.hair,c.hairS,.25))}/>`; }
+    const ey=end+4, ex=bx+(ch?0:4);
+    s+=x.P(`M ${ex-6} ${ey} Q ${ex-11} ${ey+13} ${ex-5} ${ey+20} Q ${ex-1} ${ey+13} ${ex+1} ${ey+22} Q ${ex+5} ${ey+13} ${ex+8} ${ey+17} Q ${ex+10} ${ey+7} ${ex+6} ${ey} Z`,x.F(c.hair));
+    s+=`<g transform="translate(${ex} ${ey-1})">${x.P('M 0 0 C -7 -6 -12 -3 -11 2 C -10 7 -5 5 0 0 Z',x.F(c.acc))+x.P(mirror('M 0 0 C -7 -6 -12 -3 -11 2 C -10 7 -5 5 0 0 Z'),x.F(c.acc))}<circle r="2.4" ${x.F(c.acc)}/></g>`;
+    if(ch) s+=`<g transform="rotate(-12 -40 84)"><rect x="-52" y="70" width="20" height="26" rx="2" ${x.F('#9a7fd6')}/><rect x="-49" y="73" width="14" height="5" rx="1" ${x.F('#fff6d8')}/></g><circle cx="-37" cy="88" r="6" ${x.F(SKIN.skin)}/>`;
+    return s; },
+  bust(x){ const c=x.c; return x.P(TORSO,x.F(c.top))+x.P('M -12 44 C -12 60 -13 70 -16 80 L 0 116 L 16 80 C 13 70 12 60 12 44 Z',x.F(SKIN.skin))+x.P(NECKSH,x.SH(SKIN.skinS))+
+    (x.st!=='A'? x.P('M -80 108 C -86 134 -89 180 -91 222 L -76 222 C -76 180 -74 140 -68 116 Z',x.SH(c.topS))+x.P(mirror('M -80 108 C -86 134 -89 180 -91 222 L -76 222 C -76 180 -74 140 -68 116 Z'),x.SH(c.topS)):'')+
+    x.P('M -16 77 C -38 82 -60 86 -72 102 L -36 130 L 0 158 L 36 130 L 72 102 C 60 86 38 82 16 77 L 0 116 Z',x.F(c.navy))+
+    `<path d="M -64 100 L -32 125 L 0 150 L 32 125 L 64 100" fill="none" stroke="#ffffff" stroke-width="2" stroke-linejoin="round"/>`+
+    `<g transform="translate(0 134)">${x.P('M 0 0 C -12 -10 -22 -7 -20 2 C -18 10 -8 8 0 0 Z',x.F(c.acc))+x.P(mirror('M 0 0 C -12 -10 -22 -7 -20 2 C -18 10 -8 8 0 0 Z'),x.F(c.acc))+x.P('M -3 2 L -11 28 L -5 26 L 0 4 Z',x.F(c.acc))+x.P(mirror('M -3 2 L -11 28 L -5 26 L 0 4 Z'),x.F(c.acc))}<ellipse rx="4" ry="4.5" ${x.F(c.acc)}/></g>`; },
+  chibi(x){ const c=x.c; return x.leg(SKIN.skin,'#2f2a40')+x.shoes('#3b2a2a')+x.P(CB.skirt,x.F(c.navy))+x.P(CB.torso,x.F(c.top))+
+    x.P('M -20 44 L -31 58 L -10 62 L 0 74 L 10 62 L 31 58 L 20 44 L 0 60 Z',x.F(c.navy))+
+    `<g transform="translate(0 66)">${x.P('M 0 0 C -7 -6 -12 -3 -11 2 C -10 7 -5 5 0 0 Z',x.F(c.acc))+x.P(mirror('M 0 0 C -7 -6 -12 -3 -11 2 C -10 7 -5 5 0 0 Z'),x.F(c.acc))}<circle r="2.6" ${x.F(c.acc)}/></g>`+
+    x.P(CB.armDown,x.F(c.top))+x.P(mirror(CB.armDown),x.F(c.top))+`<circle cx="36" cy="87" r="6" ${x.F(SKIN.skin)}/>`; } },
+
+{ id:'kaede', name:'Kaede Tachibana', role:'Cool senpai · hot-and-cold', lesson:'Mixed signals & self-respect', trap:false, eyeK:.84,
+  c:{hair:'#d3d8e3', hairS:'#9aa3b8', hairH:'#ffffff', eye:'#2e9cb6', eyeD:'#0e3a4c', eyeL:'#a2ecf5', top:'#26365f', topS:'#172340', top2:'#f3f5fa', acc:'#2ec4b6'},
+  hair(o){ const P=o.chibi?100:122; return {
+    back:['M -56 6 C -60 -48 -30 -69 0 -69 C 30 -69 60 -48 56 6 C 56 20 52 30 48 36 L -48 36 C -52 30 -56 20 -56 6 Z',
+      `M 4 -64 C 40 -92 94 -68 93 -14 C 92 30 78 ${P-56} 89 ${P} Q 75 ${P-12} 70 ${P+4} Q 64 ${P-20} 57 ${P-13} C 66 ${P-70} 66 6 42 -36 Z`],
+    front:['M -55 26 C -63 -24 -40 -65 0 -65 C 40 -65 61 -36 55 10 Q 51 -4 45 -8'+fr([[45,-8],[40,-28],[33,-8],[26,-31],[14,-6],[7,-33],[-5,-6],[-11,-31],[-25,-2],[-31,-25],[-40,5]],-3)+' Q -42 24 -46 48 Q -52 38 -55 26 Z'] }; },
+  backAcc(x){ return `<ellipse cx="24" cy="-66" rx="8" ry="5.5" transform="rotate(-28 24 -66)" ${x.F(x.c.acc)}/>`; },
+  ears:true,
+  bust(x){ const c=x.c; return x.P(TORSO,x.F(c.top))+x.P(NECK,x.F(SKIN.skin))+x.P(NECKSH,x.SH(SKIN.skinS))+
+    (x.st!=='A'? x.P('M -80 108 C -86 134 -89 180 -91 222 L -76 222 C -76 180 -74 140 -68 116 Z',x.SH(c.topS))+x.P(mirror('M -80 108 C -86 134 -89 180 -91 222 L -76 222 C -76 180 -74 140 -68 116 Z'),x.SH(c.topS)):'')+
+    x.P('M -10 92 L 0 124 L 10 92 Z',x.F(c.top2))+
+    x.P('M -21 66 L -25 92 Q -13 98 -6 100 L 0 92 L 6 100 Q 13 98 25 92 L 21 66 Q 0 74 -21 66 Z',x.F(c.top))+
+    x.P('M -38 84 C -62 90 -78 104 -84 132 L -79 134 C -73 108 -59 96 -35 90 Z',x.F('#ffffff'))+x.P(mirror('M -38 84 C -62 90 -78 104 -84 132 L -79 134 C -73 108 -59 96 -35 90 Z'),x.F('#ffffff'))+
+    x.P('M -31 86 C -56 93 -70 106 -76 134 L -72 135 C -66 110 -53 99 -29 91 Z',x.F(c.acc))+x.P(mirror('M -31 86 C -56 93 -70 106 -76 134 L -72 135 C -66 110 -53 99 -29 91 Z'),x.F(c.acc))+
+    `<path d="M 0 124 L 0 222" stroke="${x.col('#aab3c8')}" stroke-width="1.6"/><rect x="-2.6" y="122" width="5.2" height="11" rx="2" ${x.F('#cfd5e3')}/>`+
+    `<path d="M -44 150 l 8 0 l -4 7 z" ${x.F(c.acc)}/>`; },
+  chibi(x){ const c=x.c; return x.P('M -30 90 L -27 139 L -5 139 L -2 102 L 2 102 L 5 139 L 27 139 L 30 90 Z',x.F(c.top))+
+    `<path d="M -27 96 L -24 136 M 27 96 L 24 136" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>`+x.shoes('#ffffff')+
+    x.P(CB.torso,x.F(c.top))+x.P('M -8 44 L 0 58 L 8 44 Z',x.F(c.top2))+`<path d="M 0 58 L 0 94" stroke="#aab3c8" stroke-width="1.4"/>`+
+    x.P('M -14 40 L -16 50 L 0 54 L 16 50 L 14 40 Z',x.F(c.top))+
+    x.P(CB.armDown,x.F(c.top))+x.P(mirror(CB.armDown),x.F(c.top))+`<path d="M -25 52 C -34 60 -37 70 -37 80 M 25 52 C 34 60 37 70 37 80" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>`+
+    `<circle cx="-36" cy="87" r="6" ${x.F(SKIN.skin)}/><circle cx="36" cy="87" r="6" ${x.F(SKIN.skin)}/>`; } },
+
+{ id:'yuna', name:'Yuna Hoshino', role:'Idol-like social butterfly', lesson:'Being kept as a “backup”', trap:true, eyeK:1,
+  c:{hair:'#f7a3c6', hairS:'#e27aa8', hairH:'#ffe0ee', eye:'#e2558f', eyeD:'#6b1239', eyeL:'#ffb9d6', top:'#ffffff', topS:'#ece2f3', acc:'#ff7eb6', lilac:'#c9b6f2', phone:'#ff86bd'},
+  hair(o){ const T=o.chibi?140:194; const tail=`M -40 -50 C -78 -66 -106 -30 -101 14 C -97 54 -113 ${T-90} -101 ${T-30} C -95 ${T} -74 ${T} -70 ${T-15} Q -81 ${T-14} -83 ${T-30} C -81 ${T-62} -69 60 -73 20 C -75 -6 -65 -28 -46 -34 Z`; return {
+    back:['M -56 6 C -60 -48 -30 -68 0 -68 C 30 -68 60 -48 56 6 C 56 22 54 34 50 42 L -50 42 C -54 34 -56 22 -56 6 Z', tail, mirror(tail)],
+    front:['M -55 36 C -63 -16 -51 -61 0 -63 C 51 -61 63 -16 55 36 Q 49 23 45 27 Q 47 8 42 -4'+fr([[42,-4],[36,-21],[30,-2],[22,-23],[13,0],[5,-25],[-3,-1],[-11,-23],[-20,0],[-28,-21],[-42,-4]],1)+' Q -47 8 -45 27 Q -49 23 -55 36 Z'] }; },
+  acc(x){ const c=x.c; const bow=(tx,ty,r)=>`<g transform="translate(${tx} ${ty}) rotate(${r})">${x.P('M 0 0 C -10 -11 -19 -6 -17 2 C -15 10 -6 8 0 0 Z',x.F(c.acc))+x.P(mirror('M 0 0 C -10 -11 -19 -6 -17 2 C -15 10 -6 8 0 0 Z'),x.F(c.acc))}<circle r="3.4" ${x.F('#ffffff')}/></g>`;
+    return bow(-47,-44,-20)+bow(47,-44,20)+`<path transform="translate(-30 -40) scale(.9)" d="M 0 -8 L 2.4 -2.6 L 8 -2.4 L 3.6 1.2 L 5 7 L 0 3.8 L -5 7 L -3.6 1.2 L -8 -2.4 L -2.4 -2.6 Z" ${x.F('#ffe066')}/>`; },
+  fore(x){ const c=x.c; if(x.chibi){ return `<g transform="rotate(14 36 6)"><rect x="29" y="-6" width="15" height="24" rx="3.5" ${x.F(c.phone)}/><circle cx="33.5" cy="-1" r="1.6" fill="#3b2a3a"/><path d="M 36.5 6 C 33 3 33 8 36.5 10 C 40 8 40 3 36.5 6 Z" fill="#fff"/></g><circle cx="37" cy="18" r="6.5" ${x.F(SKIN.skin)}/>`; }
+    return x.P('M 36 222 C 38 198 41 178 43 164 L 64 163 C 68 182 72 202 76 222 Z',x.F(c.top))+
+      `<g transform="rotate(-12 50 120)"><rect x="35" y="94" width="31" height="52" rx="7" ${x.F(c.phone)}/><rect x="38.5" y="97.5" width="10" height="10" rx="3" ${x.F('#3b2a3a')}/><circle cx="43.5" cy="102.5" r="2.6" fill="#7fd3f7"/>`+
+      `<path d="M 52 124 C 46 118 46 128 52 132 C 58 128 58 118 52 124 Z" fill="#ffffff"/><path d="M 62 144 Q 66 156 60 162" fill="none" stroke="${x.col('#b58bd8')}" stroke-width="1.2"/><path transform="translate(60 166) scale(.55)" d="M 0 -8 L 2.4 -2.6 L 8 -2.4 L 3.6 1.2 L 5 7 L 0 3.8 L -5 7 L -3.6 1.2 L -8 -2.4 L -2.4 -2.6 Z" ${x.F('#ffe066')}/></g>`+
+      x.P('M 42 166 C 37 156 39 143 48 139 C 56 136 63 142 65 151 C 67 160 62 167 52 169 Z',x.F(SKIN.skin))+
+      `<ellipse cx="38" cy="132" rx="4.2" ry="7" transform="rotate(-20 38 132)" ${x.F(SKIN.skin)}/>`+[124,133,142].map(y=>`<ellipse cx="${66-(y-124)*0.1}" cy="${y}" rx="5" ry="4" ${x.F(SKIN.skin)}/>`).join(''); },
+  bust(x){ const c=x.c; return x.P(TORSO,x.F(c.top))+x.P(NECK,x.F(SKIN.skin))+x.P(NECKSH,x.SH(SKIN.skinS))+
+    (x.st!=='A'? x.P('M -80 108 C -86 134 -89 180 -91 222 L -76 222 C -76 180 -74 140 -68 116 Z',x.SH(c.topS)):'')+
+    x.P('M -44 142 Q 0 132 44 142 L 50 222 L -50 222 Z',x.F(c.acc))+x.P('M -36 141 L -31 90 L -24 90 L -28 140 Z',x.F(c.acc))+x.P(mirror('M -36 141 L -31 90 L -24 90 L -28 140 Z'),x.F(c.acc))+
+    x.P('M -18 80 Q -26 92 -16 96 Q -12 104 -4 98 Q 0 106 4 98 Q 12 104 16 96 Q 26 92 18 80 Q 0 90 -18 80 Z',x.F(c.lilac))+
+    `<g transform="translate(0 104)">${x.P('M 0 0 C -12 -10 -22 -7 -20 2 C -18 10 -8 8 0 0 Z',x.F(c.acc))+x.P(mirror('M 0 0 C -12 -10 -22 -7 -20 2 C -18 10 -8 8 0 0 Z'),x.F(c.acc))}<circle r="3.6" ${x.F('#ffffff')}/></g>`+
+    `<path d="M -14 176 C -22 168 -14 160 -8 167 C -2 160 6 168 -2 176 L -8 182 Z" ${x.F('#ffffff')}/>`; },
+  chibi(x){ const c=x.c; return x.leg(SKIN.skin,'#ffffff')+x.shoes(c.acc)+x.P(CB.skirt,x.F(c.acc))+x.P(CB.torso,x.F(c.top))+
+    x.P('M -16 42 Q -20 50 -12 52 Q -8 58 0 53 Q 8 58 12 52 Q 20 50 16 42 Q 0 50 -16 42 Z',x.F(c.lilac))+
+    x.P(CB.armDown,x.F(c.top))+`<circle cx="-36" cy="87" r="6" ${x.F(SKIN.skin)}/>`+x.P(CB.armUp,x.F(c.top)); } },
+];
+const BY = Object.fromEntries(CAST.map(c=>[c.id,c]));
+
+/* ============ styles ============ */
+const OUT = '#4a3046';
+const STY = {
+  A:{ col:h=>mix(h,'#ffffff',.16), stroke:()=>OUT, sw:3 },
+  B:{ col:h=>h, stroke:h=>mix(h,'#2a1030',.5), sw:1.25 },
+  C:{ col:h=>h, stroke:null, sw:0 },
+  D:{ col:h=>mix(h,'#fff8ef',.22), stroke:h=>mix(h,'#5a2d22',.42), sw:.9 },
+};
+
+/* ---- expressions per style. local eye frame: +x = outward ---- */
+function eyesB(x, ex, k, pos=[20,18]){
+  const c=x.c, u=x.u, lash = mix(c.eyeD,'#1a0d18',.55), wing = x.ch.wing;
+  const W = { o:'M -11 3 C -10 -9 5 -14 12 -6 C 13 4 9 13 0 13 C -8 13 -11 9 -11 3 Z', u:'M -11 5 C -8 -1 6 -3 12 0 C 12 7 8 12.5 0 12.5 C -8 12.5 -11 10 -11 5 Z' };
+  const LASH = { o:`M -12.5 4 C -11.5 -9.5 5 -15.5 13 -7 L ${wing?19:16.5} ${wing?-11:-9} L 14.5 -3.5 C 6 -12 -7 -10 -11 5 Z`, u:`M -12.5 6 C -9 -2 6 -4.5 13 -1 L ${wing?18.5:16} ${wing?-3.5:-2.5} L 14 2.5 C 6 -1.5 -6 -0.5 -11 6.5 Z` };
+  const one = (side, m) => `<g transform="translate(${side*pos[0]} ${pos[1]}) scale(${side*1.1} ${k*1.1})"><path d="${W[m]}" fill="#fff"/>
+   <g clip-path="url(#${u}-ec${m})"><ellipse cx="1" cy="1.5" rx="9" ry="12" fill="url(#${u}-ig)"/><ellipse cx="1" cy="2.5" rx="4.2" ry="6" fill="${c.eyeD}"/>
+   <path d="M -6.5 6.5 Q 1 15 8.5 6.5 Q 1 11 -6.5 6.5 Z" fill="${c.eyeL}"/><ellipse cx="1" cy="-10" rx="13" ry="7" fill="${c.eyeD}" opacity=".38"/>
+   <ellipse cx="1" cy="1.5" rx="9" ry="12" fill="none" stroke="${c.eyeD}" stroke-width="1"/>
+   <ellipse cx="-3" cy="${m==='o'?-3.5:1}" rx="3.3" ry="4.3" fill="#fff"/><circle cx="5" cy="6.5" r="1.7" fill="#fff"/><circle cx="-4.5" cy="7.5" r=".9" fill="#fff" opacity=".9"/></g>
+   <path d="${LASH[m]}" fill="${lash}"/><path d="M 5 12.6 Q 9.5 11.2 11.6 7" fill="none" stroke="${lash}" stroke-width=".9" stroke-linecap="round"/>
+   ${m==='o'?`<path d="M -5 -12.5 Q 4 -17 12 -12" fill="none" stroke="${lash}" stroke-width=".8" opacity=".5"/>`:''}${wing?`<path d="M 9 11 L 14 10" stroke="${lash}" stroke-width=".9" stroke-linecap="round"/>`:''}</g>`;
+  const happy = side => `<g transform="translate(${side*pos[0]} ${pos[1]}) scale(${side*1.1} 1.1)"><path d="M -11 5 Q 0 -7 12 3" fill="none" stroke="${lash}" stroke-width="2.6" stroke-linecap="round"/><path d="M 12 3 L 15.5 1" stroke="${lash}" stroke-width="1.6" stroke-linecap="round"/><path d="M -7 7 l -1.5 2.5 M 7 6.5 l 1.5 2.5" stroke="${lash}" stroke-width=".9" stroke-linecap="round"/></g>`;
+  return ex==='h'? happy(-1)+happy(1) : one(-1, ex==='u'?'u':'o')+one(1, ex==='u'?'u':'o');
+}
+function browsB(x, ex, pos=[20,18]){
+  const col = mix(x.c.hairS,'#2a1030',.35);
+  const d = { n:'M -9 -16 Q 2 -20 12 -16.5', h:'M -9 -18 Q 2 -23.5 12 -19', u:'M -9 -11 Q 2 -14.5 12 -19.5' }[ex];
+  return [-1,1].map(s=>`<path transform="translate(${s*pos[0]} ${pos[1]}) scale(${s} 1)" d="${d}" fill="none" stroke="${col}" stroke-width="2.1" stroke-linecap="round"/>`).join('');
+}
+function mouthB(x, ex, y=45){
+  const lip = x.c.lip || '#c46262';
+  if(ex==='n') return x.ch.id==='rei' ? `<path d="M -5 ${y} Q 1 ${y+3} 6.5 ${y-2}" fill="none" stroke="${lip}" stroke-width="1.6" stroke-linecap="round"/>` : `<path d="M -4 ${y} Q 0 ${y+2.6} 4 ${y}" fill="none" stroke="${mix(SKIN.skinL,'#7a2a2a',.4)}" stroke-width="1.3" stroke-linecap="round"/>`;
+  if(ex==='h') return `<path d="M -7.5 ${y-2} Q 0 ${y} 7.5 ${y-2} Q 6.5 ${y+8} 0 ${y+8} Q -6.5 ${y+8} -7.5 ${y-2} Z" fill="#a8364a" stroke="${mix('#a8364a','#2a1030',.4)}" stroke-width=".8"/><path d="M -4.2 ${y+5} Q 0 ${y+2} 4.2 ${y+5} Q 2.4 ${y+8} 0 ${y+8} Q -2.4 ${y+8} -4.2 ${y+5} Z" fill="#ff8f9b"/>`;
+  return `<path d="M -5 ${y+3} Q 0 ${y-1.5} 5 ${y+3}" fill="none" stroke="${mix(SKIN.skinL,'#7a2a2a',.4)}" stroke-width="1.4" stroke-linecap="round"/>`;
+}
+function blushB(x, ex, y=33){
+  const b=SKIN.blush; if(ex==='u') return `<g opacity=".55"><path d="M -32 -2 l 0 12 M -27 -4 l 0 12 M -22 -3 l 0 9" stroke="#8c7bb8" stroke-width="1" stroke-linecap="round"/></g>`;
+  const o = ex==='h'? .55 : .22;
+  return [-1,1].map(s=>`<ellipse cx="${s*27}" cy="${y}" rx="9" ry="4.2" fill="${b}" opacity="${o}"/>`+(ex==='h'?`<path d="M ${s*27-5} ${y-2} l -1.6 3.6 M ${s*27-1} ${y-2} l -1.6 3.6 M ${s*27+3} ${y-2} l -1.6 3.6" stroke="#f0607e" stroke-width=".9" stroke-linecap="round"/>`:'')).join('');
+}
+
+/* style A chibi */
+function exprA(x, ex){
+  const c=x.c, u=x.u, P=[21,20], ln=OUT;
+  const eye = (s, m) => `<g transform="translate(${s*P[0]} ${P[1]}) scale(${s} ${x.ch.eyeK?Math.min(1,0.92+x.ch.eyeK*0.08):1})">${m==='u'?`<g clip-path="url(#${u}-ac)">`:'<g>'}
+      <ellipse cx="0" cy="0" rx="9.5" ry="13" fill="url(#${u}-ig)" stroke="${ln}" stroke-width="2.2"/><ellipse cx="0.5" cy="1.5" rx="5.2" ry="7.5" fill="${c.eyeD}"/>
+      <path d="M -6 6 Q 0 14 7 6 Q 0 10 -6 6 Z" fill="${c.eyeL}"/><ellipse cx="-3" cy="${m==='u'?0:-5}" rx="4" ry="5" fill="#fff"/><circle cx="4" cy="6" r="2.2" fill="#fff"/></g>
+      ${m==='u'?`<path d="M -12 -2 L 12 -6" stroke="${ln}" stroke-width="3.4" stroke-linecap="round"/>`:`<path d="M -11.5 -7 Q 0 -17.5 12 -9.5 L 15 -12" fill="none" stroke="${ln}" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>`}</g>`;
+  const hap = s => `<path transform="translate(${s*P[0]} ${P[1]}) scale(${s} 1)" d="M -10 3 Q 0 -10 10 3" fill="none" stroke="${ln}" stroke-width="3.6" stroke-linecap="round"/>`;
+  const brow = { n:'M -7 -19 Q 1 -22 8 -19', h:'M -7 -21 Q 1 -25 8 -21', u:'M -7 -12 L 9 -19' }[ex];
+  let s = ex==='h'? hap(-1)+hap(1) : eye(-1,ex)+eye(1,ex);
+  s += [-1,1].map(k=>`<path transform="translate(${k*P[0]} ${P[1]}) scale(${k} 1)" d="${brow}" fill="none" stroke="${ln}" stroke-width="2.6" stroke-linecap="round"/>`).join('');
+  const y=38;
+  s += ex==='n'? `<path d="M -4 ${y} Q 0 ${y+3} 4 ${y}" fill="none" stroke="${ln}" stroke-width="2.2" stroke-linecap="round"/>`
+     : ex==='h'? `<path d="M -8 ${y-3} Q 0 ${y-2} 8 ${y-3} Q 7 ${y+9} 0 ${y+9} Q -7 ${y+9} -8 ${y-3} Z" fill="#d1495f" stroke="${ln}" stroke-width="2.2" stroke-linejoin="round"/><path d="M -4 ${y+5.5} Q 0 ${y+2} 4 ${y+5.5} Q 2 ${y+8} 0 ${y+8} Q -2 ${y+8} -4 ${y+5.5} Z" fill="#ff9aa6"/>`
+     : `<path d="M -6 ${y+2} Q -3 ${y-1.5} 0 ${y+2} Q 3 ${y+5.5} 6 ${y+2}" fill="none" stroke="${ln}" stroke-width="2.2" stroke-linecap="round"/>`;
+  s += [-1,1].map(k=>`<ellipse cx="${k*31}" cy="32" rx="8" ry="4.6" fill="${SKIN.blush}" opacity="${ex==='h'?.7:.38}"/>`+(ex==='h'?`<path d="M ${k*31-4} 30 l -1.6 3.4 M ${k*31} 30 l -1.6 3.4 M ${k*31+4} 30 l -1.6 3.4" stroke="#e04f6d" stroke-width="1.2" stroke-linecap="round"/>`:'')).join('');
+  return s;
+}
+function overA(x){ return `<g transform="translate(44 -40) scale(1.05)"><path d="M -3 -9 Q -3 -3 -9 -3 M 3 -9 Q 3 -3 9 -3 M -3 9 Q -3 3 -9 3 M 3 9 Q 3 3 9 3" fill="none" stroke="#e2364f" stroke-width="3" stroke-linecap="round"/></g>`; }
+
+/* style C flat */
+function exprC(x, ex){
+  const c=x.c, P=[19,19], k = x.ch.eyeK? (0.9+x.ch.eyeK*0.1):1;
+  const dark = mix(c.eyeD,'#1a0d18',.3);
+  const eye = (s,m)=>`<g transform="translate(${s*P[0]} ${P[1]}) scale(${s} ${k})"><ellipse cx="0" cy="0" rx="7.6" ry="10.6" fill="${dark}"/><ellipse cx="0.3" cy="3.6" rx="5.8" ry="6.4" fill="${c.eye}"/><circle cx="-2.4" cy="-3.6" r="2.9" fill="#fff"/><circle cx="3" cy="5" r="1.3" fill="#fff"/>
+    ${m==='u'? `<path d="M -12 -14 L 13 -14 L 13 -4 L -12 -0.5 Z" fill="${x.col(SKIN.skin)}"/><path d="M -11 -0.2 L 12.5 -4.2 L 12.5 -1.8 L -11 1.8 Z" fill="${dark}"/>` : `<path d="M -10.5 -6.5 Q 0 -15 11.5 -8 L 14.5 -10 L 12.5 -4.5 Q 0 -11 -10.5 -3.5 Z" fill="${dark}"/>`}</g>`;
+  const hap = s=>`<path transform="translate(${s*P[0]} ${P[1]}) scale(${s} 1)" d="M -9.5 3 Q 0 -9 10 3 Q 0 -4 -9.5 3 Z" fill="${dark}"/>`;
+  let s = ex==='h'? hap(-1)+hap(1) : eye(-1,ex)+eye(1,ex);
+  const bd = { n:'M -8 -17.5 Q 1 -21 10 -17.5 Q 1 -19 -8 -15.8 Z', h:'M -8 -20 Q 1 -24 10 -20 Q 1 -21.5 -8 -18.3 Z', u:'M -8 -11 L 10 -18 L 10 -15.4 L -8 -8.6 Z' }[ex];
+  s += [-1,1].map(k=>`<path transform="translate(${k*P[0]} ${P[1]}) scale(${k} 1)" d="${bd}" fill="${mix(c.hairS,'#1a0d18',.35)}"/>`).join('');
+  const y=44, m='#9e2f48';
+  s += ex==='n'? (x.ch.id==='rei'? `<path d="M -5 ${y} Q 1 ${y+3} 6 ${y-2} Q 1 ${y+5} -5 ${y} Z" fill="${c.lip}"/>`:`<path d="M -4.5 ${y} Q 0 ${y+3} 4.5 ${y} Q 0 ${y+5} -4.5 ${y} Z" fill="${m}"/>`)
+     : ex==='h'? `<path d="M -7.5 ${y-2.5} Q 0 ${y-1} 7.5 ${y-2.5} Q 6 ${y+8} 0 ${y+8} Q -6 ${y+8} -7.5 ${y-2.5} Z" fill="${m}"/><path d="M -4 ${y+5} Q 0 ${y+2} 4 ${y+5} Q 2 ${y+8} 0 ${y+8} Q -2 ${y+8} -4 ${y+5} Z" fill="#ff8e9e"/>`
+     : `<path d="M -5.5 ${y+3} Q 0 ${y-2.5} 5.5 ${y+3} Q 0 ${y} -5.5 ${y+3} Z" fill="${m}"/>`;
+  s += [-1,1].map(k=>`<circle cx="${k*27}" cy="33" r="${ex==='h'?6:5}" fill="#ff8fab" opacity="${ex==='h'?.75:.4}"/>`).join('');
+  return s;
+}
+function overC(x){ return `<g transform="translate(46 -38)"><path d="M -2 -9 L 2 -9 L 2 -2 L 9 -2 L 9 2 L 2 2 L 2 9 L -2 9 L -2 2 L -9 2 L -9 -2 L -2 -2 Z" fill="#ff4f6d" transform="rotate(45)"/></g>`; }
+
+/* style D watercolor */
+function exprD(x, ex){
+  const c=x.c, u=x.u, P=[20,18], k=x.ch.eyeK||1, ink = mix(c.eyeD,'#3a1d1a',.3), wing=x.ch.wing;
+  const W = 'M -11 3 C -10 -8 5 -13 12 -5 C 13 5 9 13 0 13 C -8 13 -11 9 -11 3 Z';
+  const eye = (s,m)=>`<g transform="translate(${s*P[0]} ${P[1]}) scale(${s*1.1} ${k*1.1})"><path d="${W}" fill="#fffdf8"/><g clip-path="url(#${u}-dc${m})">
+    <ellipse cx="1" cy="2" rx="9" ry="11.5" fill="url(#${u}-ir)"/><ellipse cx="1" cy="2.5" rx="3.6" ry="5" fill="${c.eyeD}" opacity=".85"/>
+    <ellipse cx="1" cy="-8" rx="13" ry="6" fill="${c.eyeD}" opacity=".25"/><ellipse cx="-3" cy="-3" rx="3" ry="3.8" fill="#fff" opacity=".95"/><circle cx="4.5" cy="6.5" r="1.5" fill="#fff" opacity=".9"/></g>
+    ${m==='u'?`<path d="M -12 4 C -7 0 5 -3 13 0" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round"/>`:`<path d="M -12 3.5 C -11 -8.5 4 -14.5 13 -6 L ${wing?18:15.5} ${wing?-9:-7.5}" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`}
+    <path d="M 3 13 Q 8 12 11 8" fill="none" stroke="${ink}" stroke-width=".7" opacity=".6" stroke-linecap="round"/></g>`;
+  const hap = s=>`<path transform="translate(${s*P[0]} ${P[1]}) scale(${s} 1)" d="M -11 5 Q 0 -6 12 3" fill="none" stroke="${ink}" stroke-width="2.2" stroke-linecap="round"/>`;
+  let s = ex==='h'? hap(-1)+hap(1) : eye(-1,ex)+eye(1,ex);
+  const bd = { n:'M -9 -15.5 Q 2 -19.5 12 -16', h:'M -9 -18 Q 2 -23 12 -18.5', u:'M -9 -10.5 Q 2 -14 12 -19' }[ex];
+  s += [-1,1].map(k=>`<path transform="translate(${k*P[0]} ${P[1]}) scale(${k} 1)" d="${bd}" fill="none" stroke="${mix(c.hairS,'#3a1d1a',.3)}" stroke-width="1.6" stroke-linecap="round" opacity=".85"/>`).join('');
+  const y=45, ml = x.ch.id==='rei'? c.lip : '#b2575a';
+  s += ex==='n'? `<path d="M -4 ${y} Q 0 ${y+2.6} 4.5 ${y-0.5}" fill="none" stroke="${ml}" stroke-width="1.3" stroke-linecap="round"/>`
+     : ex==='h'? `<path d="M -7 ${y-2} Q 0 ${y} 7 ${y-2} Q 6 ${y+7} 0 ${y+7} Q -6 ${y+7} -7 ${y-2} Z" fill="#d06a72" opacity=".9"/><path d="M -3.6 ${y+4.5} Q 0 ${y+2} 3.6 ${y+4.5} Q 2 ${y+7} 0 ${y+7} Q -2 ${y+7} -3.6 ${y+4.5} Z" fill="#ffb0b4"/>`
+     : `<path d="M -5 ${y+3} Q 0 ${y-1} 5 ${y+3}" fill="none" stroke="${ml}" stroke-width="1.3" stroke-linecap="round"/>`;
+  s += `<g filter="url(#${u}-blur)">`+[-1,1].map(k=>`<ellipse cx="${k*27}" cy="34" rx="11" ry="6" fill="#ff8aa0" opacity="${ex==='h'?.6:.28}"/>`).join('')+`</g>`;
+  return s;
+}
+function overD(x){ return `<path d="M -42 -6 C -46 2 -48 6 -45 9 C -42 12 -38 9 -39 4 C -40 1 -41 -2 -42 -6 Z" fill="#bfe3f2" stroke="#7fb3cc" stroke-width=".8" opacity=".95"/>`; }
+function overB(x){ return `<path d="M -42 -4 C -46 4 -48 8 -45 11 C -42 14 -37 11 -38.5 6 C -39.5 3 -41 0 -42 -4 Z" fill="#cdeefc" stroke="#5aa6c8" stroke-width=".9"/><path d="M -43.5 6 Q -43.5 9 -41.5 10" fill="none" stroke="#fff" stroke-width="1" stroke-linecap="round"/>`; }
+
+const EXPR = { A:exprA, B:(x,ex)=>eyesB(x,ex,x.ch.eyeK||1)+browsB(x,ex)+mouthB(x,ex)+blushB(x,ex), C:exprC, D:exprD };
+const OVER = { A:overA, B:overB, C:overC, D:overD };
+
+/* ============ sprite builder ============ */
+let UID=0;
+function sprite(ch, st, opt={}){
+  const mode = opt.mode || (st==='A'?'chibi':'bust'), chibi = mode==='chibi', expr = opt.expr||'neutral';
+  const u='s'+(++UID), S=STY[st], c={...SKIN,...ch.c};
+  const col = h=>S.col(h);
+  const F = (h,extra='')=>{ let a=`fill="${col(h)}"`; if(S.stroke) a+=` stroke="${S.stroke(h)}" stroke-width="${S.sw}" stroke-linejoin="round" stroke-linecap="round"`; return a+(extra?' '+extra:''); };
+  const SH = h=>`fill="${col(h)}"${st==='D'?' opacity=".7"':''}`;
+  const P = (d,a)=>`<path d="${d}" ${a}/>`;
+  const LN = (h,w=1)=>`fill="none" stroke="${S.stroke? (st==='A'?OUT:S.stroke(h)) : mix(h,'#000',.12)}" stroke-width="${st==='A'?w*2:w}" stroke-linecap="round"`;
+  const x = { st,c,u,F,SH,P,col,LN,chibi,ch,
+    leg:(skin,sock)=>P(CB.leg,F(sock))+P(mirror(CB.leg),F(sock))+(sock!==skin? P('M -15 112 L -15 122 L -5 122 L -5 112 Z',F(skin))+P(mirror('M -15 112 L -15 122 L -5 122 L -5 112 Z'),F(skin)):''),
+    shoes:(h)=>P(CB.shoe,F(h))+P(mirror(CB.shoe),F(h)) };
+  const H = ch.hair({chibi, L: chibi?112:206});
+  const faceD = chibi? FACE_CHIBI : FACE;
+  const vb = chibi? '-108 -84 216 244' : '-104 -86 208 272';
+  const hairBackFill = st==='B'||st==='D' ? `fill="url(#${u}-hb)"${S.stroke?` stroke="${S.stroke(c.hairS)}" stroke-width="${S.sw}" stroke-linejoin="round"`:''}` : F(c.hairS);
+  const hairFrontFill = st==='B'||st==='D' ? `fill="url(#${u}-hg)"${S.stroke?` stroke="${S.stroke(c.hair)}" stroke-width="${S.sw}" stroke-linejoin="round"`:''}` : F(c.hair);
+
+  /* defs */
+  let defs = `<linearGradient id="${u}-ig" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c.eyeD}"/><stop offset=".5" stop-color="${c.eye}"/><stop offset="1" stop-color="${c.eyeL}"/></linearGradient>
+    <clipPath id="${u}-face"><path d="${faceD}"/></clipPath><clipPath id="${u}-bang"><path d="${H.front[0]}"/></clipPath>`;
+  if(st==='A') defs += `<clipPath id="${u}-ac"><rect x="-14" y="-3" width="30" height="20" transform="rotate(-9)"/></clipPath>`;
+  if(st==='B'){ defs += `<clipPath id="${u}-eco"><path d="M -11 3 C -10 -9 5 -14 12 -6 C 13 4 9 13 0 13 C -8 13 -11 9 -11 3 Z"/></clipPath><clipPath id="${u}-ecu"><path d="M -11 5 C -8 -1 6 -3 12 0 C 12 7 8 12.5 0 12.5 C -8 12.5 -11 10 -11 5 Z"/></clipPath>
+    <linearGradient id="${u}-hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${mix(c.hair,c.hairH,.25)}"/><stop offset=".55" stop-color="${c.hair}"/><stop offset="1" stop-color="${mix(c.hair,c.hairS,.55)}"/></linearGradient>
+    <linearGradient id="${u}-hb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${mix(c.hairS,c.hair,.2)}"/><stop offset="1" stop-color="${mix(c.hairS,'#1a0d18',.15)}"/></linearGradient>`; }
+  if(st==='C') defs += `<filter id="${u}-stk" x="-15%" y="-15%" width="130%" height="130%"><feMorphology in="SourceAlpha" operator="dilate" radius="5" result="dil"/><feFlood flood-color="#ffffff"/><feComposite in2="dil" operator="in" result="white"/><feOffset in="dil" dy="4" result="off"/><feFlood flood-color="#4b2f5a" flood-opacity=".22"/><feComposite in2="off" operator="in" result="sh"/><feMerge><feMergeNode in="sh"/><feMergeNode in="white"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <clipPath id="${u}-cut"><path d="${chibi?'M -200 -200 H 200 V 200 H -200 Z':'M -130 -130 H 130 V 168 Q 0 214 -130 168 Z'}"/></clipPath>`;
+  if(st==='D'){ defs += `<clipPath id="${u}-dco"><path d="M -11 3 C -10 -8 5 -13 12 -5 C 13 5 9 13 0 13 C -8 13 -11 9 -11 3 Z"/></clipPath><clipPath id="${u}-dcu"><path d="M -11 4 C -7 0 5 -3 13 0 L 13 14 L -11 14 Z"/></clipPath>
+    <radialGradient id="${u}-ir" cx=".5" cy=".62" r=".6"><stop offset="0" stop-color="${c.eyeL}"/><stop offset=".55" stop-color="${c.eye}"/><stop offset="1" stop-color="${mix(c.eye,c.eyeD,.6)}"/></radialGradient>
+    <linearGradient id="${u}-hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${mix(c.hair,'#ffffff',.35)}"/><stop offset=".6" stop-color="${mix(c.hair,'#fff8ef',.1)}"/><stop offset="1" stop-color="${mix(c.hair,c.hairS,.5)}"/></linearGradient>
+    <linearGradient id="${u}-hb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${mix(c.hairS,'#ffffff',.15)}"/><stop offset="1" stop-color="${mix(c.hairS,'#fff8ef',.3)}"/></linearGradient>
+    <filter id="${u}-wc" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="3" seed="${UID%9+2}" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.6" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feMorphology in="d" operator="erode" radius="1.1" result="er"/><feComposite in="d" in2="er" operator="out" result="edge"/><feColorMatrix in="edge" type="matrix" values=".55 0 0 0 0  0 .45 0 0 0  0 0 .45 0 0  0 0 0 .55 0" result="ed"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".07" numOctaves="3" seed="${UID%7+1}" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 .97  0 0 0 -.4 .2" result="g2"/><feComposite in="g2" in2="d" operator="in" result="gr"/>
+      <feMerge><feMergeNode in="d"/><feMergeNode in="gr"/><feMergeNode in="ed"/></feMerge></filter>
+    <filter id="${u}-blur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.4"/></filter>`; }
+
+  const W = (s)=> st==='D'? `<g filter="url(#${u}-wc)">${s}</g>` : s;
+  const exG = ['n','h','u'].map(e=>`<g class="ex ex-${e}">${EXPR[st](x,e)}</g>`).join('');
+
+  /* hair highlight */
+  let hl='';
+  if(st==='A') hl = `<path d="M -32 -42 Q -22 -52 -10 -55 M 14 -55 Q 22 -53 28 -49" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".85"/>`;
+  if(st==='B') hl = `<g clip-path="url(#${u}-bang)"><path d="${ring()}" fill="${c.hairH}" opacity=".8"/><path d="M -30 -50 Q -36 -30 -40 -10 M 4 -60 Q 2 -40 -4 -18 M 28 -54 Q 32 -36 34 -18" fill="none" stroke="${mix(c.hair,c.hairS,.7)}" stroke-width=".9" opacity=".6"/></g>`;
+  const strands = `M -26 -52 Q -30 -34 -29 -16 M 4 -58 Q 4 -40 2 -22 M 24 -54 Q 28 -38 29 -20`;
+  if(st==='A') hl += `<g clip-path="url(#${u}-bang)"><path d="${strands}" fill="none" stroke="${OUT}" stroke-width="1.6" stroke-linecap="round" opacity=".55"/></g>`;
+  if(st==='D') hl += `<g clip-path="url(#${u}-bang)"><path d="${strands}" fill="none" stroke="${mix(c.hairS,'#5a2d22',.3)}" stroke-width=".8" opacity=".6"/></g>`;
+  if(st==='C') hl = `<g clip-path="url(#${u}-bang)"><path d="${smoothBand()}" fill="${mix(c.hair,'#ffffff',.38)}"/></g>`;
+  if(st==='D') hl += `<g clip-path="url(#${u}-bang)" filter="url(#${u}-blur)"><path d="M -38 -40 Q 0 -60 38 -40" fill="none" stroke="#fff" stroke-width="7" opacity=".7"/></g>`;
+
+  /* forehead shadow from bangs */
+  const fsh = `<g clip-path="url(#${u}-face)"><path d="${H.front[0]}" transform="translate(${st==='A'?0:1.5} ${st==='A'?4:5.5})" fill="${col(SKIN.skinS)}" opacity="${st==='A'?.55:st==='D'?.6:1}" ${st==='D'?`filter="url(#${u}-blur)"`:''}/></g>`;
+  const ears = [-1,1].map(s=>`<ellipse cx="${s*(chibi?50:46)}" cy="${chibi?14:10}" rx="6" ry="9.5" ${F(SKIN.skin)}/>`).join('');
+  const nose = (st==='B'||st==='D')&&!chibi ? `<path d="M 0.5 31 l -1.4 2.4" fill="none" stroke="${SKIN.skinL}" stroke-width="1" stroke-linecap="round" opacity=".8"/>` : '';
+
+  let body = '';
+  body += W(H.back.map(d=>P(d,hairBackFill)).join('') + (ch.backAcc? ch.backAcc(x):''));
+  body += W(chibi? ch.chibi(x) : ch.bust(x));
+  body += W(ears + P(faceD, F(SKIN.skin)));
+  body += fsh + exG + nose + (ch.mid? ch.mid(x):'');
+  body += W(H.front.slice(1).map(d=>P(d,hairFrontFill)).join('') + P(H.front[0], hairFrontFill)) + hl;
+  body += W(ch.acc? ch.acc(x):'') + W(ch.fore? ch.fore(x):'');
+  body += `<g class="ex ex-u">${OVER[st](x)}</g>`;
+  if(st==='C') body = `<g filter="url(#${u}-stk)"><g clip-path="url(#${u}-cut)">${body}</g></g>`;
+  return `<svg class="spr st${st}" viewBox="${vb}" data-expr="${expr}" role="img" aria-label="${ch.name}, style ${st}" xmlns="http://www.w3.org/2000/svg"><defs>${defs}</defs>${body}</svg>`;
+}
+
+/* ============ VN backgrounds ============ */
+const BG = {
+A:`<svg class="bg" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="bgA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe6ff"/><stop offset="1" stop-color="#fff0f6"/></linearGradient></defs><rect width="160" height="100" fill="url(#bgA)"/>
+ <g fill="#fff" stroke="#4a3046" stroke-width="1"><path d="M 18 22 q 4 -8 12 -4 q 6 -6 12 0 q 6 0 5 6 h -30 q -3 -2 1 -2 z"/><path d="M 112 14 q 4 -7 10 -3 q 5 -5 10 0 q 5 0 4 5 h -25 z"/></g>
+ <path d="M -5 70 Q 40 52 85 66 T 170 60 V 100 H -5 Z" fill="#b8eab0" stroke="#4a3046" stroke-width="1.2"/><path d="M -5 82 Q 50 70 100 80 T 170 76 V 100 H -5 Z" fill="#9edb98" stroke="#4a3046" stroke-width="1.2"/>
+ <g stroke="#4a3046" stroke-width="1.2"><rect x="17" y="50" width="5" height="18" fill="#c99a6b"/><circle cx="19.5" cy="44" r="11" fill="#ffc6dc"/><circle cx="12" cy="49" r="6" fill="#ffc6dc"/><rect x="138" y="46" width="5" height="18" fill="#c99a6b"/><circle cx="140.5" cy="40" r="11" fill="#ffc6dc"/><circle cx="148" cy="46" r="6" fill="#ffc6dc"/></g>
+ <g fill="#ff9ec4"><circle cx="40" cy="80" r="1.4"/><circle cx="120" cy="84" r="1.4"/><circle cx="60" cy="90" r="1.2"/></g></svg>`,
+B:`<svg class="bg" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="bgB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b2a6b"/><stop offset=".55" stop-color="#c9568f"/><stop offset="1" stop-color="#ffb18a"/></linearGradient><filter id="bkB"><feGaussianBlur stdDeviation="1.4"/></filter></defs><rect width="160" height="100" fill="url(#bgB)"/>
+ <g fill="#2a1d45" opacity=".85"><path d="M0 100 V62 h10 v-14 h12 v20 h8 v-30 h14 v34 h10 v-18 h12 v26 h8 v-40 h16 v30 h10 v-12 h12 v20 h10 v-34 h14 v28 h14 V100 Z"/></g>
+ <g filter="url(#bkB)" opacity=".75"><circle cx="20" cy="30" r="5" fill="#ffd1e6"/><circle cx="140" cy="22" r="6" fill="#ffe6a8"/><circle cx="118" cy="44" r="4" fill="#ffc0d8"/><circle cx="36" cy="50" r="3.5" fill="#fff0b8"/><circle cx="150" cy="58" r="4" fill="#ffd1e6"/><circle cx="8" cy="12" r="3" fill="#fff"/></g>
+ <g fill="#fff"><path d="M 30 18 l 1 3 l 3 1 l -3 1 l -1 3 l -1 -3 l -3 -1 l 3 -1 z"/><path d="M 128 34 l .8 2.4 l 2.4 .8 l -2.4 .8 l -.8 2.4 l -.8 -2.4 l -2.4 -.8 l 2.4 -.8 z"/></g></svg>`,
+C:`<svg class="bg" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice"><rect width="160" height="100" fill="#ffe7c2"/><rect y="70" width="160" height="30" fill="#f7c58f"/>
+ <rect x="10" y="14" width="44" height="40" rx="6" fill="#9fe0ff"/><rect x="31" y="14" width="2" height="40" fill="#ffe7c2"/><rect x="10" y="33" width="44" height="2" fill="#ffe7c2"/><circle cx="22" cy="24" r="5" fill="#fff"/>
+ <rect x="112" y="22" width="40" height="4" rx="2" fill="#e59a5e"/><rect x="116" y="12" width="7" height="10" rx="2" fill="#ff6fae"/><rect x="126" y="9" width="6" height="13" rx="2" fill="#6c63ff"/><rect x="135" y="14" width="9" height="8" rx="4" fill="#2ec4b6"/>
+ <rect x="112" y="40" width="40" height="4" rx="2" fill="#e59a5e"/><circle cx="122" cy="34" r="6" fill="#ffd166"/><rect x="134" y="30" width="12" height="10" rx="3" fill="#ff9f6e"/>
+ <rect x="138" y="58" width="12" height="14" rx="3" fill="#ff6fae"/><path d="M 144 58 q -8 -10 -2 -16 q 4 6 2 16 q 4 -12 10 -12 q -2 8 -10 12" fill="#2ec4b6"/></svg>`,
+D:`<svg class="bg" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice"><defs><filter id="wD"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="3" seed="5"/><feDisplacementMap in="SourceGraphic" scale="3"/></filter><filter id="bD"><feGaussianBlur stdDeviation="2"/></filter></defs>
+ <rect width="160" height="100" fill="#fbf1e2"/><g filter="url(#wD)" opacity=".85"><rect x="-4" y="8" width="62" height="84" fill="#c9a07c" opacity=".55"/><rect x="104" y="8" width="62" height="84" fill="#c9a07c" opacity=".55"/>
+ ${[20,42,64].map(y=>`<rect x="-4" y="${y+8}" width="62" height="2.4" fill="#8d6448" opacity=".6"/><rect x="104" y="${y+8}" width="62" height="2.4" fill="#8d6448" opacity=".6"/>`).join('')}
+ ${[[2,'#e7a2a2'],[9,'#a8c6e8'],[15,'#b7d3a8'],[22,'#f2d08f'],[29,'#c7b0e3'],[36,'#e7a2a2'],[43,'#a8c6e8'],[50,'#f2c2d3']].map(([x0,cl],i)=>[12,34,56].map(y=>`<rect x="${x0}" y="${y+(i%3)}" width="6" height="${16-(i%3)}" fill="${cl}" opacity=".85"/><rect x="${x0+106}" y="${y+((i+1)%3)}" width="6" height="${16-((i+1)%3)}" fill="${cl}" opacity=".85"/>`).join('')).join('')}</g>
+ <g filter="url(#bD)"><ellipse cx="80" cy="18" rx="30" ry="12" fill="#fff6d8" opacity=".9"/></g><rect y="86" width="160" height="14" fill="#d9b897" opacity=".5" filter="url(#wD)"/></svg>`
+};
+
+/* ============ page data ============ */
+const STYLES = [
+ { k:'A', name:'Chibi / super-deformed', one:'Big round heads, about 2 heads tall, pastel colours, thick outlines.', mode:'chibi',
+   blurb:'Super-deformed sprites: a huge round head on a tiny full body, short limbs, about 2 heads tall. Pastel fills, thick plum outlines and big glossy eyes. Expressions are bold and easy to read at phone size.',
+   expr:'mio', vn:{who:'hina', expr:'happy', name:'Hina', text:'Hey, you seemed quiet today. You don’t have to pretend with me. Want to talk about it?', choices:['Actually… yeah. Thanks, Hina.','I’m fine, really.'], lesson:'Lesson: honest, safe connection'},
+   rate:{size:4, expr:5, anim:5},
+   pros:['Simple shapes keep each sprite small. Outlines hide sloppy joins, so new outfits are quick.','Expressions read clearly even at 150 px wide. Easy to add “>_<”, sweat drops and anger marks.','Very animation-friendly: squash-and-stretch hops, bobbing and head tilts are plain CSS transforms on round shapes.','The playful tone softens heavy topics (scams, pressure) for younger players.'],
+   cons:['Less romantic. It can feel like a mascot game more than a dating sim.','Serious beats (Rei’s scam reveal, boundary talks) may feel too light.','Bodies are tiny, so poses and outfits carry little detail. Hair silhouettes have to do the identity work.','Thick strokes scale with the sprite, so very large CGs need a thinner line variant.'] },
+ { k:'B', name:'Classic shoujo VN bust-up', one:'Sparkly layered eyes, soft cel shading, half-body sprites.', mode:'bust',
+   blurb:'Genre-standard half-body sprites. Layered irises with a gradient, pupil, glow crescent, lid shadow and three highlights. Soft cel shadows from the bangs and chin, toothed “angel ring” hair highlights and thin coloured line-art.',
+   expr:'hina', vn:{who:'rei', expr:'happy', name:'Rei', text:'We only met three days ago, but I just know you’re my soulmate~ Let’s move in together! Oh, and could you lend me a little money? Just this once…', choices:['Wow… okay!','Isn’t this moving really fast?'], lesson:'Red flag: too much, too fast'},
+   rate:{size:2, expr:3, anim:3},
+   pros:['Instantly reads as a romance VN, which fits the dating-sim promise.','The detailed eyes allow subtle acting: Rei’s too-perfect smile, Kaede’s cold glance, Mio’s nervous blush.','Gradients and highlights look rich on hi-DPI phones with no bitmap assets.','Expressions are still just group swaps. The eye builder is shared, so the whole cast stays consistent.'],
+   cons:['Largest SVGs here (gradients, clip paths, layered eyes). Expect roughly 2× style C.','Each new expression needs care: lashes, highlights and lids must stay on-model.','Animating hair or eyes (blinks, sway) means splitting more parts and keeping clip paths in sync.','Hardest style to extend later with new poses or CG scenes without an artist.'] },
+ { k:'C', name:'Flat modern minimal / sticker', one:'No outlines, bold flat colours, white sticker border.', mode:'bust',
+   blurb:'Flat vector style: no line-art at all. Bold solid colours, one hard shadow tone, simple bean eyes with a single highlight, and a white die-cut sticker border with a soft drop shadow (one SVG filter).',
+   expr:'kaede', vn:{who:'yuna', expr:'neutral', name:'Yuna', text:'Ah, sorry, can’t talk now~ But don’t make other plans, ’kay? I might text you later!', choices:['Sure… I’ll wait.','I’d like to be more than a “maybe”.'], lesson:'Lesson: are you someone’s backup?'},
+   rate:{size:5, expr:5, anim:4},
+   pros:['Smallest files and fastest rendering: no gradients and no strokes, only one filter for the sticker edge.','Easiest to recolour or theme with CSS variables. Seasonal outfits are just palette swaps.','Faces are only a few shapes, so new expressions take minutes and stay on-model.','Crisp at every size, and the simple shapes tween cleanly. Feels modern and friendly.'],
+   cons:['Less emotional depth. Subtle feelings are harder to show without eye detail.','Can read as app or brand mascots rather than an anime VN.','Characters can look samey, so it depends on strong hair silhouettes and colour.','The sticker filter (dilate) costs a little on low-end phones. Bake it to a stroke path if needed.'] },
+ { k:'D', name:'Soft watercolor storybook', one:'Painterly pastel washes, wobbly ink line-art, paper grain.', mode:'bust',
+   blurb:'A gentle storybook look. Washed-out fills with pigment-pooled edges and paper grain, wobbly brown-ink line-art, blurred blush and soft glowing hair highlights. All of it comes from SVG turbulence and displacement filters.',
+   expr:'rei', vn:{who:'mio', expr:'happy', name:'Mio', text:'C-could we take it slow? I’d like to hold hands… but only when I’m ready. Is that okay?', choices:['Of course. Take your time.','Come on, it’s just hands.'], lesson:'Lesson: consent & patience'},
+   rate:{size:3, expr:4, anim:1},
+   pros:['A warm, calm mood that suits a game about learning healthy relationships.','Forgiving: the wobble hides imperfect paths, and blush and shadows can be loose.','Distinctive. Few web VNs look like this.','The geometry is the same as B/C, so expression swaps work the same way.'],
+   cons:['Turbulence and displacement filters are the slowest thing here. Animating them on phones will stutter.','For smooth motion you would pre-render to WebP or PNG, which means bigger downloads and losing live recolouring.','Filter output differs slightly between browsers and DPRs.','Every expression swap re-rasterises the filters, which can flicker on old devices.'] },
+];
+const RLAB = { size:'Small files', expr:'Easy expressions', anim:'Animation' };
+
+/* ============ render page ============ */
+const dots = n=>`<span class="dots" aria-label="${n} of 5">${[1,2,3,4,5].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</span>`;
+function sizeOf(ch, st){ return new Blob([sprite(ch, st)]).size; }
+
+document.getElementById('pickGrid').innerHTML = STYLES.map(s=>`<a class="pcard st-bg${s.k}" href="#style-${s.k}"><div class="thumb" style="background:var(--art-bg)">${sprite(BY.hina, s.k, {expr:'happy'}).replace('viewBox="-104 -86 208 272"','viewBox="-78 -76 156 156"').replace('viewBox="-108 -84 216 244"','viewBox="-80 -80 160 172"')}</div>
+  <div><b><span class="letter">${s.k}</span>${s.name}</b><p class="one">${s.one}</p><div class="rate">${Object.keys(RLAB).map(r=>`<span>${RLAB[r]}</span>${dots(s.rate[r])}`).join('')}</div></div></a>`).join('');
+
+document.getElementById('styles').innerHTML = STYLES.map(s=>{
+  const sizes = CAST.map(ch=>sizeOf(ch,s.k)); const avg = sizes.reduce((a,b)=>a+b,0)/sizes.length/1024;
+  const ec = BY[s.expr], v = s.vn;
+  return `<section class="style st-bg${s.k}" id="style-${s.k}" aria-labelledby="h-${s.k}">
+   <div class="s-head"><div class="big" aria-hidden="true">${s.k}</div><div><h2 id="h-${s.k}">${s.k}) ${s.name}</h2><p>${s.blurb}</p></div></div>
+   <div class="toolbar"><span>Whole cast expression:</span><div class="seg" role="group" aria-label="Expression for style ${s.k}" data-sec="${s.k}">${['neutral','happy','upset'].map((e,i)=>`<button type="button" data-e="${e}" aria-pressed="${i===0}">${e==='happy'?'happy / blush':e==='upset'?'upset / angry':e}</button>`).join('')}</div></div>
+   <div class="cast">${CAST.map(ch=>`<div class="ccard"><div class="art">${sprite(ch,s.k)}</div><div class="meta"><b>${ch.name}</b><small>${ch.role}</small><span class="chip${ch.trap?' trap':''}">${ch.lesson}</span></div></div>`).join('')}</div>
+   <div class="two">
+     <div class="panel"><h3>Expressions: ${ec.name}</h3>
+       <div class="exprs">${[['neutral','Neutral'],['happy','Happy / blush'],['upset','Upset / angry']].map(([e,l])=>`<figure>${sprite(ec,s.k,{expr:e})}<figcaption>${l}</figcaption></figure>`).join('')}</div>
+       <p class="code">One sprite holds all three faces. The engine only sets <code>svg.dataset.expr = "happy"</code> and CSS shows <code>.ex-h</code> (eyes, brows, mouth, blush${s.k==='A'||s.k==='C'?', anger mark':', sweat drop'}).</p></div>
+     <div class="panel"><h3>In-game textbox</h3>
+       <div class="vn vn-${s.k}">${BG[s.k]}<div class="who${s.mode==='chibi'?' chibi':''}">${sprite(BY[v.who],s.k,{expr:v.expr})}</div>
+         <span class="lesson">${v.lesson}</span>
+         <div class="choices">${v.choices.map(t=>`<span>${t}</span>`).join('')}</div>
+         <div class="box"><span class="name">${v.name}</span><p>${v.text}</p><span class="next" aria-hidden="true">▼</span></div></div></div>
+   </div>
+   <div class="metrics">
+     <div class="metric"><small>Avg sprite size (3 faces)</small><b>${avg.toFixed(1)} KB</b></div>
+     ${Object.keys(RLAB).map(r=>`<div class="metric"><small>${RLAB[r]}</small>${dots(s.rate[r])}</div>`).join('')}
+   </div>
+   <div class="pc"><div class="pro"><h4>Pros for an HTML game</h4><ul>${s.pros.map(p=>`<li>${p}</li>`).join('')}</ul></div><div class="con"><h4>Cons</h4><ul>${s.cons.map(p=>`<li>${p}</li>`).join('')}</ul></div></div>
+  </section>`; }).join('');
+
+document.querySelectorAll('.seg').forEach(seg=>seg.addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  seg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x===b));
+  document.querySelectorAll(`#style-${seg.dataset.sec} .cast .spr`).forEach(svg=>svg.dataset.expr=b.dataset.e);
+}));
+
+/* theme toggle */
+(function(){ const btn=document.getElementById('themeBtn'), modes=['auto','light','dark']; let m='auto';
+  try{ m=localStorage.getItem('s4l-theme')||'auto'; }catch(e){}
+  const apply=()=>{ if(m==='auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme',m); btn.textContent='◐ Theme: '+m; };
+  apply(); btn.addEventListener('click',()=>{ m=modes[(modes.indexOf(m)+1)%3]; try{localStorage.setItem('s4l-theme',m);}catch(e){} apply(); });
+})();
+</script>
+</body>
+</html>
