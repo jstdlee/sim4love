@@ -13,5 +13,5 @@ wrangler.jsonc
 .wrangler
 assets/fonts/README.md
 screenshots
-i18n
-tools
+/i18n/
+/tools/
