@@ -55,6 +55,7 @@
             const j = { jmp: -1 }; out.push(j); ends.push(j);
           }
           ends.forEach(j => (j.jmp = out.length));
+          c.after = out.length; // safety exit used when no option is visible (see showChoice)
         } else if (cmd.if) {
           const br = { cond: cmd.if, jfalse: -1 }; out.push(br);
           emit(cmd.then || []);
@@ -285,6 +286,12 @@
     finishType();
     const wrap = $('#choices');
     const visible = c.opts.map((o, i) => [o, i]).filter(([o]) => !o.show || o.show(S));
+    if (!visible.length) {
+      // Softlock guard: every option was gated off. tests/softlock.js forbids this; at runtime skip the choice
+      // instead of freezing the game.
+      console.warn('sim4love: no visible option for choice, skipping:', c.choice);
+      busy = false; S.pc = c.after; step(); return;
+    }
     wrap.innerHTML = visible.map(([o, i], n) => `<button class="opt" data-i="${i}"><span class="num">${n + 1}</span>${esc(fmt(o.t))}</button>`).join('');
     wrap.classList.add('on');
     wrap.querySelector('button').focus({ preventScroll: true });

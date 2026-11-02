@@ -18,7 +18,8 @@ CHAPTERS.ch8 = {
       { t: '"No. Never. And bro — sharing pics of minors is a crime."', fx: { wisdom: 15, self: 5 }, lesson: 'imageabuse', then: [] },
       { t: 'Ask her for a private photo.', if: SIM.inRelationship, fx: { trust: -25 }, lesson: 'imageabuse', then: [SIM.todo('She is hurt and scared. Rewind recommended.')] },
       { t: 'Forward a private photo someone shared in the group chat.', lesson: 'imageabuse', then: [
-        { badEnd: { title: 'BAD END #16 — Screenshot Forever', text: 'Sharing someone\'s intimate image is abuse, and for minors a serious crime. Report it instead.' } }, { resource: 'images' }] },
+        { resource: 'images' }, // shown before the bad end: nothing after a badEnd is reachable (tests/softlock.js)
+        { badEnd: { title: 'BAD END #16 — Screenshot Forever', text: 'Sharing someone\'s intimate image is abuse, and for minors a serious crime. Report it instead.' } }] },
     ] },
     SIM.split([
       SIM.todo('[8-3] You planned a huge surprise party. She told you twice she hates surprises.'),

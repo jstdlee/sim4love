@@ -13,10 +13,15 @@ How to read this:
   [MISTAKES.md](MISTAKES.md) §4. `⚑ flag` = flag for later callbacks.
 - From Part III, **`H`** = the route heroine. On the **solo** route, relationship scenes are replayed through Kenta's
   relationship (you are his adviser and must pick the correct advice), friends, family and your passion.
-- **Ages.** Parts I–IV: second and third year of high school (16–18). Part V: the first year after graduation (18–19),
-  where the sexual-health chapter sits. Everything is non-explicit: scenes cut away; facts are given on Mochi's fact cards.
+- **Ages.** Parts I–IV: second and third year of high school (16–18). Part V: the first year after graduation (18–19).
+  Sexual-health education sits in **high school** (Ch12 consent and images, **Ch13 "Health Class"**: contraception, STIs,
+  red-flag behaviours, refusal) at a school sex-education level; Ch18 covers adult-relationship topics (18+).
+  Everything is non-explicit: scenes cut away; facts are given on Mochi's fact cards; visuals are at most a hug.
+- **Partner talks and variants.** Each chapter also has one **partner talk** (a value discussion with genuinely
+  opposing views) and reuses locations with different lines per visit. Profiles, talk template, variant pools and
+  the per-chapter topic map: [VALUE_PROFILES.md](VALUE_PROFILES.md). Per-chapter art needs: the table at the end.
 - Old numbering → new numbering (code files still use the old numbers until restructured, see HANDOFF):
-  old 1→1, 2→2, 3→3, 4→6 + 8, 5→9, 6→10, 7→11, 8→12, 9→13 + 14, 10→15 + 20.
+  old 1→1, 2→2, 3→3, 4→6 + 8, 5→9, 6→10, 7→11, 8→12, 9→14 (+ 15-5), 10→15 + 20. Ch13 is new.
 
 ## Overview
 
@@ -34,12 +39,12 @@ How to read this:
 | | 10 | Green-Eyed Monster | Jealousy, snooping, control, double standards | V1 V8 |
 | | 11 | The First Fight | Listening, apology, stonewalling, repair | V1 V10 |
 | | 12 | Closeness | Asking, pressure, intimate images, your own "not yet" | V9 |
-| IV — Real Life | 13 | Exam Season *(new)* | Focus, sleep, self-neglect, supporting her, family talks | V2 V3 |
-| | 14 | Storm Season | Distance, small lies, money, breakup and recovery | V1 V4 |
-| | 15 | Graduation | Her dream, your dream, Kai exposed, Rei's case | V2 V3 V8 |
+| IV — Real Life | 13 | Health Class *(new)* | High-school sex education: contraception facts, serious STI consequences, risk by behaviour (not orientation), red-flag behaviours, grooming, refusal | V1 V8 V9 |
+| | 14 | Exam & Storm Season | Focus, sleep, supporting her, small lies, breakup and recovery | V1 V2 V3 V4 |
+| | 15 | Graduation | Her dream, your dream, Dad and your passion, Kai exposed, Rei's case | V2 V3 V8 |
 | V — On Your Own | 16 | Living Alone *(new)* | Self-care, cooking, credit traps, lending money, sustainable distance | V2 V4 V5 |
 | | 17 | Welcome Party *(new)* | Peer pressure, alcohol (under the legal age), bystander help, impulse, drink safety | V6 V9 |
-| | 18 | The Talk *(new)* | Sexual health: talking first, protection, STI testing, ongoing consent, your timeline, a scare | V1 V9 |
+| | 18 | The Long Talk *(new)* | Adult relationships: talking first, shared responsibility, testing, ongoing consent, your timeline, a scare, the children talk | V1 V9 V10 |
 | | 19 | The Perfect Match *(new)* | Adult scams: investment romance, deposit "agencies", video sextortion, MLM | V4 V6 V7 |
 | | 20 | Your Own Story | Honesty quiz, life review, final choices, endings | V2 V10 |
 
@@ -246,29 +251,42 @@ Shared spine; `H` = route heroine. **Solo:** the same lessons through Kenta's re
 
 # PART IV — Real Life (third year, autumn → graduation)
 
-## Chapter 13 — "Exam Season" *(new; absorbs old 9-2 and 9-5)*
-**Setting:** Entrance-exam autumn. Parents argue about money and your future. **Goal:** your goals come first; health is not optional.
-**Core values:** V2, V3.
+## Chapter 13 — "Health Class" *(new — sexual health at a high-school sex-education level; non-explicit)*
+**Setting:** Third-year autumn. The school's sexual-health week: the school nurse, a peer-educator workshop, an
+anonymous question box, and Kenta's group chat full of myths. Dr. Mochi (glasses) gives the fact cards. Characters
+are 17. Nobody in this chapter has sex; every scene is a classroom, the health room, the rooftop or a chat.
+**Goal:** accurate facts; how serious STIs are; red flags named by **behaviour and risk**, never by orientation;
+refusal and impulse control. Waiting is normal and respected; the facts are there for whenever the player needs them.
+**Core values:** V1, V8, V9.
 
 | # | Setup | Options | Lesson |
 |---|---|---|---|
-| 13-1 | H texts all evening; your study block is 7–10 PM | ✅ agree on phone-free study hours, and a call at 10 (🎯+, 🤝+) · ❌ answer every message, learn nothing · ⚠️ go silent without telling her | *new* `focus` |
-| 13-2 | You've skipped your club and studying to be "always available" | ✅ go back to your own goals; tell her about them · ❌ fail your exam; blame her | selfneglect |
-| 13-3 | Three all-nighters on energy drinks before the mock exam | ✅ sleep, eat, walk (💤+, 🎯+) · ❌ a fourth all-nighter · 💀 a fifth, then fall asleep in the exam → **BAD END #22** *Energy Drink Speedrun* | *new* `sleep` |
-| 13-4 | H has been withdrawn, exhausted, crying (family/exam pressure) | ✅ be present, listen, gently encourage her to talk to a counsellor/trusted adult; you don't have to fix it · ❌ "cheer up, you're being dramatic" · ⚠️ try to be her only support and burn out yourself | support |
-| 13-5 | Dad: "Drop the guitar/drawing. It won't pay the bills." | ✅ show your plan: passion hours, grades, a part-time-job budget; ask for a trial term · ❌ shout and slam the door · ⚠️ secretly quit your passion | *new* `familytalk` |
+| 13-1 | Kenta's myths in the group chat: "Pulling out works." / "She's on the pill, so no STIs." / "First time, you can't get pregnant." / "You can tell if someone has something." | ✅ check with Dr. Mochi: not having sex is the only 100% protection, and waiting is normal (most classmates haven't); condoms used correctly every time greatly reduce the risk of pregnancy *and* most STIs; the pill does not stop STIs; withdrawal is unreliable; pregnancy can happen the first time; you can't tell by looking · ❌ repost the myth · ⚠️ "I already know all this" | `protection` |
+| 13-2 | The nurse's slides on STIs. Kenta: "Whatever, there's a pill for everything." | ✅ take it seriously: many STIs have no symptoms; untreated chlamydia or gonorrhoea can cause infertility; syphilis can damage organs; HIV is lifelong (treatable, not curable); some HPV types cause cancers (there is a vaccine); testing is confidential (resource card) · ❌ "It'd never happen to me." | *new* `stiserious` |
+| 13-3 | Question box: "Which kind of sex has the highest STI risk?" A classmate laughs: "Only gay guys get HIV." | ✅ the fact: unprotected anal sex carries the highest risk of HIV and many STIs for anyone, whatever the partners' genders; oral sex can pass on STIs too; risk depends on what people do and whether they use protection, not on who they love. Say "That's not true, and it's not funny" (🧠+) · ❌ laugh along (the stereotype also makes people think *they* are safe) · ⚠️ stay quiet | *new* `riskbybehaviour` |
+| 13-4 | Peer-educator card sort: "Green flag or red flag?" (a partner who keeps pressuring after no · wants to try choking "because it's in videos" · wants to film · gets someone drunk or high first · checks in and stops when asked) | ✅ sort correctly: pressure and coercion are never OK; choking/strangulation can cause brain injury or death within seconds, even "gently", so never; filming anyone without free agreement is abuse, and any intimate image of a minor is a crime; a drunk or high person cannot consent; checking in is the green flag. These are red flags whoever does them · ❌ "If they're into it, anything goes" · ❌ "Videos show it, so it's normal" | *new* `redflags` |
+| 13-5 | Kenta has a secret online "girlfriend" who says she is 24. She sends gifts, says his friends are "immature", tells him to keep it secret, and asks for photos | ✅ tell him gently: an adult who seeks a secret relationship with a teenager, gives gifts, isolates him and asks for photos is grooming; it is not his fault; help him stop, keep the evidence and tell a trusted adult or the police (resource card). Groomers can be any gender · ❌ "Lucky you, an older woman!" · 💀 help him keep the secret and send the photos → **BAD END #28** *Our Little Secret* (serious tone, no joke; resource card) | *new* `grooming` |
+| 13-6 | Rooftop partner talk: "What do we want, and when?" (solo: Kenta and his girlfriend ask your advice). Later, alone at your place, the moment gets heated | ✅ talk first and agree to wait; when the moment comes, stop: "Let's not — we agreed. I'll walk you home." (👑+, 🤝+) · ❌ "Just this once," no talk, no plan, no protection · ⚠️ "Everyone else has already" (they haven't; Dr. Mochi card) | *new* `waitingok` |
 
-## Chapter 14 — "Storm Season"
-**Setting:** Late autumn: two weeks apart, a lie, money, maybe the end. **Goal:** sustaining love under pressure; healthy breakups.
-**Core values:** V1, V4.
+**Mentor beat:** the nurse: "Knowing the facts isn't permission and it isn't pressure. It's so that when you decide
+— in a year or in ten — you decide well." Mochi: "And 'no' is a full sentence. Yours too."
+
+## Chapter 14 — "Exam & Storm Season" *(merges the old exam beats and the old storm chapter)*
+**Setting:** Entrance-exam winter: study blocks, all-nighters, a lie, maybe the end. **Goal:** your goals and health
+come first; sustaining love under pressure; healthy breakups.
+**Core values:** V1, V2, V3, V4.
 
 | # | Setup | Options | Lesson |
 |---|---|---|---|
-| 14-1 | H is away 2 weeks (camp/trip). | ✅ agree on a rhythm ("goodnight message + call on Sunday") · ❌ "why didn't you reply in 10 minutes?" ×30 · ⚠️ "post less with other people" | distance |
-| 14-2 | You were at the arcade with Yuna/Rei but said you were studying. She sees a story | ✅ come clean immediately · ❌ double down with a bigger lie · 💀 fake an alibi with Kenta → BAD END #17 *The Alibi Group Chat* | smalllies |
-| 14-3 | She can't afford the class trip extras; you can | ✅ choose something you can both do; talk openly about money · ❌ pay for everything and remind her later · ⚠️ keep a spreadsheet of who paid what | money |
-| 14-4 | **Breakup branch** (if 🤝 < 30 or chosen): H says she needs to end it | ✅ "It hurts, but I respect it. Thank you for everything." → `kind_goodbye` path · ❌ beg, send 40 messages, wait at her house · 💀 revenge post / stalk her new friends → BAD END #18 *Main Character Syndrome* | breakup |
-| 14-5 | After any breakup (route or Kenta's on solo), 3 AM, her profile open | ✅ close it; mute for a while, lean on friends, go back to your routines (🎸+, 💤+) · ❌ read her old messages until sunrise · ❌ drunk-text style "u up?" message | *new* `recovery` |
+| 14-1 | H texts all evening; your study block is 7–10 PM. You've already skipped club twice to be "always available" | ✅ agree on phone-free study hours and a call at 10; go back to club (🎯+, 🤝+) · ❌ answer every message, learn nothing, skip club again · ⚠️ go silent without telling her | *new* `focus` / selfneglect |
+| 14-2 | Three all-nighters on energy drinks before the mock exam | ✅ sleep, eat, walk (💤+, 🎯+) · ❌ a fourth all-nighter · 💀 a fifth, then fall asleep in the exam → **BAD END #22** *Energy Drink Speedrun* | *new* `sleep` |
+| 14-3 | H has been withdrawn, exhausted, crying (family/exam pressure) | ✅ be present, listen, gently encourage her to talk to a counsellor/trusted adult; you don't have to fix it (resource card) · ❌ "cheer up, you're being dramatic" · ⚠️ try to be her only support and burn out yourself | support |
+| 14-4 | You were at the arcade with Yuna/Rei but said you were studying. She sees a story | ✅ come clean immediately · ❌ double down with a bigger lie · 💀 fake an alibi with Kenta → BAD END #17 *The Alibi Group Chat* | smalllies |
+| 14-5 | **Breakup branch** (if 🤝 < 30 or chosen): H says she needs to end it | ✅ "It hurts, but I respect it. Thank you for everything." → `kind_goodbye` path · ❌ beg, send 40 messages, wait at her house · 💀 revenge post / stalk her new friends → BAD END #18 *Main Character Syndrome* | breakup |
+| 14-6 | After any breakup (route or Kenta's on solo), 3 AM, her profile open | ✅ close it; mute for a while, lean on friends, go back to your routines (🎸+, 💤+) · ❌ read her old messages until sunrise · ❌ drunk-text style "u up?" message | *new* `recovery` |
+
+Moved: the two-weeks-apart beat (`distance`) → 16-4; the class-trip money beat (`money`) → the Ch14 partner talk
+(financial support between partners); Dad and your passion (`familytalk`) → 15-5.
 
 **Mentor beat:** Mei: "Losing someone doesn't mean you lost. Did you become a better person? Then you won something."
 
@@ -282,6 +300,7 @@ Shared spine; `H` = route heroine. **Solo:** the same lessons through Kenta's re
 | 15-2 | **Your** offer arrives: a program/apprenticeship for your passion, in another city. H asks you to turn it down and stay | ✅ "I'm going. Let's work out how we stay close." · ❌ turn it down "for her" (🎯−−, 🎸−−, 👑−) · ⚠️ accept without talking to her | *new* `dontshrink` |
 | 15-3 | Alpha Kai's livestream gets exposed; Kenta admits he bought the ¥98,000 course and is ashamed | ✅ "Bro, we've all fallen for stuff. Let's get a refund and get ramen." · ❌ mock him in the group chat | brosupport |
 | 15-4 | Rei's ending (if `reiRedemption`): police case against Goto; Rei thanks you for not "saving" her with money | ✅ stay a friend with boundaries · ⚠️ try to date her now (she gently says no — she needs time to heal) | rescuer (callback) |
+| 15-5 | Before your offer arrives, Dad: "Drop the guitar/drawing. It won't pay the bills." | ✅ show your plan: passion hours, grades, a part-time-job budget; ask for a trial year · ❌ shout and slam the door · ⚠️ secretly quit your passion | *new* `familytalk` |
 
 ---
 
@@ -297,7 +316,7 @@ Shared spine; `H` = route heroine. **Solo:** the same lessons through Kenta's re
 | 16-1 | Week one: delivery every night | ✅ learn three cheap recipes; plan a weekly shop (¥+, 💤+) · ❌ keep ordering (¥−, 💤−) · ⚠️ instant noodles for a month | *new* `adulting` |
 | 16-2 | Station booth: "Student credit card! Free tumbler! Pay later!" | ✅ read the terms; decline, or take it with a tiny limit · ❌ take it and buy a gaming PC "for my passion" · 💀 max it on dates and gadgets, pay only the minimum → **BAD END #23** *Minimum Payment Forever* | *new* `debt` |
 | 16-3 | Ren — perfect outfits, perfect feed — asks to borrow ¥60,000 for rent. Again. His flat is a mess and he's lost two jobs | ✅ say no kindly; point him to the student support office · ❌ lend it: "he looks so put-together" · ⚠️ lend half | *new* `lending` |
-| 16-4 | Long distance: H (or, on solo, Kenta) wants you home every weekend; the train is ¥14,000 | ✅ agree a rhythm you can afford (every third weekend + calls) and talk money openly · ❌ go every weekend on credit · ⚠️ go, then resent it | `money` |
+| 16-4 | Long distance: H (or, on solo, Kenta) wants you home every weekend; the train is ¥14,000. She panics when you don't reply for an hour | ✅ agree a rhythm you can afford (every third weekend + a goodnight message + a Sunday call) and talk money openly · ❌ go every weekend on credit · ❌ "why didn't you reply in 10 minutes?" ×30 · ⚠️ go, then resent it | `distance` / `money` |
 | 16-5 | You've barely spoken to anyone in two weeks; you game until 5 AM | ✅ join a club, call Mei, or book the campus counsellor (💤+) · ❌ "I'm fine," and isolate | *new* `askhelp` |
 
 ## Chapter 17 — "Welcome Party" *(new)*
@@ -315,20 +334,22 @@ Shared spine; `H` = route heroine. **Solo:** the same lessons through Kenta's re
 
 **Ending beat:** Mochi: "An adult isn't someone who can drink. It's someone who can say no to a room."
 
-## Chapter 18 — "The Talk" *(new — sexual health; non-explicit)*
-**Setting:** The relationship gets serious. On solo, Kenta comes to you with the same questions about his girlfriend,
-and you go with him to the clinic. Mochi switches to "Dr. Mochi" for fact cards. All scenes cut away; facts only.
-**Goal:** talk before you act; protection and testing are respect; consent is ongoing; your timeline is yours.
-**Core values:** V1, V9.
+## Chapter 18 — "The Long Talk" *(new — adult relationships, 18+; non-explicit)*
+**Setting:** The relationship gets serious; you are both adults now. On solo, Kenta brings you the same questions
+about his girlfriend, and you go with him to the clinic. Dr. Mochi gives the fact cards. Intimate moments cut away;
+nothing is shown beyond a hug. The high-school facts from Ch13 are called back, not repeated.
+**Goal:** adult relationships are built on talking: readiness, shared responsibility, testing, ongoing consent,
+your own timeline, and the future (the children talk, VALUE_PROFILES §5).
+**Core values:** V1, V9, V10.
 
 | # | Setup | Options | Lesson |
 |---|---|---|---|
-| 18-1 | H brings up "the talk": readiness, boundaries, protection | ✅ talk openly: what each of you wants, what's off the table, that waiting is fine (🤝+) · ❌ make a joke and change the subject · ⚠️ "Whatever you want." (no voice of your own) | *new* `talkfirst` |
-| 18-2 | Kenta's myths: "Condoms ruin the mood." / "Pulling out works." / "She's on the pill, so we're covered." | ✅ the facts (Dr. Mochi card): condoms protect against pregnancy *and* most STIs; withdrawal is unreliable; the pill doesn't stop STIs; use both; check the expiry date · ❌ believe the myth | *new* `protection` |
-| 18-3 | Getting tested together. It's awkward | ✅ go; ask the nurse your questions (many STIs have no symptoms; HPV vaccine) · ❌ "I'm clean, I'd know." | *new* `testing` |
+| 18-1 | H brings up "the talk": readiness, boundaries, what each of you wants | ✅ talk openly: what each of you wants, what's off the table, that waiting is fine (🤝+) · ❌ make a joke and change the subject · ⚠️ "Whatever you want." (no voice of your own) | *new* `talkfirst` |
+| 18-2 | Kenta: "She's on the pill, so protection is her job." | ✅ contraception and STI protection are both partners' responsibility: talk about it, share the cost, use condoms as well as other methods (callback to 13-1) · ❌ leave it all to her | *new* `sharedprotection` |
+| 18-3 | Getting tested together before a new relationship becomes intimate. It's awkward | ✅ go; ask the nurse your questions (callback: many STIs have no symptoms; HPV vaccine) · ❌ "I'm clean, I'd know." | *new* `testing` |
 | 18-4 | A close moment. She hesitates: "Actually, not tonight." Or there's no condom | ✅ stop; "I'm glad you told me," no sulking; no condom means not tonight · ❌ "But we planned it…" · 💀 keep pushing → **BAD END #24** *Not Tonight Means Not Tonight* (serious tone; resource card) | *new* `ongoingconsent` |
 | 18-5 | Kenta: "You're 18 and you still haven't?!" | ✅ "My timeline is mine." (👑+) · ❌ rush to "catch up" with someone you barely know | *new* `yourtimeline` |
-| 18-6 | A scare: the condom broke (on solo: Kenta's girlfriend) | ✅ stay calm; emergency contraception works best the sooner it's taken, so go to a pharmacy or clinic together, support her decisions, share the cost · ❌ panic, blame, go silent | *new* `scareplan` |
+| 18-6 | A scare: the condom broke (on solo: Kenta's girlfriend) | ✅ stay calm; emergency contraception works best the sooner it's taken, so go to a pharmacy or clinic together, support her decisions, share the cost; plan an STI test (resource card) · ❌ panic, blame, go silent | *new* `scareplan` |
 
 ## Chapter 19 — "The Perfect Match" *(new)*
 **Setting:** Lonely in a new city, you download a dating app. Rei returns, now giving talks on how scams target lonely men.
@@ -349,10 +370,42 @@ and you go with him to the clinic. Mochi switches to "Dr. Mochi" for fact cards.
 
 | # | Setup | Options | Lesson |
 |---|---|---|---|
-| 20-1 | **Honesty quiz** (reference-game homage, original questions): "Did you notice what changed about me?" / "Have you ever lied to me?" / "What's my favourite thing?" | ✅ honest answers ("I don't know — tell me?") beat confident wrong guesses; flattery loses · ❌ lie about 14-2 again | honesty |
+| 20-1 | **Honesty quiz** (reference-game homage, original questions): "Did you notice what changed about me?" / "Have you ever lied to me?" / "What's my favourite thing?" | ✅ honest answers ("I don't know — tell me?") beat confident wrong guesses; flattery loses · ❌ lie about 14-4 again | honesty |
 | 20-2 | A luxury couple trip "to post online", on credit (solo: Kenta proposes a luxury "bro trip") | ✅ "Let's do the trip we can afford." · ❌ book it on credit | `materialism` |
 | 20-3 | Your passion pays off (first gig / exhibition / game release / tournament). It clashes with H's plan for the weekend | ✅ talk early; she comes, or you agree on another weekend · ❌ cancel your big day · ⚠️ decide alone and announce it | `ownstage` |
 | 20-4 | Mochi's final exam question: "So — what is love?" | Any honest answer is accepted; flattery or "she's my everything" makes Mochi sigh (🌹 check) | — |
 | 20-5 | **Ending evaluation** (GAME_DESIGN §7). Epilogue scenes per ending | — | — |
 
 **Epilogue:** Mochi: "Love isn't something you find. It's something you *do*, every day, on purpose. Mostly by being someone worth knowing."
+
+---
+
+# Partner talks and art needs per chapter
+
+Partner talks follow the template in [VALUE_PROFILES.md](VALUE_PROFILES.md) §5.1 (topic, opposing views, healthy
+outcomes). Locations marked ★ exist in `assets/bg/`; everything else is a new background (full list and reuse plan:
+VALUE_PROFILES §8). Sprites: the five heroines and Mochi exist; supporting cast are new unless noted. Visuals are at
+most a hug in every chapter.
+
+| Ch | Partner talk (topic → opposing views) | Locations | Cast on screen (beyond the player) |
+|---|---|---|---|
+| 1 | Refusal: Kenta "friends never say no" ↔ Hina "friends can hear no" | classroom, street ★, library ★, field ★, bedroom ★ | 5 heroines, Mochi, Kenta |
+| 2 | Friendship: wide circle (Yuna) ↔ a few deep friends (Hina, Mio) | amusement, street ★, karaoke (tint of partyroom) | heroines, Kenta, Alpha Kai (phone) |
+| 3 | White lies: kind (Yuna) ↔ "tell me straight" (Kaede, Hina) | bedroom ★, library ★, classroom, night ★ | heroines, Rei, Kenta, "Airi" (phone) |
+| 4 | Spending: enjoy now (Kaede) ↔ save first (Hina, Mei) | cafe, mall, dining, bedroom ★ | Ogawa, Mei, Kenta, Yuna (stream), Kaede |
+| 5 | Life outlook: win · meaning · family · be known | campsite (day + night), field ★ | heroines, Kenta, Ogawa (phone) |
+| 6 | Broken promises: Takumi "plans change" ↔ Hina "say so before" | classroom, festival, cafe, night ★ | heroines, Takumi, Kenta |
+| 7 | Greed: Kai (invalid) ↔ Ogawa "enough" ↔ Yuna "nice things are nice" | street ★, mall, bedroom ★ | heroines, Kenta, Alpha Kai (phone) |
+| 8 | Why do you like someone? Kenta looks ↔ Mei character | rooftop, classroom, fireworks | heroines, Kenta, Mei |
+| 9 | Gifts & who pays: brand (Yuna) ↔ letter (Mio); split vs. take turns | street ★, cafe, mall | H, Kenta, Mei |
+| 10 | What counts as cheating? (per heroine) | night ★, field ★, classroom | H, H's male friend, Alpha Kai (phone) |
+| 11 | Couple time vs. friends and hobby | bedroom ★, cafe, rooftop | H, Kenta, Ogawa |
+| 12 | Shopping & her family's views on money | mall, dining, beach, bedroom ★ | H, H's parents (silhouette OK), Kenta, beach boys |
+| 13 | Boundaries as a couple: wait ↔ "everyone has" | classroom, healthroom, rooftop, bedroom ★ | H, Kenta, school nurse, peer educator, Mochi (Dr.) |
+| 14 | Financial support: "I'll pay" ↔ "I don't want to owe you" | library ★, bedroom ★, station, night ★ | H, Kenta, Yuna/Rei (14-4) |
+| 15 | Learning & career: Dad security ↔ passion; Ogawa still studying | gradhall, dining, station, field ★ | H, Dad, Mom, Kenta, Rei, Ogawa |
+| 16 | Supporting parents: send money home ↔ build your own life first | apartment, station, cafe | H (phone), Mei, Mom (phone), Ren |
+| 17 | Friendship & lending: "friends help" ↔ "friends aren't a bank" | partyroom, cafe, lecture | Saki, Nana, Ren, a senior |
+| 18 | Children & child education (per heroine) | apartment, park, healthroom (clinic version) | H, Kenta, nurse, Mochi (Dr.) |
+| 19 | "Easy investment": a friend's sure thing ↔ Rei's scam-script talk | apartment, lecture, cafe | Rei, Kenta, "Lin" (phone), Kai's recruiter |
+| 20 | Money as a couple: joint ↔ separate ↔ shared pot | rooftop (sunset), apartment, park | H, Kenta, Mei, Mochi |

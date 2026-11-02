@@ -16,7 +16,12 @@ js/
     lessons.js             LESSONS  — Love Notebook cards (63). Single source of truth.
     achievements.js        ACHIEVEMENTS
     endings.js             ENDINGS
-    resources.js           RESOURCES — safety/help cards for serious topics
+    resources.js           RESOURCES — help cards; Singapore contacts (RESOURCE_CONTACTS, verified date + source URL),
+                           RESOURCES_BY_LOCALE, locale fallback chain (§10)
+    values.js              (planned) VALUES — value profile per character + player stance axes (§9)
+    talks.js               (planned) TALKS — partner-talk definitions per topic (§9)
+    variants/<loc>.js      (planned) VARIANTS — line pools per location × slot (§9)
+  i18n/                    (planned) <locale>.js string packs (UI + story), e.g. zh-SG.js (§10)
   chapters/
     index.js               CHAPTERS registry, CHAPTER_ORDER, SIM helpers (todo, love, split, …)
     ch01.js … ch10.js      One file per chapter: { id, title, subtitle, next, status, script: [...] }
@@ -28,6 +33,7 @@ design/character-sheets.html   Art-style exploration (A–D)
 docs/                      Design docs (this folder)
 tests/
   validate.js              Static checks of all scripts (node, no browser) — run before every commit
+  softlock.js              Softlock checker: static choice rules + seeded simulation of every option (node, no browser)
   playthrough.js           Headless Playwright playthrough of all chapters (first|last|random)
 ```
 
@@ -101,7 +107,7 @@ One object per step. Full list (also documented at the top of `engine.js`):
 2. In `js/chapters/chXX.js`, replace each `SIM.todo(...)` with real beats (`n`, `s`, `me`, `think`, `mochi`, `phone`/`txt`).
 3. Keep choice options, `fx`, `lesson`, bad ends as designed (tune numbers if needed; ✅ must stay best overall).
 4. Part II/III: use `'@route'` and `{her}`; add route-specific flavour with `{ if: SIM.isRoute('kaede'), then: [...] }`.
-5. Set `status: 'done'`, run `node tests/validate.js` and `node tests/playthrough.js first`.
+5. Set `status: 'done'`, run `node tests/validate.js`, `node tests/softlock.js` and `node tests/playthrough.js first`.
 
 ### 3.2 Stat & tuning rules
 - Connection per scene: ✅ +8…+15 · ⚠️ −3…+5 · ❌ −8…−15 · catastrophic −20…−40.
@@ -138,7 +144,10 @@ Supporting cast to add to `Art.CAST` + sprites when their scenes are written: `k
 
 ## 6. Testing
 - `node tests/validate.js` — validates ids/structure; prints per-chapter counts (choices, bad ends, TODO beats).
-- `node tests/playthrough.js first|last|random` — needs Playwright + Chromium; plays the whole game and fails on
+- `node tests/softlock.js [--runs N] [--seed S]` — proves the story can always move forward (§9.4). Deterministic
+  (default seed 20261102). Run before every commit, together with validate.js; both should run in CI.
+- `node tests/playthrough.js first|last|random` — needs Playwright + Chromium installed (`npm i -D playwright &&
+  npx playwright install chromium`); plays the whole game and fails on
   any page error or if Chapter 10's ending is not reached. `--shots` saves results screenshots.
 - Manual: test at 375×812 (phone) and 1280×720.
 
@@ -146,7 +155,10 @@ Supporting cast to add to `Art.CAST` + sprites when their scenes are written: `k
 - Data files are pure data (no DOM). Engine is the only file touching the DOM besides `art.js` markup builders.
 - IDs: lower camelCase for flags/lessons/achievements; chapter ids `ch1…ch10`; files `ch01…ch10.js`.
 - Never put real people, brands or the reference game's characters/dialogue in scripts or art prompts.
-- Teen-safe content only (GAME_DESIGN §3). Serious topics must include a `{resource:…}` card.
+- Rated 16+, content limits in GAME_DESIGN §3: non-explicit, attitude and education focus, **visuals at most a hug**;
+  sexual-health facts only in Ch12–13 (high-school level) and Ch18 (adult); risks and red flags are framed by
+  behaviour, never by gender or orientation. Serious topics must include a `{resource:…}` card.
+- No live AI. Every line is authored; the engine only *selects* among authored variants (§9).
 - Keep lines short (≤ ~160 chars) so the textbox never scrolls on phones.
 
 ## 8. Planned extensions (designed, not yet built)
@@ -158,6 +170,74 @@ Supporting cast to add to `Art.CAST` + sprites when their scenes are written: `k
 | Multiple save slots | `SAVE_KEY + slot`, save menu with thumbnails | engine save/load |
 | Chapter gate | before Ch5: if `wisdom + self < 0`, insert a Mochi "remedial lesson" scene | `ch05.js` start |
 | Audio | `{bgm:'id'}`, `{sfx:'id'}` commands, `assets/audio/`, mute toggle | engine + data/audio.js |
-| Localisation | `t:` strings → `{ en: '…', zh: '…', ja: '…' }`; `fmt()` picks `S.lang` | engine `fmt`, chapter files |
+| Localisation | see §10 (string tables per locale, resources per locale, locale switch) | `js/i18n/`, engine `fmt` |
+| Value profiles, partner talks, variants | see §9 | `js/data/values.js`, `talks.js`, `variants/` |
 | Backlog | keep last 100 lines in `S.log`; "Log" button | engine |
 | Gallery / ending list | show `S.endings`, `S.achievements` from the title screen | engine title |
+
+## 9. Value profiles, variants and robustness
+
+Full design: [VALUE_PROFILES.md](VALUE_PROFILES.md). This section is the engine contract.
+
+### 9.1 No live AI
+All dialogue is authored and reviewed. A runtime language model is deliberately **not** used: it could produce unsafe
+or explicit text, inaccurate health facts or off-tone lines in an educational 16+ game, needs a network and a paid
+API, and makes behaviour untestable. Variety comes from authored pools selected deterministically. AI may be used
+offline by writers to *draft* variants, which are then reviewed, committed and validated like any other line.
+
+### 9.2 Data
+- `VALUES[charId] = { spend, gifts, family, career, children, childEdu, learning, friends, lending, conflict,
+  honesty, promises }`, each −2..+2 (axes in VALUE_PROFILES §2). Integrity axes (`honesty`, `promises`) have a floor:
+  invalid sides belong only to cast written as wrong (Alpha Kai, Goto, scammers).
+- Player state: `S.values[axis]` (the stance the player has expressed), `S.seenVariants` (set of variant ids),
+  `S.poolVisits[poolId]` (counter), `S.seed` (set once at new game). All serialised with the save.
+- `TALKS[topic] = { axis, kind:'preference'|'integrity', lines:{ default, <charId>… }, opts:[share, ask, cave,
+  contempt, avoid, dealbreaker?] }`.
+- `VARIANTS['<loc>.<slot>'] = [ { id, who?, ch?, when?(S), lines:[…] }, … ]` — at least one entry with no
+  `who/ch/when` (the generic fallback; the validator fails without it).
+
+### 9.3 Commands and selection
+- `{variant:'cafe.arrive'}` → choose one entry and splice its `lines` in; `{talk:'children'}` → expand the talk
+  template for the route heroine (or Kenta on solo) into a normal `choice`.
+- Selection (pure function of state, so a rewind replays the same line): filter by `who` (route heroine / on-screen
+  cast), `ch`, `when(S)` → prefer entries not in `S.seenVariants` → score (who 4, ch 2, each matching value condition
+  2, each flag/stat condition 1) → among the top score pick index `hash(S.seed, poolId, S.poolVisits[poolId]) % n` →
+  if nothing survives, the generic fallback. Record the id in `S.seenVariants`; increment `S.poolVisits`.
+- Compilation happens at chapter load; variant expansion happens at run time but only ever inserts `s`/`txt`/`fx`
+  commands (never `choice`, `badEnd` or `chapterEnd`), so the compiled control flow and checkpoints are unchanged.
+
+### 9.4 Robustness: every node has an exit
+| Rule | Enforced by |
+|---|---|
+| Every `choice` has at least one option without `if` (the fallback that is always visible) | `tests/softlock.js` static pass; `validate.js` (planned) |
+| A `badEnd` appears only inside a choice option and nothing follows it in that block | softlock.js static pass |
+| `{chapterEnd:true}` is the last top-level command of every chapter | softlock.js, validate.js |
+| If all options are hidden at run time anyway, the engine logs a warning and continues after the choice (`c.after`) instead of freezing | `engine.js` `showChoice` guard |
+| Every variant pool has a generic fallback; every `variant`/`talk` reference resolves | validate.js (planned, with the variant system) |
+| The talk template always renders the share/ask option, whatever the heroine's profile | `talks.js` schema + validate.js |
+| Every option of every choice can reach `chapterEnd` from many random states; no choice where every visible option is a bad end; no step-budget overrun (loops); full random playthroughs reach an ending | softlock.js simulation (current: 174 options, 8,523 chapter simulations, 120/120 full playthroughs) |
+
+The simulator in softlock.js mirrors `compile()`/`step()`; any engine change to control flow must be mirrored there.
+
+## 10. Internationalisation (i18n)
+
+Default locale **`en-SG`** (English text, Singapore help cards). Chinese (`zh-SG`) is the first planned translation.
+
+- **String tables per locale.** English source text stays in the chapter files and is the key (gettext style), with
+  the chapter id as context: `I18N['zh-SG'].story['ch3']['Seen at 2:14 AM'] = '<Chinese translation>'`. UI strings
+  (buttons, menus, stat names, notebook headings) live in a separate `ui` table keyed by id. Lessons, achievements
+  and endings are keyed by their ids. Packs: `js/i18n/<locale>.js`, loaded after the data files.
+- **Lookup.** `fmt(text, ctx)` → `I18N[locale].story[ctx][text]` → fallback chain → the English source. Interpolation
+  (`{name}`) runs after lookup. Missing strings never break play.
+- **Resources per locale.** `RESOURCES_BY_LOCALE[locale][cardId] = { title, lines, contacts:[ids] }`; contacts are
+  shared records (`RESOURCE_CONTACTS`) with `name, how, hours, src` and a `VERIFIED` date. Fallback chain
+  `RESOURCE_LOCALE_FALLBACK`: `zh-SG → en-SG → en`. A help card must show real, verified contacts for its region; a
+  locale for another country needs its own contact list, not a translation.
+- **Locale switch.** Title-screen and settings menu; stored in `localStorage['sim4love.locale']` (a setting, not part
+  of the save, so saves are portable between languages). Default from `navigator.language` if a pack exists, else
+  `en-SG`. Switching re-renders the current line.
+- **Fonts and layout.** CJK fallback in the font stack (self-hosted Noto Sans SC subset, OFL); line-length budget is
+  per locale (≈ 60 CJK characters per textbox line).
+- **Coverage test (planned).** `node tests/i18n.js zh-SG` lists untranslated strings and stale keys (source text
+  changed) per chapter and fails release builds below a set coverage.
+

@@ -59,17 +59,28 @@ Things we deliberately do *differently* (fixing the reference's criticisms):
 
 - **Ages 16+.** Primary audience: boys and young men 16–22. Parts I–IV are set in high school (characters 16–18);
   Part V is the first year after graduation (characters 18–19).
-- **Romance and sexual health are non-explicit.** High-school chapters stay at hand-holding, hugs and an asked-for
-  kiss. Ch18 covers sexual health at a sex-education level (talking first, consent, contraception, STI testing,
-  delaying, saying no, a pregnancy scare) through conversation and fact cards; intimate moments cut away. No nudity,
-  no sexual description.
-- **Alcohol** appears only as something to refuse (characters are under the legal drinking age) and as a safety topic.
-- Sensitive topics (sextortion, intimate images, scams, debt, sexual health, alcohol, mental health) are handled
-  factually and end with "what to do" + "tell a trusted adult / report / where to get confidential help" cards
-  (locale-configurable).
+- **Content limits.** Dialogue is non-explicit and focused on attitude and education. **Visuals are at most a hug**
+  (an asked-for kiss may happen off-screen or as a fade). No nudity, no sexual description; intimate moments cut away.
+- **Sexual health is taught in high school**, at a school sex-education level (comparable to what Singapore's MOE
+  sexuality education and the UNESCO guidance cover for this age): Ch12 (asking, pressure, intimate images, your own
+  "not yet") and **Ch13 "Health Class"**: contraception facts, waiting as a normal choice, how serious STIs are,
+  testing, risk by behaviour, red-flag behaviours, grooming, refusal and impulse control. Facts come through the
+  school nurse, a peer-educator workshop and Dr. Mochi's fact cards; nobody in Part IV has sex.
+- **Red flags are framed by behaviour and risk, never by orientation.** The game never presents homosexuality or any
+  orientation as abnormal. Example: unprotected anal sex carries the highest STI/HIV risk *for anyone*, whatever the
+  partners' genders; a classmate's "only gay guys get HIV" is corrected as false and harmful (13-3). Red flags covered:
+  unprotected sex, coercion or pressure into unwanted acts, painful or dangerous acts (e.g. choking/strangulation),
+  filming or recording, age gaps and grooming, substances and consent.
+- **Ch18 (18+)** covers adult-relationship topics: talking first, shared responsibility for protection, testing before
+  a new relationship, ongoing consent, your own timeline, a pregnancy scare, and the future (children, parents, money).
+- **Alcohol** appears only as something to refuse and as a safety topic (in the game's fictional setting the drinking
+  age is 20; Part V characters are 18–19).
+- Sensitive topics (sextortion, intimate images, scams, debt, sexual health, grooming, alcohol, mental health) are
+  handled factually and end with "what to do" + "tell a trusted adult / report / where to get confidential help"
+  cards. **Help cards target Singapore** (default locale `en-SG`, §9); other locales plug in via the i18n framework.
 - Tone: bright slice-of-life comedy, light tsundere banter, Mochi's sarcastic cat commentary; quiet sincere beats.
   The game never preaches before it shows: consequence first, lesson card second (two lines max).
-- Language: English first; text is kept in chapter files so localisation (中文 / 日本語) can be added later (see ARCHITECTURE §8).
+- Language: English first (`en-SG`); Chinese (`zh-SG`) next via the i18n framework (ARCHITECTURE §10).
 
 ## 4. Cast
 
@@ -121,20 +132,23 @@ Full chapter list with every interaction: [CHAPTERS.md](CHAPTERS.md). Coverage m
 
 | Topic | Chapters |
 |---|---|
-| Campus life | 1, 3, 6, 8, 13 |
-| Daily life: family, money, part-time job, self-care | 4, 13, 16 |
+| Campus life | 1, 3, 6, 8, 13, 14 |
+| Daily life: family, money, part-time job, self-care | 4, 14, 15, 16 |
 | Group trips and outings | 2, 5, 17 |
 | Dating | 2, 8, 9, 10, 11 |
-| Sexual health and protection (non-explicit) | 12 (asking, images, your "not yet"), 18 (talk, protection, testing, ongoing consent, scare) |
-| Refusal and impulse control | 5, 12, 17, 18 |
+| Sexual health and protection (non-explicit) | 12 (asking, images, your "not yet"), **13** (contraception facts, STIs, risk by behaviour, red flags, grooming, waiting), 18 (adult: shared responsibility, testing, ongoing consent, scare) |
+| Refusal and impulse control | 1, 5, 12, 13, 17, 18 |
 | Scams and manipulation | 1, 2, 3, 6, 7, 19 |
 | Career and passion | 2, 6, 7, 13, 15, 20 |
 | Breakups | 8 (rejection), 14, 16 |
 | Money boundaries | 2, 4, 9, 14, 16, 19, 20 |
 | De-idealisation (looks are packaging, projection) | 5, 6, 7, 8, 16, 19 |
+| Partner value talks (money, gifts, parents, children, learning, friendship, lending, lying, promises, greed, fraud, betrayal) | one per chapter, 1–20 — full topic × chapter map in [VALUE_PROFILES.md](VALUE_PROFILES.md) §7 |
 
 Each chapter: **4–6 interactions**, 1–2 comic bad ends, 4–8 new lessons, ~15–25 minutes of play.
-Part III–V chapters use **one shared spine** with heroine-specific variant lines (see ARCHITECTURE §4.3). On the
+Part III–V chapters use **one shared spine** with heroine-specific variant lines selected from authored variant
+pools by each heroine's value profile and the player's state (VALUE_PROFILES.md; ARCHITECTURE §9). No AI generates
+dialogue at runtime. On the
 solo route, relationship beats are replayed through Kenta's relationship, friends, family and the player's passion.
 
 ## 6. Systems
@@ -149,6 +163,9 @@ solo route, relationship beats are replayed through Kenta's relationship, friend
 | **Free evenings** *(new)* | per-chapter mini choice | 2–3 evenings per chapter: spend on goal, passion, health, friends or partner. Partner time has diminishing returns after one evening a chapter; goal/passion time compounds (unlocks later scenes, e.g. the Ch6 stage slot, the Ch15 offer, the Ch20 payoff) | Invest where it grows (V3) |
 | **Wallet** *(new)* | `life.wallet` + `money` | Allowance + café wages. Overspending options are labelled with their real cost; going below zero triggers a debt state (Ch4, Ch16). No option where spending more is the best outcome | Never spend beyond your means (V4) |
 | **Rose Filter 🌹** *(new)* | `stats.proj` | Idealising choices raise it; the heroine's sprite gets a soft-focus sparkle. Above 60, one healthy option per choice is greyed out ("You can't see this through the rose filter") until a fact-check scene lowers it. Ending penalty if high | Infatuation is projection (V6) |
+| **Value profiles** *(new)* | `js/data/values.js`; player stances in `S.values` | Every heroine and supporting character has a profile on 12 axes (spend, gifts, family, career, children, child education, learning, friends, lending, conflict style, honesty, promises). Same topic, different scene per route | People differ; disagree well |
+| **Partner talks** *(new)* | `{talk:'<topic>'}` | One per chapter: two reasonable opposing views; options share + ask / cave / contempt / avoid; preference topics have no right stance, integrity topics do; a named dealbreaker can lead to `kind_goodbye` | Discuss, don't cave, don't sneer |
+| **Variant pools** *(new)* | `js/data/variants/*.js`; `S.seenVariants`, `S.poolVisits` | Lines keyed by location × chapter × heroine × flags; deterministic selection, unseen first, guaranteed generic fallback | Replay variety without randomness bugs |
 | **Flags** | `flags.*` | Memory of choices (e.g. `reiHasLine`, `hinaBirthday`, `yunaClarity`) used for callbacks | Consequences |
 | **Love Notebook** | `lessons[]` | Lesson card after key choices: green = healthy habit, red = pitfall, trap = manipulation tactic | Retention |
 | **Bad ends + rewind** | `badEnds[]` | Comic fail screen, rewind to the choice. Lessons learned are kept after rewind | Safe experimentation |
@@ -202,21 +219,34 @@ time) · `Read at 2:14 AM` (triple-text) · `Professional Furniture Mover` (do 3
   stat chips top-left, Notebook/Auto/Title top-right. Mobile-first (works at 375px).
 - **Audio (todo):** light piano/city-pop BGM per location, comic stingers for bad ends, phone vibrate SFX.
 
-## 9. Safety & resource lines
+## 9. Safety & resource lines (Singapore first)
 
-Scenes on scams, sextortion, intimate images, self-harm/depression must end with a short resource card from
-`js/data/resources.js` (todo), configurable per locale, e.g.:
-- "Don't pay, don't send more, keep the evidence, block, and tell a trusted adult. Report to police / your
-  country's anti-fraud centre."
-- "If someone shares or threatens to share intimate images of a minor, it is a crime. Report it (e.g. NCMEC
-  *Take It Down* / local police)."
-- "If a friend is struggling, you don't have to fix it alone — encourage them to talk to a counsellor or crisis line."
+Scenes on scams, sextortion, intimate images, grooming, sexual health, sexual assault, debt, alcohol and
+self-harm/depression end with a short card from `js/data/resources.js`: two or three "what to do" lines, then real
+contacts. **Default locale `en-SG`.** Every contact below was checked on its official site on 2026-11-02; each entry
+stores its source URL and verification date, and must be re-verified before every release.
+
+| Card | Singapore contacts (verified 2026-11-02) |
+|---|---|
+| Emergency (all cards) | Police **999** (or SMS **70999**) · Ambulance **995** |
+| `mentalhealth`, crisis | **SOS** 24-hour hotline **1767**, CareText (WhatsApp) **9151 1767** · **national mindline 1771** (24/7; WhatsApp 6669 1771; webchat mindline.sg/fsmh) · **CHAT** youth mental health, ages 16–30: 6493 6500 / 6501, *SCAPE, Tue–Sat 12–9pm (not a crisis service) |
+| `scam`, `pigbutcher`, `depositscam`, `mlm` | **ScamShield Helpline 1799** (24/7; overseas +65 6869 1799), ScamShield app, scamshield.gov.sg; police report online |
+| `sextortion`, `images` | **Online Safety Commission** (report intimate image abuse or image-based child abuse immediately: onlinesafety.mlaw.gov.sg) · **SHECARES** support centre 8001 01 4616, WhatsApp 8985 5528 (Mon–Fri 9am–9pm) · ScamShield 1799 · Police 999 |
+| `sexhealth` | **DSC Clinic** (STI testing and treatment), 31 Kelantan Lane #01-16, 6293 9648, Mon–Fri 8am–4pm · **Action for AIDS** anonymous HIV testing, 31 Kelantan Lane (Tue & Wed 6:30–8:30pm, Sat 1:30–3:30pm; no name or NRIC) · **HealthHub** STI pages · GPs and polyclinics · emergency contraception: pharmacies, GPs, polyclinics |
+| `consent`, `grooming` (BE #24, #28) | **AWARE Sexual Assault Care Centre** 6779 0282 (any age and gender; Mon–Fri 10am–6pm) · Police 999 / SMS 70999 · national mindline 1771 · a school counsellor or trusted adult |
+| `debt` | **Credit Counselling Singapore** 6225 5227 (Mon–Fri 9am–6pm), ccs.org.sg |
+| `alcohol` | Ambulance 995 if someone can't be woken or is breathing strangely; never leave them alone |
+
+Checked and **not used**: Tinkle Friend (1800 2744 788, Singapore Children's Society) exists but serves primary-school
+children aged 13 and below, so it does not fit a 16+ game. For `zh-SG`, SOS lists Care Corner's Mandarin counselling
+line 1800 3535 800 (daily 10am–10pm) — verify before adding.
 
 ## 10. What works in educational games and sex education (benchmark)
 
 | Source | What it found | How sim4love applies it |
 |---|---|---|
-| **UNESCO International Technical Guidance on Sexuality Education** (2018) | Effective programmes are scientifically accurate, age-appropriate, skills-based (communication, refusal, decision-making) and challenge harmful gender norms | Fact cards checked for accuracy; refusal practised in several contexts (Ch5, 12, 17, 18); "behaviours, not genders"; worship *and* contempt both treated as mistakes |
+| **UNESCO International Technical Guidance on Sexuality Education** (2018) | Effective programmes are scientifically accurate, age-appropriate, skills-based (communication, refusal, decision-making) and challenge harmful gender norms | Fact cards checked for accuracy; refusal practised in several contexts (Ch1, 5, 12, 13, 17, 18); "behaviours, not genders"; risk framed by behaviour, never orientation; worship *and* contempt both treated as mistakes |
+| **Singapore MOE Sexuality Education** (scope page, updated Jan 2026) | Taught from Primary 5 to JC: contraception facts, consequences of casual sex, STI/HIV prevention (eTeens, now run by CDA), the right to say no, protective laws (e.g. Penal Code s376A: sexual activity involving penetration with anyone under 16 is illegal regardless of agreement), help-seeking; abstinence before marriage is promoted | Ch13 sits at the same level and age: waiting is presented as normal and respected, facts are accurate, refusal and help-seeking are rehearsed, and Singapore help cards are shown. The game does not grade the player's personal values on preference topics |
 | **PlayForward: Elm City Stories** (Yale play2PREVENT; randomised trial, JMIR 2017) | A narrative game improved sexual-health knowledge and attitudes for 12 months (attitude gains strongest in boys), but did not measurably delay first sex | Games are good at knowledge and attitudes: we invest there. Behaviour needs rehearsed scripts, so healthy options are written as sentences the player can actually say |
 | **It's Your Game… Keep It Real** (computer-based + classroom + journaling) | Delayed first sex in the original trial; a later replication did not reproduce the effect | Don't over-claim. Pair play with reflection: the Notebook keeps every lesson, and the Ch20 life review asks the player to look back |
 | **Life is Strange** (time rewind), **Florence** (relationship told through play) | Rewind lets players explore consequences without fear; feelings are shown through interaction, not exposition | Free, unlimited rewind after bad ends; consequences shown first, lesson card second |

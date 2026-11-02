@@ -165,7 +165,7 @@ real consequence; Mochi rewinds. Serious topics (6, 7, 16) add a resource card a
 ## 4. Additions for the 20-chapter structure (design; not yet in `js/data/lessons.js`)
 
 Chapter numbers in §1–§3 above use the **old 10-chapter numbering**. Mapping: old 1→1, 2→2, 3→3, 4→6 + 8,
-5→9, 6→10, 7→11, 8→12, 9→13 + 14, 10→15 + 20 (see [CHAPTERS.md](CHAPTERS.md)). Every row below names the core
+5→9, 6→10, 7→11, 8→12, 9→14 (+ 15-5), 10→15 + 20; Ch13 "Health Class" is new (see [CHAPTERS.md](CHAPTERS.md)). Every row below names the core
 value it reinforces ([CORE_VALUES.md](CORE_VALUES.md)).
 
 ### 4.1 New mistakes
@@ -190,10 +190,18 @@ value it reinforces ([CORE_VALUES.md](CORE_VALUES.md)).
 | Buying status | An installment designer watch | 7 | V7 |
 | Confessing for the wrong reasons | "She's the prettiest." / "I can't live without her." | 8 | V6 V1 |
 | Expensive dates on credit | A fancy restaurant on a credit app | 9 | V4 |
-| Going along when you're not ready | Not saying "slow down" yourself | 12, 18 | V1 V9 |
-| Being always available | Answering every text during study hours | 13 | V2 V3 |
-| Running on no sleep | Five all-nighters on energy drinks | 13 | V2 |
-| Shouting instead of planning | Slamming the door on Dad | 13 | V2 |
+| Going along when you're not ready | Not saying "slow down" yourself | 12, 13, 18 | V1 V9 |
+| Repeating protection myths | "Pulling out works." / "The pill covers STIs." / "You can tell by looking." | 13, 18 | V9 |
+| Treating STIs as no big deal | "There's a pill for everything." | 13 | V9 |
+| Blaming an orientation instead of a behaviour | Laughing along with "only gay guys get HIV" | 13 | V8 V9 |
+| Normalising red-flag behaviour | "If they're into it, anything goes"; "videos show choking, so it's normal" | 13 | V9 |
+| Keeping a groomer's secret | Helping Kenta hide an adult "girlfriend" who asks for photos | 13 | V9 |
+| Giving in to a heated moment | "Just this once" — no talk, no plan, no protection | 13 | V9 |
+| Being always available | Answering every text during study hours, skipping club | 14 | V2 V3 |
+| Running on no sleep | Five all-nighters on energy drinks | 14 | V2 |
+| Shouting instead of planning | Slamming the door on Dad | 15 | V2 |
+| Caving in a value talk | "Whatever you want" on children, money or parents — then resenting it | 1–20 | V1 V2 |
+| Contempt in a value talk | "That's a stupid way to think" about a different view | 1–20 | V8 V10 |
 | Not letting go after a breakup | Reading old messages until sunrise | 14 | V1 |
 | Shrinking your future for someone | Turning down your own offer "for her" | 15 | V2 V3 |
 | Not looking after yourself | Delivery every night | 16 | V2 |
@@ -203,7 +211,7 @@ value it reinforces ([CORE_VALUES.md](CORE_VALUES.md)).
 | Walking away from someone at risk | Leaving drunk Saki with a senior | 17 | V9 |
 | Acting on impulse | Leaving a party with someone you just met, with no conversation, no plan, no protection | 17 | V6 V9 |
 | Avoiding "the talk" | Joking it away | 18 | V9 |
-| Believing protection myths | "Pulling out works." / "The pill covers STIs." | 18 | V9 |
+| Leaving protection to one partner | "She's on the pill, so it's her job." | 18 | V9 |
 | Skipping testing | "I'm clean, I'd know." | 18 | V9 |
 | Not stopping at "not tonight" | "But we planned it…" | 18 | V9 |
 | Rushing to "catch up" | Kenta's timeline | 18 | V1 |
@@ -214,7 +222,7 @@ value it reinforces ([CORE_VALUES.md](CORE_VALUES.md)).
 | Joining an MLM | "Your friends are holding you back." | 19 | V4 |
 | Shaming a scam victim | "How dumb are you?" | 19 | V8 |
 
-### 4.2 New lesson IDs (45)
+### 4.2 New lesson IDs (55)
 
 | Lesson ID | Kind | Title | Ch |
 |---|---|---|---|
@@ -239,9 +247,15 @@ value it reinforces ([CORE_VALUES.md](CORE_VALUES.md)).
 | `whyher` | ✅ healthy | Like who she is, not how she looks | 8 |
 | `datebudget` | ✅ healthy | Good dates are cheap | 9 |
 | `yourno` | ✅ healthy | Your "not yet" counts too | 12 |
-| `focus` | ✅ healthy | Available isn't the same as loving | 13 |
-| `sleep` | ✅ healthy | Sleep is part of the plan | 13 |
-| `familytalk` | ✅ healthy | Bring a plan, not a slammed door | 13 |
+| `protection` | ✅ healthy | Facts, not myths: condoms protect against pregnancy *and* STIs | 13 |
+| `stiserious` | ✅ healthy | STIs are serious — and often silent | 13 |
+| `riskbybehaviour` | ✅ healthy | Risk is about what people do, not who they love | 13 |
+| `redflags` | ✅ healthy | Pressure, choking, filming, getting someone drunk: red flags | 13 |
+| `grooming` | 🪤 trap | Secret + gifts + isolation + photos = grooming | 13 |
+| `waitingok` | ✅ healthy | Waiting is normal; stopping is strength | 13 |
+| `focus` | ✅ healthy | Available isn't the same as loving | 14 |
+| `sleep` | ✅ healthy | Sleep is part of the plan | 14 |
+| `familytalk` | ✅ healthy | Bring a plan, not a slammed door | 15 |
 | `recovery` | ✅ healthy | Heal forward | 14 |
 | `dontshrink` | ❌ pitfall | Don't shrink your future for anyone | 15 |
 | `adulting` | ✅ healthy | Feed yourself first | 16 |
@@ -253,7 +267,7 @@ value it reinforces ([CORE_VALUES.md](CORE_VALUES.md)).
 | `drinksafety` | ✅ healthy | Left it? Leave it | 17 |
 | `impulse` | ❌ pitfall | Impulse isn't a plan | 17 |
 | `talkfirst` | ✅ healthy | Talk before you touch | 18 |
-| `protection` | ✅ healthy | Condoms: pregnancy *and* STIs | 18 |
+| `sharedprotection` | ✅ healthy | Protection is both partners' job | 18 |
 | `testing` | ✅ healthy | No symptoms ≠ no STI | 18 |
 | `ongoingconsent` | ✅ healthy | Yes can change to no | 18 |
 | `yourtimeline` | ✅ healthy | Your timeline is yours | 18 |
@@ -263,31 +277,51 @@ value it reinforces ([CORE_VALUES.md](CORE_VALUES.md)).
 | `mlm` | 🪤 trap | "Your friends hold you back" is a script | 19 |
 | `noshame` | ✅ healthy | Scams target people, not "idiots" | 19 |
 
-Reused existing IDs in new chapters: `ownlife` (8), `money` (16), `chatprivacy` (17), `sextortion` (19), `honesty` (20).
+Partner-talk lessons (VALUE_PROFILES §5):
 
-### 4.3 New bad endings (#19–#27)
+| Lesson ID | Kind | Title | Ch |
+|---|---|---|---|
+| `differentok` | ✅ healthy | Different values aren't wrong values | 1–20 |
+| `dontcave` | ❌ pitfall | Agreeing to everything isn't love | 1–20 |
+| `nocontempt` | ❌ pitfall | Disagree without sneering | 1–20 |
+| `dealbreaker` | ✅ healthy | A kind "this doesn't fit" is allowed | 1–20 |
+| `integrityfloor` | ✅ healthy | Some things aren't a matter of taste (lying, fraud, broken promises) | 3, 6, 7, 19 |
+
+(50 chapter lessons + 5 talk lessons = 55 new IDs.)
+
+Reused existing IDs in new chapters: `ownlife` (8), `money` (16; also the Ch14 talk), `distance` (16), `selfneglect` (14), `chatprivacy` (17), `sextortion` (19), `honesty` (20).
+
+### 4.3 New bad endings (#19–#28)
 
 | # | Title | Ch | Trigger | Lesson |
 |---|---|---|---|---|
 | 19 | Top Gifter of Nothing | 4 | Gift battle on a stream with Mei's card | paidattention |
 | 20 | Search Party of One | 5 | Wander into the woods at night with strangers | refusal |
 | 21 | Fan Club of One | 7 | Build a photo shrine to your crush | factsvsfantasy |
-| 22 | Energy Drink Speedrun | 13 | Fifth all-nighter; asleep in the exam | sleep |
+| 22 | Energy Drink Speedrun | 14 | Fifth all-nighter; asleep in the exam | sleep |
 | 23 | Minimum Payment Forever | 16 | Max the credit card on dates and gadgets | debt |
 | 24 | Not Tonight Means Not Tonight | 18 | Keep pushing after "not tonight" (serious tone, resource card) | ongoingconsent |
 | 25 | The Soulmate Portfolio 2: Leveraged | 19 | Invest with a dating-app match | pigbutcher |
 | 26 | Paid in Full, Twice | 19 | Pay a video-call blackmailer | sextortion |
 | 27 | Downline | 19 | Recruit your friends and sister into an MLM | mlm |
+| 28 | Our Little Secret | 13 | Help Kenta hide an adult groomer and send photos (serious tone, resource card) | grooming |
 
 Old bad ends #1–#18 keep their titles; their chapters move with the mapping above (e.g. #10 *Nice Guy™* → Ch8,
-#18 *Main Character Syndrome* → Ch14). Bad end #24 is the one exception to "comic first": it is played straight,
-with no joke, and ends with a resource card.
+#17 → Ch14, #18 *Main Character Syndrome* → Ch14). Bad ends #24 and #28 are the exceptions to "comic first": they
+are played straight, with no joke, and end with a resource card.
 
-### 4.4 New resource cards (locale-configurable)
+### 4.4 Resource cards (Singapore first, `en-SG`)
 
-| ID | Content |
-|---|---|
-| `sexhealth` | Where to get confidential sexual-health advice, condoms, STI testing and emergency contraception; emergency contraception works best the sooner it is taken |
-| `alcohol` | Under the legal age you can always say no; never leave someone very drunk alone or with a stranger; call emergency services if they can't be woken |
-| `debt` | Free debt counselling; never pay only the minimum on a card; talk to family early |
-| `mentalhealth` | Campus or school counsellor, a crisis line, and a trusted adult |
+Contacts live once in `js/data/resources.js` (`RESOURCE_CONTACTS`, each with `src` URL and `VERIFIED` date) and are
+listed per card; the full verified table is in [GAME_DESIGN.md](GAME_DESIGN.md) §9. All were checked on 2026-11-02.
+
+| ID | Content | Contacts |
+|---|---|---|
+| `sextortion`, `images` *(existing, rewritten)* | Don't pay, don't send more, keep evidence, report; it's not your fault | Online Safety Commission, SHECARES 8001 01 4616, ScamShield 1799, Police 999 / SMS 70999 |
+| `scam` *(existing, rewritten)* | Stop, check, call | ScamShield 1799, Police |
+| `mentalhealth` *(existing, rewritten)* | Talk to someone today | SOS 1767 / CareText 9151 1767, national mindline 1771, CHAT 6493 6500 |
+| `sexhealth` *(new)* | Confidential testing; many STIs have no symptoms; emergency contraception works best the sooner it's taken; HIV PEP must start within 72 hours | DSC Clinic 6293 9648, Action for AIDS anonymous testing, HealthHub, GP/polyclinic |
+| `grooming` *(new)* | An adult seeking a secret relationship with a teen is grooming; not your fault; keep evidence; tell a trusted adult | Police 999 / SMS 70999, AWARE SACC 6779 0282, mindline 1771, school counsellor |
+| `consent` *(new)* | Pressure isn't consent; drunk or high people can't consent; help is confidential | AWARE SACC 6779 0282, Police 999 |
+| `alcohol` *(new)* | Never leave someone very drunk alone or with a stranger | Ambulance 995 |
+| `debt` *(new)* | Never pay only the minimum; free counselling; talk to family early | Credit Counselling Singapore 6225 5227 |
