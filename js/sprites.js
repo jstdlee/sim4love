@@ -124,13 +124,37 @@ window.SPRITES = {
     }
   },
   bg: {
+    airport: 'assets/bg/airport.webp',
+    apartment: 'assets/bg/apartment.webp',
     badend: 'assets/bg/badend.jpg',
+    beach: 'assets/bg/beach.webp',
     bedroom: 'assets/bg/bedroom.jpg',
+    cafe: 'assets/bg/cafe.webp',
+    camp: 'assets/bg/camp.webp',
+    campsite: 'assets/bg/campsite.webp',
+    campsite_night: 'assets/bg/campsite_night.webp',
+    carnival: 'assets/bg/carnival.webp',
+    classroom: 'assets/bg/classroom.webp',
+    dining: 'assets/bg/dining.webp',
     field: 'assets/bg/field.jpg',
+    fireworks: 'assets/bg/fireworks.webp',
+    gradhall: 'assets/bg/gradhall.webp',
+    hawker: 'assets/bg/hawker.webp',
+    healthroom: 'assets/bg/healthroom.webp',
+    karaoke: 'assets/bg/karaoke.webp',
     keyart: 'assets/bg/keyart.jpg',
+    lecture: 'assets/bg/lecture.webp',
     library: 'assets/bg/library.jpg',
+    mall: 'assets/bg/mall.webp',
+    mrt: 'assets/bg/mrt.webp',
     night: 'assets/bg/night.jpg',
+    park: 'assets/bg/park.webp',
+    partyroom: 'assets/bg/partyroom.webp',
+    polyclinic: 'assets/bg/polyclinic.webp',
+    rooftop: 'assets/bg/rooftop.webp',
+    sentosa: 'assets/bg/sentosa.webp',
     street: 'assets/bg/street.jpg',
-    title: 'assets/bg/title.jpg'
+    title: 'assets/bg/title.jpg',
+    voiddeck: 'assets/bg/voiddeck.webp'
   }
 };
