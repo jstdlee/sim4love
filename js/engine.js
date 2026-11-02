@@ -12,7 +12,15 @@
  *   {choice:'prompt', opts:[{t, fx:{hina:10, wisdom:5, self:5}, lesson:'id', flag:'x', then:[...]}]}
  *   {if: state => bool, then:[...], else:[...]}
  *   {badEnd:{title,text}}                 fail screen with "rewind" to the last choice
- *   {chapterEnd:true}                     results screen
+ *   {chapterEnd:true}                     results screen (offers "Next chapter" if one exists)
+ *   {flag:'name'} | {flag:{a:true,b:2}}   set flags silently
+ *   {fx:{hina:5, self:-5}}                apply stat changes outside a choice (shows toasts)
+ *   {route:'hina'|'mio'|'kaede'|'yuna'|'solo'}  lock the relationship route (Part II), sets trust = 20
+ *   {ach:'id'}                            unlock an achievement (js/data/achievements.js)
+ *   {ending:'id'}                         record + show an ending card (js/data/endings.js)
+ *   {resource:'id'}                       show a safety/resource card (js/data/resources.js)
+ * Choice options may also have  if: state => bool  (option only shown when true) and  ach:'id'.
+ * Speaker '@route' = the current route heroine. Text placeholders: {name} = player, {her} = route heroine's name.
  * Text supports {name}. Nested `then`/`else` blocks are flattened by compile().
  */
 (function () {
@@ -26,6 +34,7 @@
     mio:   { label: 'Mio',   icon: '♥' },
     kaede: { label: 'Kaede', icon: '♥' },
     yuna:  { label: 'Yuna',  icon: '♥' },
+    trust: { label: 'Trust', icon: '🤝', routeOnly: true },
     wisdom:{ label: 'Love IQ', icon: '🧠' },
     self:  { label: 'Self-respect', icon: '👑' },
   };
@@ -41,7 +50,7 @@
           const ends = [];
           for (const o of cmd.opts) {
             const target = out.length;
-            c.opts.push({ t: o.t, fx: o.fx, lesson: o.lesson, flag: o.flag, pc: target });
+            c.opts.push({ t: o.t, fx: o.fx, lesson: o.lesson, flag: o.flag, ach: o.ach, show: o.if, pc: target });
             emit(o.then || []);
             const j = { jmp: -1 }; out.push(j); ends.push(j);
           }
@@ -61,10 +70,11 @@
   }
 
   // ---------- state ----------
+  const ORDER = () => window.CHAPTER_ORDER || Object.keys(window.CHAPTERS);
   const fresh = () => ({
-    chapter: 'ch1', pc: 0, name: 'Sota',
-    stats: { hina: 0, rei: 0, mio: 0, kaede: 0, yuna: 0, wisdom: 0, self: 0 },
-    flags: {}, lessons: [], badEnds: [],
+    chapter: ORDER()[0], pc: 0, name: 'Sota', route: null,
+    stats: { hina: 0, rei: 0, mio: 0, kaede: 0, yuna: 0, trust: 0, wisdom: 0, self: 0 },
+    flags: {}, lessons: [], badEnds: [], achievements: [], endings: [],
     view: { bg: 'title', petals: false, chars: {}, phone: null, msgs: [] },
   });
   let S = fresh();
@@ -75,7 +85,10 @@
   let auto = false, autoTimer = null;
 
   const clone = (o) => JSON.parse(JSON.stringify(o));
-  const fmt = (t) => String(t).replace(/\{name\}/g, S.name);
+  const routeKey = () => (S.route && S.route !== 'solo' ? S.route : null);
+  const who = (k) => (k === '@route' ? routeKey() || 'hina' : k);
+  const fmt = (t) => String(t).replace(/\{name\}/g, S.name)
+    .replace(/\{her\}/g, routeKey() ? Art.CAST[routeKey()].name : 'her');
 
   // ---------- rendering ----------
   function renderBg() {
@@ -106,7 +119,7 @@
     box.scrollTop = box.scrollHeight;
   }
   function renderHud() {
-    $('#hud').innerHTML = Object.entries(STAT_META).map(([k, m]) => {
+    $('#hud').innerHTML = Object.entries(STAT_META).filter(([, m]) => !m.routeOnly || routeKey()).map(([k, m]) => {
       const v = S.stats[k];
       const shown = m.hidden ? (v ? '???' : '—') : v;
       const col = Art.CAST[k] ? Art.CAST[k].color : (k === 'wisdom' ? '#4f8cff' : '#e0a800');
@@ -161,6 +174,7 @@
     if (!fx) return;
     Object.entries(fx).forEach(([k, d], i) => {
       S.stats[k] = (S.stats[k] || 0) + d;
+      if (k === 'trust') S.stats.trust = Math.max(0, Math.min(100, S.stats.trust));
       const m = STAT_META[k];
       const label = m.hidden ? `${m.label} ${m.icon} ???` : `${m.label} ${m.icon} ${d > 0 ? '+' : ''}${d}`;
       setTimeout(() => toast(label, d >= 0 ? 'up' : 'down', Art.CAST[k] && Art.CAST[k].color), i * 250);
@@ -179,21 +193,29 @@
   // ---------- program step ----------
   function step() {
     while (S.pc < PROG.length) {
-      const c = PROG[S.pc++];
+      let c = PROG[S.pc++];
       if (c.jmp !== undefined) { S.pc = c.jmp; continue; }
       if (c.cond) { if (!c.cond(S)) S.pc = c.jfalse; continue; }
       if (c.bg !== undefined) { S.view.bg = c.bg; S.view.petals = !!c.petals; renderBg(); continue; }
-      if (c.show) { S.view.chars[c.show] = { e: c.e || 'neutral', at: c.at || 'center' }; renderChars(); continue; }
-      if (c.hide) { if (c.hide === '*') S.view.chars = {}; else delete S.view.chars[c.hide]; renderChars(); continue; }
+      if (c.flag !== undefined) { typeof c.flag === 'string' ? (S.flags[c.flag] = true) : Object.assign(S.flags, c.flag); continue; }
+      if (c.fx) { applyFx(c.fx); continue; }
+      if (c.route) { S.route = c.route; if (routeKey()) S.stats.trust = Math.max(S.stats.trust, 20); renderHud(); continue; }
+      if (c.ach) { unlockAch(c.ach); continue; }
+      if (c.resource) { showResource(c.resource); return; }
+      if (c.ending) { showEnding(c.ending); return; }
+      if (c.show) { c = Object.assign({}, c, { show: who(c.show) }); S.view.chars[c.show] = { e: c.e || 'neutral', at: c.at || 'center' }; renderChars(); continue; }
+      if (c.hide) { if (c.hide !== '*') c = Object.assign({}, c, { hide: who(c.hide) }); if (c.hide === '*') S.view.chars = {}; else delete S.view.chars[c.hide]; renderChars(); continue; }
       if (c.phone) { S.view.phone = c.phone; S.view.msgs = []; renderPhone(); continue; }
       if (c.phoneOff) { S.view.phone = null; S.view.msgs = []; renderPhone(); continue; }
       if (c.txt) {
-        S.view.msgs.push({ from: c.txt, t: c.t }); renderPhone();
-        const who = c.txt === 'me' ? S.name : c.txt === 'sys' ? '' : Art.CAST[c.txt].name;
-        setBox('phonebox', who ? `${who} 📱` : '📱', c.t, Art.CAST[c.txt] && Art.CAST[c.txt].color);
+        S.view.msgs.push({ from: who(c.txt), t: c.t }); renderPhone();
+        const from = who(c.txt);
+        const nm = from === 'me' ? S.name : from === 'sys' ? '' : (Art.CAST[from] || { name: from }).name;
+        setBox('phonebox', nm ? `${nm} 📱` : '📱', c.t, Art.CAST[from] && Art.CAST[from].color);
         return;
       }
       if (c.s) {
+        c = Object.assign({}, c, { s: who(c.s) });
         const prev = S.view.chars[c.s];
         S.view.chars[c.s] = { e: c.e || (prev && prev.e) || 'neutral', at: c.at || (prev && prev.at) || 'center' };
         renderChars(c.s);
@@ -223,7 +245,8 @@
     setBox('narr choicebox', '', c.choice);
     finishType();
     const wrap = $('#choices');
-    wrap.innerHTML = c.opts.map((o, i) => `<button class="opt" data-i="${i}"><span class="num">${i + 1}</span>${esc(fmt(o.t))}</button>`).join('');
+    const visible = c.opts.map((o, i) => [o, i]).filter(([o]) => !o.show || o.show(S));
+    wrap.innerHTML = visible.map(([o, i], n) => `<button class="opt" data-i="${i}"><span class="num">${n + 1}</span>${esc(fmt(o.t))}</button>`).join('');
     wrap.classList.add('on');
     wrap.querySelector('button').focus({ preventScroll: true });
     const shownAt = Date.now();
@@ -234,6 +257,7 @@
       wrap.classList.remove('on'); wrap.innerHTML = '';
       applyFx(o.fx);
       if (o.flag) S.flags[o.flag] = true;
+      if (o.ach) unlockAch(o.ach);
       S.pc = o.pc;
       const go = () => { busy = false; step(); save(); };
       if (o.lesson) showLesson(o.lesson, go); else go();
@@ -296,10 +320,38 @@
       });
   }
 
+  // ---------- achievements / endings / resources ----------
+  function unlockAch(id) {
+    if (S.achievements.includes(id)) return;
+    S.achievements.push(id);
+    const A = (window.ACHIEVEMENTS || {})[id] || { icon: '🏆', title: id };
+    toast(`🏆 Achievement: ${A.title}`, 'up', '#e0a800');
+  }
+  function showEnding(id) {
+    const E = (window.ENDINGS || {})[id] || { type: 'ending', title: id, text: '' };
+    if (!S.endings.includes(id)) S.endings.push(id);
+    modal(`<div class="results">
+        <div class="be-label ok">${esc(E.type)}</div>
+        <h2>${esc(fmt(E.title))}</h2>
+        <p>${esc(fmt(E.text || ''))}</p>
+        <button class="btn primary" data-close>Continue</button>
+      </div>`, () => step());
+  }
+  function showResource(id) {
+    const R = (window.RESOURCES || {})[id] || { title: 'Get help', lines: [] };
+    modal(`<div class="lesson green">
+        <div class="lesson-kind">If this happens in real life</div>
+        <h2>${esc(R.title)}</h2>
+        <ul class="resource-list">${R.lines.map(l => `<li>${esc(l)}</li>`).join('')}</ul>
+        <button class="btn primary" data-close>Okay</button>
+      </div>`, () => step());
+  }
+
   // ---------- results ----------
   function showResults() {
     busy = true;
     const ch = CHAPTERS[S.chapter];
+    const nextId = ORDER()[ORDER().indexOf(S.chapter) + 1];
     const heroines = ['hina', 'mio', 'kaede', 'yuna', 'rei'];
     const bars = heroines.map(k => {
       const c = Art.CAST[k], v = S.stats[k];
@@ -318,9 +370,9 @@
       ${bars}
       <h3>Love Notebook (${S.lessons.length}/${Object.keys(LESSONS).length})</h3>
       <ul class="lesson-list">${lessons}</ul>
-      ${S.badEnds.length ? `<p class="muted">Bad endings discovered: ${S.badEnds.length}/3</p>` : ''}
-      <p class="muted">Next: ${esc(ch.next)} — coming soon</p>
-      <div class="row"><button class="btn" data-act="restart">Play again</button><button class="btn primary" data-act="title">Title</button></div>
+      ${S.badEnds.length ? `<p class="muted">Bad endings discovered: ${S.badEnds.length}/${BAD_END_TOTAL}</p>` : ''}
+      ${nextId ? '' : `<p class="muted">Next: ${esc(ch.next || 'the end')} — coming soon</p>`}
+      <div class="row"><button class="btn" data-act="restart">Play again</button><button class="btn ${nextId ? '' : 'primary'}" data-act="title">Title</button>${nextId ? `<button class="btn primary" data-act="next">Next: ${esc(CHAPTERS[nextId].title)} ▶</button>` : ''}</div>
     </div>`);
   }
 
@@ -335,6 +387,13 @@
     const m = $('#modal'); m.classList.remove('on'); m.innerHTML = ''; busy = false;
     if (a === 'restart') startGame(S.name);
     if (a === 'title') showTitle();
+    if (a === 'next') {
+      const nextId = ORDER()[ORDER().indexOf(S.chapter) + 1];
+      if (!nextId) return;
+      S.chapter = nextId; S.pc = 0; S.view.chars = {}; S.view.phone = null; S.view.msgs = [];
+      PROG = compile(CHAPTERS[S.chapter].script); restoreView(); save();
+      chapterCard(() => step());
+    }
   }
 
   // ---------- save / load ----------
@@ -363,7 +422,7 @@
   function startGame(name, fromSave) {
     $('#title').classList.remove('on');
     $('#game').classList.remove('at-title');
-    S = fromSave || fresh();
+    S = fromSave ? Object.assign(fresh(), fromSave, { stats: Object.assign(fresh().stats, fromSave.stats) }) : fresh();
     if (!fromSave) S.name = (name || 'Sota').trim().slice(0, 12) || 'Sota';
     PROG = compile(CHAPTERS[S.chapter].script);
     busy = false;
@@ -401,6 +460,10 @@
     $('#btn-title').onclick = (e) => { e.stopPropagation(); if (busy && $('#modal').classList.contains('on')) return; save(); showTitle(); };
   }
 
-  window.addEventListener('DOMContentLoaded', () => { bind(); renderHud(); showTitle(); });
+  let BAD_END_TOTAL = 0;
+  window.addEventListener('DOMContentLoaded', () => {
+    BAD_END_TOTAL = new Set(Object.values(CHAPTERS).flatMap(ch => compile(ch.script).filter(c => c.badEnd).map(c => c.badEnd.title))).size;
+    bind(); renderHud(); showTitle();
+  });
   window.SimEngine = { compile, get state() { return S; } };
 })();

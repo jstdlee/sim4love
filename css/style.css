@@ -197,3 +197,6 @@ body.shake #stage { animation: shake .5s; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+.resource-list { text-align: left; margin: 0 0 16px; padding-left: 20px; line-height: 1.6; font-size: 14.5px; }
+.resource-list li { margin-bottom: 4px; }

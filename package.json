@@ -1,0 +1,9 @@
+{
+  "name": "sim4love",
+  "private": true,
+  "description": "Cute anime visual novel about healthy relationships",
+  "scripts": {
+    "test": "node tests/validate.js",
+    "test:play": "node tests/playthrough.js first && node tests/playthrough.js last"
+  }
+}

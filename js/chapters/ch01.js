@@ -6,6 +6,7 @@ window.CHAPTERS.ch1 = {
   title: 'Chapter 1',
   subtitle: 'Spring, Again',
   next: 'Chapter 2 — The Group Date',
+  status: 'done',
   script: [
     { bg: 'bedroom', petals: false },
     { n: 'April. The first morning of the new school year.' },
@@ -22,10 +23,12 @@ window.CHAPTERS.ch1 = {
     { n: 'Hina Aoki. Next-door neighbour since kindergarten. Has seen every embarrassing thing {name} has ever done.' },
     { s: 'hina', e: 'shy', t: 'Um... also. I made too much tamagoyaki this morning, so... here. It\'s just leftovers! Don\'t make it weird.' },
     { n: 'The bento is wrapped in a cloth with little cat faces. The tamagoyaki is cut into hearts. Very "leftover".' },
+    { s: 'hina', e: 'neutral', t: 'Oh, and don\'t forget — my birthday is next Friday. Not that I expect anything. At all.' },
+    { flag: 'hinaBirthdayKnown' },
     { mochi: 'Interaction 1! Think carefully, rookie.', e: 'neutral' },
     { choice: 'Hina hands you the bento...', opts: [
       { t: '"Thank you, Hina. You cut them into hearts? This really made my morning."',
-        fx: { hina: 15, wisdom: 5 }, lesson: 'appreciation', then: [
+        fx: { hina: 15, wisdom: 5 }, lesson: 'appreciation', flag: 'hinaHearts', then: [
           { s: 'hina', e: 'blush', t: 'Y-you noticed?! ...I mean. Obviously. Hearts are just easier to cut. Everyone knows that.' },
           { s: 'hina', e: 'happy', t: 'Now hurry up and change. I\'ll wait outside!' },
         ] },
@@ -90,7 +93,7 @@ window.CHAPTERS.ch1 = {
     { mochi: 'Interaction 3! Careful — shy doesn\'t mean "waiting to be rescued".', e: 'neutral' },
     { choice: 'You pick up the book...', opts: [
       { t: 'Hand it back. "Volume 7! Is it good? I\'ve never read it." — then listen.',
-        fx: { mio: 15, wisdom: 10 }, lesson: 'signals', then: [
+        fx: { mio: 15, wisdom: 10 }, lesson: 'signals', flag: 'mioVol3', then: [
           { s: 'mio', e: 'shy', t: '...It\'s good. The postman delivers letters to stars.' },
           { me: 'Letters to stars? Like... the stars write back?' },
           { s: 'mio', e: 'blush', t: 'Y-yes! In volume 3 the North Star writes back and— ...um. Sorry. I talk too much about it.' },
@@ -141,7 +144,7 @@ window.CHAPTERS.ch1 = {
           { mochi: 'A thumbs-up. For 90 minutes in the cold. She learned that she can be cold and you\'ll still come running.', e: 'sad' },
         ] },
       { t: '"I waited a while. I\'d like to hang out — but I need plans to be real. Let me know if you want to reschedule."',
-        fx: { kaede: 15, self: 15, wisdom: 5 }, lesson: 'clearwords', then: [
+        fx: { kaede: 15, self: 15, wisdom: 5 }, lesson: 'clearwords', flag: 'kaedeReschedule', then: [
           { txt: 'me', t: 'I waited a while. I\'d like to hang out — but I need plans to be real. Let me know if you want to reschedule 🙂' },
           { n: '...Typing... stops... typing again...' },
           { txt: 'kaede', t: '...ok. that was lame of me. sorry.' },
@@ -180,7 +183,7 @@ window.CHAPTERS.ch1 = {
           { mochi: 'You weren\'t "the only one". You were Backup #4. Being kind is good — being a free service is not.', e: 'sad' },
         ] },
       { t: '"Happy to study math together at lunch. I\'m not buying the ticket though. Also... what are we, Yuna?"',
-        fx: { yuna: 10, self: 15, wisdom: 10 }, lesson: 'clarity', then: [
+        fx: { yuna: 10, self: 15, wisdom: 10 }, lesson: 'clarity', flag: 'yunaClarity', then: [
           { txt: 'me', t: 'Happy to go through the math with you at lunch tomorrow. Not buying the ticket though. Also... honest question — what are we?' },
           { n: 'Typing... stops. Typing... stops. Typing...' },
           { txt: 'yuna', t: 'oh' },
