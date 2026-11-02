@@ -22,7 +22,7 @@ For the next developer/agent taking over (e.g. the Grok bot). Read in this order
 
 Engine note: a bad-end rewind drops the Rose Filter to 60 so a clear-eyed option is always selectable again (fixes a Ch6 rewind loop).
 
-The backlog below is historical: every P0/P1 item it lists has been done.
+The backlog below is historical (the 20-chapter restructure and Singapore relocation are done); check items against the code before acting on them.
 
 ## Backlog (priority order)
 
