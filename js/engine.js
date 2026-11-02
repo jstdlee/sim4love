@@ -211,11 +211,11 @@
   function renderHud() {
     const chips = [];
     const hearts = routeKey() ? [routeKey()] : S.route === 'solo' ? [] : HEROINES.filter(k => S.stats[k]);
-    hearts.forEach(k => chips.push(`<span class="chip" style="--c:${Art.CAST[k].color}" title="${esc(nameOf(k))}">${icon('heart')}${esc(nameOf(k))} <i>${S.stats[k]}</i></span>`));
-    if (routeKey()) chips.push(`<span class="chip" style="--c:#8fc7e6" title="${esc(ui('stat.trust'))}">${icon('link')}${esc(ui('stat.trust'))} <i>${S.stats.trust}</i></span>`);
-    chips.push(`<span class="chip" style="--c:#7fa6ff" title="${esc(ui('stat.wisdom'))}">${icon('spark')}${esc(ui('stat.wisdom'))} <i>${S.stats.wisdom}</i></span>`);
-    chips.push(`<span class="chip" style="--c:#e6c878" title="${esc(ui('stat.self'))}">${icon('crown')}${esc(ui('stat.self'))} <i>${S.stats.self}</i></span>`);
-    if (S.stats.proj > 0) chips.push(`<span class="chip rosechip ${S.stats.proj > 60 ? 'hot' : ''}" style="--c:#ff7a9c" title="${esc(ui('stat.proj'))}">${icon('rose')}${esc(ui('stat.proj'))} <i>${S.stats.proj}</i></span>`);
+    hearts.forEach(k => chips.push(`<span class="chip" style="--c:${Art.CAST[k].color}" title="${esc(nameOf(k))}">${icon('heart')}${esc(nameOf(k))} <i>${shown(k)}</i></span>`));
+    if (routeKey()) chips.push(`<span class="chip" style="--c:#8fc7e6" title="${esc(ui('stat.trust'))}">${icon('link')}${esc(ui('stat.trust'))} <i>${shown('trust')}</i></span>`);
+    chips.push(`<span class="chip" style="--c:#7fa6ff" title="${esc(ui('stat.wisdom'))}">${icon('spark')}${esc(ui('stat.wisdom'))} <i>${shown('wisdom')}</i></span>`);
+    chips.push(`<span class="chip" style="--c:#e6c878" title="${esc(ui('stat.self'))}">${icon('crown')}${esc(ui('stat.self'))} <i>${shown('self')}</i></span>`);
+    if (S.stats.proj > 0) chips.push(`<span class="chip rosechip ${S.stats.proj > 60 ? 'hot' : ''}" style="--c:#ff7a9c" title="${esc(ui('stat.proj'))}">${icon('rose')}${esc(ui('stat.proj'))} <i>${shown('proj')}</i></span>`);
     const life = LIFE_KEYS.map(k => `<span class="lm" title="${esc(ui('life.' + k))}: ${S.life[k]}">${icon(STAT_META[k].icon)}<span class="lt"><span class="lf ${S.life[k] < 25 ? 'low' : ''}" style="width:${S.life[k]}%"></span></span></span>`).join('');
     $('#hud').innerHTML = chips.join('') + `<span class="chip life" title="${esc(ui('life.title'))}"><em>${esc(ui('life.title'))}</em>${life}<i class="cash ${S.money < 0 ? 'neg' : ''}">${money(S.money)}</i></span>`;
   }
@@ -268,6 +268,8 @@
 
   // ---------- stats ----------
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  // Display only: meters read 0-100 on screen. The raw values (which can run past either end) still drive every ending and rank.
+  const shown = (k) => clamp(Math.round(S.stats[k] || 0), 0, 100);
   function resolveKey(k) {
     if (k === '@route') return routeKey();
     if (k === '@talk') { const t = who('@talk'); return S.stats[t] !== undefined ? t : null; }
@@ -591,9 +593,9 @@
     const bars = people.map(k => {
       const c = Art.CAST[k], v = S.stats[k];
       const pct = clamp(v * 2 + 10, 0, 100);
-      const shown = k === 'rei' ? '???' : v;
-      return `<div class="bar"><span>${esc(nameOf(k))}</span><div class="track"><div class="fill" style="width:${k === 'rei' ? 50 : pct}%;--c:${c.color}"></div></div><b>${shown}</b></div>`;
-    }).join('') + (routeKey() ? `<div class="bar"><span>${esc(ui('stat.trust'))}</span><div class="track"><div class="fill" style="width:${S.stats.trust}%;--c:#8fc7e6"></div></div><b>${S.stats.trust}</b></div>` : '');
+      const label = k === 'rei' ? '???' : shown(k);
+      return `<div class="bar"><span>${esc(nameOf(k))}</span><div class="track"><div class="fill" style="width:${k === 'rei' ? 50 : pct}%;--c:${c.color}"></div></div><b>${label}</b></div>`;
+    }).join('') + (routeKey() ? `<div class="bar"><span>${esc(ui('stat.trust'))}</span><div class="track"><div class="fill" style="width:${shown('trust')}%;--c:#8fc7e6"></div></div><b>${shown('trust')}</b></div>` : '');
     const rank = rankOf();
     const lessons = S.lessons.map(id => `<li class="${LESSONS[id].kind}">${esc(fmt(LESSONS[id].title))}</li>`).join('');
     try { const p = JSON.parse(localStorage.getItem('sim4love.progress') || '{}'); p[S.chapter] = true; localStorage.setItem('sim4love.progress', JSON.stringify(p)); } catch (e) { /* ignore */ }
@@ -601,7 +603,7 @@
       <div class="be-label ok ornament">${esc(ui('results.complete', { ch: ch.title }))}</div>
       <h2>${esc(ch.subtitle)}</h2>
       <div class="rank"><b>${rank[0]}</b><span>${esc(rank[1])}</span></div>
-      <div class="pair"><div>${esc(ui('stat.wisdom'))} <b>${S.stats.wisdom}</b></div><div>${esc(ui('stat.self'))} <b>${S.stats.self}</b></div>${S.stats.proj ? `<div>${esc(ui('stat.proj'))} <b>${S.stats.proj}</b></div>` : ''}</div>
+      <div class="pair"><div>${esc(ui('stat.wisdom'))} <b>${shown('wisdom')}</b></div><div>${esc(ui('stat.self'))} <b>${shown('self')}</b></div>${S.stats.proj ? `<div>${esc(ui('stat.proj'))} <b>${shown('proj')}</b></div>` : ''}</div>
       <h3>${esc(ui('life.title'))}</h3>
       ${lifeBars()}
       <h3>${esc(ui('results.people'))}</h3>

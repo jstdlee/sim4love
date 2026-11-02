@@ -35,7 +35,7 @@ let seed = 42; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 23328
   await page.waitForTimeout(1200);
 
   const seen = new Set(); const attempts = {}; const cards = new Set(); const endings = [];
-  let choices = 0, badEnds = 0, done = false, same = 0, last = '';
+  const hudBad = []; let choices = 0, badEnds = 0, done = false, same = 0, last = '';
   for (let i = 0; i < 40000 && !done; i++) {
     const st = await page.evaluate(() => {
       const q = (x) => document.querySelector(x);
@@ -53,7 +53,7 @@ let seed = 42; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 23328
     if (st.modal) {
       if (st.bad) { badEnds++; await page.waitForTimeout(450); await shot(`${st.ch}-badend-${badEnds}`); }
       if (st.ending && !st.bad) { endings.push(st.ending.trim().slice(0, 40)); }
-      if (st.next) { await page.waitForTimeout(500); await shot(`${st.ch}-results`); await page.click('#modal [data-act="next"]'); await page.waitForTimeout(1200); continue; }
+      if (st.next) { hudBad.push(...await page.evaluate(() => [...document.querySelectorAll('#hud .chip i, #modal .bar b, #modal .pair b')].map((e) => e.textContent.trim()).filter((t) => /^-?\d+$/.test(t) && (+t < 0 || +t > 100)))); await page.waitForTimeout(500); await shot(`${st.ch}-results`); await page.click('#modal [data-act="next"]'); await page.waitForTimeout(1200); continue; }
       if (st.title) { await shot('final'); done = true; break; }
       const close = await page.$('#modal [data-close]');
       if (close) { if (st.ending && !st.bad) await shot(`${st.ch}-ending`); await close.click(); }
@@ -73,6 +73,9 @@ let seed = 42; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 23328
     await page.evaluate(() => { const e = new KeyboardEvent('keydown', { key: ' ', bubbles: true }); document.dispatchEvent(e); document.dispatchEvent(e); });
     await page.waitForTimeout(8);
   }
+  const outOfRange = await page.evaluate(() => [...document.querySelectorAll('#hud .chip i, #modal .bar b, #modal .pair b')]
+    .map((e) => e.textContent.trim()).filter((t) => /^-?\d+$/.test(t) && (+t < 0 || +t > 100)));
+  if (outOfRange.length || hudBad.length) errors.push('Meter outside 0-100 on screen: ' + outOfRange.concat(hudBad).join(', '));
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
   if (overflow) errors.push('Horizontal overflow on the final screen');
   const final = await page.evaluate(() => ({ route: SimEngine.state.route, stats: SimEngine.state.stats, endings: SimEngine.state.endings, lessons: SimEngine.state.lessons.length, ach: SimEngine.state.achievements.length }));
