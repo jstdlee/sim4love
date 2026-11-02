@@ -4,7 +4,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 (function () {
   const VISIT = {
     hina: { what: 'Hari Raya open house at Hanis\'s grandmother\'s flat', custom: 'You take your shoes off at the door, greet her grandmother properly, and bring a tin of kuih from a halal bakery.', food: 'rendang and ketupat' },
-    mio: { what: 'Chinese New Year visiting at Xin Yi\'s aunt\'s place', custom: 'You bring two mandarin oranges, greet every elder by title, and do not say "four" all evening.', food: 'bak kwa and pineapple tarts' },
+    mio: { what: 'Chinese New Year visiting at Xin Yi\'s aunt\'s place', custom: 'You bring two mandarin oranges, greet every elder by title, and do not say "four" all evening. When Joy, who helps care for Xin Yi\'s grandmother, brings out the soup, you get up to help and thank her by name.', food: 'bak kwa and pineapple tarts' },
     kaede: { what: 'Deepavali at Kavya\'s family home', custom: 'You take your shoes off, admire the kolam at the door, and accept the third helping of murukku.', food: 'murukku and mutton varuval' },
     yuna: { what: 'Christmas lunch with Elise\'s Eurasian family', custom: 'You bring a card for her grandmother, call her "Granny" because she insists, and say yes to sugee cake.', food: 'devil\'s curry and sugee cake' },
   };
@@ -61,7 +61,7 @@ window.CHAPTERS = window.CHAPTERS || {};
         { phoneOff: true },
         { choice: 'Haziq is being Haziq.', opts: [
           { t: '"No. Never." And explain why.', fx: { wisdom: 8, self: 6, kenta: 2 }, lesson: 'imageabuse', then: [
-            { txt: 'me', t: 'no. she\'s 17. asking for, keeping or forwarding a sexual image of someone under 18 can be a crime here. and sharing anyone\'s private image without consent is a crime at any age.' },
+            { txt: 'me', t: 'no. she\'s 17. asking for, keeping or forwarding a sexual image of someone her age can be a crime here. and sharing anyone\'s private image without consent is a crime at any age.' },
             { txt: 'kenta', t: 'wait seriously?? ok deleting this msg. thanks bro' },
           ] },
           { t: 'Ask her for a private photo.', fx: { trust: -25, '@route': -15, wisdom: -8 }, lesson: 'imageabuse', then: [
@@ -72,7 +72,7 @@ window.CHAPTERS = window.CHAPTERS || {};
               ] },
               { t: 'Keep asking, and say you\'ll show the boys you\'re "legit".', fx: { trust: -40 }, lesson: 'imageabuse', then: [
                 { badEnd: { title: 'BAD END #16 — Screenshot Forever', resource: 'images',
-                  text: 'Pressuring someone for intimate images, and threatening to share them, is abuse. Making, keeping or sharing sexual images of anyone under 18 is a serious crime in Singapore, and sharing anyone\'s intimate image without consent is an offence at any age. Once an image is out, it may never fully come back.' } },
+                  text: 'Pressuring someone for intimate images, and threatening to share them, is abuse. In Singapore, sexual images of anyone under 16 are child abuse material, getting a 16- or 17-year-old to make one can also be an offence, and sharing or threatening to share anyone\'s intimate image without consent is an offence at any age. Once an image is out, it may never fully come back.' } },
               ] },
             ] },
           ] },
@@ -166,13 +166,13 @@ window.CHAPTERS = window.CHAPTERS || {};
         { phoneOff: true },
         { choice: 'A classmate\'s private photo is going around.', opts: [
           { t: 'Don\'t open it, don\'t forward it. Tell Ryan to delete it, and tell a teacher.', fx: { wisdom: 8, self: 8 }, lesson: 'imageabuse', then: [
-            { txt: 'me', t: 'delete it. sharing someone\'s private photo without consent is a crime, and she\'s under 18. not funny.' },
+            { txt: 'me', t: 'delete it. sharing someone\'s private photo without consent is a crime, and she\'s a minor. not funny.' },
             { txt: 'ren', t: '...ok. deleted.' },
             { resource: 'images' },
           ] },
           { t: 'Forward it to the boys\' chat.', fx: { wisdom: -20, self: -20 }, lesson: 'imageabuse', then: [
             { badEnd: { title: 'BAD END #16 — Screenshot Forever', resource: 'images',
-              text: 'Forwarding someone\'s intimate image without consent is abuse, and for anyone under 18 it is a serious crime in Singapore. Every forward multiplies the harm. The only right move is: don\'t open, don\'t forward, report.' } },
+              text: 'Forwarding someone\'s intimate image without consent is abuse and an offence in Singapore at any age, and far more serious when the person is a minor. Every forward multiplies the harm. The only right move is: don\'t open, don\'t forward, report.' } },
           ] },
         ] },
         { bg: 'mall' },
