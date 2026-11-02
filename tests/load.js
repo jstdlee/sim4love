@@ -3,7 +3,7 @@ const path = require('path');
 const root = path.join(__dirname, '..');
 global.window = global;
 global.document = undefined;
-const FILES = ['js/sprites.js', 'js/art.js', 'js/icons.js', 'js/i18n/en-SG.js', 'js/i18n/zh-SG.js',
+const FILES = ['js/sprites.js', 'js/art.js', 'js/icons.js', 'js/i18n/en-SG.js', 'js/i18n/zh-SG.js', 'js/i18n/zh-SG.text.js', 'js/data/music.js',
   'js/data/values.js', 'js/data/lessons.js', 'js/data/achievements.js', 'js/data/endings.js', 'js/data/resources.js',
   'js/data/talks.js', 'js/data/think.js', 'js/data/variants/talks.js', 'js/data/variants/places.js', 'js/chapters/index.js'];
 FILES.forEach((f) => require(path.join(root, f)));

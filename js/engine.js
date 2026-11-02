@@ -44,6 +44,9 @@
     let want = null;
     try { want = localStorage.getItem('sim4love.locale'); } catch (e) { /* ignore */ }
     if (want && packs[want] && packs[want].ready) return want;
+    // First visit: follow the browser language (zh* -> Simplified Chinese, everything else -> English).
+    const nav = (typeof navigator !== 'undefined' && (navigator.languages || [navigator.language])) || [];
+    for (const l of nav) { if (/^zh/i.test(l || '') && packs['zh-SG'] && packs['zh-SG'].ready) return 'zh-SG'; if (/^en/i.test(l || '')) break; }
     return 'en-SG';
   })();
   const PACK = () => (window.I18N || {})[LOCALE] || {};
@@ -59,10 +62,13 @@
     const c = Art.CAST[id];
     return c ? (full ? c.full : c.name) : id;
   };
+  // Story/data text: English is the source; a pack maps English -> translation, per chapter first, then globally.
   const story = (text, ctx) => {
-    const tb = (PACK().story || {})[ctx];
-    return (tb && tb[text]) || text;
+    const p = PACK();
+    const tb = (p.story || {})[ctx];
+    return (tb && tb[text]) || (p.text && p.text[text]) || text;
   };
+  const tx = (text) => (text == null ? '' : story(String(text)));
 
   const STAT_META = {
     hina: { icon: 'heart' }, mio: { icon: 'heart' }, kaede: { icon: 'heart' }, yuna: { icon: 'heart' },
@@ -132,8 +138,8 @@
   const clone = (o) => JSON.parse(JSON.stringify(o));
   const routeKey = () => (S.route && S.route !== 'solo' ? S.route : null);
   const who = (k) => (k === '@route' ? routeKey() || 'hina' : k === '@talk' ? (S.talkWith || routeKey() || 'kenta') : k);
-  const passionLabel = () => ((window.PASSIONS || {})[S.flags.passion] || { label: 'your hobby' }).label;
-  const herName = () => S.talkWith && S.talkWith !== 'kenta' && !routeKey() ? nameOf(S.talkWith) : routeKey() ? nameOf(routeKey()) : S.talkWith ? nameOf(S.talkWith) : 'her';
+  const passionLabel = () => { const p = (window.PASSIONS || {})[S.flags.passion]; return p ? tx(p.label) : ui('word.hobby'); };
+  const herName = () => S.talkWith && S.talkWith !== 'kenta' && !routeKey() ? nameOf(S.talkWith) : routeKey() ? nameOf(routeKey()) : S.talkWith ? nameOf(S.talkWith) : ui('word.her');
   const fmt = (t, ctx) => story(String(t), ctx || S.chapter)
     .replace(/\{name\}/g, S.name)
     .replace(/\{her\}/g, herName())
@@ -145,8 +151,88 @@
   const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const icon = (k) => (window.ICONS && ICONS.svg(k)) || '';
 
+
+  // ---------- background music ----------
+  // WebAudio player: gapless loops, 1.6 s crossfade between moods, starts only after the first user gesture.
+  // Volume and mute persist in localStorage. Tracks and the background->mood map live in js/data/music.js.
+  const Music = (() => {
+    const B = window.BGM || { tracks: {}, byBg: {}, moments: {} };
+    const get = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : v; } catch (e) { return d; } };
+    const put = (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* ignore */ } };
+    let vol = parseFloat(get('sim4love.bgm.vol', '0.6')); if (!(vol >= 0 && vol <= 1)) vol = 0.6;
+    let muted = get('sim4love.bgm.mute', '0') === '1';
+    let ctx = null, master = null, cur = null, want = null, unlocked = false;
+    const buffers = {};
+    const level = () => (muted ? 0 : vol * vol); // squared: closer to perceived loudness
+    const FADE = 1.6;
+    function load(id) {
+      if (!buffers[id]) {
+        buffers[id] = fetch(B.tracks[id].src).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.arrayBuffer(); })
+          .then(a => new Promise((res, rej) => ctx.decodeAudioData(a, res, rej)))
+          .catch(e => { delete buffers[id]; console.warn('sim4love: music', id, e && e.message); throw e; });
+      }
+      return buffers[id];
+    }
+    function play() {
+      if (!ctx || muted || !want || (cur && cur.id === want)) return;
+      const id = want, tr = B.tracks[id];
+      load(id).then(buf => {
+        if (want !== id || muted || (cur && cur.id === id)) return;
+        const src = ctx.createBufferSource();
+        src.buffer = buf; src.loop = true;
+        // Some decoders keep the MP3 encoder delay (~35 ms): skip it so the loop seam stays seamless.
+        const extra = tr.loop ? buf.duration - tr.loop : 0;
+        const head = extra > 0.03 ? Math.min(extra, 1105 / 32000) : 0;
+        if (tr.loop && tr.loop + head <= buf.duration) { src.loopStart = head; src.loopEnd = head + tr.loop; }
+        const g = ctx.createGain();
+        src.connect(g); g.connect(master);
+        const t = ctx.currentTime;
+        g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(1, t + FADE);
+        src.start(t, head);
+        if (cur) fadeOut(cur, t);
+        cur = { id, src, gain: g };
+      }).catch(() => { /* missing track: stay silent */ });
+    }
+    function fadeOut(o, t) {
+      const gn = o.gain.gain;
+      gn.cancelScheduledValues(t); gn.setValueAtTime(gn.value, t); gn.linearRampToValueAtTime(0, t + FADE);
+      try { o.src.stop(t + FADE + 0.1); } catch (e) { /* already stopped */ }
+    }
+    function apply() { if (master) master.gain.setTargetAtTime(level(), ctx.currentTime, 0.05); }
+    function unlock() {
+      if (unlocked) return;
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      unlocked = true;
+      ctx = new AC();
+      master = ctx.createGain(); master.gain.value = level(); master.connect(ctx.destination);
+      if (ctx.resume) ctx.resume();
+      ['pointerdown', 'keydown', 'touchend'].forEach(ev => window.removeEventListener(ev, unlock, true));
+      play();
+    }
+    ['pointerdown', 'keydown', 'touchend'].forEach(ev => window.addEventListener(ev, unlock, true));
+    document.addEventListener('visibilitychange', () => { if (ctx) { if (document.hidden) ctx.suspend(); else ctx.resume(); } });
+    return {
+      tracks: B.tracks,
+      forBg: (bg) => B.byBg[bg],
+      moment: (k) => (B.moments || {})[k],
+      want(id) { if (id && B.tracks[id]) { want = id; play(); } },
+      get volume() { return vol; },
+      setVolume(v) { vol = Math.max(0, Math.min(1, v)); put('sim4love.bgm.vol', String(vol)); apply(); },
+      get muted() { return muted; },
+      setMuted(m) {
+        muted = !!m; put('sim4love.bgm.mute', muted ? '1' : '0'); apply();
+        if (!muted) play(); else if (cur && ctx) { fadeOut(cur, ctx.currentTime); cur = null; }
+      },
+      state: () => ({ unlocked, playing: cur && cur.id, wanted: want, volume: vol, muted, ctx: ctx && ctx.state }),
+    };
+  })();
+  const bgmFor = () => S.view.bgm || Music.forBg(S.view.bg);
+  const syncMusic = () => Music.want(bgmFor());
+
   // ---------- rendering ----------
   function renderBg(instant) {
+    syncMusic();
     const host = $('#bg');
     $('#petals').classList.toggle('on', !!S.view.petals);
     const cur = host.querySelector('.bg-layer.on:not(.out)');
@@ -247,7 +333,7 @@
     $('#text').textContent = typing.full;
     typing.done = true;
     $('#next').classList.add('show');
-    if (auto) { clearTimeout(autoTimer); autoTimer = setTimeout(() => { if (auto && !busy) advance(); }, 1200 + typing.full.length * 25); }
+    if (auto) { clearTimeout(autoTimer); autoTimer = setTimeout(() => { if (auto && !busy) advance(); }, 1200 + typing.full.length * (/^zh/.test(LOCALE) ? 70 : 25)); }
   }
 
   function mochiFace(e) {
@@ -352,7 +438,8 @@
       if (c.cond) { if (!c.cond(S)) S.pc = c.jfalse; continue; }
       if (c.variant) { playVariant(c.variant); continue; }
       if (c.with !== undefined && !c.talk) { S.talkWith = window.SIM.resolveWith(c, S); continue; }
-      if (c.bg !== undefined) { S.view.bg = c.bg; S.view.petals = !!c.petals; renderBg(); continue; }
+      if (c.bg !== undefined) { S.view.bg = c.bg; S.view.bgm = null; S.view.petals = !!c.petals; renderBg(); continue; }
+      if (c.bgm !== undefined) { S.view.bgm = c.bgm === 'auto' ? null : c.bgm; syncMusic(); continue; }
       if (c.flag !== undefined) { typeof c.flag === 'string' ? (S.flags[c.flag] = true) : Object.assign(S.flags, c.flag); continue; }
       if (c.fx) { applyFx(c.fx); continue; }
       if (c.val) { applyVal(c.val); continue; }
@@ -369,13 +456,13 @@
       if (c.txt) {
         const from = who(c.txt);
         S.view.msgs.push({ from, t: c.t }); renderPhone();
-        const nm = from === 'me' ? S.name : from === 'sys' ? '' : nameOf(from);
+        const nm = from === 'me' ? S.name : from === 'sys' ? '' : nameOf(from) === from ? fmt(from) : nameOf(from);
         setBox('phonebox', nm || ui('phone.title'), c.t, (Art.CAST[from] && Art.CAST[from].color) || (from === 'me' ? '#8fa8e6' : '#c9a45c'));
         return;
       }
       if (c.s) {
         const k = who(c.s);
-        if (!Art.CAST[k]) { renderChars(); setBox('say', fmt(k), c.t, '#c9a45c'); return; } // walk-on NPC: name only, no sprite
+        if (!Art.CAST[k]) { renderChars(); setBox('say', nameOf(k) === k ? fmt(k) : nameOf(k), c.t, '#c9a45c'); return; } // walk-on NPC: name only, no sprite
         const prev = S.view.chars[k];
         S.view.chars[k] = { e: c.e || (prev && prev.e) || 'neutral', at: c.at || (prev && prev.at) || 'center' };
         renderChars(k);
@@ -385,7 +472,7 @@
       if (c.n) { renderChars(); setBox('narr', '', c.n); return; }
       if (c.me) { setBox('say', S.name, c.me, '#8fa8e6'); return; }
       if (c.think) { setBox('think', S.name, c.think, '#a8977a'); return; }
-      if (c.mochi) { setBox('mochi', 'Mochi', c.mochi, '#ff8fb8', c.e); return; }
+      if (c.mochi) { setBox('mochi', ui('name.mochi'), c.mochi, '#ff8fb8', c.e); return; }
       if (c.choice) { showChoice(c); return; }
       if (c.badEnd) { showBadEnd(c.badEnd); return; }
       if (c.chapterEnd) { showResults(); return; }
@@ -483,7 +570,7 @@
     if (!be.serious) { document.body.classList.add('shake'); setTimeout(() => document.body.classList.remove('shake'), 600); }
     modal(`<div class="badend ${be.serious ? 'serious' : ''}">
         <div class="be-label">${esc(ui('badend.label'))}</div>
-        <h2>${esc(be.title.replace(/^BAD END #\d+ — /, ''))}</h2>
+        <h2>${esc(tx(be.title).replace(/^BAD END #\d+ — /, ''))}</h2>
         <p>${esc(fmt(be.text))}</p>
         <div class="lesson-mochi">${mochiFace('sad')}<span>${esc(be.serious ? ui('badend.serious') : ui('badend.mochi'))}</span></div>
         <button class="btn primary" data-close>${esc(ui('btn.rewind'))}</button>
@@ -506,7 +593,7 @@
     if (S.achievements.includes(id)) return;
     S.achievements.push(id);
     const A = (window.ACHIEVEMENTS || {})[id] || { title: id };
-    toast(`${ui('ach.toast')}: ${A.title}`, 'up', '#e6c878');
+    toast(`${ui('ach.toast')}: ${tx(A.title)}`, 'up', '#e6c878');
   }
   function endingText(E) {
     const r = routeKey();
@@ -515,21 +602,22 @@
   function showEnding(id) {
     const E = (window.ENDINGS || {})[id] || { type: 'Ending', title: id, text: '' };
     if (!S.endings.includes(id)) S.endings.push(id);
+    Music.want(Music.moment('ending'));
     try { const g = JSON.parse(localStorage.getItem('sim4love.gallery') || '[]'); if (!g.includes(id)) { g.push(id); localStorage.setItem('sim4love.gallery', JSON.stringify(g)); } } catch (e) { /* ignore */ }
     modal(`<div class="results ending">
-        <div class="be-label ok ornament">${esc(E.type)}</div>
+        <div class="be-label ok ornament">${esc(tx(E.type))}</div>
         <h2>${esc(fmt(E.title))}</h2>
-        ${endingText(E).split('\n').map(p => `<p>${esc(fmt(p))}</p>`).join('')}
+        ${fmt(endingText(E)).split('\n').map(p => `<p>${esc(p)}</p>`).join('')}
         <button class="btn primary" data-close>${esc(ui('btn.continue'))}</button>
       </div>`, () => step());
   }
   function showResource(id, then) {
-    const R = (window.RESOURCES || {})[id] || { title: 'Get help', lines: [] };
+    const R = (window.RESOURCES || {})[id] || { title: ui('resource.kicker'), lines: [] };
     modal(`<div class="lesson green resource">
         <div class="lesson-kind ornament">${esc(ui('resource.kicker'))}</div>
         <div class="lesson-icon" aria-hidden="true">${icon('shield')}</div>
-        <h2>${esc(R.title)}</h2>
-        <ul class="resource-list">${R.lines.map(l => `<li>${esc(l)}</li>`).join('')}</ul>
+        <h2>${esc(tx(R.title))}</h2>
+        <ul class="resource-list">${R.lines.map(l => `<li>${esc(tx(l))}</li>`).join('')}</ul>
         <p class="muted small">${esc(ui('resource.verified', { date: R.verified || '' }))}</p>
         <button class="btn primary" data-close>${esc(ui('btn.okay'))}</button>
       </div>`, () => (then ? then() : step()));
@@ -548,20 +636,22 @@
         <div class="row"><button class="btn" data-close="skip">${esc(ui('deeper.skip'))}</button><button class="btn primary" data-close="read">${esc(ui('deeper.read'))}</button></div>
       </div>`, (how) => { if (how === 'read') deeperCard(T, id, () => step()); else step(); });
   }
-  function deeperCard(T, id, then, readonly) {
-    const mentor = T.mentor && T.mentor !== 'mochi' ? nameOf(T.mentor) : 'Dr. Mochi';
+  function deeperCard(T, id, then0, readonly) {
+    Music.want(Music.moment('deeper'));
+    const then = () => { syncMusic(); then0 && then0(); };
+    const mentor = T.mentor && T.mentor !== 'mochi' ? nameOf(T.mentor) : ui('name.drmochi');
     const lensName = (k) => ui('lens.' + k);
     const picked = S.reflections[id] && S.reflections[id].lens;
     modal(`<div class="deeper">
         <div class="lesson-kind ornament">${esc(ui('deeper.kicker'))} · ${esc(mentor)}</div>
         <h2>${esc(fmt(T.title))}</h2>
         <p class="hook">${esc(fmt(T.hook))}</p>
-        ${T.lenses.map((L, i) => `<section class="lens ${L.kind}"><h3>${icon(L.kind === 'structural' ? 'scale' : L.kind === 'personal' ? 'target' : 'home')}${esc(L.label || lensName(L.kind))}</h3><p>${esc(fmt(L.text))}</p></section>`).join('')}
-        <section class="lens sg"><h3>${icon('pin')}${esc(ui('deeper.sg'))}</h3><ul>${T.sg.map(x => `<li>${esc(x.t)}${x.src ? ` <a href="${esc(x.src)}" target="_blank" rel="noopener">${esc(ui('deeper.source'))}</a>` : ''}</li>`).join('')}</ul></section>
+        ${T.lenses.map((L, i) => `<section class="lens ${L.kind}"><h3>${icon(L.kind === 'structural' ? 'scale' : L.kind === 'personal' ? 'target' : 'home')}${esc(L.label ? tx(L.label) : lensName(L.kind))}</h3><p>${esc(fmt(L.text))}</p></section>`).join('')}
+        <section class="lens sg"><h3>${icon('pin')}${esc(ui('deeper.sg'))}</h3><ul>${T.sg.map(x => `<li>${esc(fmt(x.t))}${x.src ? ` <a href="${esc(x.src)}" target="_blank" rel="noopener">${esc(ui('deeper.source'))}</a>` : ''}</li>`).join('')}</ul></section>
         <p class="reframe">${esc(fmt(T.reframe))}</p>
         <p class="closing">${esc(ui('deeper.closing'))}</p>
         <h3 class="q">${esc(fmt(T.question))}</h3>
-        <div class="lens-pick">${T.lenses.map((L, i) => `<button class="btn small ${picked === L.kind ? 'on' : ''}" data-lens="${L.kind}">${esc(L.label || lensName(L.kind))}</button>`).join('')}<button class="btn small ${picked === 'none' ? 'on' : ''}" data-lens="none">${esc(ui('deeper.nopick'))}</button></div>
+        <div class="lens-pick">${T.lenses.map((L, i) => `<button class="btn small ${picked === L.kind ? 'on' : ''}" data-lens="${L.kind}">${esc(L.label ? tx(L.label) : lensName(L.kind))}</button>`).join('')}<button class="btn small ${picked === 'none' ? 'on' : ''}" data-lens="none">${esc(ui('deeper.nopick'))}</button></div>
         <button class="btn primary" data-close>${esc(readonly ? ui('btn.close') : ui('btn.continue'))}</button>
       </div>`, then, 'deep');
     const m = $('#modal');
@@ -600,8 +690,8 @@
     const lessons = S.lessons.map(id => `<li class="${LESSONS[id].kind}">${esc(fmt(LESSONS[id].title))}</li>`).join('');
     try { const p = JSON.parse(localStorage.getItem('sim4love.progress') || '{}'); p[S.chapter] = true; localStorage.setItem('sim4love.progress', JSON.stringify(p)); } catch (e) { /* ignore */ }
     modal(`<div class="results">
-      <div class="be-label ok ornament">${esc(ui('results.complete', { ch: ch.title }))}</div>
-      <h2>${esc(ch.subtitle)}</h2>
+      <div class="be-label ok ornament">${esc(ui('results.complete', { ch: tx(ch.title) }))}</div>
+      <h2>${esc(tx(ch.subtitle))}</h2>
       <div class="rank"><b>${rank[0]}</b><span>${esc(rank[1])}</span></div>
       <div class="pair"><div>${esc(ui('stat.wisdom'))} <b>${shown('wisdom')}</b></div><div>${esc(ui('stat.self'))} <b>${shown('self')}</b></div>${S.stats.proj ? `<div>${esc(ui('stat.proj'))} <b>${shown('proj')}</b></div>` : ''}</div>
       <h3>${esc(ui('life.title'))}</h3>
@@ -611,9 +701,9 @@
       <h3>${esc(ui('notebook.title'))} (${S.lessons.length}/${Object.keys(LESSONS).length})</h3>
       <ul class="lesson-list">${lessons}</ul>
       ${S.badEnds.length ? `<p class="muted">${esc(ui('results.badends', { n: S.badEnds.length, total: BAD_END_TOTAL }))}</p>` : ''}
-      ${S.endings.length && !nextId ? `<p class="muted">${esc(ui('results.endings'))}: ${S.endings.map(e => esc((ENDINGS[e] || { title: e }).title)).join(' · ')}</p>` : ''}
+      ${S.endings.length && !nextId ? `<p class="muted">${esc(ui('results.endings'))}: ${S.endings.map(e => esc(tx((ENDINGS[e] || { title: e }).title))).join(' · ')}</p>` : ''}
       ${nextId ? '' : `<p class="muted">${esc(ui('results.thanks'))}</p>`}
-      <div class="row"><button class="btn" data-act="restart">${esc(ui('btn.again'))}</button><button class="btn ${nextId ? '' : 'primary'}" data-act="title">${esc(ui('btn.title'))}</button>${nextId ? `<button class="btn primary" data-act="next">${esc(ui('btn.next', { ch: CHAPTERS[nextId].title }))}</button>` : ''}</div>
+      <div class="row"><button class="btn" data-act="restart">${esc(ui('btn.again'))}</button><button class="btn ${nextId ? '' : 'primary'}" data-act="title">${esc(ui('btn.title'))}</button>${nextId ? `<button class="btn primary" data-act="next">${esc(ui('btn.next', { ch: tx(CHAPTERS[nextId].title) }))}</button>` : ''}</div>
     </div>`);
   }
 
@@ -633,6 +723,30 @@
       <ul data-pane="deep" ${t === 'deep' ? '' : 'hidden'}>${deep}</ul>
       <div data-pane="life" ${t === 'life' ? '' : 'hidden'}>${life}</div>
       <button class="btn primary" data-close>${esc(ui('btn.close'))}</button></div>`);
+  }
+  function openSettings() {
+    const wasBusy = busy;
+    const packs = Object.entries(window.I18N || {}).filter(([, p]) => p.ready);
+    modal(`<div class="settings"><h2>${esc(ui('settings.title'))}</h2>
+      <label class="set-row"><span>${esc(ui('settings.music'))}</span>
+        <input id="set-vol" type="range" min="0" max="100" step="5" value="${Math.round(Music.volume * 100)}" aria-label="${esc(ui('settings.music'))}"><b id="set-vol-n">${Math.round(Music.volume * 100)}</b></label>
+      <label class="set-row"><span>${esc(ui('settings.mute'))}</span>
+        <button id="set-mute" class="btn small toggle ${Music.muted ? 'on' : ''}" role="switch" aria-checked="${Music.muted}">${esc(ui(Music.muted ? 'settings.on' : 'settings.off'))}</button></label>
+      ${packs.length > 1 ? `<label class="set-row"><span>${esc(ui('title.lang'))}</span><select id="set-locale">${packs.map(([id, p]) => `<option value="${id}" ${id === LOCALE ? 'selected' : ''}>${esc(p.label)}</option>`).join('')}</select></label>` : ''}
+      <p class="muted small">${esc(ui('settings.credits'))}</p>
+      <button class="btn primary" data-close>${esc(ui('btn.close'))}</button></div>`, () => { busy = wasBusy; });
+    const vol = $('#set-vol');
+    vol.oninput = () => { Music.setVolume(vol.value / 100); $('#set-vol-n').textContent = vol.value; if (Music.muted && +vol.value > 0) setMute(false); };
+    const mute = $('#set-mute');
+    const setMute = (m) => { Music.setMuted(m); mute.classList.toggle('on', m); mute.setAttribute('aria-checked', String(m)); mute.textContent = ui(m ? 'settings.on' : 'settings.off'); };
+    mute.onclick = (e) => { e.preventDefault(); setMute(!Music.muted); };
+    const sel = $('#set-locale');
+    if (sel) sel.onchange = () => switchLocale(sel.value);
+  }
+  function switchLocale(id) {
+    if (!$('#game').classList.contains('at-title')) save();
+    try { localStorage.setItem('sim4love.locale', id); } catch (e) { /* ignore */ }
+    location.reload();
   }
   function handleAct(a) {
     const m = $('#modal'); m.classList.remove('on'); m.innerHTML = ''; m.className = ''; busy = false;
@@ -678,12 +792,12 @@
     $('#btn-continue').hidden = !(saved && (saved.pc > 0 || saved.chapter !== ORDER()[0]));
     if (saved && !$('#btn-continue').hidden) {
       const ch = CHAPTERS[saved.chapter];
-      $('#btn-continue').textContent = ch ? `${ui('btn.continue')} · ${ch.title}` : ui('btn.continue');
+      $('#btn-continue').textContent = ch ? `${ui('btn.continue')} · ${tx(ch.title)}` : ui('btn.continue');
     }
     const loc = $('#locale');
     if (loc) {
       const packs = Object.entries(window.I18N || {}).filter(([, p]) => p.ready);
-      loc.hidden = packs.length < 2;
+      loc.closest('.lang-field').hidden = packs.length < 2;
       loc.innerHTML = packs.map(([id, p]) => `<option value="${id}" ${id === LOCALE ? 'selected' : ''}>${esc(p.label)}</option>`).join('');
     }
   }
@@ -705,7 +819,7 @@
   function chapterCard(then) {
     const ch = CHAPTERS[S.chapter];
     const card = $('#chapter-card');
-    card.innerHTML = `<small class="ornament">${esc(ch.part ? ch.part + ' · ' : '')}${esc(ch.title)}</small><h1>${esc(ch.subtitle)}</h1>`;
+    card.innerHTML = `<small class="ornament">${esc(ch.part ? tx(ch.part) + ' · ' : '')}${esc(tx(ch.title))}</small><h1>${esc(tx(ch.subtitle))}</h1>`;
     card.classList.add('on');
     busy = true;
     setTimeout(() => { card.classList.remove('on'); busy = false; then(); }, 2200);
@@ -731,7 +845,10 @@
     $('#btn-auto').onclick = (e) => { e.stopPropagation(); auto = !auto; e.currentTarget.classList.toggle('on', auto); if (auto && typing && typing.done && !busy) advance(); };
     $('#btn-title').onclick = (e) => { e.stopPropagation(); if (busy && $('#modal').classList.contains('on')) return; save(); showTitle(); };
     const loc = $('#locale');
-    if (loc) loc.onchange = () => { try { localStorage.setItem('sim4love.locale', loc.value); } catch (e) { /* ignore */ } location.reload(); };
+    if (loc) loc.onchange = () => switchLocale(loc.value);
+    const openSet = (e) => { e.stopPropagation(); if (busy && $('#modal').classList.contains('on')) return; openSettings(); };
+    $('#btn-settings').onclick = openSet;
+    const ts = $('#btn-title-settings'); if (ts) ts.onclick = openSet;
   }
 
   let BAD_END_TOTAL = 0;
@@ -739,6 +856,8 @@
     BAD_END_TOTAL = new Set(Object.values(CHAPTERS).flatMap(ch => compile(ch.script).filter(c => c.badEnd).map(c => c.badEnd.title))).size;
     document.documentElement.lang = LOCALE;
     document.querySelectorAll('[data-ui]').forEach(el => { el.textContent = ui(el.dataset.ui); });
+    document.querySelectorAll('[data-ui-label]').forEach(el => { const t = ui(el.dataset.uiLabel); el.title = t; el.setAttribute('aria-label', t); });
+    document.title = ui('title.doc');
     bind(); renderHud(); showTitle();
     preload();
   });
@@ -750,5 +869,5 @@
     const next = () => { if (i >= urls.length) return; const img = new Image(); img.decoding = 'async'; img.onload = img.onerror = next; img.src = urls[i++]; keep.push(img); };
     for (let n = 0; n < 4; n++) next();
   }
-  window.SimEngine = { compile, fresh, get state() { return S; }, ui, nameOf, hash };
+  window.SimEngine = { compile, fresh, get state() { return S; }, ui, nameOf, hash, tx, locale: LOCALE, music: Music };
 })();

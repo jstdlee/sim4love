@@ -22,7 +22,7 @@ js/
     talks.js               (planned) TALKS — partner-talk definitions per topic (§9)
     variants/<loc>.js      (planned) VARIANTS — line pools per location × slot (§9)
     think.js               (planned) THINK — Think Deeper cards per topic (§9.5, GAME_DESIGN §6.2)
-  i18n/                    (planned) <locale>.js string packs (UI + story), e.g. zh-SG.js (§10)
+  i18n/                    <locale>.js UI packs; zh-SG.text.js = generated story/data table (§10)
   chapters/
     index.js               CHAPTERS registry, CHAPTER_ORDER, SIM helpers (todo, love, split, …)
     ch01.js … ch10.js      One file per chapter: { id, title, subtitle, next, status, script: [...] }
@@ -257,6 +257,12 @@ Default locale **`en-SG`** (English text, Singapore help cards). Chinese (`zh-SG
   Saves store ids only, so a rename never breaks a save.
 - **Fonts and layout.** CJK fallback in the font stack (self-hosted Noto Sans SC subset, OFL); line-length budget is
   per locale (≈ 60 CJK characters per textbox line).
-- **Coverage test (planned).** `node tests/i18n.js zh-SG` lists untranslated strings and stale keys (source text
-  changed) per chapter and fails release builds below a set coverage.
+- **As built (2026-11).** Story and data text use one flat table per locale, `I18N[loc].text[english] = translation`
+  (the per-chapter `story[ctx]` table is still consulted first, for the rare line that needs a context-specific
+  translation). Sources: `i18n/zh-SG/<group>.js` (not deployed), bundled by `tools/i18n-pack.js` into
+  `js/i18n/zh-SG.text.js`, which `index.html` only loads when the game starts in Chinese. Help cards are translated
+  in place (same contacts and numbers). Extraction: `tools/i18n-extract.js`.
+- **Coverage test.** `tests/validate.js` fails if any ready locale misses a UI key, a name, or any extracted string, or
+  if placeholders (`{name}`, `{her}`, `{n:id}`, …) or line breaks differ from the English. `tests/playthrough.js --lang=zh`
+  flags English left on screen.
 

@@ -22,6 +22,7 @@ function walk(list, where) {
     if (!c || typeof c !== 'object') return errors.push(`${at}: not an object`);
     if (c.n || c.s || c.me || c.think || c.mochi || c.txt) lines++;
     if (c.bg && !BGS.has(c.bg)) errors.push(`${at}: unknown bg "${c.bg}"`);
+    if (c.bgm && c.bgm !== 'auto' && !W.BGM.tracks[c.bgm]) errors.push(`${at}: unknown bgm track "${c.bgm}"`);
     // Walk-on NPCs: a capitalised name not in CAST shows a name tag with no sprite (engine.js). Lower-case = typo.
     if (c.s && !SPEAKERS.has(c.s) && !/^[A-Z]/.test(c.s)) errors.push(`${at}: unknown speaker "${c.s}"`);
     if (c.show && !SPEAKERS.has(c.show)) errors.push(`${at}: unknown show "${c.show}"`);
@@ -82,9 +83,46 @@ const unusedPools = Object.keys(W.VARIANTS).filter((p) => !variantsUsed.has(p));
 if (unusedPools.length) warn.push(`variant pools never played: ${unusedPools.join(', ')}`);
 const unusedEnd = Object.keys(W.ENDINGS).filter((e) => !JSON.stringify(Object.values(W.CHAPTERS).map((c) => c.script)).includes(`"${e}"`));
 
+// ---------- music ----------
+const fs = require('fs'), path = require('path');
+const root = path.join(__dirname, '..');
+for (const [id, t] of Object.entries(W.BGM.tracks)) {
+  if (!fs.existsSync(path.join(root, t.src))) errors.push(`bgm track ${id}: missing file ${t.src}`);
+  if (!(t.loop > 0)) errors.push(`bgm track ${id}: needs a loop length`);
+}
+for (const bg of BGS) if (!W.BGM.byBg[bg]) errors.push(`bg "${bg}" has no music in BGM.byBg`);
+for (const [bg, tr] of Object.entries(W.BGM.byBg)) if (!W.BGM.tracks[tr]) errors.push(`BGM.byBg.${bg}: unknown track "${tr}"`);
+for (const [m, tr] of Object.entries(W.BGM.moments)) if (!W.BGM.tracks[tr]) errors.push(`BGM.moments.${m}: unknown track "${tr}"`);
+
+// ---------- locales: every English key needs a translation in every ready pack ----------
+const { collect } = require('../tools/i18n-extract.js');
+const EN = W.I18N['en-SG'];
+const ph = (x) => (x.match(/\{[^}]+\}/g) || []).sort().join(' ');
+const allText = collect(true).flatMap((g) => g.strings);
+const coverage = [];
+for (const [loc, pack] of Object.entries(W.I18N)) {
+  if (loc === 'en-SG' || !pack.ready) continue;
+  for (const k of Object.keys(EN.ui)) {
+    if (!pack.ui[k]) errors.push(`${loc}: missing ui "${k}"`);
+    else if (ph(EN.ui[k]) !== ph(pack.ui[k])) errors.push(`${loc}: ui "${k}" placeholders differ`);
+  }
+  for (const k of Object.keys(EN.names)) if (!pack.names[k] || !pack.names[k].short || !pack.names[k].full) errors.push(`${loc}: missing name "${k}"`);
+  const T = pack.text || {};
+  let have = 0;
+  for (const en of allText) {
+    const tr = T[en];
+    if (!tr) { errors.push(`${loc}: untranslated "${en.slice(0, 50).replace(/\n/g, ' ')}"`); continue; }
+    have++;
+    if (ph(en) !== ph(tr)) errors.push(`${loc}: placeholders differ in "${en.slice(0, 50)}"`);
+    if ((en.match(/\n/g) || []).length !== (tr.match(/\n/g) || []).length) errors.push(`${loc}: line breaks differ in "${en.slice(0, 50)}"`);
+  }
+  coverage.push(`${loc} ${have}/${allText.length} text, ${Object.keys(pack.ui).length}/${Object.keys(EN.ui).length} ui`);
+}
+
 console.log(rows.join('\n'));
 console.log(`\nchapters: ${rows.length} · script lines: ${totalLines} · choices: ${interactions} · bad ends: ${badEnds} · lessons: ${Object.keys(W.LESSONS).length} · variant pools: ${Object.keys(W.VARIANTS).length} · think cards: ${Object.keys(W.THINK).length}`);
 if (unusedEnd.length) console.log(`(endings chosen at runtime by SIM.endingFor: ${unusedEnd.length})`);
+console.log(`music: ${Object.keys(W.BGM.tracks).length} tracks · locales: ${coverage.join(' · ') || 'en only'}`);
 warn.forEach((w) => console.log('WARN', w));
 if (errors.length) { console.error('\nERRORS:\n' + errors.join('\n')); process.exit(1); }
 console.log('OK');

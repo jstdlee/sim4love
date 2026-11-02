@@ -14,10 +14,10 @@ window.CHAPTERS.ch9 = {
       { choice: 'It\'s the third Saturday in a row with no plan...', opts: [
         { t: 'Plan a small date around something she mentioned last week.', fx: { '@route': 8, trust: 6, wisdom: 4 }, lesson: 'effortdrop', then: [
           SIM.byRoute({
-            hina: [{ bg: 'park' }, { s: 'hina', e: 'happy', at: 'center', t: 'The old dragon playground! I told you about it once. ONCE. You remembered.' }],
-            mio: [{ bg: 'library' }, { s: 'mio', e: 'happy', at: 'center', t: 'A bookshop crawl? Three shops? ...I\'m going to need a bigger bag.' }],
-            kaede: [{ bg: 'park' }, { s: 'kaede', e: 'happy', at: 'center', t: 'A 7 AM run and then prata. You are speaking my language. You\'re slow, but you\'re speaking it.' }],
-            yuna: [{ bg: 'park' }, { s: 'yuna', e: 'shy', at: 'center', t: 'Can we... not post today? Just walk around the Botanic Gardens like normal people?' }],
+            hina: [{ bg: 'park' }, { bgm: 'romance' }, { s: 'hina', e: 'happy', at: 'center', t: 'The old dragon playground! I told you about it once. ONCE. You remembered.' }],
+            mio: [{ bg: 'library' }, { bgm: 'romance' }, { s: 'mio', e: 'happy', at: 'center', t: 'A bookshop crawl? Three shops? ...I\'m going to need a bigger bag.' }],
+            kaede: [{ bg: 'park' }, { bgm: 'romance' }, { s: 'kaede', e: 'happy', at: 'center', t: 'A 7 AM run and then prata. You are speaking my language. You\'re slow, but you\'re speaking it.' }],
+            yuna: [{ bg: 'park' }, { bgm: 'romance' }, { s: 'yuna', e: 'shy', at: 'center', t: 'Can we... not post today? Just walk around the Botanic Gardens like normal people?' }],
           }, [{ n: 'A good, small Saturday.' }]),
         ] },
         { t: '"Can we just stay in? I\'m in a raid."', fx: { '@route': -8, trust: -6 }, lesson: 'effortdrop', then: [

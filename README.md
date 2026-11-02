@@ -16,6 +16,7 @@
 | **Length** | 20 chapters in 5 parts, about 2–3 hours for one run |
 | **Choices** | 240+ decisions, 40+ rewindable bad endings, many routes and endings |
 | **Extras** | 119 notebook lessons, achievements, 7 Think Deeper cards |
+| **Languages** | English and Simplified Chinese (简体中文), switchable any time |
 | **Platforms** | Any modern browser, desktop or phone. No install, no account, no ads |
 | **Rating** | 16+ (see the content note) |
 
@@ -40,6 +41,10 @@ from love, and from your own life.
 - 🇸🇬 **Singapore setting.** School days, hawker food, the MRT and HDB life, in a multicultural cast.
 - 🆘 **Help resources.** Where the story touches on serious topics, in-game cards point to real, verified Singapore
   support services.
+- 🎵 **Original soundtrack.** Ten short looping moods that follow the scene, with smooth crossfades. Volume and
+  mute are in Settings. All music is original and released CC0 (see [`docs/MUSIC_CREDITS.md`](docs/MUSIC_CREDITS.md)).
+- 🌏 **English and 简体中文.** The whole game, including every help card, is fully translated. It picks your
+  browser's language the first time; change it on the title screen or in Settings.
 - 📱 Phone chats, a notebook of what you've learned, achievements, autosave, and a mobile-first dark-and-gold UI.
 
 ## Review (our own take)
@@ -55,12 +60,12 @@ from love, and from your own life.
 | Art & presentation | 8 | Lovely hand-drawn cast and locations, a stylish dark-and-gold interface, phone chats in the story. |
 | Replay value | 9 | Routes, secret endings, and a notebook that fills in only if you try other paths. |
 | Learning without lectures | 9 | You come away knowing more about real relationships. It never feels like homework. |
-| Polish | 7.5 | Smooth on desktop and phone, with autosave and keyboard shortcuts. No voice acting or music yet. |
+| Polish | 7.5 | Smooth on desktop and phone, with autosave, keyboard shortcuts and a gentle original soundtrack. No voice acting. |
 
 **Liked:** bad endings you can rewind straight away and actually want to see · characters who are more than their
 archetype · a Singapore setting that feels lived in · it never shames the player.
 
-**Could be better:** text only for now (no soundtrack or voices) · English only for now · a few chapters are dense with
+**Could be better:** no voice acting · only two languages so far · a few chapters are dense with
 choices if you prefer a relaxed read.
 
 ## Content note
@@ -75,14 +80,16 @@ educational, non-graphic way. There is **no explicit content**: the most you'll 
 - **Local server (optional):** `npx serve .` (or any static file server), then open the address it prints.
 - **Deploy your own copy:** `npx wrangler deploy` (Cloudflare Workers static assets, see `wrangler.jsonc`).
 
-Progress saves automatically in your browser.
+Progress, language and music settings save automatically in your browser. The ⚙ button opens Settings.
 
 ## Development
 
 ```bash
 node tests/validate.js   # script and data checks
 node tests/softlock.js   # proves every path can move forward
-node tests/playthrough.js first|last|random [--mobile] [--shots]   # browser playthrough (needs Playwright)
+node tests/playthrough.js first|last|random [--mobile] [--lang=zh] [--shots]   # browser playthrough (needs Playwright)
+node tools/i18n-pack.js status   # translation coverage (Chinese sources live in i18n/zh-SG/)
+python3 tools/make-music.py      # regenerate the soundtrack (numpy + ffmpeg)
 ```
 
 Design and developer docs are in [`docs/`](docs/). ⚠️ They contain full spoilers.

@@ -96,13 +96,16 @@ The backlog below is historical (the 20-chapter restructure and Singapore reloca
 - [ ] Red-Flag Radar for Part I (Rae, Alpha Kai, "Aileen" lines).
 - [ ] Route map / flowchart with jump-back.
 - [ ] Gallery: endings + achievements on the title screen; remaining achievements from GAME_DESIGN §7.
-- [ ] BGM/SFX.
+- [x] BGM: 10 original CC0 loops (`audio/`, `js/data/music.js`, `tools/make-music.py`, docs/MUSIC_CREDITS.md); crossfade, settings volume/mute.
+- [ ] SFX.
 
 ### P2 — polish
-- [ ] **i18n framework** (ARCHITECTURE §10): `js/i18n/<locale>.js` string tables, `fmt()` lookup with fallback, locale switch on the title screen
-      (`localStorage['sim4love.locale']`), CJK font fallback, `tests/i18n.js` coverage report. Move this to P1 once Ch1–4 text is final.
-- [ ] **Chinese (`zh-SG`)**: translate UI + Ch1 first; Chinese resource card texts with the same verified Singapore contacts
-      (consider Care Corner Mandarin counselling 1800 3535 800 after verifying it).
+- [x] **i18n framework** (ARCHITECTURE §10): UI table in `js/i18n/<locale>.js`, story text keyed by English source, locale switch on
+      the title screen and in Settings (`localStorage['sim4love.locale']`), default from `navigator.language`, validate.js coverage check.
+- [x] **Chinese (`zh-SG`)**: 100% of UI (87 keys) and story/data text (2290 strings), all 20 chapters, lessons, Think Deeper,
+      endings, help cards (same verified SG contacts). Workflow: `node tools/i18n-pack.js dump <group>` → translate → `put` (rebuilds
+      `js/i18n/zh-SG.text.js`). **Any new or edited English line needs a zh entry, or validate.js fails.**
+- [ ] Mandarin-specific help line (Care Corner counselling 1800 3535 800) after verifying it.
 - [ ] Multiple save slots, backlog/log.
 - [x] Publish: Cloudflare Workers static assets (`wrangler.jsonc`, `npx wrangler deploy`). Live: https://sim4love.jstdlee.workers.dev
 - [ ] Screenshot script for visual review lives outside the repo; consider adding `tests/screenshots.js`.

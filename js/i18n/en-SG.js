@@ -38,6 +38,11 @@ window.I18N['en-SG'] = {
     'results.complete': '{ch} complete', 'results.people': 'People', 'results.badends': 'Bad ends found: {n} / {total}',
     'results.endings': 'Endings', 'results.thanks': 'Thank you for playing. Now go live your own story.',
     'notebook.title': 'Love Notebook', 'notebook.lessons': 'Lessons', 'notebook.deeper': 'Think deeper', 'notebook.life': 'Your Life',
+    'title.doc': 'sim4love', 'word.her': 'her', 'word.hobby': 'your hobby', 'name.mochi': 'Mochi', 'name.drmochi': 'Dr. Mochi',
+    'menu.notebook': 'Notebook', 'menu.notebook.long': 'Love Notebook', 'menu.auto': 'Auto', 'menu.auto.long': 'Auto-advance',
+    'menu.title': 'Title', 'menu.title.long': 'Save and return to title', 'menu.settings': 'Settings',
+    'settings.title': 'Settings', 'settings.music': 'Music volume', 'settings.mute': 'Mute music', 'settings.on': 'On', 'settings.off': 'Off',
+    'settings.credits': 'Original music, made for this game (CC0).',
     'notebook.locked': 'Not learned yet', 'notebook.lockedhint': 'Keep playing. Some lessons only show up when you get it wrong.',
   },
 };

@@ -48,7 +48,7 @@ window.CHAPTERS = window.CHAPTERS || {};
     ] },
   ];
   const confessTo = (h) => [
-    { bg: 'fireworks' }, { n: H[h].intro }, { show: h, e: 'neutral', at: 'center' },
+    { bg: 'fireworks' }, { bgm: 'romance' }, { n: H[h].intro }, { show: h, e: 'neutral', at: 'center' },
     { choice: 'How do you tell her?', opts: [
       { t: 'Somewhere quiet. Simple and honest: "I like you. You don\'t have to answer now."', fx: { [h]: 6, wisdom: 6 }, lesson: 'publicpressure', then: answer(h) },
       { t: 'Grab the NDP watch-party mic and confess in front of the whole school.', fx: { [h]: -15 }, lesson: 'publicpressure', then: [

@@ -86,7 +86,7 @@ window.CHAPTERS = window.CHAPTERS || {};
         { hide: '*' },
 
         // 11-5 repair
-        { bg: 'rooftop' },
+        { bg: 'rooftop' }, { bgm: 'reflect' },
         { n: 'The next day. The rain has stopped. You meet on the rooftop garden.' },
         { choice: 'Time to repair. What do you say?', opts: [
           { t: 'Say your own need clearly and ask for hers: "I need a heads-up when plans change. What do you need from me?"', fx: { trust: 10, '@route': 6, self: 4, wisdom: 4 }, lesson: 'repair', then: [

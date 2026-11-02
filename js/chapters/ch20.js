@@ -106,7 +106,7 @@ window.CHAPTERS.ch20 = {
     { deeper: 'marriagecost' },
 
     // 20-5 Mochi's last question
-    { bg: 'rooftop' },
+    { bg: 'rooftop' }, { bgm: 'reflect' },
     { mochi: 'Last question, rookie. No marks. What is love?', e: 'neutral' },
     { choice: 'Mochi waits.', opts: [
       { t: '"Plain things. Showing up. Telling the truth. Letting each other grow, even apart."', fx: { wisdom: 8, self: 6 }, ach: 'plainLove', rose: true, then: [

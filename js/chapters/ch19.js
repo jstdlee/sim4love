@@ -58,7 +58,7 @@ window.CHAPTERS.ch19 = {
     { hide: '*' },
 
     // 19-3 sextortion
-    { bg: 'bedroom' },
+    { bg: 'bedroom' }, { bgm: 'tense' },
     SIM.split([{ n: 'A few nights later. A stranger from a gaming server you\'re in suddenly wants a video call. On camera, she starts undressing and asks you to do the same.' }],
       [{ n: 'Another match, very flirty. A video call at midnight. On camera, she starts undressing and asks you to do the same.' }]),
     { choice: 'Something about the video looks pre-recorded.', opts: [
