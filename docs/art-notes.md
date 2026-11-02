@@ -4,9 +4,17 @@ Generated art for the Singapore setting. Manifest: `js/sprites.js` (`window.SPRI
 
 ## Rules followed
 - Heroines (hina, mio, kaede, yuna) redrawn in a generic Singapore JC uniform (fictional crest, no real school).
-- Rae (rei) original sprites kept; sad/angry added in matching style. Mochi original PNGs kept; `doctor` added.
+- v2 (kawaii redraw): every human sprite (heroines + supporting cast, 78 files) redrawn in one consistent Japanese-anime style. Mochi unchanged.
 - Backgrounds: no people, frangipani instead of sakura, no real brands/logos. No CGs.
 - Content: all-ages; nothing beyond a hug.
+
+## v2 kawaii style (2026-11-02)
+- Style: large shiny expressive anime eyes, round soft faces, clean line art, soft cel shading, pastel-warm palette; waist-up, plain white bg, then rembg `isnet-anime` cutout.
+- Method: one `neutral` per character first; every other expression is generated from that neutral as reference ("same character, same outfit, same framing, same art style; only change the expression to …") so outfits/faces stay consistent. Adults/supporting cast used a heroine/Kenta neutral as style reference plus "not realistic" to avoid semi-realistic faces.
+- Skin tones / cast: the multicultural cast is kept (Kenta Malay, Farah Malay in a light-blue hijab, Kaede Indian with warm caramel-tan skin, Nana Eurasian with warm tan and curly hair, others Chinese). Everyone gets the same soft anime skin rendering; no one was lightened or had their ethnicity removed. Faces are non-sexualised and age-appropriate.
+- Kai redesign: dropped the gold-blazer trope; now a neutral smart-casual look (navy unstructured blazer over a white tee, holding a phone), ethnicity unspecified so the antagonist is not coded to any group.
+- Goto remains a faceless silhouette by design. No name tags or on-image text (nurse badge removed).
+- Filenames/ids unchanged: rei's legacy ids stay `.png` (neutral, happy, surprised, blush, smug, scheme, cool); everything else `.webp`. `js/sprites.js` unchanged (20 chars, 85 sprites).
 
 ## Formats
 - Characters: transparent WEBP (q86) or legacy PNG, 800x1200, bottom-centred. Mochi: 800x800 square.
