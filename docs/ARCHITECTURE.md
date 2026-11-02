@@ -21,6 +21,7 @@ js/
     values.js              (planned) VALUES — value profile per character + player stance axes (§9)
     talks.js               (planned) TALKS — partner-talk definitions per topic (§9)
     variants/<loc>.js      (planned) VARIANTS — line pools per location × slot (§9)
+    think.js               (planned) THINK — Think Deeper cards per topic (§9.5, GAME_DESIGN §6.2)
   i18n/                    (planned) <locale>.js string packs (UI + story), e.g. zh-SG.js (§10)
   chapters/
     index.js               CHAPTERS registry, CHAPTER_ORDER, SIM helpers (todo, love, split, …)
@@ -74,7 +75,7 @@ One object per step. Full list (also documented at the top of `engine.js`):
 
 | Command | Effect | Waits for click? |
 |---|---|---|
-| `{bg:'street', petals:true}` | Background (+ falling sakura) | no |
+| `{bg:'street', petals:true}` | Background (+ falling petals; to become tropical frangipani / rain-tree blossoms, HANDOFF) | no |
 | `{show:'hina', e:'happy', at:'left'}` | Show/move character (`left`/`center`/`right`) | no |
 | `{hide:'hina'}` / `{hide:'*'}` | Hide one / all | no |
 | `{n:'…'}` | Narration (italic) | yes |
@@ -127,7 +128,7 @@ window.SPRITES = {
 Missing expressions fall back to that character's `neutral` image; missing characters/backgrounds fall back to SVG.
 
 ### 4.2 Expression set (per heroine)
-Required: `neutral happy blush shy sad angry surprised smug`. Optional: `scheme` (Rei), `cool` (Kaede/Rei/Mio).
+Required: `neutral happy blush shy sad angry surprised smug`. Optional: `scheme` (Rae), `cool` (Kavya/Rae/Xin Yi).
 Supporting cast to add to `Art.CAST` + sprites when their scenes are written: `kenta`, `kai`, `ogawa`, `goto`
 (Mei and Mochi appear via phone / textbox face). Add them to `SPEAKERS` in `tests/validate.js` as well.
 
@@ -187,8 +188,8 @@ offline by writers to *draft* variants, which are then reviewed, committed and v
 
 ### 9.2 Data
 - `VALUES[charId] = { spend, gifts, family, career, children, childEdu, learning, friends, lending, conflict,
-  honesty, promises }`, each −2..+2 (axes in VALUE_PROFILES §2). Integrity axes (`honesty`, `promises`) have a floor:
-  invalid sides belong only to cast written as wrong (Alpha Kai, Goto, scammers).
+  honesty, promises, home }`, each −2..+2 (axes in VALUE_PROFILES §2). Integrity axes (`honesty`, `promises`) have a floor:
+  invalid sides belong only to cast written as wrong (Alpha Kai, Mr. G, scammers).
 - Player state: `S.values[axis]` (the stance the player has expressed), `S.seenVariants` (set of variant ids),
   `S.poolVisits[poolId]` (counter), `S.seed` (set once at new game). All serialised with the save.
 - `TALKS[topic] = { axis, kind:'preference'|'integrity', lines:{ default, <charId>… }, opts:[share, ask, cave,
@@ -198,13 +199,24 @@ offline by writers to *draft* variants, which are then reviewed, committed and v
 
 ### 9.3 Commands and selection
 - `{variant:'cafe.arrive'}` → choose one entry and splice its `lines` in; `{talk:'children'}` → expand the talk
-  template for the route heroine (or Kenta on solo) into a normal `choice`.
+  template for the route heroine (or Haziq on solo) into a normal `choice`.
 - Selection (pure function of state, so a rewind replays the same line): filter by `who` (route heroine / on-screen
   cast), `ch`, `when(S)` → prefer entries not in `S.seenVariants` → score (who 4, ch 2, each matching value condition
   2, each flag/stat condition 1) → among the top score pick index `hash(S.seed, poolId, S.poolVisits[poolId]) % n` →
   if nothing survives, the generic fallback. Record the id in `S.seenVariants`; increment `S.poolVisits`.
 - Compilation happens at chapter load; variant expansion happens at run time but only ever inserts `s`/`txt`/`fx`
   commands (never `choice`, `badEnd` or `chapterEnd`), so the compiled control flow and checkpoints are unchanged.
+
+### 9.5 Think Deeper cards
+- `THINK[topic] = { mentor:'farah'|'ogawa'|'mei'|'mochi', hook, lenses:[{ kind:'structural'|'personal'|'cultural',
+  text }] (2–3), sg:[context lines with optional src], question }` in `js/data/think.js`. Topics: `consumption`,
+  `genderwar`, `careerpressure`, `nstiming`, `eldercare`, `children`, `marriagecost` (CHAPTERS final table).
+- Script: `{deeper:'genderwar'}` placed right after a `{talk:…}`. It renders an **optional** prompt ("🔍 Think deeper?
+  / Not now"); "Not now" is always visible, so it can never block. Reading it adds the topic to `S.reflections`
+  (saved) and gives 🧠 Love IQ +2 the first time only. No choice inside a card is graded; no `badEnd`, no stat loss.
+- The command is `deeper`, not `think`: `{think:'…'}` already means the player's inner thought.
+- The Notebook gets a "Think Deeper" tab listing read cards. validate.js checks every referenced topic exists and has
+  2–3 lenses including one structural and one personal lens.
 
 ### 9.4 Robustness: every node has an exit
 | Rule | Enforced by |
@@ -236,6 +248,13 @@ Default locale **`en-SG`** (English text, Singapore help cards). Chinese (`zh-SG
 - **Locale switch.** Title-screen and settings menu; stored in `localStorage['sim4love.locale']` (a setting, not part
   of the save, so saves are portable between languages). Default from `navigator.language` if a pack exists, else
   `en-SG`. Switching re-renders the current line.
+- **Display names.** Character ids are stable code keys (`hina`, `mio`, `kaede`, `yuna`, `rei`, `kenta`, `ogawa`,
+  `goto`, `takumi`, `ren`, `saki`, `nana`, plus new `farah`, `nurse`, `joy`). Shown names come from
+  `I18N[locale].names[id] = { short, full }` (en-SG: `hina` → Hanis / Nur Hanis, `mio` → Xin Yi / Lim Xin Yi, `kaede`
+  → Kavya / Kavya Pillai, `yuna` → Elise / Elise de Souza, `rei` → Rae / Rae Koh, `kenta` → Haziq, `ogawa` → Uncle
+  Ong, `goto` → Mr. G, `takumi` → Marcus, `ren` → Ryan, `saki` → Sam, `nana` → Natalie; GAME_DESIGN §4). Script
+  text uses `{n:hina}` / `{full:hina}` tokens instead of literal names; phone contact labels use the same table.
+  Saves store ids only, so a rename never breaks a save.
 - **Fonts and layout.** CJK fallback in the font stack (self-hosted Noto Sans SC subset, OFL); line-length budget is
   per locale (≈ 60 CJK characters per textbox line).
 - **Coverage test (planned).** `node tests/i18n.js zh-SG` lists untranslated strings and stale keys (source text

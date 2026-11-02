@@ -8,23 +8,23 @@ every lesson is defined in `js/lessons.js` (single source of truth — this tabl
 ### Before dating (Ch1–Ch4)
 | Mistake | What it looks like in game | Ch |
 |---|---|---|
-| Not noticing sincere care | Scrolling the phone while Hina hands over the bento | 1 |
-| Falling for flattery and speed | Rei's "soulmate" talk in minute one | 1 |
-| Touching without asking | Grabbing Mio's hand "to help her open up" | 1 |
+| Not noticing sincere care | Scrolling the phone while Hanis hands over her lunch box | 1 |
+| Falling for flattery and speed | Rae's "soulmate" talk in minute one | 1 |
+| Touching without asking | Grabbing Xin Yi's hand "to help her open up" | 1 |
 | Chasing hot-and-cold attention | Waiting 90 minutes and replying "I'll wait every day ♡" | 1 |
-| Being a free service | Doing Yuna's homework and buying her ticket | 1 |
+| Being a free service | Doing Elise's homework and buying her ticket | 1 |
 | Talking only about yourself | 40-minute monologue about your game rank | 2 |
-| Using pick-up "techniques" | Negging Kaede because Alpha Kai said so | 2 |
+| Using pick-up "techniques" | Negging Kavya because Alpha Kai said so | 2 |
 | Trying to buy affection | Spending a month's money on parfaits | 2 |
 | Making someone jealous on purpose | Playing up the haunted-house cling | 2 |
-| Mocking friends to look cool | Laughing at Kenta in the fountain | 2 |
+| Mocking friends to look cool | Laughing at Haziq in the fountain | 2 |
 | Flooding with messages | "??" "did I do something wrong" at 2:14 AM | 3 |
 | Sharing private chats | Screenshots to the boys' group chat | 3 |
-| Sending private photos to strangers | "Airi 💋" → sextortion | 3 |
-| Sending money in an "emergency" | Rei's hospital story | 3 |
-| Forgetting what matters to her | Missing Hina's birthday | 3 |
-| Taking over instead of supporting | Reading Mio's story for her | 4 |
-| Trying to "rescue" someone with money | Paying Rei's "debt" | 4 |
+| Sending private photos to strangers | "Aileen 💋" → sextortion | 3 |
+| Sending money in an "emergency" | Rae's hospital story | 3 |
+| Forgetting what matters to her | Missing Hanis's birthday | 3 |
+| Taking over instead of supporting | Reading Xin Yi's story for her | 4 |
+| Trying to "rescue" someone with money | Paying Rae's "debt" | 4 |
 | Telling several people "you're the only one" | The café fish-pond incident | 4 |
 | Public-pressure confession | Megaphone on stage | 4 |
 | Not accepting "no" | "After everything I did for you?!" | 4 |
@@ -35,7 +35,7 @@ every lesson is defined in `js/lessons.js` (single source of truth — this tabl
 | Effort drops after "yes" | Third weekend of gaming instead of a date | 5 |
 | Moving too fast | "I love you" on day 8, naming future kids | 5 |
 | Kiss-and-tell / bragging | Exaggerating in the locker room | 5 |
-| Dropping your friends | Cancelling on Kenta for the 4th time | 5 |
+| Dropping your friends | Cancelling on Haziq for the 4th time | 5 |
 | Jealous sulking or confronting | "k." / confronting her cousin | 6 |
 | Checking her phone / tracking | Reading her chat, installing a tracker | 6 |
 | Control disguised as care | Demanding location sharing | 6 |
@@ -48,7 +48,7 @@ every lesson is defined in `js/lessons.js` (single source of truth — this tabl
 | Threatening to break up | "Maybe we should just break up then" | 7 |
 | Expecting mind-reading | "You should've known" | 7 |
 | Pressuring for closeness | "If you really loved me…" | 8 |
-| Asking for / sharing intimate images | Kenta's "couples send pics" | 8 |
+| Asking for / sharing intimate images | Haziq's "couples send pics" | 8 |
 | Ignoring her stated preferences | The surprise party she said she hates | 8 |
 | Being rude to her friends/family | Calling her friends boring | 8 |
 | Body jokes | Beach-day "jokes" to fit in | 8 |
@@ -57,13 +57,13 @@ every lesson is defined in `js/lessons.js` (single source of truth — this tabl
 | Mistake | What it looks like in game | Ch |
 |---|---|---|
 | Demanding constant contact | "Why didn't you reply in 10 minutes?" | 9 |
-| Abandoning your own goals | Skipping club and exams to be available | 9 |
+| Abandoning your own goals | Skipping CCA and exams to be available | 9 |
 | Small lies | "I was studying" (arcade) | 9 |
 | Money as a scoreboard | Paying everything, then reminding her | 9 |
 | "Cheer up" instead of support | Dismissing her low mood | 9 |
 | Not letting go | Begging, waiting outside, revenge posts | 9 |
 | Guilt-tripping her dreams | "If you loved me you'd stay" | 10 |
-| Mocking a friend who got scammed | Laughing at Kenta's guru course | 10 |
+| Mocking a friend who got scammed | Laughing at Haziq's guru course | 10 |
 | Lying to look good | Confident wrong answers in the honesty quiz | 10 |
 
 ## 2. Lesson index (63)
@@ -138,14 +138,14 @@ every lesson is defined in `js/lessons.js` (single source of truth — this tabl
 
 | # | Title | Ch | Trigger | Lesson |
 |---|---|---|---|---|
-| 1 | The Soulmate Portfolio | 1 | Invest in Rei's MoonRich app | romancescam |
-| 2 | The Council Would Like a Word | 1 | Grab Mio's hand | consent |
-| 3 | Message Not Delivered | 1 | 14 jealous texts to Yuna | neediness |
+| 1 | The Soulmate Portfolio | 1 | Invest in Rae's MoonRich app | romancescam |
+| 2 | The Council Would Like a Word | 1 | Grab Xin Yi's hand | consent |
+| 3 | Message Not Delivered | 1 | 14 jealous texts to Elise | neediness |
 | 4 | Negged Yourself | 2 | Go full Alpha Kai | negging |
-| 5 | Just You and Me (and My Manager) | 2 | Skip school for Rei, give PIN | isolation |
+| 5 | Just You and Me (and My Manager) | 2 | Skip school for Rae, give PIN | isolation |
 | 6 | They Always Ask Again | 3 | Pay the sextortion demand | sextortion |
-| 7 | The Hospital That Wasn't | 3 | Borrow Mei's savings for Rei | emergencyscam |
-| 8 | Hero Mode: Off | 4 | Confront Goto alone | rescuer |
+| 7 | The Hospital That Wasn't | 3 | Borrow Mei's savings for Rae | emergencyscam |
+| 8 | Hero Mode: Off | 4 | Confront Mr. G alone | rescuer |
 | 9 | The Fish Pond Keeper | 4 | Hide from the girls you lied to | honestjuggle |
 | 10 | Nice Guy™ | 4 | Guilt-trip after rejection | rejection |
 | 11 | Group Chat Hall of Shame | 5 | Show private messages to friends | kissandtell |
@@ -174,15 +174,15 @@ value it reinforces ([CORE_VALUES.md](CORE_VALUES.md)).
 |---|---|---|---|
 | Having no life of your own | "My passion is… her." | 2 | V2 |
 | Spending wages to be noticed | Sneakers and a designer charm "so they notice me" | 4 | V4 V7 |
-| Paying for attention | Tipping ¥10,000 to get a stream shout-out | 4 | V4 |
-| Buying gifts nobody really asked for | ¥24,000 racing spikes after a joke | 4 | V4 |
-| Installment thinking | "Only ¥8,000 a month" for a guru course | 4 | V4 V7 |
+| Paying for attention | Tipping $100 to get a stream shout-out | 4 | V4 |
+| Buying gifts nobody really asked for | $240 racing spikes after a joke | 4 | V4 |
+| Installment thinking | "Only $83 a month" for a guru course | 4 | V4 V7 |
 | Ignoring family money | "Not my problem" | 4 | V2 |
 | Shaming someone's unfiltered look | "Whoa, you look so different!" | 5 | V5 V8 |
 | Doing everything to impress | Cooking every meal alone, missing your own race | 5 | V1 V3 |
 | Drinking to fit in / leaving the group | "Just one" at the strangers' campfire | 5, 17 | V9 |
 | Loving a fantasy | "You're exactly how I imagined you." | 5, 7 | V6 |
-| Being impressed by polish | Covering Takumi's shifts to join his circle | 6 | V5 |
+| Being impressed by polish | Covering Marcus's shifts to join his circle | 6 | V5 |
 | Giving up your own stage | Cancelling your showcase to carry props | 6 | V2 |
 | Building a shrine to a stranger | 26 invented "perfect" traits; printed photos | 7 | V6 |
 | Punishing someone for not matching your image | "You're nothing like your stream." | 7 | V8 |
@@ -195,9 +195,9 @@ value it reinforces ([CORE_VALUES.md](CORE_VALUES.md)).
 | Treating STIs as no big deal | "There's a pill for everything." | 13 | V9 |
 | Blaming an orientation instead of a behaviour | Laughing along with "only gay guys get HIV" | 13 | V8 V9 |
 | Normalising red-flag behaviour | "If they're into it, anything goes"; "videos show choking, so it's normal" | 13 | V9 |
-| Keeping a groomer's secret | Helping Kenta hide an adult "girlfriend" who asks for photos | 13 | V9 |
+| Keeping a groomer's secret | Helping Haziq hide an adult "girlfriend" who asks for photos | 13 | V9 |
 | Giving in to a heated moment | "Just this once" — no talk, no plan, no protection | 13 | V9 |
-| Being always available | Answering every text during study hours, skipping club | 14 | V2 V3 |
+| Being always available | Answering every text during study hours, skipping CCA | 14 | V2 V3 |
 | Running on no sleep | Five all-nighters on energy drinks | 14 | V2 |
 | Shouting instead of planning | Slamming the door on Dad | 15 | V2 |
 | Caving in a value talk | "Whatever you want" on children, money or parents — then resenting it | 1–20 | V1 V2 |
@@ -206,23 +206,23 @@ value it reinforces ([CORE_VALUES.md](CORE_VALUES.md)).
 | Shrinking your future for someone | Turning down your own offer "for her" | 15 | V2 V3 |
 | Not looking after yourself | Delivery every night | 16 | V2 |
 | Credit-card spending | Minimum payments on dates and gadgets | 16 | V4 |
-| Lending to polish | ¥60,000 to Ren "because he looks put-together" | 16 | V4 V5 |
+| Lending to polish | $600 to Ryan "because he looks put-together" | 16 | V4 V5 |
 | Isolating | "I'm fine," gaming until 5 AM | 16 | V2 |
-| Walking away from someone at risk | Leaving drunk Saki with a senior | 17 | V9 |
+| Walking away from someone at risk | Leaving drunk Sam with a guy she just met | 17 | V9 |
 | Acting on impulse | Leaving a party with someone you just met, with no conversation, no plan, no protection | 17 | V6 V9 |
 | Avoiding "the talk" | Joking it away | 18 | V9 |
 | Leaving protection to one partner | "She's on the pill, so it's her job." | 18 | V9 |
 | Skipping testing | "I'm clean, I'd know." | 18 | V9 |
 | Not stopping at "not tonight" | "But we planned it…" | 18 | V9 |
-| Rushing to "catch up" | Kenta's timeline | 18 | V1 |
+| Rushing to "catch up" | Haziq's timeline | 18 | V1 |
 | Panicking after a scare | Blaming, going silent | 18 | V9 |
 | Investing with a match | "Let me teach you crypto." | 19 | V4 V6 |
-| Paying to meet "models" | A ¥30,000 agency deposit | 19 | V4 V7 |
+| Paying to meet "models" | A $300 agency deposit | 19 | V4 V7 |
 | Undressing on a video call | Recorded and blackmailed | 19 | V6 |
 | Joining an MLM | "Your friends are holding you back." | 19 | V4 |
 | Shaming a scam victim | "How dumb are you?" | 19 | V8 |
 
-### 4.2 New lesson IDs (55)
+### 4.2 New lesson IDs (56)
 
 | Lesson ID | Kind | Title | Ch |
 |---|---|---|---|
@@ -286,8 +286,14 @@ Partner-talk lessons (VALUE_PROFILES §5):
 | `nocontempt` | ❌ pitfall | Disagree without sneering | 1–20 |
 | `dealbreaker` | ✅ healthy | A kind "this doesn't fit" is allowed | 1–20 |
 | `integrityfloor` | ✅ healthy | Some things aren't a matter of taste (lying, fraud, broken promises) | 3, 6, 7, 19 |
+| `usvsproblem` | ✅ healthy | Us vs. the problem: name the outside pressure together before blaming each other (Think Deeper callback) | 9, 16, 18, 20 |
 
-(50 chapter lessons + 5 talk lessons = 55 new IDs.)
+(50 chapter lessons + 6 talk lessons = 56 new IDs.) Think Deeper cards themselves award no lesson and are never
+graded; `usvsproblem` is earned in the talk, by choosing the non-blaming option.
+
+Singapore notes for lesson cards: money is in SGD; `images` and `grooming` cards cite the Singapore Penal Code
+wording in GAME_DESIGN §3.1 (non-graphic); `peerpressure` / `drinksafety` note the legal drinking age is 18 and
+that not drinking needs no explanation.
 
 Reused existing IDs in new chapters: `ownlife` (8), `money` (16; also the Ch14 talk), `distance` (16), `selfneglect` (14), `chatprivacy` (17), `sextortion` (19), `honesty` (20).
 
@@ -299,12 +305,12 @@ Reused existing IDs in new chapters: `ownlife` (8), `money` (16; also the Ch14 t
 | 20 | Search Party of One | 5 | Wander into the woods at night with strangers | refusal |
 | 21 | Fan Club of One | 7 | Build a photo shrine to your crush | factsvsfantasy |
 | 22 | Energy Drink Speedrun | 14 | Fifth all-nighter; asleep in the exam | sleep |
-| 23 | Minimum Payment Forever | 16 | Max the credit card on dates and gadgets | debt |
+| 23 | Minimum Payment Forever | 16 | Stack buy-now-pay-later plans on dates and gadgets | debt |
 | 24 | Not Tonight Means Not Tonight | 18 | Keep pushing after "not tonight" (serious tone, resource card) | ongoingconsent |
 | 25 | The Soulmate Portfolio 2: Leveraged | 19 | Invest with a dating-app match | pigbutcher |
 | 26 | Paid in Full, Twice | 19 | Pay a video-call blackmailer | sextortion |
 | 27 | Downline | 19 | Recruit your friends and sister into an MLM | mlm |
-| 28 | Our Little Secret | 13 | Help Kenta hide an adult groomer and send photos (serious tone, resource card) | grooming |
+| 28 | Our Little Secret | 13 | Help Haziq hide an adult groomer and send photos (serious tone, resource card) | grooming |
 
 Old bad ends #1–#18 keep their titles; their chapters move with the mapping above (e.g. #10 *Nice Guy™* → Ch8,
 #17 → Ch14, #18 *Main Character Syndrome* → Ch14). Bad ends #24 and #28 are the exceptions to "comic first": they

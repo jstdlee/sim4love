@@ -14,7 +14,7 @@ one value below, and must never contradict any of them. If a scene is fun but br
 | V2 | **Your life is the main story** | Your goals, passion, health, money and friends are yours to keep, in a relationship or not. A partner is a big part of life, never all of it. | The **Your Life** track (goal, passion, health, wallet) is visible all game and weighs most in the endings |
 | V3 | **Invest where it grows** | Energy poured into chasing or pleasing one person returns little. Energy put into your craft, study, career and body compounds. | Free-evening choices: time on your passion/goal keeps paying off; extra time spent chasing someone has diminishing returns |
 | V4 | **Never spend beyond your means for anyone** | Buying affection with money you don't have is absurd, not romantic. Attention that has to be paid for is a product. | Real wallet balance; no option where overspending is the best outcome; debt and "top gifter" bad ends |
-| V5 | **Looks are packaging** | A polished exterior says nothing about character. Behind every beautiful feed is an ordinary person, sometimes with a messy room, bad habits, or a private life that is falling apart. Judge conduct over time, not appearance. | "Behind the filter" scenes (camp mornings, Yuna's burnt-out persona, Kai's rented car, polished classmates who borrow and never repay) |
+| V5 | **Looks are packaging** | A polished exterior says nothing about character. Behind every beautiful feed is an ordinary person, sometimes with a messy room, bad habits, or a private life that is falling apart. Judge conduct over time, not appearance. | "Behind the filter" scenes (camp mornings, Elise's burnt-out persona, Kai's rented car, polished classmates who borrow and never repay) |
 | V6 | **Clear-headed, never obsessed** | Most of an infatuation is your own projection, plus sacrifices nobody asked you for. Check facts before feelings run the show. | The **Rose Filter** mechanic: idealising raises it and hides better options; fact-checking lowers it |
 | V7 | **Not materialistic** | Status, brands and "high-value" lifestyles are marketing. They don't make you lovable, and they don't make anyone else worth more. | Alpha Kai's rented lifestyle, installment watches, luxury-on-credit dates. The cheap, thoughtful option always wins |
 | V8 | **Respect without worship, disenchantment without contempt** | Nobody is a goddess, a prize or a villain. People are equals: flawed, ordinary and deserving of basic respect. Seeing through the shine is not a reason to look down on anyone. | Heroines are full people with flaws and goals; mocking a heroine is always a mistake; pedestal options are always a mistake too |
@@ -27,13 +27,13 @@ The game deliberately dismantles the "she is everything" fantasy. It does this t
 through contempt.
 
 **Do**
-- Show ordinary reality behind glamour: the idol who lives on energy drinks and can't cook, the cool senpai who
-  is behind on every assignment, the perfect feed that hides loneliness and debt.
+- Show ordinary reality behind glamour: the idol who lives on energy drinks and can't cook, the cool track captain
+  who is behind on every assignment, the perfect feed that hides loneliness and debt.
 - Make the player's projection visible: the game shows what he *assumed* next to what he actually *knows*.
 - Let the "reveal" end in empathy or in a boundary, never in a sneer ("she's a person who's bad at sleeping",
   not "she's a fraud").
-- Apply the same lens to men: Alpha Kai's rented Lamborghini, Takumi the polished student-council president who
-  takes credit for others' work, Ren the stylish classmate who borrows rent and never repays.
+- Apply the same lens to men: Alpha Kai's rented Lamborghini, Marcus the polished student-council president who
+  takes credit for others' work, Ryan the stylish classmate who borrows rent and never repays.
 - Keep the player as the main source of mistakes: obsession, overspending and self-neglect are *his* choices.
 
 **Don't (hard rules)**
