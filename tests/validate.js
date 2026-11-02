@@ -25,12 +25,13 @@ function walk(list, where) {
     // Walk-on NPCs: a capitalised name not in CAST shows a name tag with no sprite (engine.js). Lower-case = typo.
     if (c.s && !SPEAKERS.has(c.s) && !/^[A-Z]/.test(c.s)) errors.push(`${at}: unknown speaker "${c.s}"`);
     if (c.show && !SPEAKERS.has(c.show)) errors.push(`${at}: unknown show "${c.show}"`);
-    if (c.txt && !PHONE.has(c.txt)) errors.push(`${at}: unknown txt sender "${c.txt}"`);
+    if (c.txt && !PHONE.has(c.txt) && !/^[A-Z]/.test(c.txt)) errors.push(`${at}: unknown txt sender "${c.txt}"`);
     if (c.e && !exprOk(c.mochi ? 'mochi' : (c.s || c.show), c.e)) errors.push(`${at}: unknown expression "${c.e}"`);
     if (c.ach && !W.ACHIEVEMENTS[c.ach]) errors.push(`${at}: unknown achievement "${c.ach}"`);
     if (c.ending && !ENDING_IDS.has(c.ending)) errors.push(`${at}: unknown ending "${c.ending}"`);
     if (c.resource && !W.RESOURCES[c.resource]) errors.push(`${at}: unknown resource "${c.resource}"`);
     if (c.variant) { variantsUsed.add(c.variant); if (!W.VARIANTS[c.variant]) errors.push(`${at}: unknown variant pool "${c.variant}"`); }
+    if (c.lesson) { lessonsUsed.add(c.lesson); if (!W.LESSONS[c.lesson]) errors.push(`${at}: unknown lesson "${c.lesson}"`); }
     if (c.deeper && !W.THINK[c.deeper]) errors.push(`${at}: unknown Think Deeper card "${c.deeper}"`);
     if (c.fx) for (const k of Object.keys(c.fx)) if (!FX.has(k)) errors.push(`${at}: unknown fx key "${k}"`);
     if (c.badEnd) {

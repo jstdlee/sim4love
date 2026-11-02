@@ -231,7 +231,7 @@ Object.assign(window.LESSONS, {
   yourtimeline: { kind: 'green', ic: 'clock', title: 'Your timeline is yours',
     text: 'There is no correct age for a first kiss, a first relationship or anything else. Comparing your timeline to the group chat is comparing to rumours.' },
   scareplan: { kind: 'green', ic: 'compass', title: 'Scare? Act fast, together',
-    text: 'If protection fails, act quickly and calmly: see a doctor or pharmacist together and talk to a trusted adult. Blame helps nobody; a plan does.' },
+    text: 'If protection fails, act quickly and calmly. Emergency contraception works best the sooner it is taken; in Singapore she sees a GP or polyclinic doctor for it, and you can go with her. Share the cost, plan an STI test, support her decisions. Blame helps nobody; a plan does.' },
   pigbutcher: { kind: 'trap', ic: 'alert', title: 'Romance + investing = scam',
     text: 'Someone you met online who is charming, never video-calls and starts talking about crypto or a trading app is following a script. Never invest because of a romance.' },
   depositscam: { kind: 'trap', ic: 'alert', title: 'You can\'t buy someone\'s affection',

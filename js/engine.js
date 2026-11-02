@@ -353,6 +353,7 @@
       if (c.val) { applyVal(c.val); continue; }
       if (c.route) { S.route = c.route; if (routeKey()) S.stats.trust = Math.max(S.stats.trust, 20); renderHud(); continue; }
       if (c.ach) { unlockAch(c.ach); continue; }
+      if (c.lesson) { showLesson(c.lesson, () => { step(); save(); }); return; }
       if (c.deeper) { showDeeper(c.deeper); return; }
       if (c.resource) { showResource(c.resource); return; }
       if (c.ending) { showEnding(c.ending === '@auto' ? window.SIM.endingFor(S) : c.ending); return; }

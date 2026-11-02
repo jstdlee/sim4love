@@ -55,7 +55,7 @@
     nurse: { name: 'Nurse Tan', full: 'Nurse Tan', color: '#6ab0d8', hair: '#1c1a24', hairShade: '#0c0b12', hairHi: '#55506a', iris: '#3a2a1a', irisDark: '#140c06', style: 'bun', outfit: 'scrubs' },
     takumi: { name: 'Marcus', full: 'Marcus Tan', color: '#5b7bd6', hair: '#141218', hairShade: '#050407', hairHi: '#4a4658', iris: '#2a1a10', irisDark: '#0c0604', style: 'short', outfit: 'suit', male: true },
     ren: { name: 'Ryan', full: 'Ryan Teo', color: '#d6a84e', hair: '#5a3a22', hairShade: '#3a2414', hairHi: '#9a7050', iris: '#2a1a10', irisDark: '#0c0604', style: 'short', outfit: 'jersey', male: true },
-    saki: { name: 'Sam', full: 'Sam Wong', color: '#8ac46a', hair: '#1a1820', hairShade: '#08070c', hairHi: '#4a4658', iris: '#2a1a10', irisDark: '#0c0604', style: 'short', outfit: 'uniform', male: true },
+    saki: { name: 'Sam', full: 'Sam Wong', color: '#8ac46a', hair: '#1a1820', hairShade: '#08070c', hairHi: '#4a4658', iris: '#2a1a10', irisDark: '#0c0604', style: 'short', outfit: 'uniform' },
     nana: { name: 'Natalie', full: 'Natalie Rodrigues', color: '#c46aa8', skin: '#c99272', skinShade: '#a87254', hair: '#2a1a14', hairShade: '#140c08', hairHi: '#6a4a3a',
       iris: '#3a2a1a', irisDark: '#140c06', style: 'long', outfit: 'blouse' },
     kai: { name: 'Alpha Kai', full: 'Alpha Kai (influencer)', color: '#c9a227', hair: '#e8c45a', hairShade: '#b8942a', hairHi: '#fff0b0', iris: '#2a1a10', irisDark: '#0c0604', style: 'short', outfit: 'suit', male: true, glint: true },

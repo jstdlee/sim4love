@@ -36,7 +36,7 @@
       'If they talk about hurting themselves, contact a crisis line or emergency services right away.', 'Look after yourself too.'],
       contacts: ['sos', 'mindline', 'chat', 'emergency'] },
     sexhealth: { title: 'Sexual health: confidential and fast', lines: [
-      'Many STIs have no symptoms. Testing is confidential and normal.', 'If protection fails, emergency contraception works best the sooner it is taken. See a GP, polyclinic or pharmacist quickly.',
+      'Many STIs have no symptoms. Testing is confidential and normal.', 'If protection fails, emergency contraception works best the sooner it is taken. In Singapore it needs a prescription: see a GP or polyclinic doctor quickly, ideally within 72 hours.',
       'If there was a risk of HIV, PEP medicine must start within 72 hours, and sooner is better.'],
       contacts: ['dsc', 'afa', 'healthhub'] },
     grooming: { title: 'If an adult wants a secret relationship with a teen', lines: [
