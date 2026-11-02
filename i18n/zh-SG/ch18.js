@@ -67,14 +67,14 @@ Object.assign(window.I18N['zh-SG'].text, {
   "In Singapore emergency contraception needs a doctor's prescription, and she sees the doctor herself. The common pill works best within 72 hours; another type works up to five days. Sooner is better.": "在新加坡，紧急避孕药需要医生处方，而且要她本人去看医生。常见的那种在72小时内最有效；另一种最多五天内有效。越早越好。",
   "Panic, blame each other, go silent.": "慌了，互相怪对方，然后都不讲话。",
   "Every hour counts here. Blame: never. Plan: doctor today, together.": "这里每个小时都算数。怪谁：永远不用。计划：今天一起去看医生。",
-  "A toddler waddles past the bench at Gardens by the Bay. {her}: \"Do you want kids? Like, ever?\"": "一个刚学走路的小孩摇摇摆摆地经过滨海湾花园的长椅。{her}：“你想要小孩吗？我是说，有没有想过？”",
-  "\"I've thought about it a bit. Can I hear yours first? No wrong answers.\"": "“我想过一点。可以先听听你的吗？没有错误答案。”",
-  "\"Maybe never. I'm honestly not sure I want that life.\"": "“也许永远不要。说实话，我不确定我想要那样的生活。”",
+  "A toddler waddles past your bench at Gardens by the Bay. {her}: \"Do you want kids? Like, ever?\"": "滨海湾花园，一个小朋友摇摇晃晃走过你们的长椅。{her}：“你想要小孩吗？我是说，以后？”",
+  "\"I've thought about it a bit. Can I hear yours first? No wrong answers.\"": "“我有想过一点。可以先听你的吗？没有错的答案。”",
+  "\"Maybe never. I'm honestly not sure I want that life.\"": "“可能永远不要。老实讲我不确定我想要那种生活。”",
   "This one goes deep. What now?": "这个话题很深。现在怎么办？",
   "\"Let's keep talking about it. We have time, and we'll both change.\"": "“我们继续聊这件事吧。我们有时间，而且我们都会改变。”",
   "\"Is there a middle we could both actually live with?\"": "“有没有一个我们两个都真的能接受的中间点？”",
   "\"I think we might want different lives. I would rather say it kindly now than pretend.\"": "“我觉得我们想要的人生可能不一样。我宁愿现在温柔地说出来，也不想假装。”",
-  "\"Maybe, one day, when we're ready. No timeline.\"": "“也许，有一天，等我们准备好的时候。没有时间表。”",
-  "\"Yes. I want a family, and not too late.\"": "“想。我想要一个家，而且不要太晚。”",
-  "\"Kids are a life sentence. Only people with no plans have them.\"": "“小孩就是无期徒刑。只有没计划的人才会生。”"
+  "\"Maybe, one day, when we're ready. No timeline.\"": "“也许，有一天，准备好的时候。不定时间。”",
+  "\"Yes. I want a family, and not too late.\"": "“要。我想要一个家，而且不要太晚。”",
+  "\"Kids are a life sentence. Only people with no plans have them.\"": "“小孩就是无期徒刑。没计划的人才会生。”"
 });

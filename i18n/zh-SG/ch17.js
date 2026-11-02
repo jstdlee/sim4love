@@ -59,11 +59,11 @@ Object.assign(window.I18N['zh-SG'].text, {
   "Forward it with a laughing emoji.": "加个笑哭表情转发。",
   "He was unconscious. He didn't sign up to be a meme.": "他当时不省人事。他没答应要变成梗图。",
   "Morning everyone. So, uh, quick one: anyone can spot me $200 till Friday?": "大家早。那个……问一下：有谁可以先借我$200，礼拜五还？",
-  "Ryan asks to borrow money again. Sam: \"Friends help!\" Natalie: \"Friends don't make you their bank.\" {her} looks at you.": "瑞安又在借钱了。萨姆：“朋友就是要互相帮忙！”娜塔莉：“朋友不会把你当成提款机。”{her}看着你。",
-  "\"I want to help people. But I also want a rule I can keep. What's yours?\"": "“我想帮人。但我也想要一条自己守得住的规矩。你的是什么？”",
-  "\"I don't lend money. I help in other ways.\"": "“我不借钱。我用别的方式帮忙。”",
-  "\"Only what I can afford to lose, and only once.\"": "“只借我输得起的钱，而且只借一次。”",
-  "\"If a friend needs it, I help. That's friendship.\"": "“朋友有需要，我就帮。这就是友情。”",
-  "\"Ryan's a leech. Anyone who lends him money is an idiot.\"": "“瑞安就是只吸血鬼。借钱给他的都是白痴。”",
+  "Ryan wants to borrow money again. Sam: \"Friends help!\" Natalie: \"Friends don't make you their bank.\" {her} looks at you.": "瑞安又要借钱。珊珊：“朋友就是要帮忙！”娜塔莉：“朋友不会把你当银行。”{her}看着你。",
+  "\"I want to help people. But I also want a rule I can keep. What's yours?\"": "“我想帮人。但我也想要一个守得住的规矩。你的是什么？”",
+  "\"I don't lend money. I help in other ways.\"": "“我不借钱。我用别的方式帮。”",
+  "\"Only what I can afford to lose, and only once.\"": "“只借我亏得起的，而且只借一次。”",
+  "\"If a friend needs it, I help. That's friendship.\"": "“朋友需要，我就帮。这就是朋友。”",
+  "\"Ryan's a leech. Anyone who lends him money is an idiot.\"": "“瑞安就是吸血的。借他钱的人都是傻瓜。”",
   "Adult isn't \"can drink\". It's \"can say no to a whole room\".": "大人不是“可以喝酒”。是“可以对一整个房间说不”。"
 });

@@ -65,11 +65,11 @@ Object.assign(window.I18N['zh-SG'].text, {
   "Soldiers need maintenance too. Especially soldiers.": "军人也需要保养。尤其是军人。",
   "\"I'm fine.\" Stay in the room.": "“我没事。”继续待在房间里。",
   "\"I'm fine\": Singapore's most popular lie. If the grey lasts weeks, talk to someone. mindline 1771. Don't wait for worse.": "“我没事”：全新加坡最常见的谎话。如果灰灰的感觉持续好几个礼拜，找人谈谈。mindline 1771。不用等到更糟。",
-  "Book-out dinner. Mei wants to give Mum and Dad a monthly allowance. {her}: \"And later, would you want a flat near your parents? Or mine?\"": "放假出营的晚餐。小美想每个月给爸妈零用钱。{her}：“以后，你会想住在你爸妈附近的组屋吗？还是我爸妈附近？”",
-  "\"I want to think about it with you. What does looking after parents mean in your family?\"": "“我想和你一起好好想想。在你们家，照顾父母是什么意思？”",
-  "\"No rush. Build our own lives first, then decide.\"": "“不急。先建立我们自己的生活，再做决定。”",
-  "\"Somewhere in between. Close enough to help, far enough to be us.\"": "“在两者之间吧。近到可以帮忙，远到可以做我们自己。”",
-  "\"Near the parents, as early as we can. Family helps family.\"": "“越早越好，住在父母附近。家人帮家人。”",
-  "\"BTO talk at nineteen? That's so auntie.\"": "“十九岁就在讲预购组屋（BTO）？好阿姨哦。”",
+  "Book-out dinner. Mei wants to give Mum and Dad a monthly allowance. {her}: \"And later, would you want a flat near your parents? Or mine?\"": "出营回家的晚餐。小美想每个月给爸妈零用钱。{her}：“那以后，你会想住你爸妈附近吗？还是我爸妈？”",
+  "\"I want to think about it with you. What does looking after parents mean in your family?\"": "“我想跟你一起想。在你家，照顾父母是什么意思？”",
+  "\"No rush. Build our own lives first, then decide.\"": "“不急。先把我们自己的生活过好，再决定。”",
+  "\"Somewhere in between. Close enough to help, far enough to be us.\"": "“中间吧。近到可以帮忙，远到还是我们自己。”",
+  "\"Near the parents, as early as we can. Family helps family.\"": "“住父母附近，越早越好。一家人互相帮忙。”",
+  "\"BTO talk at nineteen? So auntie.\"": "“十九岁就讲BTO？好安娣哦。”",
   "A free book-out evening. Where does it go?": "一个空闲的放假傍晚。要去哪里？"
 });

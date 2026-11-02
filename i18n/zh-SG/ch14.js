@@ -99,11 +99,11 @@ Object.assign(window.I18N['zh-SG'].text, {
   "\"Send lah, what's the worst that can happen.\"": "“传啦，最坏能怎样。”",
   "The worst: read, no reply, and Haziq feeling worse at 3:05.": "最坏就是：已读不回，然后3:05的哈齐克更难受。",
   "The class trip after A-Levels costs $480. {her} can't afford it this year.": "考完A水准后的班级旅行要$480。{her}今年负担不起。",
-  "At the MRT gantry, {her}'s card is short again. \"I'll pay for you, it's fine,\" you say. {her} frowns. \"I don't want to owe you.\"": "在地铁闸门前，{her}的卡又不够钱了。“我帮你付，没关系。”你说。{her}皱起眉头。“我不想欠你。”",
-  "\"Can we talk about how we handle money between us, so nobody owes anyone?\"": "“我们可以聊聊两个人之间怎么处理钱的事吗？这样谁都不欠谁。”",
-  "\"Let's each pay our own. Clean and simple.\"": "“各付各的。清楚又简单。”",
-  "\"Take turns, and keep it fair over a month.\"": "“轮流付，一个月下来保持公平。”",
-  "\"Whoever has more pays. That's what partners do.\"": "“谁钱多谁付。情侣本来就是这样。”",
-  "\"It's literally two dollars. Don't make it a whole thing.\"": "“才两块钱而已。别搞得那么严重。”",
+  "At the MRT gantry, {her}'s card is short again. \"I'll pay, it's fine,\" you say. {her} frowns. \"I don't want to owe you.\"": "在地铁闸门，{her}的卡又不够钱了。你说：“我帮你付，没事。”{her}皱眉：“我不想欠你。”",
+  "\"Can we talk about how we do money, so nobody owes anybody?\"": "“我们可以谈一下钱要怎么算吗？这样谁都不欠谁。”",
+  "\"Each pay our own. Clean and simple.\"": "“各付各的。干净简单。”",
+  "\"Take turns, and keep it fair over the month.\"": "“轮流请，一个月下来公平就好。”",
+  "\"Whoever has more pays. That's what partners do.\"": "“谁钱多谁付。情侣就是这样。”",
+  "\"It's literally two dollars. Don't make it a thing.\"": "“才两块钱而已。不用搞得那么大。”",
   "Eh. You look like a zombie. Whatever happened this year, you're still here, and you're nicer than last year. Now eat something.": "诶。你看起来像僵尸。不管今年发生什么，你还在，而且比去年好相处。现在去吃点东西。"
 });
