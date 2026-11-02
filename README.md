@@ -8,6 +8,19 @@
 
 ---
 
+## At a glance
+
+| | |
+|---|---|
+| **Genre** | Branching visual novel · romance · life sim |
+| **Length** | 20 chapters in 5 parts, about 2–3 hours for one run |
+| **Choices** | 240+ decisions, 40+ rewindable bad endings, many routes and endings |
+| **Extras** | 119 notebook lessons, achievements, 7 Think Deeper cards |
+| **Platforms** | Any modern browser, desktop or phone. No install, no account, no ads |
+| **Rating** | 16+ (see the content note) |
+
+<p align="center"><img src="docs/screens/title.jpg" alt="sim4love title screen" width="720"></p>
+
 ## What kind of game is this?
 
 sim4love is a **branching romance visual novel** with a heart: it's funny, a little chaotic, and quietly honest
@@ -29,6 +42,27 @@ from love, and from your own life.
   support services.
 - 📱 Phone chats, a notebook of what you've learned, achievements, autosave, and a mobile-first dark-and-gold UI.
 
+## Review (our own take)
+
+> An honest self-review from the team that made it, not a press quote.
+>
+> **Verdict: 8.5 / 10. A dating sim that cares more about you than about your score.**
+
+| | Score | Notes |
+|---|---|---|
+| Story & writing | 9 | Warm, often very funny, and it surprises you. The quiet moments land as well as the jokes. |
+| Choices that matter | 9 | Decisions carry across chapters. Values clash in ways that feel fair to everyone. |
+| Art & presentation | 8 | Lovely hand-drawn cast and locations, a stylish dark-and-gold interface, phone chats in the story. |
+| Replay value | 9 | Routes, secret endings, and a notebook that fills in only if you try other paths. |
+| Learning without lectures | 9 | You come away knowing more about real relationships. It never feels like homework. |
+| Polish | 7.5 | Smooth on desktop and phone, with autosave and keyboard shortcuts. No voice acting or music yet. |
+
+**Liked:** bad endings you can rewind straight away and actually want to see · characters who are more than their
+archetype · a Singapore setting that feels lived in · it never shames the player.
+
+**Could be better:** text only for now (no soundtrack or voices) · English only for now · a few chapters are dense with
+choices if you prefer a relaxed read.
+
 ## Content note
 
 Rated **16+**. The game deals with dating, peer pressure, online scams and relationship red flags, always in an
@@ -48,6 +82,7 @@ Progress saves automatically in your browser.
 ```bash
 node tests/validate.js   # script and data checks
 node tests/softlock.js   # proves every path can move forward
+node tests/playthrough.js first|last|random [--mobile] [--shots]   # browser playthrough (needs Playwright)
 ```
 
 Design and developer docs are in [`docs/`](docs/). ⚠️ They contain full spoilers.

@@ -309,7 +309,10 @@
     t.className = 'toast ' + kind;
     if (color) t.style.setProperty('--c', color);
     t.textContent = text;
-    $('#toasts').appendChild(t);
+    const box = $('#toasts');
+    box.appendChild(t);
+    // Keep the stack short so toasts never cover a whole card on small screens.
+    while (box.children.length > 3) box.firstChild.remove();
     setTimeout(() => t.remove(), 2600);
   }
 
@@ -400,7 +403,10 @@
     setBox('narr choicebox', '', c.choice);
     finishType();
     const wrap = $('#choices');
-    const visible = c.opts.map((o, i) => [o, i]).filter(([o]) => !o.show || o.show(S));
+    // Options appear in a stable per-player order (same save, same order, so rewinds stay consistent),
+    // so the clear-eyed answer is not always in the same slot.
+    const visible = c.opts.map((o, i) => [o, i]).filter(([o]) => !o.show || o.show(S))
+      .sort((a, b) => hash(S.name, S.chapter, c.choice, a[0].t) - hash(S.name, S.chapter, c.choice, b[0].t));
     if (!visible.length) {
       console.warn('sim4love: no visible option for choice, skipping:', c.choice);
       busy = false; S.pc = c.after; step(); return;

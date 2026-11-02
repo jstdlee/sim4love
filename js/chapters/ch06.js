@@ -35,6 +35,11 @@ window.CHAPTERS.ch6 = {
         { txt: 'rei', t: '...' }, { txt: 'rei', t: 'no one\'s ever just told me the number before.' }, { phoneOff: true },
         { mochi: 'You didn\'t become her hero. You gave her a door. That\'s the most anyone can do.', e: 'happy' },
       ] },
+      { t: 'Block the number. Not your circus, not your monkeys.', fx: { wisdom: 6, self: 4 }, lesson: 'rescuer', then: [
+        { phoneOff: true },
+        { n: 'Blocked. The screen goes quiet. Safe, at least.' },
+        { mochi: 'Safe is good. Next time, a helpline number costs you nothing and might be the door she needs.', e: 'neutral' },
+      ] },
       { t: 'Promise to pay off her debt yourself. You\'ll be her hero.', fx: { cash: -150, self: -10, proj: 10 }, lesson: 'rescuer', then: [
         { txt: 'rei', t: 'omg thank you. the rest by Friday? 🥺' }, { phoneOff: true },
         { n: 'Friday. Then the Friday after. Then a new number: "Hi, I\'m Rae\'s cousin..."' },

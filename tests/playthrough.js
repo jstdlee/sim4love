@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* Headless playthrough of all 20 chapters with Playwright.
    Run: node tests/playthrough.js [first|last|random] [--mobile] [--shots[=dir]]
-   - first:  always pick the first enabled option (mostly the healthy path)
+   - first:  always pick the first enabled option (options are shuffled per player name)
    - last:   always pick the last enabled option (mostly mistakes / bad ends → tests rewind)
    - random: seeded random choices
    --mobile: iPhone-sized portrait viewport with touch
@@ -51,9 +51,9 @@ let seed = 42; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 23328
     if (same > 400) { errors.push(`Stuck at ${st.ch} pc ${st.pc}: "${st.text.slice(0, 80)}"`); break; }
     if (st.card) { if (!cards.has(st.ch)) { cards.add(st.ch); await page.waitForTimeout(500); await shot(`${st.ch}-card`); } await page.waitForTimeout(200); continue; }
     if (st.modal) {
-      if (st.bad) { badEnds++; await shot(`${st.ch}-badend-${badEnds}`); }
+      if (st.bad) { badEnds++; await page.waitForTimeout(450); await shot(`${st.ch}-badend-${badEnds}`); }
       if (st.ending && !st.bad) { endings.push(st.ending.trim().slice(0, 40)); }
-      if (st.next) { await shot(`${st.ch}-results`); await page.click('#modal [data-act="next"]'); await page.waitForTimeout(1200); continue; }
+      if (st.next) { await page.waitForTimeout(500); await shot(`${st.ch}-results`); await page.click('#modal [data-act="next"]'); await page.waitForTimeout(1200); continue; }
       if (st.title) { await shot('final'); done = true; break; }
       const close = await page.$('#modal [data-close]');
       if (close) { if (st.ending && !st.bad) await shot(`${st.ch}-ending`); await close.click(); }

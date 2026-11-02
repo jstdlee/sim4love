@@ -165,7 +165,7 @@ img.char-svg.incoming { opacity: 0; }
 
 /* ---------- toasts ---------- */
 #toasts { position: absolute; top: 76px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 9; pointer-events: none; }
-.toast { background: rgba(20, 10, 12, .92); border: 1px solid rgba(201, 164, 92, .6); color: var(--ink); padding: 6px 16px 5px; font: 14px/1.2 var(--f-label); letter-spacing: .03em; box-shadow: 0 6px 16px rgba(0, 0, 0, .5); animation: toast 2.6s ease forwards; white-space: nowrap; }
+.toast { background: rgba(20, 10, 12, .92); border: 1px solid rgba(201, 164, 92, .6); color: var(--ink); padding: 6px 16px 5px; font: 14px/1.2 var(--f-label); letter-spacing: .03em; box-shadow: 0 6px 16px rgba(0, 0, 0, .5); animation: toast 2.6s ease forwards; white-space: nowrap; max-width: calc(100vw - 24px); overflow: hidden; text-overflow: ellipsis; }
 .toast.up { border-color: color-mix(in srgb, var(--c, var(--gold)) 70%, transparent); }
 .toast.up::before { content: '▲ '; color: var(--c, var(--gold-hi)); font-size: 10px; }
 .toast.down { border-color: rgba(214, 90, 80, .7); color: #f0c2b8; }

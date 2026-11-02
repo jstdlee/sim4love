@@ -27,7 +27,7 @@ window.I18N['en-SG'] = {
     'lesson.green': 'Healthy', 'lesson.red': 'Red flag', 'lesson.trap': 'Trap', 'lesson.new': 'New lesson', 'lesson.added': 'Added to your Love Notebook',
     'btn.gotit': 'Got it', 'btn.rewind': 'Rewind to the last choice', 'btn.continue': 'Continue', 'btn.okay': 'Okay', 'btn.close': 'Close',
     'btn.again': 'Replay chapter', 'btn.title': 'Title screen', 'btn.next': 'Continue to {ch}',
-    'badend.label': 'Bad end', 'badend.serious': 'This one is not a joke. Here is help, if you or a friend ever need it.', 'badend.mochi': 'Mochi says',
+    'badend.label': 'Bad end', 'badend.serious': 'This one is not a joke. Here is help, if you or a friend ever need it.', 'badend.mochi': 'Oops! Everyone gets one of these. Let\'s rewind and try that again.',
     'ach.toast': 'Achievement',
     'resource.kicker': 'Real help in Singapore', 'resource.verified': 'Checked {date}',
     'deeper.kicker': 'Think deeper', 'deeper.skip': 'Not now', 'deeper.read': 'Read the card',
