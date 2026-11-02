@@ -1,0 +1,14 @@
+.git
+.github
+node_modules
+tests
+docs
+design
+AGENTS.md
+README.md
+package.json
+package-lock.json
+wrangler.jsonc
+.assetsignore
+.wrangler
+assets/fonts/README.md

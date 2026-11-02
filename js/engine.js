@@ -34,9 +34,9 @@
     mio:   { label: 'Mio',   icon: '♥' },
     kaede: { label: 'Kaede', icon: '♥' },
     yuna:  { label: 'Yuna',  icon: '♥' },
-    trust: { label: 'Trust', icon: '🤝', routeOnly: true },
-    wisdom:{ label: 'Love IQ', icon: '🧠' },
-    self:  { label: 'Self-respect', icon: '👑' },
+    trust: { label: 'Trust', icon: '◆', routeOnly: true },
+    wisdom:{ label: 'Love IQ', icon: '◆' },
+    self:  { label: 'Self-respect', icon: '◆' },
   };
 
   // ---------- compile nested script into flat program ----------
@@ -91,9 +91,36 @@
     .replace(/\{her\}/g, routeKey() ? Art.CAST[routeKey()].name : 'her');
 
   // ---------- rendering ----------
-  function renderBg() {
-    $('#bg').innerHTML = Art.background(S.view.bg);
+  // Background: layered crossfade. A new layer fades in over the old one, which is removed afterwards.
+  function renderBg(instant) {
+    const host = $('#bg');
     $('#petals').classList.toggle('on', !!S.view.petals);
+    const cur = host.querySelector('.bg-layer.on:not(.out)');
+    if (cur && cur.dataset.key === S.view.bg) return;
+    const layer = document.createElement('div');
+    layer.className = 'bg-layer';
+    layer.dataset.key = S.view.bg;
+    layer.innerHTML = Art.background(S.view.bg);
+    host.appendChild(layer);
+    const old = [...host.children].filter(el => el !== layer);
+    const show = () => {
+      layer.classList.add('on');
+      old.forEach(el => { el.classList.add('out'); setTimeout(() => el.remove(), 750); });
+    };
+    if (instant || !cur) { layer.style.transition = 'none'; show(); void layer.offsetWidth; layer.style.transition = ''; return; }
+    requestAnimationFrame(() => requestAnimationFrame(show));
+  }
+  // Swap a character's expression: the new image fades in over the old one (no layout jump).
+  function swapExpr(el, k, e) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = Art.character(k, e);
+    const next = tmp.firstElementChild;
+    const prev = [...el.children];
+    if (!prev.length || next.tagName !== 'IMG') { el.innerHTML = ''; el.appendChild(next); return; }
+    next.classList.add('incoming');
+    el.appendChild(next);
+    const reveal = () => { next.classList.remove('incoming'); prev.forEach(p => { p.style.opacity = '0'; setTimeout(() => p.remove(), 300); }); };
+    if (next.complete) requestAnimationFrame(reveal); else { next.onload = reveal; next.onerror = reveal; }
   }
   function renderChars(speaker) {
     const layer = $('#chars');
@@ -104,10 +131,16 @@
       const st = S.view.chars[k];
       let el = layer.querySelector(`[data-key="${k}"]:not(.leaving)`);
       if (!el) { el = document.createElement('div'); el.className = 'char entering'; el.dataset.key = k; layer.appendChild(el); requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove('entering'))); }
-      if (el.dataset.expr !== st.e) { el.innerHTML = Art.character(k, st.e); el.dataset.expr = st.e; el.classList.remove('bounce'); void el.offsetWidth; el.classList.add('bounce'); }
+      if (el.dataset.expr !== st.e) {
+        const first = !el.dataset.expr;
+        swapExpr(el, k, st.e); el.dataset.expr = st.e;
+        if (!first) { el.classList.remove('bounce'); void el.offsetWidth; el.classList.add('bounce'); }
+      }
       el.dataset.at = st.at || 'center';
       el.classList.toggle('dim', !!speaker && speaker !== k && keys.length > 1);
+      el.classList.toggle('speaking', !!speaker && speaker === k);
     });
+    layer.classList.toggle('multi', keys.length > 1);
   }
   function renderPhone() {
     const ph = $('#phone');
@@ -123,19 +156,19 @@
       const v = S.stats[k];
       const shown = m.hidden ? (v ? '???' : '—') : v;
       const col = Art.CAST[k] ? Art.CAST[k].color : (k === 'wisdom' ? '#4f8cff' : '#e0a800');
-      return `<span class="chip" style="--c:${col}" title="${m.label}"><b>${m.icon}</b> ${m.label} <i>${shown}</i></span>`;
+      return `<span class="chip" style="--c:${col}" title="${m.label}"><b aria-hidden="true">${m.icon}</b>${m.label} <i>${shown}</i></span>`;
     }).join('');
   }
   const esc = (s) => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-  function setBox(kind, name, text, color) {
+  function setBox(kind, name, text, color, expr) {
     const box = $('#textbox');
     box.className = 'textbox ' + kind;
     const tag = $('#nametag');
     tag.textContent = name || '';
     tag.style.display = name ? '' : 'none';
     tag.style.setProperty('--c', color || '#ff6fae');
-    $('#mochi-face').innerHTML = kind === 'mochi' ? mochiSvg() : '';
+    $('#mochi-face').innerHTML = kind === 'mochi' ? mochiFace(expr) : '';
     typeText(fmt(text));
   }
   function typeText(full) {
@@ -158,7 +191,13 @@
     if (auto) { clearTimeout(autoTimer); autoTimer = setTimeout(() => { if (auto && !busy) advance(); }, 1200 + typing.full.length * 25); }
   }
 
-  function mochiSvg(e) {
+  // Mochi portrait: generated sprite from SPRITES.chars.mochi[expr], falling back to the built-in SVG.
+  function mochiFace(e) {
+    const art = (window.SPRITES && SPRITES.chars && SPRITES.chars.mochi) || null;
+    const src = art && (art[e] || art.neutral);
+    return src ? `<img src="${src}" alt="Mochi" draggable="false">` : mochiSvg();
+  }
+  function mochiSvg() {
     return `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M8,52 Q-6,30 14,30 Q20,44 22,50Z M92,52 Q106,30 86,30 Q80,44 78,50Z" fill="#fff" stroke="#f7a8c6" stroke-width="3"/>
       <path d="M22,40 L28,14 L44,32 Z M78,40 L72,14 L56,32 Z" fill="#fff8f0" stroke="#e8b89a" stroke-width="3"/>
       <ellipse cx="50" cy="56" rx="34" ry="30" fill="#fff8f0" stroke="#e8b89a" stroke-width="3"/>
@@ -176,7 +215,7 @@
       S.stats[k] = (S.stats[k] || 0) + d;
       if (k === 'trust') S.stats.trust = Math.max(0, Math.min(100, S.stats.trust));
       const m = STAT_META[k];
-      const label = m.hidden ? `${m.label} ${m.icon} ???` : `${m.label} ${m.icon} ${d > 0 ? '+' : ''}${d}`;
+      const label = m.hidden ? `${m.label} ???` : `${m.label} ${d > 0 ? '+' : ''}${d}`;
       setTimeout(() => toast(label, d >= 0 ? 'up' : 'down', Art.CAST[k] && Art.CAST[k].color), i * 250);
     });
     renderHud();
@@ -211,7 +250,7 @@
         S.view.msgs.push({ from: who(c.txt), t: c.t }); renderPhone();
         const from = who(c.txt);
         const nm = from === 'me' ? S.name : from === 'sys' ? '' : (Art.CAST[from] || { name: from }).name;
-        setBox('phonebox', nm ? `${nm} 📱` : '📱', c.t, Art.CAST[from] && Art.CAST[from].color);
+        setBox('phonebox', nm || 'Phone', c.t, (Art.CAST[from] && Art.CAST[from].color) || (from === 'me' ? '#8fa8e6' : '#c9a45c'));
         return;
       }
       if (c.s) {
@@ -223,9 +262,9 @@
         return;
       }
       if (c.n) { renderChars(); setBox('narr', '', c.n); return; }
-      if (c.me) { setBox('say', S.name, c.me, '#5b7bd6'); return; }
-      if (c.think) { setBox('think', S.name + ' (thinking)', c.think, '#8a8fa8'); return; }
-      if (c.mochi) { setBox('mochi', 'Mochi', c.mochi, '#ff8fb8'); return; }
+      if (c.me) { setBox('say', S.name, c.me, '#8fa8e6'); return; }
+      if (c.think) { setBox('think', S.name, c.think, '#a8977a'); return; }
+      if (c.mochi) { setBox('mochi', 'Mochi', c.mochi, '#ff8fb8', c.e); return; }
       if (c.choice) { showChoice(c); return; }
       if (c.badEnd) { showBadEnd(c.badEnd); return; }
       if (c.chapterEnd) { showResults(); return; }
@@ -271,18 +310,19 @@
     if (isNew) S.lessons.push(id);
     const kindName = { green: 'Healthy habit', red: 'Pitfall', trap: 'Trap alert' }[L.kind];
     modal(`<div class="lesson ${L.kind}">
-        <div class="lesson-kind">${kindName}${isNew ? ' · NEW' : ''}</div>
-        <div class="lesson-icon">${L.icon}</div>
+        <div class="lesson-kind ornament">${kindName}${isNew ? ' · New' : ''}</div>
+        <div class="lesson-icon" aria-hidden="true">${L.icon}</div>
         <h2>${esc(L.title)}</h2>
         <p>${esc(L.text)}</p>
-        <div class="lesson-mochi">${mochiSvg()}<span>Added to your Love Notebook</span></div>
+        <div class="lesson-mochi">${mochiFace(L.kind === 'green' ? 'happy' : L.kind === 'trap' ? 'surprised' : 'sad')}<span>Added to your Love Notebook</span></div>
         <button class="btn primary" data-close>Got it</button>
       </div>`, then);
   }
 
-  function modal(html, onClose) {
+  function modal(html, onClose, variant) {
     busy = true;
     const m = $('#modal');
+    m.className = variant || '';
     m.innerHTML = `<div class="modal-card">${html}</div>`;
     m.classList.add('on');
     const btn = m.querySelector('[data-close]');
@@ -291,7 +331,7 @@
       const b = ev.target.closest('[data-close],[data-act]');
       if (!b) return;
       if (b.dataset.act) { handleAct(b.dataset.act); return; }
-      m.classList.remove('on'); m.innerHTML = '';
+      m.classList.remove('on'); m.innerHTML = ''; m.className = '';
       busy = false;
       onClose && onClose();
     };
@@ -309,23 +349,23 @@
         <div class="be-label">BAD END</div>
         <h2>${esc(be.title.replace(/^BAD END #\d+ — /, ''))}</h2>
         <p>${esc(be.text)}</p>
-        <div class="lesson-mochi">${mochiSvg()}<span>Mochi: "Okay okay, I'll rewind time. Try again, rookie."</span></div>
-        <button class="btn primary" data-close>⏪ Rewind to the choice</button>
+        <div class="lesson-mochi">${mochiFace('sad')}<span>Mochi: "Okay okay, I'll rewind time. Try again, rookie."</span></div>
+        <button class="btn primary" data-close>Rewind to the choice</button>
       </div>`, () => {
         const keep = { lessons: S.lessons, badEnds: S.badEnds };
         S = Object.assign(clone(checkpoint), keep);
         S.view.bg = S.view.bg || prevBg;
         restoreView();
         step();
-      });
+      }, 'bad');
   }
 
   // ---------- achievements / endings / resources ----------
   function unlockAch(id) {
     if (S.achievements.includes(id)) return;
     S.achievements.push(id);
-    const A = (window.ACHIEVEMENTS || {})[id] || { icon: '🏆', title: id };
-    toast(`🏆 Achievement: ${A.title}`, 'up', '#e0a800');
+    const A = (window.ACHIEVEMENTS || {})[id] || { title: id };
+    toast(`Achievement: ${A.title}`, 'up', '#e6c878');
   }
   function showEnding(id) {
     const E = (window.ENDINGS || {})[id] || { type: 'ending', title: id, text: '' };
@@ -340,7 +380,7 @@
   function showResource(id) {
     const R = (window.RESOURCES || {})[id] || { title: 'Get help', lines: [] };
     modal(`<div class="lesson green">
-        <div class="lesson-kind">If this happens in real life</div>
+        <div class="lesson-kind ornament">If this happens in real life</div>
         <h2>${esc(R.title)}</h2>
         <ul class="resource-list">${R.lines.map(l => `<li>${esc(l)}</li>`).join('')}</ul>
         <button class="btn primary" data-close>Okay</button>
@@ -361,30 +401,30 @@
     }).join('');
     const iq = S.stats.wisdom, sr = S.stats.self;
     const rank = iq + sr >= 60 ? ['S', 'Love Sensei in the making'] : iq + sr >= 30 ? ['A', 'Getting it!'] : iq + sr >= 0 ? ['B', 'Still learning'] : ['C', 'Mochi is worried about you'];
-    const lessons = S.lessons.map(id => `<li class="${LESSONS[id].kind}">${LESSONS[id].icon} ${esc(LESSONS[id].title)}</li>`).join('');
+    const lessons = S.lessons.map(id => `<li class="${LESSONS[id].kind}">${esc(LESSONS[id].title)}</li>`).join('');
     modal(`<div class="results">
-      <div class="be-label ok">${esc(ch.title)} complete</div>
+      <div class="be-label ok ornament">${esc(ch.title)} complete</div>
       <h2>${esc(ch.subtitle)}</h2>
       <div class="rank"><b>${rank[0]}</b><span>${rank[1]}</span></div>
-      <div class="pair"><div>🧠 Love IQ <b>${iq}</b></div><div>👑 Self-respect <b>${sr}</b></div></div>
+      <div class="pair"><div>Love IQ <b>${iq}</b></div><div>Self-respect <b>${sr}</b></div></div>
       ${bars}
       <h3>Love Notebook (${S.lessons.length}/${Object.keys(LESSONS).length})</h3>
       <ul class="lesson-list">${lessons}</ul>
       ${S.badEnds.length ? `<p class="muted">Bad endings discovered: ${S.badEnds.length}/${BAD_END_TOTAL}</p>` : ''}
       ${nextId ? '' : `<p class="muted">Next: ${esc(ch.next || 'the end')} — coming soon</p>`}
-      <div class="row"><button class="btn" data-act="restart">Play again</button><button class="btn ${nextId ? '' : 'primary'}" data-act="title">Title</button>${nextId ? `<button class="btn primary" data-act="next">Next: ${esc(CHAPTERS[nextId].title)} ▶</button>` : ''}</div>
+      <div class="row"><button class="btn" data-act="restart">Play again</button><button class="btn ${nextId ? '' : 'primary'}" data-act="title">Title</button>${nextId ? `<button class="btn primary" data-act="next">Next: ${esc(CHAPTERS[nextId].title)}</button>` : ''}</div>
     </div>`);
   }
 
   // ---------- menus ----------
   function openNotebook() {
     const all = Object.entries(LESSONS).map(([id, L]) => S.lessons.includes(id)
-      ? `<li class="${L.kind}"><b>${L.icon} ${esc(L.title)}</b><span>${esc(L.text)}</span></li>`
-      : `<li class="locked"><b>🔒 ???</b><span>Make different choices to discover this lesson.</span></li>`).join('');
-    modal(`<div class="notebook"><h2>📓 Love Notebook</h2><p class="muted">${S.lessons.length} of ${Object.keys(LESSONS).length} lessons</p><ul>${all}</ul><button class="btn primary" data-close>Close</button></div>`);
+      ? `<li class="${L.kind}"><b>${esc(L.title)}</b><span>${esc(L.text)}</span></li>`
+      : `<li class="locked"><b>Locked lesson</b><span>Make different choices to discover this lesson.</span></li>`).join('');
+    modal(`<div class="notebook"><h2>Love Notebook</h2><p class="muted">${S.lessons.length} of ${Object.keys(LESSONS).length} lessons</p><ul>${all}</ul><button class="btn primary" data-close>Close</button></div>`);
   }
   function handleAct(a) {
-    const m = $('#modal'); m.classList.remove('on'); m.innerHTML = ''; busy = false;
+    const m = $('#modal'); m.classList.remove('on'); m.innerHTML = ''; m.className = ''; busy = false;
     if (a === 'restart') startGame(S.name);
     if (a === 'title') showTitle();
     if (a === 'next') {
@@ -416,7 +456,15 @@
     const saved = loadSave();
     const t = $('#title');
     t.classList.add('on');
-    $('#title-chars').innerHTML = ['mio', 'hina', 'yuna'].map(k => `<div class="tc">${Art.character(k, k === 'hina' ? 'happy' : k === 'mio' ? 'shy' : 'smug')}</div>`).join('');
+    // Key art hero when available; otherwise the SVG trio fallback.
+    const key = window.SPRITES && SPRITES.bg && SPRITES.bg.keyart;
+    if (key) {
+      if (!$('#title-hero img')) $('#title-hero').innerHTML = `<img src="${key}" alt="" draggable="false">`;
+      $('#title-chars').innerHTML = '';
+    } else {
+      $('#title-hero').innerHTML = '';
+      $('#title-chars').innerHTML = ['mio', 'hina', 'yuna'].map(k => `<div class="tc">${Art.character(k, k === 'hina' ? 'happy' : k === 'mio' ? 'shy' : 'smug')}</div>`).join('');
+    }
     $('#btn-continue').hidden = !(saved && saved.pc > 0);
   }
   function startGame(name, fromSave) {
@@ -433,7 +481,7 @@
   function chapterCard(then) {
     const ch = CHAPTERS[S.chapter];
     const card = $('#chapter-card');
-    card.innerHTML = `<small>${esc(ch.title)}</small><h1>${esc(ch.subtitle)}</h1>`;
+    card.innerHTML = `<small class="ornament">${esc(ch.title)}</small><h1>${esc(ch.subtitle)}</h1>`;
     card.classList.add('on');
     busy = true;
     setTimeout(() => { card.classList.remove('on'); busy = false; then(); }, 2200);
@@ -464,6 +512,16 @@
   window.addEventListener('DOMContentLoaded', () => {
     BAD_END_TOTAL = new Set(Object.values(CHAPTERS).flatMap(ch => compile(ch.script).filter(c => c.badEnd).map(c => c.badEnd.title))).size;
     bind(); renderHud(); showTitle();
+    preload();
   });
+  // Warm the browser cache with every manifest image so scene and expression changes never flash.
+  function preload() {
+    const sp = window.SPRITES; if (!sp) return;
+    const urls = [...Object.values(sp.bg || {}), ...Object.values(sp.chars || {}).flatMap(o => Object.values(o))];
+    const keep = (window.__simPreload = []);
+    let i = 0;
+    const next = () => { if (i >= urls.length) return; const img = new Image(); img.decoding = 'async'; img.onload = img.onerror = next; img.src = urls[i++]; keep.push(img); };
+    for (let n = 0; n < 4; n++) next();
+  }
   window.SimEngine = { compile, get state() { return S; } };
 })();

@@ -158,7 +158,7 @@ time) · `Read at 2:14 AM` (triple-text) · `Professional Furniture Mover` (do 3
 - **Art style:** anime VN, bust-up sprites (style B "shoujo" from `design/character-sheets.html`) for normal scenes,
   chibi (style A) for comic beats/bad ends. Final art generated with Grok Imagine (see `art-prompts.md`), 7 expressions
   per character: neutral, happy, blush, shy, sad, angry, surprised, smug (+ `scheme`, `cool` for some).
-- **UI:** pastel pink/lavender, rounded font (M PLUS Rounded 1c), dashed textbox, name tag in character colour,
+- **UI:** dark gilded game UI (warm dark panels, gold double-line frames, Cinzel / Marcellus / Lora, chunky cream-and-red logo), name tag accent in character colour,
   stat chips top-left, Notebook/Auto/Title top-right. Mobile-first (works at 375px).
 - **Audio (todo):** light piano/city-pop BGM per location, comic stingers for bad ends, phone vibrate SFX.
 

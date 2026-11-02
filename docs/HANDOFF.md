@@ -14,7 +14,8 @@ For the next developer/agent taking over (e.g. the Grok bot). Read in this order
 | Chapter 1 | ✅ fully written |
 | Chapters 2–10 | 🟡 **playable outlines**: all choices/fx/lessons/bad ends/route logic in place; story beats are `SIM.todo(...)` placeholders (67 total) |
 | Lessons (63), resources, endings, achievements data | ✅ lessons final · 🟡 endings/achievements text partly TODO |
-| Art | 🔴 SVG placeholders. Final art to be generated (style: shoujo bust-up "B", chibi "A" for gags) |
+| Art (Chapter 1) | ✅ Generated hand-drawn anime art in `assets/`: 5 heroines (3–7 expressions each, see `js/sprites.js`), Mochi (6 expressions), 8 backgrounds incl. `keyart` (title hero) and `badend`. Rendered via the `SPRITES` manifest; SVG fallback kept for anything missing. Ch2–10 locations still use SVG fallbacks |
+| UI | ✅ Dark gilded theme (gold-framed panels, Cinzel / Marcellus / Lora, Titan One logo), self-hosted fonts in `assets/fonts/`, mobile-first. Background crossfade, expression crossfade, two-character layout (left/right, speaker in front, others dimmed), asset preloading |
 | Tests | ✅ `tests/validate.js`, `tests/playthrough.js` |
 
 ## Backlog (priority order)
@@ -26,8 +27,10 @@ For the next developer/agent taking over (e.g. the Grok bot). Read in this order
 - [ ] **Write Ch9–Ch10** + epilogue text per ending and per route (`ENDINGS[id].byRoute`, then render it in `showEnding`).
 
 ### P0 — art
-- [ ] Generate heroine sprites (5 × 8 expressions) + Mochi + supporting cast (neutral/happy/angry) per `art-prompts.md`; remove backgrounds; save to `assets/chars/`; register in `js/sprites.js`.
-- [ ] Generate 6 base backgrounds + new locations: amusement park, karaoke room, café, festival stage, fireworks night, beach, train station, graduation.
+- [x] Chapter 1 sprites (5 heroines + Mochi) and 6 base backgrounds + key art + bad-end background, registered in `js/sprites.js`.
+- [ ] Missing expressions (engine falls back to `neutral`): e.g. kaede sad/angry/blush, yuna sad/blush/angry, rei sad/angry. Yuna's sprite sits lower in its frame than the others (petite framing) — fine alone, re-crop if she shares a scene.
+- [ ] Supporting cast sprites (neutral/happy/angry) per `art-prompts.md`.
+- [ ] New locations: amusement park, karaoke room, café, festival stage, fireworks night, beach, train station, graduation.
       Add their ids to `BGS` in `tests/validate.js` and to `Art.background` fallback list.
 
 ### P1 — systems (designs in ARCHITECTURE §8)
@@ -41,7 +44,8 @@ For the next developer/agent taking over (e.g. the Grok bot). Read in this order
 ### P2 — polish
 - [ ] Localisation (中文 / 日本語).
 - [ ] Multiple save slots, backlog/log.
-- [ ] Publish on GitHub Pages.
+- [x] Publish: Cloudflare Workers static assets (`wrangler.jsonc`, `npx wrangler deploy`).
+- [ ] Screenshot script for visual review lives outside the repo; consider adding `tests/screenshots.js`.
 
 ## Rules (do not break)
 1. **Original content only.** The reference game (完蛋！我被美女包围了！) is for design patterns. Never copy its characters, plot, dialogue or images.

@@ -1,13 +1,13 @@
 # sim4love — Architecture
 
-Plain HTML + CSS + vanilla JS. **No build step, no framework, no dependencies at runtime** (only a Google Font).
+Plain HTML + CSS + vanilla JS. **No build step, no framework, no dependencies at runtime** (fonts are self-hosted in `assets/fonts/`, OFL).
 Open `index.html` directly or serve the folder statically (GitHub Pages works as-is).
 
 ## 1. File layout
 
 ```
 index.html                 Stage markup + script tags (load order matters, see §2)
-css/style.css              All UI styling, CSS variables, light/dark, mobile breakpoints
+css/style.css              All UI styling (dark gilded theme), CSS variables, @font-face, mobile breakpoints
 js/
   sprites.js               Manifest of generated artwork (PNG/JPG) → overrides SVG placeholders
   art.js                   Art layer: CAST (names/colours), EXPR (expressions), SVG placeholder
@@ -129,7 +129,7 @@ Supporting cast to add to `Art.CAST` + sprites when their scenes are written: `k
 - Same seed + same base prompt per character, only change the expression clause → consistency.
 - Waist-up, facing viewer, plain white background → background removal → transparent PNG, 2:3, character
   centred with the head in the top 40 %.
-- Backgrounds: 16:9, no people, soft anime VN style, matching palette (pastel, warm light).
+- Backgrounds: 16:9, no people, soft anime VN style, matching palette (warm light, hand-drawn anime look of `assets/bg/keyart.jpg`).
 - Compress: PNG via `pngquant`, JPG quality ~80. Target < 400 KB per sprite, < 500 KB per background.
 
 ## 5. UI layers (z-order, bottom → top)
@@ -140,7 +140,7 @@ Supporting cast to add to `Art.CAST` + sprites when their scenes are written: `k
 - `node tests/validate.js` — validates ids/structure; prints per-chapter counts (choices, bad ends, TODO beats).
 - `node tests/playthrough.js first|last|random` — needs Playwright + Chromium; plays the whole game and fails on
   any page error or if Chapter 10's ending is not reached. `--shots` saves results screenshots.
-- Manual: test at 375×812 (phone) and 1280×720; light + dark mode.
+- Manual: test at 375×812 (phone) and 1280×720.
 
 ## 7. Conventions
 - Data files are pure data (no DOM). Engine is the only file touching the DOM besides `art.js` markup builders.

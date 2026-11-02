@@ -16,7 +16,7 @@ window.CHAPTERS.ch1 = {
     { mochi: 'Nyaa~! Finally awake! I am Mochi, a Love-God-in-training. Your phone has been selected for... LOVE TRAINING!', e: 'happy' },
     { me: 'A talking cat in my phone. Great. I\'m still dreaming.' },
     { mochi: 'Listen, rookie. My exam is to teach ONE hopeless boy what love really is. Not tricks. Not "pick-up lines". The real thing.' },
-    { mochi: 'Every choice you make changes a girl\'s ♥ — and your own 🧠 Love IQ and 👑 Self-respect. Some choices are traps. Some are... very bad endings.' },
+    { mochi: 'Every choice you make changes a girl\'s ♥ — and your own Love IQ and Self-respect. Some choices are traps. Some are... very bad endings.' },
     { mochi: 'Don\'t worry, if you mess up badly I can rewind time. Once or twice. Okay, a lot. I\'m very patient.', e: 'smug' },
     { n: '*knock knock*' },
     { s: 'hina', e: 'happy', at: 'center', t: '{name}! You\'re going to be late on the first day! Again!' },
@@ -38,7 +38,7 @@ window.CHAPTERS.ch1 = {
           { s: 'hina', e: 'happy', t: '...Eat all of it though. Okay?' },
         ] },
       { t: '(Keep scrolling your phone) "Mm. Put it on the desk."',
-        fx: { hina: -10, wisdom: -5 }, lesson: 'presence', then: [
+        fx: { hina: -10, wisdom: -5 }, lesson: 'presence', flag: 'hinaWalkedAhead', then: [
           { s: 'hina', e: 'sad', t: '...Okay. Sure. On the desk.' },
           { n: 'She leaves without waiting. The heart-shaped tamagoyaki seems a little sadder now.' },
           { mochi: 'Rookie. She got up early for this. You looked at a cat video instead. I AM a cat and even I am offended.', e: 'angry' },
@@ -49,8 +49,19 @@ window.CHAPTERS.ch1 = {
     // ---------- Interaction 2: Rei ----------
     { bg: 'street', petals: true },
     { n: 'The road to Sakuragaoka High. Cherry blossoms everywhere, like the world is showing off.' },
-    { n: 'Turning the corner — *thump!* — {name} collides with someone. A sweet perfume. A flash of red.' },
-    { s: 'rei', e: 'surprised', at: 'center', t: 'Oh! I\'m so sorry—' },
+    { if: (S) => !S.flags.hinaWalkedAhead, then: [
+      { s: 'hina', e: 'neutral', at: 'left', t: 'Walk faster! If we\'re late, I\'m telling the teacher it was your fault.' },
+      { n: 'Turning the corner — *thump!* — {name} collides with someone. A sweet perfume. A flash of red.' },
+      { s: 'rei', e: 'surprised', at: 'right', t: 'Oh! I\'m so sorry—' },
+      { s: 'hina', e: 'angry', t: 'Hey! Watch where you— ...huh. Do I know you?' },
+      { s: 'rei', e: 'cool', t: 'I don\'t think so. I\'d remember.' },
+      { s: 'hina', e: 'neutral', t: 'Whatever. I\'m going ahead. Don\'t be late, {name}!' },
+      { hide: 'hina' },
+      { s: 'rei', at: 'center', t: 'Your friend is... energetic.' },
+    ], else: [
+      { n: 'Turning the corner — *thump!* — {name} collides with someone. A sweet perfume. A flash of red.' },
+      { s: 'rei', e: 'surprised', at: 'center', t: 'Oh! I\'m so sorry—' },
+    ] },
     { s: 'rei', e: 'blush', t: '...Wait. Your eyes. This is... fate, isn\'t it? I dreamed of a boy exactly like you last night.' },
     { think: 'An older beautiful girl just said fate. To ME. Is this the protagonist arc?!' },
     { s: 'rei', e: 'happy', t: 'I\'m Rei. I never do this, but I feel like we\'re soulmates. You\'re so mature, so different from other boys.' },

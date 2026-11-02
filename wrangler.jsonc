@@ -1,0 +1,6 @@
+{
+  // Static hosting on Cloudflare Workers (assets only, no Worker script).
+  "name": "sim4love",
+  "compatibility_date": "2026-11-01",
+  "assets": { "directory": "." }
+}
