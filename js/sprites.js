@@ -11,7 +11,10 @@ window.SPRITES = {
       neutral: 'assets/chars/hina_neutral.webp',
       happy: 'assets/chars/hina_happy.webp',
       sad: 'assets/chars/hina_sad.webp',
+      surprised: 'assets/chars/hina_surprised.webp',
+      smug: 'assets/chars/hina_smug.webp',
       angry: 'assets/chars/hina_angry.webp',
+      cool: 'assets/chars/hina_cool.webp',
       blush: 'assets/chars/hina_blush.webp',
       shy: 'assets/chars/hina_shy.webp'
     },
@@ -20,6 +23,9 @@ window.SPRITES = {
       happy: 'assets/chars/mio_happy.webp',
       sad: 'assets/chars/mio_sad.webp',
       surprised: 'assets/chars/mio_surprised.webp',
+      smug: 'assets/chars/mio_smug.webp',
+      angry: 'assets/chars/mio_angry.webp',
+      cool: 'assets/chars/mio_cool.webp',
       blush: 'assets/chars/mio_blush.webp',
       shy: 'assets/chars/mio_shy.webp'
     },
@@ -27,10 +33,12 @@ window.SPRITES = {
       neutral: 'assets/chars/kaede_neutral.webp',
       happy: 'assets/chars/kaede_happy.webp',
       sad: 'assets/chars/kaede_sad.webp',
+      surprised: 'assets/chars/kaede_surprised.webp',
       smug: 'assets/chars/kaede_smug.webp',
       angry: 'assets/chars/kaede_angry.webp',
       cool: 'assets/chars/kaede_cool.webp',
-      blush: 'assets/chars/kaede_blush.webp'
+      blush: 'assets/chars/kaede_blush.webp',
+      shy: 'assets/chars/kaede_shy.webp'
     },
     yuna: {
       neutral: 'assets/chars/yuna_neutral.webp',
@@ -39,7 +47,9 @@ window.SPRITES = {
       surprised: 'assets/chars/yuna_surprised.webp',
       smug: 'assets/chars/yuna_smug.webp',
       angry: 'assets/chars/yuna_angry.webp',
-      blush: 'assets/chars/yuna_blush.webp'
+      cool: 'assets/chars/yuna_cool.webp',
+      blush: 'assets/chars/yuna_blush.webp',
+      shy: 'assets/chars/yuna_shy.webp'
     },
     rei: {
       neutral: 'assets/chars/rei_neutral.png',
