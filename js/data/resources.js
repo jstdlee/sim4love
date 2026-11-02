@@ -35,6 +35,23 @@
       'Listen without judging; you do not have to fix it.', 'Encourage them to talk to a counsellor, doctor or trusted adult.',
       'If they talk about hurting themselves, contact a crisis line or emergency services right away.', 'Look after yourself too.'],
       contacts: ['sos', 'mindline', 'chat', 'emergency'] },
+    sexhealth: { title: 'Sexual health: confidential and fast', lines: [
+      'Many STIs have no symptoms. Testing is confidential and normal.', 'If protection fails, emergency contraception works best the sooner it is taken. See a GP, polyclinic or pharmacist quickly.',
+      'If there was a risk of HIV, PEP medicine must start within 72 hours, and sooner is better.'],
+      contacts: ['dsc', 'afa', 'healthhub'] },
+    grooming: { title: 'If an adult wants a secret relationship with a teen', lines: [
+      'Gifts, secrets, cutting you off from friends and asking for photos is grooming. It is never the young person\'s fault.',
+      'Do not delete anything. Keep the messages as evidence.', 'Tell a trusted adult: a parent, teacher or school counsellor.'],
+      contacts: ['emergency', 'sacc', 'mindline'] },
+    consent: { title: 'Consent and pressure', lines: [
+      'Pressure, guilt-tripping or threats are not consent.', 'Someone who is very drunk, high or asleep cannot consent.',
+      'Help is confidential, for anyone of any gender.'], contacts: ['sacc', 'emergency'] },
+    alcohol: { title: 'When someone has had too much to drink', lines: [
+      'Never leave a very drunk person alone or with a stranger.', 'Lay them on their side, stay with them and give water if they are awake.',
+      'If they cannot be woken, are breathing strangely or are vomiting while drowsy, call an ambulance.'], contacts: ['emergency'] },
+    debt: { title: 'When debt starts to pile up', lines: [
+      'Never pay only the minimum: interest grows fast.', 'Stop new borrowing, list every debt and talk to family early.',
+      'Free, confidential help is available.'], contacts: ['ccs'] },
   };
 
   // Locale tables. en-SG = English text + Singapore contacts. Add 'zh-SG' with translated text and the same

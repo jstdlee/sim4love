@@ -3,41 +3,78 @@
 (function () {
   'use strict';
 
-  const SKIN = '#ffe7d9', SKIN_SHADE = '#f5c9b6', LINE = '#4a2e2a';
+  let SKIN = '#ffe7d9', SKIN_SHADE = '#f5c9b6';
+  const LINE = '#4a2e2a';
 
   // ---------- cast palette & features ----------
   const CAST = {
     hina: {
-      name: 'Hina', full: 'Hina Aoki', color: '#f2a93b',
-      hair: '#9a6240', hairShade: '#6e4029', hairHi: '#d9a07a',
-      iris: '#c98a3f', irisDark: '#6b3d1c',
+      name: 'Hanis', full: 'Nur Hanis', color: '#f2a93b',
+      hair: '#4a2c1e', hairShade: '#2e1a12', hairHi: '#8a5a3e',
+      iris: '#8a5a2f', irisDark: '#3e2410',
       style: 'bob', outfit: 'cardigan',
     },
     rei: {
-      name: 'Rei', full: 'Rei Kurosawa', color: '#d4223c',
+      name: 'Rae', full: 'Rae Koh', color: '#d4223c',
       hair: '#252036', hairShade: '#120f1d', hairHi: '#6a5f96',
       iris: '#d43a52', irisDark: '#5e0f1f',
       style: 'long', outfit: 'dress',
     },
     mio: {
-      name: 'Mio', full: 'Mio Shirakawa', color: '#8f76c4',
-      hair: '#bda6e4', hairShade: '#8c72c2', hairHi: '#ece2ff',
-      iris: '#7a62c9', irisDark: '#33236e',
+      name: 'Xin Yi', full: 'Lim Xin Yi', color: '#8f76c4',
+      hair: '#2a2438', hairShade: '#16121f', hairHi: '#6c5f8f',
+      iris: '#5a4a3a', irisDark: '#241a12',
       style: 'braid', outfit: 'blazer', glasses: true,
     },
     kaede: {
-      name: 'Kaede', full: 'Kaede Tachibana', color: '#2a9d9a',
-      hair: '#dfe3ec', hairShade: '#a7aec2', hairHi: '#ffffff',
-      iris: '#2fb3ae', irisDark: '#0f4f52',
+      name: 'Kavya', full: 'Kavya Pillai', color: '#2a9d9a', skin: '#c98e6a', skinShade: '#a8704e',
+      hair: '#1d1512', hairShade: '#0c0806', hairHi: '#5a463c',
+      iris: '#4a2e1c', irisDark: '#1c0f06',
       style: 'ponytail', outfit: 'track',
     },
     yuna: {
-      name: 'Yuna', full: 'Yuna Hoshino', color: '#ff6fae',
-      hair: '#ffa3cb', hairShade: '#ea6fa5', hairHi: '#ffe0ee',
-      iris: '#e8418d', irisDark: '#7a1446',
+      name: 'Elise', full: 'Elise de Souza', color: '#ff6fae', skin: '#f0cdb2',
+      hair: '#7a4a32', hairShade: '#563220', hairHi: '#c48a66',
+      iris: '#6a8a3a', irisDark: '#2a3a12',
       style: 'twintails', outfit: 'hoodie',
     },
+    kenta: { name: 'Haziq', full: 'Muhammad Haziq', color: '#e5874a', skin: '#e2b48e', skinShade: '#c79470',
+      hair: '#1e1612', hairShade: '#0e0a08', hairHi: '#4e3e34', iris: '#4a3020', irisDark: '#1e120a', style: 'short', outfit: 'jersey', male: true },
+    ogawa: { name: 'Uncle Ong', full: 'Mr. Ong Boon Huat', color: '#b98a4e', hair: '#d8d8d8', hairShade: '#a8a8a8', hairHi: '#ffffff',
+      iris: '#3a2a1a', irisDark: '#140c06', style: 'short', outfit: 'apron', male: true, old: true },
+    goto: { name: 'Mr. G', full: 'Mr. Gopal', color: '#7c8bd6', skin: '#b57d5c', skinShade: '#94603f', hair: '#2a2a2a', hairShade: '#121212', hairHi: '#666',
+      iris: '#2a1a10', irisDark: '#0c0604', style: 'short', outfit: 'shirt', male: true, glasses: true },
+    mei: { name: 'Mei', full: 'Mei (your sister)', color: '#e07a8e', hair: '#1c1a24', hairShade: '#0c0b12', hairHi: '#55506a',
+      iris: '#3a2a1a', irisDark: '#140c06', style: 'bun', outfit: 'blouse' },
+    dad: { name: 'Dad', full: 'Dad', color: '#8aa0b8', hair: '#3a3a3a', hairShade: '#1e1e1e', hairHi: '#888', iris: '#3a2a1a', irisDark: '#140c06', style: 'short', outfit: 'polo', male: true, old: true },
+    mom: { name: 'Mum', full: 'Mum', color: '#d69aa8', hair: '#2a2228', hairShade: '#140f12', hairHi: '#6a5a62', iris: '#3a2a1a', irisDark: '#140c06', style: 'bun', outfit: 'blouse' },
+    farah: { name: 'Ms. Farah', full: 'Ms. Farah Aziz', color: '#5aa58a', skin: '#e9be98', skinShade: '#cc9c76', hair: '#3a6a5a', hairShade: '#28503f', hairHi: '#7ab09a',
+      iris: '#3a2a1a', irisDark: '#140c06', style: 'tudung', outfit: 'blouse', glasses: true },
+    joy: { name: 'Joy', full: 'Joy Santos', color: '#f0b85a', skin: '#d9a77e', skinShade: '#ba875e', hair: '#1a1410', hairShade: '#0a0806', hairHi: '#4a3e34',
+      iris: '#3a2a1a', irisDark: '#140c06', style: 'bun', outfit: 'scrubs' },
+    nurse: { name: 'Nurse Tan', full: 'Nurse Tan', color: '#6ab0d8', hair: '#1c1a24', hairShade: '#0c0b12', hairHi: '#55506a', iris: '#3a2a1a', irisDark: '#140c06', style: 'bun', outfit: 'scrubs' },
+    takumi: { name: 'Marcus', full: 'Marcus Tan', color: '#5b7bd6', hair: '#141218', hairShade: '#050407', hairHi: '#4a4658', iris: '#2a1a10', irisDark: '#0c0604', style: 'short', outfit: 'suit', male: true },
+    ren: { name: 'Ryan', full: 'Ryan Teo', color: '#d6a84e', hair: '#5a3a22', hairShade: '#3a2414', hairHi: '#9a7050', iris: '#2a1a10', irisDark: '#0c0604', style: 'short', outfit: 'jersey', male: true },
+    saki: { name: 'Sam', full: 'Sam Wong', color: '#8ac46a', hair: '#1a1820', hairShade: '#08070c', hairHi: '#4a4658', iris: '#2a1a10', irisDark: '#0c0604', style: 'short', outfit: 'uniform', male: true },
+    nana: { name: 'Natalie', full: 'Natalie Rodrigues', color: '#c46aa8', skin: '#c99272', skinShade: '#a87254', hair: '#2a1a14', hairShade: '#140c08', hairHi: '#6a4a3a',
+      iris: '#3a2a1a', irisDark: '#140c06', style: 'long', outfit: 'blouse' },
+    kai: { name: 'Alpha Kai', full: 'Alpha Kai (influencer)', color: '#c9a227', hair: '#e8c45a', hairShade: '#b8942a', hairHi: '#fff0b0', iris: '#2a1a10', irisDark: '#0c0604', style: 'short', outfit: 'suit', male: true, glint: true },
+    aileen: { name: '"Aileen"', full: '"Aileen" (unknown account)', color: '#9a8aa8', hair: '#2a2228', hairShade: '#140f12', hairHi: '#6a5a62', iris: '#3a2a1a', irisDark: '#140c06', style: 'long', outfit: 'blouse' },
   };
+  // Sprite framing tweaks (css: .char[data-frame]); Elise's art sits high in its canvas.
+  const FRAMING = { yuna: 'low' };
+  // Expression fallback chains: when an expression has no sprite, use the closest one that exists.
+  const CHAINS = {
+    blush: ['shy', 'happy'], shy: ['blush', 'sad'], sad: ['shy'], angry: ['cool', 'sad'], surprised: ['blush', 'happy'],
+    smug: ['happy', 'cool'], scheme: ['smug', 'cool'], cool: ['smug'], happy: ['smug', 'blush'],
+  };
+  function fallbackExpr(key, e) {
+    const art = (window.SPRITES || { chars: {} }).chars[key];
+    if (!art) return EXPR[e] ? e : 'neutral';
+    if (art[e]) return e;
+    for (const alt of CHAINS[e] || []) if (art[alt]) return alt;
+    return 'neutral';
+  }
 
   // ---------- expressions: combination of eyes / brows / mouth / extras ----------
   const EXPR = {
@@ -81,8 +118,9 @@
     s += `<circle cx="${icx + 7}" cy="${icy + 9}" r="3" fill="#fff" opacity=".9"/>`;
     s += `<rect x="${cx - 30}" y="${top - 6}" width="60" height="10" fill="${c.irisDark}" opacity=".25"/>`;
     s += `</g>`;
-    // upper lash
-    s += `<path d="M${cx - side * 26},${top + 8} Q${cx},${top - 8} ${lashOuter},${top + 6} L${lashOuter + side * 6},${top + 1} L${lashOuter - side * 1},${top + 12} Q${cx},${top} ${cx - side * 24},${top + 13} Z" fill="${LINE}"/>`;
+    // upper lash (a simple lid line for the male cast)
+    if (c.male) s += `<path d="M${cx - 26},${top + 8} Q${cx},${top - 4} ${cx + 26},${top + 8}" fill="none" stroke="${LINE}" stroke-width="5" stroke-linecap="round"/>`;
+    else s += `<path d="M${cx - side * 26},${top + 8} Q${cx},${top - 8} ${lashOuter},${top + 6} L${lashOuter + side * 6},${top + 1} L${lashOuter - side * 1},${top + 12} Q${cx},${top} ${cx - side * 24},${top + 13} Z" fill="${LINE}"/>`;
     // lower lash
     s += `<path d="M${cx - 12},${cy + ry - 1} Q${cx},${cy + ry + 3} ${cx + 12},${cy + ry - 1}" fill="none" stroke="${LINE}" stroke-width="2" stroke-linecap="round" opacity=".6"/>`;
     s += `</g>`;
@@ -121,6 +159,9 @@
   function hairBack(c) {
     const h = c.hair, sh = c.hairShade;
     switch (c.style) {
+      case 'short': return `<path d="M112,210 C106,120 156,90 200,90 C246,90 296,120 288,210 L282,236 L118,236 Z" fill="${sh}"/>`;
+      case 'bun': return `<circle cx="200" cy="86" r="40" fill="${sh}"/><path d="M104,226 C96,120 150,90 200,90 C250,90 304,120 296,226 L290,280 L110,280 Z" fill="${sh}"/>`;
+      case 'tudung': return `<path d="M92,250 C84,110 150,74 200,74 C250,74 316,110 308,250 C318,330 330,380 350,440 L50,440 C70,380 82,330 92,250 Z" fill="${sh}"/>`;
       case 'bob':
         return `<path d="M98,215 C92,118 150,82 200,82 C250,82 308,118 302,215 L306,318 C300,350 270,352 258,334 L258,290 L142,290 L142,334 C130,352 100,350 94,318 Z" fill="${sh}"/>`;
       case 'long':
@@ -145,6 +186,14 @@
     const h = c.hair, sh = c.hairShade, hi = c.hairHi;
     const ring = `<path d="M136,138 Q200,108 264,138" fill="none" stroke="${hi}" stroke-width="7" stroke-linecap="round" opacity=".55"/>`;
     switch (c.style) {
+      case 'short':
+        return `<path d="M114,214 C104,124 156,96 200,96 C246,96 298,124 288,214 Q282,180 266,164 Q252,182 230,170 Q214,186 192,172 Q170,188 150,170 Q130,180 122,200 Z" fill="${h}"/>${ring}`;
+      case 'bun':
+        return `<circle cx="200" cy="84" r="34" fill="${h}"/><path d="M112,222 C104,126 156,96 200,96 C246,96 298,126 290,222 Q284,170 250,150 Q220,170 200,150 Q178,170 150,150 Q118,170 112,222 Z" fill="${h}"/>${ring}`;
+      case 'tudung':
+        return `<path d="M108,250 C100,130 154,96 200,96 C246,96 300,130 292,250 L288,250 C286,180 250,150 200,150 C150,150 114,180 112,250 Z" fill="${h}"/>
+                <path d="M112,250 C116,320 150,352 200,356 C250,352 284,320 288,250 L300,300 C306,360 300,400 250,420 L150,420 C100,400 94,360 100,300 Z" fill="${h}"/>
+                <path d="M126,170 Q200,130 274,170" fill="none" stroke="${hi}" stroke-width="5" opacity=".5"/>`;
       case 'bob':
         return `<path d="M110,222 C102,126 156,94 200,94 C246,94 298,126 290,222 L280,212 Q276,182 262,166 Q258,196 246,206 Q238,170 222,158 Q218,190 202,204 Q194,168 178,160 Q170,192 152,206 Q148,180 138,168 Q124,192 122,214 Z" fill="${h}"/>
                 <path d="M114,196 C104,250 110,300 126,334 C134,300 136,250 136,212 Z" fill="${h}"/>
@@ -186,7 +235,16 @@
 
   function outfit(c) {
     const body = (fill) => `<path d="M64,600 C70,470 118,420 172,398 L228,398 C282,420 330,470 336,600 Z" fill="${fill}"/>`;
+    const collar = (fill, acc) => body(fill) + `<path d="M172,398 L200,436 L228,398 Z" fill="${acc || '#fff'}"/>`;
     switch (c.outfit) {
+      case 'jersey': return body('#e5874a') + `<path d="M170,398 Q200,430 230,398" fill="none" stroke="#fff" stroke-width="8"/><text x="200" y="540" font-size="80" text-anchor="middle" fill="#fff" font-family="sans-serif" font-weight="700">7</text>`;
+      case 'apron': return body('#f2efe6') + `<path d="M130,600 L140,450 L260,450 L270,600 Z" fill="#6b4a32"/><path d="M140,450 L170,398 M260,450 L230,398" stroke="#6b4a32" stroke-width="8"/>`;
+      case 'shirt': return collar('#cfe0f2') + `<path d="M200,420 L190,440 L200,530 L210,440 Z" fill="#3a4a85"/>`;
+      case 'polo': return collar('#7a9ab8', '#5a7a98');
+      case 'blouse': return collar(c.color, '#fff8f0');
+      case 'scrubs': return body('#7ab8d6') + `<path d="M170,398 L200,450 L230,398" fill="none" stroke="#5a98b6" stroke-width="6"/>`;
+      case 'suit': return collar('#2a2a34', '#fff') + `<path d="M200,420 L192,436 L200,540 L208,436 Z" fill="${c.color}"/>`;
+      case 'uniform': return body('#5a6a3a') + `<path d="M172,398 L200,432 L228,398" fill="none" stroke="#3a4a22" stroke-width="6"/><rect x="230" y="470" width="50" height="14" fill="#2a3a1a"/>`;
       case 'cardigan':
         return body('#f6c95b') +
           `<path d="M172,398 L200,470 L228,398 Z" fill="#fff"/>
@@ -223,15 +281,18 @@
   // Generated artwork manifest (js/sprites.js): SPRITES.chars[key][expr] / SPRITES.bg[scene] -> file path.
   const SP = () => window.SPRITES || { chars: {}, bg: {} };
 
-  function character(key, exprName) {
+  function character(key, exprName, label) {
     const art = SP().chars[key];
-    if (art && (art[exprName] || art.neutral)) {
-      return `<img class="char-svg" src="${art[exprName] || art.neutral}" alt="${CAST[key].full} (${exprName})" draggable="false">`;
+    const c = CAST[key] || CAST.kenta;
+    const alt = label || c.full || c.name || key;
+    if (art && art.neutral) {
+      const e2 = fallbackExpr(key, exprName);
+      return `<img class="char-svg" src="${art[e2] || art.neutral}" alt="${alt}" draggable="false">`;
     }
-    const c = CAST[key];
+    SKIN = c.skin || '#ffe7d9'; SKIN_SHADE = c.skinShade || '#f5c9b6';
     const e = EXPR[exprName] || EXPR.neutral;
     const id = `${key}${++uid}`;
-    let s = `<svg class="char-svg" viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg" aria-label="${c.full} (${exprName})" role="img">`;
+    let s = `<svg class="char-svg" viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg" aria-label="${alt}" role="img">`;
     s += `<defs><radialGradient id="ig${id}" cx=".5" cy=".7" r=".8"><stop offset="0" stop-color="${c.iris}"/><stop offset="1" stop-color="${c.irisDark}"/></radialGradient></defs>`;
     s += hairBack(c);
     s += outfit(c);
@@ -251,22 +312,32 @@
     s += `<path d="M198,284 Q201,288 204,285" fill="none" stroke="${SKIN_SHADE}" stroke-width="3" stroke-linecap="round"/>`;
     s += mouth(e.mouth);
     s += hairFront(c);
+    if (c.old) s += `<path d="M150,214 q10,-4 20,0 M230,214 q10,-4 20,0 M170,324 q30,10 60,0" fill="none" stroke="${SKIN_SHADE}" stroke-width="3" stroke-linecap="round"/>`;
     if (c.glasses) {
       s += `<g fill="rgba(255,255,255,.12)" stroke="#5b4a7a" stroke-width="4"><circle cx="160" cy="250" r="33"/><circle cx="240" cy="250" r="33"/></g><path d="M193,246 Q200,240 207,246" fill="none" stroke="#5b4a7a" stroke-width="4"/><path d="M140,232 l12,-8" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".8"/>`;
     }
     if (e.vein) s += `<path d="M262,150 q8,-2 6,8 M278,148 q2,8 -8,8 M266,170 q-2,-8 8,-8 M282,166 q-8,2 -6,-8" stroke="#e5484d" stroke-width="4" fill="none" stroke-linecap="round"/>`;
-    if (e.glint) s += `<path d="M300,180 l4,-14 l4,14 l14,4 l-14,4 l-4,14 l-4,-14 l-14,-4z" fill="#fff6a8"/>`;
+    if (e.glint || c.glint) s += `<path d="M300,180 l4,-14 l4,14 l14,4 l-14,4 l-4,14 l-4,-14 l-14,-4z" fill="#fff6a8"/>`;
     s += `</svg>`;
     return s;
   }
 
   // ---------- backgrounds ----------
+  // Frangipani: cream five-petal flowers with a yellow heart (Singapore's school-yard tree).
   const sakura = (n, seed) => {
     let s = '', r = seed;
     const rnd = () => (r = (r * 9301 + 49297) % 233280) / 233280;
-    for (let i = 0; i < n; i++) s += `<circle cx="${(rnd() * 1600) | 0}" cy="${(rnd() * 500) | 0}" r="${(8 + rnd() * 26) | 0}" fill="${rnd() > .5 ? '#ffc7da' : '#ffb0cb'}" opacity="${(.6 + rnd() * .4).toFixed(2)}"/>`;
+    for (let i = 0; i < n; i++) {
+      const x = (rnd() * 1600) | 0, y = (rnd() * 500) | 0, k = 0.4 + rnd() * 0.9, rot = (rnd() * 72) | 0;
+      s += `<g transform="translate(${x},${y}) rotate(${rot}) scale(${k.toFixed(2)})" opacity="${(.7 + rnd() * .3).toFixed(2)}">` +
+        [0, 72, 144, 216, 288].map(a => `<ellipse cx="0" cy="-14" rx="9" ry="16" transform="rotate(${a})" fill="#fff8ea"/>`).join('') +
+        `<circle r="7" fill="#ffd04d"/></g>`;
+    }
     return s;
   };
+  const sky = (id, a, b) => `<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="1600" height="900" fill="url(#${id})"/>`;
+  const hdb = (x, w, h, col) => `<rect x="${x}" y="${900 - h - 260}" width="${w}" height="${h}" fill="${col}"/>` +
+    Array.from({ length: Math.floor(h / 50) }, (_, r) => Array.from({ length: Math.floor(w / 40) }, (_, c2) => `<rect x="${x + 10 + c2 * 40}" y="${900 - h - 250 + r * 50}" width="22" height="26" fill="${(r + c2) % 4 ? '#e8eef6' : '#ffe8a8'}" opacity=".85"/>`).join('')).join('');
 
   const BG = {
     title: `<defs><linearGradient id="tg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd9e8"/><stop offset="1" stop-color="#c9b8ff"/></linearGradient></defs>
@@ -287,7 +358,7 @@
       <rect x="0" y="560" width="1600" height="340" fill="#cfcfd8"/><rect x="0" y="540" width="1600" height="30" fill="#b9b9c6"/>
       <path d="M0,760 L1600,760" stroke="#fff" stroke-width="10" stroke-dasharray="60 50"/>
       <rect x="180" y="300" width="30" height="270" fill="#8a5a44"/><rect x="1380" y="290" width="30" height="280" fill="#8a5a44"/>
-      <g>${sakura(28, 3).replace(/cy="(\d+)"/g, (m, y) => `cy="${(y * 0.5 + 120) | 0}"`)}</g>
+      <g>${sakura(28, 3).replace(/translate\((\d+),(\d+)\)/g, (m, x, y) => `translate(${x},${(y * 0.5 + 120) | 0})`)}</g>
       <rect x="560" y="300" width="480" height="250" fill="#ffefe0"/><path d="M540,300 L800,200 L1060,300Z" fill="#e7837e"/>
       <rect x="760" y="420" width="80" height="130" fill="#b07a5a"/>`,
     library: `<rect width="1600" height="900" fill="#f5ead8"/>
@@ -309,7 +380,57 @@
       <path d="M800,110 L800,490 M560,300 L1040,300" stroke="#4b4870" stroke-width="12"/>
       <rect x="1180" y="520" width="380" height="180" rx="30" fill="#6a6290"/><rect x="1180" y="480" width="380" height="80" rx="30" fill="#5b7bb6"/>
       <circle cx="210" cy="420" r="70" fill="#ffd27a" opacity=".25"/><rect x="190" y="440" width="40" height="200" fill="#6b5a7a"/>`,
-    badend: `<rect width="1600" height="900" fill="#1a1020"/>${sakura(30, 11).replace(/#ffc7da|#ffb0cb/g, '#4a2440')}`,
+    hawker: `${sky('hk', '#ffcf8a', '#ffe9c6')}<rect y="120" width="1600" height="40" fill="#b55a3a"/>
+      <rect y="160" width="1600" height="420" fill="#f2e2c4"/>${[0, 1, 2, 3].map(i => `<rect x="${60 + i * 390}" y="210" width="330" height="250" fill="#fff" stroke="#c98a5a" stroke-width="6"/><rect x="${60 + i * 390}" y="210" width="330" height="56" fill="${['#e5484d', '#2a9d9a', '#f2a93b', '#5b7bd6'][i]}"/><text x="${225 + i * 390}" y="250" font-size="30" text-anchor="middle" fill="#fff" font-family="sans-serif" font-weight="700">${['NASI LEMAK', 'CHICKEN RICE', 'KOPI · TEH', 'MEE POK'][i]}</text>`).join('')}
+      <rect y="580" width="1600" height="320" fill="#d6c6a8"/>${[200, 700, 1200].map(x => `<ellipse cx="${x}" cy="700" rx="170" ry="40" fill="#e8e0d0"/><rect x="${x - 8}" y="700" width="16" height="140" fill="#9a8a7a"/>`).join('')}`,
+    cafe: `<rect width="1600" height="900" fill="#3b2a22"/><rect y="0" width="1600" height="560" fill="#5a4030"/>
+      ${[0, 1, 2].map(i => `<rect x="${120 + i * 480}" y="120" width="360" height="260" fill="#ffe9b8" opacity=".9"/><path d="M${120 + i * 480},250 H${480 + i * 480} M${300 + i * 480},120 V380" stroke="#5a4030" stroke-width="8"/>`).join('')}
+      <rect y="560" width="1600" height="60" fill="#8a5a3a"/><rect y="620" width="1600" height="280" fill="#2e1f18"/>
+      <circle cx="400" cy="70" r="26" fill="#ffd27a"/><circle cx="1200" cy="70" r="26" fill="#ffd27a"/>
+      <text x="800" y="90" font-size="44" text-anchor="middle" fill="#ffd27a" font-family="serif">ONG'S KOPI &amp; TOAST</text>`,
+    beach: `${sky('bc', '#6fc6ff', '#dff4ff')}<circle cx="1300" cy="160" r="70" fill="#fff6c2"/>
+      <rect y="470" width="1600" height="160" fill="#3aa6c8"/><path d="M0,520 Q400,500 800,520 T1600,520" stroke="#fff" stroke-width="5" fill="none" opacity=".6"/>
+      <path d="M0,620 Q800,580 1600,620 L1600,900 L0,900Z" fill="#f4dca8"/>
+      <path d="M180,640 C170,500 200,380 240,300" stroke="#8a5a3a" stroke-width="22" fill="none"/>${[0, 60, 120, 180, 240, 300].map(a => `<path d="M240,300 q70,-20 120,40" transform="rotate(${a} 240 300)" stroke="#3a8a4a" stroke-width="16" fill="none" stroke-linecap="round"/>`).join('')}
+      <path d="M900,130 L1600,60" stroke="#666" stroke-width="3"/><rect x="1100" y="96" width="60" height="50" rx="10" fill="#e5484d"/>`,
+    mall: `<rect width="1600" height="900" fill="#f4f0ec"/>${[0, 1, 2].map(r => `<rect y="${80 + r * 200}" width="1600" height="16" fill="#d8d0c8"/>`).join('')}
+      ${[0, 1, 2, 3].map(i => `<rect x="${60 + i * 390}" y="300" width="330" height="290" fill="#fff" stroke="#c9a45c" stroke-width="4"/><rect x="${100 + i * 390}" y="380" width="250" height="160" fill="${['#ffe0e8', '#e0f0ff', '#fff4d0', '#e8ffe8'][i]}"/>`).join('')}
+      <rect y="600" width="1600" height="300" fill="#e0d8d0"/><path d="M0,750 L1600,750" stroke="#fff" stroke-width="4"/>`,
+    mrt: `<rect width="1600" height="900" fill="#d8dee6"/><rect y="120" width="1600" height="420" fill="#f4f6f8"/>
+      ${[0, 1, 2, 3, 4].map(i => `<rect x="${40 + i * 320}" y="200" width="220" height="200" rx="16" fill="#9ab6d0"/>`).join('')}
+      <rect y="120" width="1600" height="30" fill="#e5484d"/><rect y="540" width="1600" height="30" fill="#ffd04d"/><rect y="570" width="1600" height="330" fill="#b8c0c8"/>
+      ${[0, 1, 2, 3].map(i => `<rect x="${140 + i * 380}" y="600" width="80" height="160" rx="6" fill="#5a6a7a"/>`).join('')}`,
+    campfire: `${sky('cf', '#141a3a', '#3a2a4a')}${Array.from({ length: 40 }, (_, i) => `<circle cx="${(i * 397) % 1600}" cy="${(i * 131) % 420}" r="${i % 3 + 1}" fill="#fff"/>`).join('')}
+      <path d="M0,560 Q300,440 600,540 T1200,500 T1600,540 L1600,900 L0,900Z" fill="#1a2a22"/><rect y="640" width="1600" height="260" fill="#2a3a2a"/>
+      <circle cx="800" cy="700" r="160" fill="#ff9a3a" opacity=".18"/><path d="M760,760 L840,760 L800,640 Z" fill="#ffb84a"/><path d="M780,760 L820,760 L800,690 Z" fill="#fff1a8"/>`,
+    rooftop: `${sky('rt', '#ff9a76', '#ffd8b0')}${hdb(40, 300, 360, '#c9b8a8')}${hdb(1240, 320, 420, '#b8c9d0')}
+      <rect y="600" width="1600" height="300" fill="#9aa8a0"/><rect y="580" width="1600" height="24" fill="#6a7a70"/>
+      ${[200, 600, 1000, 1400].map(x => `<rect x="${x}" y="520" width="12" height="80" fill="#5a6a60"/>`).join('')}<path d="M0,540 L1600,540" stroke="#5a6a60" stroke-width="6"/>`,
+    garden: `${sky('gd', '#1a2050', '#5a3a6a')}
+      ${[300, 700, 1100, 1400].map((x, i) => `<path d="M${x - 40},650 L${x - 16},${260 + i * 30} L${x + 16},${260 + i * 30} L${x + 40},650Z" fill="#3a4a5a"/><ellipse cx="${x}" cy="${250 + i * 30}" rx="${110 - i * 6}" ry="40" fill="#8a5ac9" opacity=".8"/>${[0, 1, 2, 3, 4, 5].map(k => `<circle cx="${x - 90 + k * 36}" cy="${250 + i * 30}" r="6" fill="#ffd8f8"/>`).join('')}`).join('')}
+      <rect y="650" width="1600" height="250" fill="#14202a"/>`,
+    clinic: `<rect width="1600" height="900" fill="#eef4f6"/><rect y="600" width="1600" height="300" fill="#cfdde2"/>
+      <rect x="120" y="140" width="420" height="300" fill="#fff" stroke="#9ab6c0" stroke-width="6"/><path d="M330,200 v120 M270,260 h120" stroke="#e5484d" stroke-width="30"/>
+      ${[0, 1, 2, 3, 4].map(i => `<rect x="${700 + i * 160}" y="460" width="120" height="140" rx="10" fill="#6ab0d8"/>`).join('')}`,
+    classroom: `<rect width="1600" height="900" fill="#f6efe2"/><rect x="300" y="100" width="1000" height="360" fill="#2e4a3a" stroke="#8a6a4a" stroke-width="16"/>
+      <path d="M380,180 h300 M380,240 h420 M380,300 h260" stroke="#e8f0e8" stroke-width="6" opacity=".7"/>
+      <rect x="1380" y="120" width="180" height="280" fill="#bfe6ff" stroke="#fff" stroke-width="10"/><rect y="640" width="1600" height="260" fill="#c9a47a"/>
+      ${[200, 600, 1000, 1400].map(x => `<rect x="${x - 120}" y="600" width="240" height="30" fill="#a87c52"/><rect x="${x - 110}" y="630" width="16" height="140" fill="#7a5a3a"/><rect x="${x + 94}" y="630" width="16" height="140" fill="#7a5a3a"/>`).join('')}`,
+    park: `${sky('pk', '#9ad8ff', '#f0faff')}<path d="M0,560 Q400,500 800,560 T1600,540 L1600,900 L0,900Z" fill="#7ac46a"/>
+      <path d="M600,900 Q760,700 800,560 Q840,700 1000,900Z" fill="#d8c8a8"/>${hdb(1100, 360, 300, '#e8dcc8')}
+      ${[200, 400, 1350].map(x => `<rect x="${x - 10}" y="380" width="20" height="200" fill="#7a5a3a"/><circle cx="${x}" cy="360" r="90" fill="#4a9a4a"/>`).join('')}
+      <g>${sakura(10, 5).replace(/translate\((\d+),(\d+)\)/g, (m, x, y) => `translate(${(+x * 0.2 + 120) | 0},${(+y * 0.3 + 300) | 0})`)}</g>`,
+    camp: `${sky('cp', '#c9d8a8', '#f0f4e0')}<rect y="560" width="1600" height="340" fill="#a89a6a"/>
+      ${[200, 700, 1200].map(x => `<rect x="${x}" y="300" width="360" height="260" fill="#6a7a4a"/><path d="M${x - 20},300 L${x + 180},200 L${x + 380},300Z" fill="#4a5a32"/>${[0, 1, 2].map(k => `<rect x="${x + 30 + k * 110}" y="360" width="70" height="60" fill="#e8ecd8"/>`).join('')}`).join('')}
+      <rect x="0" y="540" width="1600" height="20" fill="#7a6a4a"/>`,
+    stage: `<rect width="1600" height="900" fill="#1a1020"/><path d="M0,0 H260 Q200,450 260,900 H0Z M1600,0 H1340 Q1400,450 1340,900 H1600Z" fill="#8a1a2a"/>
+      <ellipse cx="800" cy="760" rx="520" ry="80" fill="#ffd27a" opacity=".2"/><rect y="720" width="1600" height="180" fill="#3a2a2a"/>
+      <path d="M560,0 L700,720 M1040,0 L900,720" stroke="#fff6c2" stroke-width="3" opacity=".3"/>`,
+    voiddeck: `<rect width="1600" height="900" fill="#e8e0d4"/><rect y="0" width="1600" height="110" fill="#c9bca8"/>
+      ${[100, 500, 900, 1300].map(x => `<rect x="${x}" y="110" width="70" height="560" fill="#d8cdb8"/>`).join('')}
+      <rect y="670" width="1600" height="230" fill="#b8ad98"/><ellipse cx="760" cy="640" rx="120" ry="30" fill="#8a7a6a"/>${[640, 880].map(x => `<rect x="${x - 25}" y="600" width="50" height="40" rx="10" fill="#8a7a6a"/>`).join('')}
+      <rect x="1180" y="300" width="300" height="200" fill="#fff" stroke="#9a8a7a" stroke-width="6"/><text x="1330" y="390" font-size="30" text-anchor="middle" fill="#5a4a3a" font-family="sans-serif">BLK 512</text>`,
+    badend: `<rect width="1600" height="900" fill="#1a1020"/>${sakura(30, 11).replace(/#fff8ea/g, '#4a2440').replace(/#ffd04d/g, '#6a3450')}`,
   };
 
   function background(key) {
@@ -318,5 +439,5 @@
     return `<svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${BG[key] || BG.title}</svg>`;
   }
 
-  window.Art = { CAST, EXPR, character, background };
+  window.Art = { CAST, EXPR, FRAMING, fallbackExpr, character, background };
 })();

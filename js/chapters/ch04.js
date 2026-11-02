@@ -1,75 +1,107 @@
-/* Chapter 4 — "Culture Festival". Design: docs/CHAPTERS.md#chapter-4--culture-festival
-   STATUS: outline. Ends with the confession and ROUTE LOCK (S.route). */
-(function () {
-  const yesFrom = (k) => [
-    SIM.todo(`${k}'s answer — written per heroine.`),
-    { if: SIM.love(k, 40), then: [
-      { s: k, e: 'blush', at: 'center', t: '(TODO) ...Yes.' },
-      { choice: 'She said yes. Her hand is right there...', opts: [
-        { t: '"Can I hold your hand?"', fx: { [k]: 10 }, lesson: 'consent', then: [{ s: k, e: 'happy', t: '(TODO) She nods and takes it.' }] },
-        { t: 'Just grab it.', fx: { [k]: -10 }, lesson: 'consent', then: [{ s: k, e: 'surprised', t: '(TODO) She flinches, then laughs nervously.' }] },
+/* Chapter 4 — "Payday". First pay from Uncle Ong's café: budget, livestream gifting, money boundaries, instalments. */
+window.CHAPTERS = window.CHAPTERS || {};
+window.CHAPTERS.ch4 = {
+  id: 'ch4', part: 'Part I — Rose-Tinted', title: 'Chapter 4', subtitle: 'Payday',
+  next: 'Chapter 5 — Ubin Camp', status: 'done',
+  script: [
+    { bg: 'cafe' },
+    { s: 'ogawa', e: 'happy', at: 'center', t: 'Four weekends of washing cups. $480. Count it. Then count it again, because nobody else will.' },
+    { fx: { cash: 480 } },
+    { s: 'ogawa', e: 'neutral', t: 'First pay is dangerous. It feels like a lot. It is exactly $480.' },
+
+    // 4-1 budget
+    { choice: 'How do you plan your $480?', opts: [
+      { t: '50% savings, 30% fun, 20% for people you care about. Write it in your notes app.', fx: { wisdom: 8, wallet: 10, self: 4 }, lesson: 'budget', ach: 'budgetKing', then: [
+        { s: 'ogawa', e: 'happy', t: 'Notes app. Good. My notes app is a biscuit tin, but same idea.' },
       ] },
-      { route: k },
-    ], else: [
-      { s: k, e: 'sad', at: 'center', t: '(TODO) A kind, honest no.' },
-      { choice: 'She said no.', opts: [
-        { t: '"Thank you for being honest. I\'m really glad I told you."', fx: { [k]: 10, self: 15, wisdom: 10 }, lesson: 'rejection', ach: 'respect100', then: [{ route: 'solo' }] },
-        { t: '"I\'ll wait forever until you change your mind."', fx: { self: -15 }, lesson: 'rejection', then: [{ route: 'solo' }] },
-        { t: '"After everything I did for you?!"', fx: { [k]: -40 }, lesson: 'rejection', then: [
-          { badEnd: { title: 'BAD END #10 — Nice Guy™', text: 'Kindness that comes with an invoice was never kindness. "No" is an answer, not an opening offer.' } }] },
+      { t: 'Keep it all for fun. You earned it.', fx: { passion: 3, wallet: -4 }, lesson: 'budget', then: [
+        { s: 'ogawa', e: 'neutral', t: 'Fun is good. Fun without a plan is how my cousin owns six air fryers.' },
+      ] },
+      { t: 'Put it aside "for dates". For whoever.', fx: { proj: 6, self: -4 }, lesson: 'budget', then: [
+        { mochi: 'A date fund for a girl who doesn\'t exist yet. That\'s a budget for a daydream.', e: 'smug' },
       ] },
     ] },
-  ];
+    { hide: '*' },
 
-  CHAPTERS.ch4 = {
-    id: 'ch4', title: 'Chapter 4', subtitle: 'Culture Festival', next: 'Chapter 5 — After "Yes"', status: 'outline',
-    script: [
-      { bg: 'library' },
-      SIM.todo('[4-1] Mio is scheduled to read her short story on stage and wants to quit.'),
-      { choice: 'Mio is shaking behind the curtain...', opts: [
-        { t: '"Want me to sit front row so you have a friendly face to look at?"', fx: { mio: 12, wisdom: 5 }, lesson: 'supportnotsave', then: [] },
-        { t: '"Just don\'t be nervous lol."', fx: { mio: -5 }, lesson: 'dismissing', then: [] },
-        { t: 'Take the paper and read it for her.', fx: { mio: -10 }, lesson: 'supportnotsave', then: [] },
+    // 4-2 livestream
+    { bg: 'night' },
+    { phone: 'LIVE 🔴 Elise ✨ 2.3k watching' },
+    { txt: 'sys', t: 'TOP GIFTER gets a shoutout! 🚀 Rocket = $50' },
+    { txt: 'yuna', t: 'thank u babe for the rose!! 🌹 omg who\'s gonna be my top gifter tonight~' },
+    { choice: 'Elise is live, smiling at 2,300 people...', opts: [
+      { t: 'Close the stream. Ask her at school tomorrow how her rehearsal went.', fx: { yuna: 8, wisdom: 6, self: 6 }, lesson: 'paidattention', rose: true, then: [
+        { phoneOff: true }, { bg: 'classroom' },
+        { s: 'yuna', e: 'surprised', at: 'center', t: 'You... asked about rehearsal? Nobody asks about rehearsal. They ask about the stream.' },
+        { s: 'yuna', e: 'happy', t: 'It went badly, actually. Want to hear the horror story?' },
       ] },
-
-      { bg: 'street' },
-      SIM.todo('[4-2] Rei appears with Manager Goto. Alone, she admits she is in debt to his "agency" and made to chat with boys.'),
-      { choice: 'Rei, for once, isn\'t acting.', opts: [
-        { t: '"I won\'t give money. But I\'ll go with you to the police and the anti-fraud centre."', fx: { wisdom: 15, self: 10 }, lesson: 'rescuer', flag: 'reiRedemption', then: [{ resource: 'scam' }] },
-        { t: '"I\'ll pay off your debt!"', fx: { wisdom: -10, self: -10 }, lesson: 'rescuer', then: [SIM.todo('Goto smiles. The debt somehow grows.')] },
-        { t: 'Go confront Goto alone in the back alley.', fx: {}, lesson: 'rescuer', then: [
-          { badEnd: { title: 'BAD END #8 — Hero Mode: Off', text: 'Real help is boundaries and calling people who can actually help — not a solo boss fight.' } }] },
+      { t: 'Send one $5 heart. Just to be nice.', fx: { cash: -5, yuna: 1 }, lesson: 'paidattention', then: [
+        { txt: 'yuna', t: 'thanks for the heart, {name}! 💕' }, { phoneOff: true },
+        { mochi: 'She said your name. And 400 others. That\'s her job, rookie.', e: 'neutral' },
       ] },
-
-      SIM.todo('[4-3] Fish-pond check at the class café.'),
-      { if: (s) => ['hina', 'mio', 'kaede', 'yuna'].filter(k => s.stats[k] >= 25).length >= 3 && !s.flags.yunaClarity, then: [
-        SIM.todo('Three girls you have been flirting with sit at the same café table.'),
-        { choice: 'Everyone is looking at you.', opts: [
-          { t: 'Be honest: "I\'ve been getting to know a few of you, I\'m figuring out my feelings, and I\'ll be straight with you."', fx: { wisdom: 15, self: 5 }, lesson: 'honestjuggle', then: [] },
-          { t: 'Whisper "you\'re the only one" to each of them.', fx: { hina: -15, mio: -15, kaede: -15, yuna: -15 }, lesson: 'honestjuggle', then: [] },
-          { t: 'Hide in the costume closet.', fx: {}, lesson: 'honestjuggle', then: [
-            { badEnd: { title: 'BAD END #9 — The Fish Pond Keeper', text: 'You became the thing you hated in Chapter 1. One honest answer beats many maybes.' } }] },
-        ] },
-      ], else: [
-        SIM.todo('Kenta is juggling two girls and asks for your advice — pick the honest advice.'),
+      { t: 'Rocket. Rocket. Rocket. Become TOP GIFTER.', fx: { cash: -350, self: -10, proj: 10 }, lesson: 'paidattention', then: [
+        { txt: 'yuna', t: 'omg TOP GIFTER!! thank you uh... (reads screen) ...{name}??' }, { phoneOff: true },
+        { n: 'At school she walks right past you. She doesn\'t recognise you without a username.' },
+        { badEnd: { title: 'BAD END #19 — Top Gifter of Nothing',
+          text: 'You paid for attention, and got exactly what you paid for: three seconds of your name, read off a screen. Attention you buy is a transaction. Interest you earn is a relationship.' } },
       ] },
+    ] },
 
-      { bg: 'night' },
-      SIM.todo('[4-4] Fireworks. Who do you confess to? (Only heroines with ♥ ≥ 30 appear; Yuna also needs yunaClarity.)'),
-      { choice: 'The first firework goes up...', opts: [
-        { t: 'Find Hina.', if: SIM.love('hina', 30), then: yesFrom('hina') },
-        { t: 'Find Mio.', if: SIM.love('mio', 30), then: yesFrom('mio') },
-        { t: 'Find Kaede.', if: SIM.love('kaede', 30), then: yesFrom('kaede') },
-        { t: 'Find Yuna.', if: (s) => s.stats.yuna >= 30 && s.flags.yunaClarity, then: yesFrom('yuna') },
-        { t: 'Not now. I want to work on myself first.', fx: { self: 15 }, lesson: 'selfrespect', then: [{ route: 'solo' }] },
-        { t: 'Grab the stage megaphone and confess to the whole school.', fx: { self: -10, wisdom: -10 }, lesson: 'publicpressure', then: [
-          SIM.todo('Total silence. Everyone stares. Rewind and confess privately instead.'),
-          { badEnd: { title: 'BAD END — Feedback Loop', text: 'A public confession pressures the other person. Confess privately and make it easy to answer honestly.' } }] },
+    // 4-3 Kavya spikes
+    { bg: 'mall' },
+    { s: 'kaede', e: 'happy', at: 'center', t: 'These spikes are $240. Nationals are in six weeks. Mine are falling apart.' },
+    { s: 'kaede', e: 'smug', t: 'You just got paid, right? Buy them for me? Kidding. Mostly.' },
+    { choice: 'Kavya is looking at the spikes, then at you...', opts: [
+      { t: '"$240 is half my pay. I can\'t. But I can help you find a second-hand pair, or come with you to ask your coach about team gear."', fx: { kaede: 10, wisdom: 8, self: 8 }, lesson: 'moneyboundary', rose: true, then: [
+        { s: 'kaede', e: 'surprised', t: '...Okay, I didn\'t expect a real answer. The coach has a gear fund. I forgot. You\'re kind of useful.' },
       ] },
+      { t: 'Buy them. You want to see her smile.', fx: { cash: -240, kaede: 4, self: -8, proj: 8 }, lesson: 'moneyboundary', then: [
+        { s: 'kaede', e: 'happy', t: 'Wait, seriously? ...Okay. Thanks. (She looks a bit uncomfortable.)' },
+        { mochi: 'Her smile lasted four seconds. Your wallet will remember for four months.', e: 'sad' },
+      ] },
+      { t: '"Ha, no way. Buy your own stuff." (Walk off.)', fx: { kaede: -8 }, lesson: 'moneyboundary', then: [
+        { s: 'kaede', e: 'cool', t: 'I said kidding. You didn\'t have to be weird about it.' },
+      ] },
+    ] },
+    { hide: '*' },
 
-      { if: SIM.inRelationship, then: [{ mochi: 'Congratulations. You got a "yes". The hard part starts now.', e: 'happy' }],
-        else: [{ mochi: 'No girlfriend — but you kept your dignity. Also, you have me.', e: 'smug' }] },
-      { chapterEnd: true },
-    ],
-  };
-})();
+    // 4-4 instalments
+    { bg: 'mall' },
+    { n: 'The phone shop. The new model is $998. A big sign: ONLY $83/MONTH! 0% FOR 12 MONTHS!*' },
+    { n: '*Late fee $30. After month 12, interest applies at 26.8% a year.' },
+    { choice: 'Your current phone works fine...', opts: [
+      { t: 'Read the asterisk. Walk out. Your phone works.', fx: { wisdom: 8, wallet: 6 }, lesson: 'installments', rose: true, then: [
+        { think: '$83 a month is twelve weekends of washing cups. For a better camera.' },
+      ] },
+      { t: 'Sign up. It\'s only $83.', fx: { cash: -83, wallet: -12, wisdom: -5 }, lesson: 'installments', then: [
+        { mochi: 'It is not "only $83". It is $998 that you will be paying until next year. Buy-now-pay-later is just later.', e: 'angry' },
+      ] },
+    ] },
+
+    // 4-5 family money
+    { bg: 'bedroom' },
+    { s: 'mom', e: 'neutral', at: 'center', t: 'So. First pay. Your father and I were thinking. Some families give a little back to the house.' },
+    { show: 'dad', e: 'neutral', at: 'right' },
+    { s: 'dad', e: 'happy', t: 'No pressure. I gave my mother my first pay packet. Whole thing. She cried. I cried. Then I was broke for a month.' },
+    { choice: 'Your parents are being careful about it...', opts: [
+      { t: 'Give $50 for the house, and say thank you for the rice you\'ve eaten for seventeen years.', fx: { cash: -50, wisdom: 6, self: 4 }, lesson: 'familymoney', then: [
+        { s: 'mom', e: 'happy', t: 'We\'ll put it towards your school fees. ...Thank you. That\'s very grown-up.' },
+      ] },
+      { t: '"It\'s my money. I worked for it."', fx: { self: -2 }, lesson: 'familymoney', then: [
+        { s: 'dad', e: 'neutral', t: 'It is. You\'re right. ...We worked for the flat, too. Just something to think about.' },
+      ] },
+      { t: 'Give it all. Every dollar. Guilt is heavy.', fx: { cash: -150, wallet: -6 }, lesson: 'familymoney', then: [
+        { s: 'mom', e: 'surprised', t: 'Aiyo, no! We said a little. Keep most. Learning to manage it is the whole point.' },
+      ] },
+    ] },
+    { hide: '*' },
+
+    // talk: spending
+    { bg: 'hawker' },
+    { variant: 'hawker.arrive' },
+    { talk: 'spending' },
+    { deeper: 'consumption' },
+    SIM.evening('ch4'),
+    { mochi: 'Your wallet bar moved this chapter. So did your Love IQ. Funny how those two keep holding hands.', e: 'smug' },
+    { chapterEnd: true },
+  ],
+};

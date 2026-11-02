@@ -1,0 +1,43 @@
+/* English (Singapore) — the reference locale. Every UI string the engine shows lives here.
+   Story text stays inline in the chapter files (English is the source language). */
+window.I18N = window.I18N || {};
+window.I18N['en-SG'] = {
+  ready: true, label: 'English',
+  names: {
+    hina: { short: 'Hanis', full: 'Nur Hanis' }, mio: { short: 'Xin Yi', full: 'Lim Xin Yi' },
+    kaede: { short: 'Kavya', full: 'Kavya Pillai' }, yuna: { short: 'Elise', full: 'Elise de Souza' },
+    rei: { short: 'Rae', full: 'Rae Koh' }, kenta: { short: 'Haziq', full: 'Muhammad Haziq' },
+    ogawa: { short: 'Uncle Ong', full: 'Mr. Ong Boon Huat' }, goto: { short: 'Mr. G', full: 'Mr. Gopal' },
+    takumi: { short: 'Marcus', full: 'Marcus Tan' }, ren: { short: 'Ryan', full: 'Ryan Teo' },
+    saki: { short: 'Sam', full: 'Sam Wong' }, nana: { short: 'Natalie', full: 'Natalie Rodrigues' },
+    farah: { short: 'Ms. Farah', full: 'Ms. Farah Aziz' }, joy: { short: 'Joy', full: 'Joy Santos' },
+    nurse: { short: 'Nurse Tan', full: 'Nurse Tan' }, mei: { short: 'Mei', full: 'Mei' },
+    dad: { short: 'Dad', full: 'Dad' }, mom: { short: 'Mum', full: 'Mum' },
+    kai: { short: 'Alpha Kai', full: 'Alpha Kai' }, aileen: { short: '"Aileen"', full: '"Aileen"' },
+  },
+  ui: {
+    'title.tagline': 'A visual novel about real love', 'title.sub': 'Oh no, love is complicated! A training course in real relationships.',
+    'title.name': 'Your name', 'title.start': 'Start Chapter 1', 'title.continue': 'Continue', 'title.hint': 'Tap or press Space to advance · 1–4 to choose',
+    'title.lang': 'Language',
+    'stat.trust': 'Trust', 'stat.wisdom': 'Love IQ', 'stat.self': 'Self-respect', 'stat.proj': 'Rose Filter',
+    'life.goal': 'Goal', 'life.passion': 'Passion', 'life.health': 'Health', 'life.wallet': 'Wallet', 'life.cash': 'Savings',
+    'life.title': 'Your Life', 'life.hint': 'Your own story. Nobody else can live it for you.',
+    'phone.typing': 'typing…', 'phone.title': 'Messages',
+    'rose.blocked': 'Rose Filter is too high to see this option',
+    'lesson.green': 'Healthy', 'lesson.red': 'Red flag', 'lesson.trap': 'Trap', 'lesson.new': 'New lesson', 'lesson.added': 'Added to your Love Notebook',
+    'btn.gotit': 'Got it', 'btn.rewind': 'Rewind to the last choice', 'btn.continue': 'Continue', 'btn.okay': 'Okay', 'btn.close': 'Close',
+    'btn.again': 'Replay chapter', 'btn.title': 'Title screen', 'btn.next': 'Continue to {ch}',
+    'badend.label': 'Bad end', 'badend.serious': 'This one is not a joke. Here is help, if you or a friend ever need it.', 'badend.mochi': 'Mochi says',
+    'ach.toast': 'Achievement',
+    'resource.kicker': 'Real help in Singapore', 'resource.verified': 'Checked {date}',
+    'deeper.kicker': 'Think deeper', 'deeper.skip': 'Not now', 'deeper.read': 'Read the card',
+    'deeper.sg': 'In Singapore', 'deeper.source': 'source', 'deeper.closing': 'Don\'t blame your partner for a pressure neither of you created. Name it together.',
+    'deeper.nopick': 'None of these, really', 'deeper.yourlens': 'Your lens', 'deeper.locked': 'A card you have not opened yet', 'deeper.lockedhint': 'Look for "Think deeper" later in the story.',
+    'lens.structural': 'The system', 'lens.personal': 'The person', 'lens.cultural': 'Family and culture', 'lens.none': 'None',
+    'rank.s': 'S', 'rank.a': 'A', 'rank.b': 'B', 'rank.c': 'C',
+    'results.complete': '{ch} complete', 'results.people': 'People', 'results.badends': 'Bad ends found: {n} / {total}',
+    'results.endings': 'Endings', 'results.thanks': 'Thank you for playing. Now go live your own story.',
+    'notebook.title': 'Love Notebook', 'notebook.lessons': 'Lessons', 'notebook.deeper': 'Think deeper', 'notebook.life': 'Your Life',
+    'notebook.locked': 'Not learned yet', 'notebook.lockedhint': 'Keep playing. Some lessons only show up when you get it wrong.',
+  },
+};
