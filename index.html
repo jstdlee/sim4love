@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>sim4love Chapter 1</title>
+  <meta name="description" content="A cute anime visual novel about learning what real love is — and spotting the traps.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="game" class="at-title">
+    <div id="stage">
+      <div id="bg"></div>
+      <div id="petals" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div id="chars"></div>
+
+      <div id="topbar">
+        <div id="hud" aria-label="Stats"></div>
+        <div class="menu">
+          <button id="btn-notebook" class="icon-btn" title="Love Notebook">📓<span>Notebook</span></button>
+          <button id="btn-auto" class="icon-btn" title="Auto-advance">▶<span>Auto</span></button>
+          <button id="btn-title" class="icon-btn" title="Save &amp; return to title">🏠<span>Title</span></button>
+        </div>
+      </div>
+
+      <div id="phone" aria-live="polite">
+        <div class="phone-head"><span class="dot"></span><b id="phone-title"></b></div>
+        <div id="phone-msgs"></div>
+      </div>
+
+      <div id="textbox" class="textbox narr">
+        <div id="nametag"></div>
+        <div id="mochi-face"></div>
+        <p id="text" aria-live="polite"></p>
+        <span id="next">▼</span>
+      </div>
+
+      <div id="choices" role="group" aria-label="Choices"></div>
+      <div id="toasts"></div>
+      <div id="chapter-card"></div>
+      <div id="modal" role="dialog" aria-modal="true"></div>
+
+      <div id="title">
+        <div id="title-chars"></div>
+        <div class="title-panel">
+          <div class="logo">sim<span>4</span>love<em>♡</em></div>
+          <p class="tagline">Oh no, love is complicated! — a training course in real relationships</p>
+          <label class="name-field">Your name
+            <input id="player-name" maxlength="12" value="Sota" autocomplete="off">
+          </label>
+          <div class="row">
+            <button id="btn-start" class="btn primary">Start Chapter 1</button>
+            <button id="btn-continue" class="btn" hidden>Continue</button>
+          </div>
+          <p class="hint">Click / tap or press Space to advance · 1–3 to choose</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/art.js"></script>
+  <script src="js/lessons.js"></script>
+  <script src="js/chapter1.js"></script>
+  <script src="js/engine.js"></script>
+</body>
+</html>
