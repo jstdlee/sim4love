@@ -12,3 +12,4 @@ wrangler.jsonc
 .assetsignore
 .wrangler
 assets/fonts/README.md
+screenshots
