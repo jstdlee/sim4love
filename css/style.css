@@ -31,8 +31,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 #game { position: fixed; inset: 0; display: grid; place-items: center; }
 #stage { position: relative; width: 100%; height: 100%; max-width: 1600px; overflow: hidden; user-select: none; -webkit-tap-highlight-color: transparent; }
-#bg, #bg svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-#bg svg { animation: fadein .6s ease; }
+#bg, #bg svg, #bg img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+#bg > * { animation: fadein .6s ease; }
 
 /* ---------- petals ---------- */
 #petals { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .6s; }

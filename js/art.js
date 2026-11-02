@@ -220,7 +220,14 @@
     return body('#ccc');
   }
 
+  // Generated artwork manifest (js/sprites.js): SPRITES.chars[key][expr] / SPRITES.bg[scene] -> file path.
+  const SP = () => window.SPRITES || { chars: {}, bg: {} };
+
   function character(key, exprName) {
+    const art = SP().chars[key];
+    if (art && (art[exprName] || art.neutral)) {
+      return `<img class="char-svg" src="${art[exprName] || art.neutral}" alt="${CAST[key].full} (${exprName})" draggable="false">`;
+    }
     const c = CAST[key];
     const e = EXPR[exprName] || EXPR.neutral;
     const id = `${key}${++uid}`;
@@ -306,6 +313,8 @@
   };
 
   function background(key) {
+    const bg = SP().bg[key];
+    if (bg) return `<img src="${bg}" alt="" aria-hidden="true" style="width:100%;height:100%;object-fit:cover;display:block">`;
     return `<svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${BG[key] || BG.title}</svg>`;
   }
 
