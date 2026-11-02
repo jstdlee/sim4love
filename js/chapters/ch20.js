@@ -124,7 +124,7 @@ window.CHAPTERS.ch20 = {
     { n: 'Two years later.' },
     { ending: '@auto' },
     { if: (s) => s.flags.reiRedemption, then: [{ ending: 'rei_friend' }] },
-    { if: (s) => s.lessons.length >= Math.ceil(Object.keys(window.LESSONS || {}).length * 0.9), then: [{ ending: 'mochi_graduates' }] },
+    { if: (s) => s.lessons.length >= Math.ceil(Object.keys(window.LESSONS || {}).length * 0.85), then: [{ ending: 'mochi_graduates' }] },
     { mochi: 'That\'s the end of my guide, rookie. Not the end of your story. You\'re the main character of your own life, so go and live it.', e: 'happy' },
     { chapterEnd: true },
   ],

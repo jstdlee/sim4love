@@ -483,6 +483,8 @@
         const rewind = () => {
           const keep = { lessons: S.lessons, badEnds: S.badEnds, reflections: S.reflections, achievements: S.achievements };
           S = Object.assign(clone(checkpoint), keep);
+          // A bad end is a wake-up call: the Rose Filter drops to its threshold so the clear-eyed option is open again (no rewind loops).
+          if (S.stats.proj > 60) S.stats.proj = 60;
           S.view.bg = S.view.bg || prevBg;
           restoreView();
           step();

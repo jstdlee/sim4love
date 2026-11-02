@@ -158,7 +158,9 @@ window.CHAPTERS = window.CHAPTERS || {};
           { show: '@route', e: 'neutral', at: 'center' },
           { n: 'After the prelims. You\'re both exhausted, and it has been a hard term for the two of you.' },
           { choice: 'Where are you two?', opts: [
-            { t: 'Still in it. "This term was rough. Let\'s get through the A-levels together."', fx: { trust: 4 } },
+            { t: 'Still in it. "This term was rough. Let\'s get through the A-levels together." Then plan one small, cheap thing to look forward to.', fx: { trust: 8, self: 4, wisdom: 4 }, then: [
+              { s: '@route', e: 'happy', t: 'Together. Okay. And the first thing after the last paper is prata. My treat.' },
+            ] },
             { t: 'Be honest: you think it might be time to end it, and say so kindly.', fx: { self: 6, wisdom: 6 }, lesson: 'breakup', then: [
               { s: '@route', e: 'sad', t: '...I\'ve been feeling it too. I\'m sad. But I\'m glad you said it gently, and to my face.' },
               { n: 'You both cry a little at the void deck, and then share the last curry puff. It\'s the right ending. It\'s still an ending.' },
