@@ -44,7 +44,7 @@ For the next developer/agent taking over (e.g. the Grok bot). Read in this order
 ### P2 — polish
 - [ ] Localisation (中文 / 日本語).
 - [ ] Multiple save slots, backlog/log.
-- [x] Publish: Cloudflare Workers static assets (`wrangler.jsonc`, `npx wrangler deploy`).
+- [x] Publish: Cloudflare Workers static assets (`wrangler.jsonc`, `npx wrangler deploy`). Live: https://sim4love.jstdlee.workers.dev
 - [ ] Screenshot script for visual review lives outside the repo; consider adding `tests/screenshots.js`.
 
 ## Rules (do not break)
