@@ -9,19 +9,20 @@ For the next developer/agent taking over (e.g. the Grok bot). Read in this order
 4b. [VALUE_PROFILES.md](VALUE_PROFILES.md) — value axes, heroine/cast profiles, partner talks, variant pools, topic map
 5. [art-prompts.md](art-prompts.md) — image generation
 
-## Current state
+## Current state (2026-11-02): finished game
+
 | Area | Status |
 |---|---|
-| Engine (choices, lessons, bad ends + rewind, phone, routes, flags, achievements, endings, resources, chapter flow, save) | ✅ working |
-| Chapter 1 | ✅ fully written |
-| Chapters 2–10 | 🟡 **playable outlines**: all choices/fx/lessons/bad ends/route logic in place; story beats are `SIM.todo(...)` placeholders (67 total) |
-| Lessons (63), resources, endings, achievements data | ✅ lessons final · ✅ resource cards rewritten with verified Singapore contacts (`en-SG`, 2026-11-02) · 🟡 endings/achievements text partly TODO |
-| Art (Chapter 1) | ✅ Generated hand-drawn anime art in `assets/`: 5 heroines (3–7 expressions each, see `js/sprites.js`), Mochi (6 expressions), 8 backgrounds incl. `keyart` (title hero) and `badend`. Rendered via the `SPRITES` manifest; SVG fallback kept for anything missing. Ch2–10 locations still use SVG fallbacks |
-| UI | ✅ Dark gilded theme (gold-framed panels, Cinzel / Marcellus / Lora, Titan One logo), self-hosted fonts in `assets/fonts/`, mobile-first. Background crossfade, expression crossfade, two-character layout (left/right, speaker in front, others dimmed), asset preloading |
-| Tests | ✅ `tests/validate.js` · ✅ `tests/softlock.js` (static + seeded simulation; passes) · 🟡 `tests/playthrough.js` needs Playwright, not installed on the build box |
-| Engine robustness | ✅ empty-choice guard (continues after the choice instead of freezing); ch08 resource card that sat after a bad end (unreachable) moved before it |
-| **Design v4: Singapore + Think Deeper** | 🟡 **decided, documented, not coded.** Setting moved to Singapore (fictional Bayview JC, Seri Bayu HDB estate; JC1 → JC2 → NS), SGD prices, multicultural display names via an i18n `names` table (ids unchanged), legal ages per GAME_DESIGN §3.1, new `home` value axis, optional Think Deeper cards (GAME_DESIGN §6.2). Ch13 framing kept as is. Existing art and Ch1 text still show the old setting: see "P0 — Singapore relocation" below |
-| **Design v2: 20 chapters** | 🟡 **designed, awaiting owner sign-off, not coded.** CHAPTERS.md, GAME_DESIGN.md, MISTAKES.md §4 and CORE_VALUES.md describe a 20-chapter, 5-part game (16+). The code still has the old 10 chapters (`js/chapters/ch01–ch10.js`); chapters 11–20 do not exist in code yet |
+| Story | ✅ All 20 chapters written per CHAPTERS.md (5 parts, about 1,010 script lines, 240 choices, 43 bad ends), Singapore setting, new cast and locations |
+| Systems | ✅ Routes locked in Ch8, Rose Filter, value talks with variant pools, Your Life meters, money, Think Deeper cards (Ch4, 9, 14, 15, 16, 18, 20), 17 runtime endings via `SIM.endingFor`, achievements, verified Singapore help resources |
+| Art | ✅ Final art via `js/sprites.js` / `assets/` (do not edit) |
+| UI | ✅ Dark gilded theme, mobile-first; options appear in a stable per-player shuffled order; toast stack capped at 3 |
+| Tests | ✅ `tests/validate.js` · ✅ `tests/softlock.js` (random + greedy full runs, Rose Filter, ending reachability) · ✅ `tests/playthrough.js first|last|random [--mobile] [--shots]` (Playwright) |
+| Deploy | ✅ `npx wrangler deploy` → https://sim4love.jstdlee.workers.dev |
+
+Engine note: a bad-end rewind drops the Rose Filter to 60 so a clear-eyed option is always selectable again (fixes a Ch6 rewind loop).
+
+The backlog below is historical: every P0/P1 item it lists has been done.
 
 ## Backlog (priority order)
 
