@@ -26,7 +26,7 @@ window.I18N['zh-SG'] = {
     'phone.typing': '正在输入…', 'phone.title': '信息',
     'rose.blocked': '玫瑰滤镜太高，看不清这个选项',
     'lesson.green': '健康', 'lesson.red': '红旗', 'lesson.trap': '陷阱', 'lesson.new': '新课程', 'lesson.added': '已加入你的恋爱笔记本',
-    'btn.gotit': '明白了', 'btn.rewind': '回到上一个选择', 'btn.continue': '继续', 'btn.okay': '好', 'btn.close': '关闭',
+    'btn.gotit': '明白了', 'btn.rewind': '回到上一个选择', 'btn.continue': '继续', 'btn.okay': '好', 'btn.back': '返回', 'btn.close': '关闭',
     'btn.again': '重玩本章', 'btn.title': '返回标题', 'btn.next': '继续前往{ch}',
     'badend.label': '坏结局', 'badend.serious': '这一个不是玩笑。如果你或朋友需要，这里有求助资源。', 'badend.mochi': '哎呀！每个人都会遇到一次。我们倒带，再试一次吧。',
     'ach.toast': '成就',

@@ -550,6 +550,7 @@
     const btn = m.querySelector('[data-close]');
     btn && btn.focus({ preventScroll: true });
     m.onclick = (ev) => {
+      if (ev.target === m && m.classList.contains('sheet')) { m.querySelector('[data-close]').click(); return; }
       const b = ev.target.closest('[data-close],[data-act],[data-tab],[data-lens]');
       if (!b) return;
       if (b.dataset.tab) { m.querySelectorAll('[data-tab]').forEach(x => x.classList.toggle('on', x === b)); m.querySelectorAll('[data-pane]').forEach(p => (p.hidden = p.dataset.pane !== b.dataset.tab)); return; }
@@ -708,6 +709,9 @@
   }
 
   // ---------- menus ----------
+  function sheetHead(title) {
+    return `<div class="sheet-head"><button class="icon-btn sheet-back" data-close="back" aria-label="${esc(ui('btn.back'))}" title="${esc(ui('btn.back'))}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>${esc(ui('btn.back'))}</span></button><h2>${esc(title)}</h2><button class="icon-btn sheet-x" data-close="x" aria-label="${esc(ui('btn.close'))}" title="${esc(ui('btn.close'))}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></div>`;
+  }
   function openNotebook(tab) {
     const all = Object.entries(LESSONS).map(([id, L]) => S.lessons.includes(id)
       ? `<li class="${L.kind}"><i aria-hidden="true">${icon(L.ic)}</i><b>${esc(fmt(L.title))}</b><span>${esc(fmt(L.text))}</span></li>`
@@ -717,24 +721,24 @@
       : `<li class="locked"><i aria-hidden="true">${icon('lock')}</i><b>${esc(ui('deeper.locked'))}</b><span>${esc(ui('deeper.lockedhint'))}</span></li>`).join('');
     const life = `<div class="life-pane">${lifeBars()}<p class="muted">${esc(ui('life.hint'))}</p></div>`;
     const t = tab || 'lessons';
-    modal(`<div class="notebook"><h2>${esc(ui('notebook.title'))}</h2>
+    modal(`<div class="notebook">${sheetHead(ui('notebook.title'))}
       <div class="tabs" role="tablist"><button class="tab ${t === 'lessons' ? 'on' : ''}" data-tab="lessons">${esc(ui('notebook.lessons'))} <small>${S.lessons.length}/${Object.keys(LESSONS).length}</small></button><button class="tab ${t === 'deep' ? 'on' : ''}" data-tab="deep">${esc(ui('notebook.deeper'))} <small>${Object.keys(S.reflections).length}/${Object.keys(window.THINK || {}).length}</small></button><button class="tab ${t === 'life' ? 'on' : ''}" data-tab="life">${esc(ui('life.title'))}</button></div>
       <ul data-pane="lessons" ${t === 'lessons' ? '' : 'hidden'}>${all}</ul>
       <ul data-pane="deep" ${t === 'deep' ? '' : 'hidden'}>${deep}</ul>
       <div data-pane="life" ${t === 'life' ? '' : 'hidden'}>${life}</div>
-      <button class="btn primary" data-close>${esc(ui('btn.close'))}</button></div>`);
+      <div class="sheet-foot"><button class="btn primary" data-close>${esc(ui('btn.close'))}</button></div></div>`, null, 'sheet');
   }
   function openSettings() {
     const wasBusy = busy;
     const packs = Object.entries(window.I18N || {}).filter(([, p]) => p.ready);
-    modal(`<div class="settings"><h2>${esc(ui('settings.title'))}</h2>
+    modal(`<div class="settings">${sheetHead(ui('settings.title'))}
       <label class="set-row"><span>${esc(ui('settings.music'))}</span>
         <input id="set-vol" type="range" min="0" max="100" step="5" value="${Math.round(Music.volume * 100)}" aria-label="${esc(ui('settings.music'))}"><b id="set-vol-n">${Math.round(Music.volume * 100)}</b></label>
       <label class="set-row"><span>${esc(ui('settings.mute'))}</span>
         <button id="set-mute" class="btn small toggle ${Music.muted ? 'on' : ''}" role="switch" aria-checked="${Music.muted}">${esc(ui(Music.muted ? 'settings.on' : 'settings.off'))}</button></label>
       ${packs.length > 1 ? `<label class="set-row"><span>${esc(ui('title.lang'))}</span><select id="set-locale">${packs.map(([id, p]) => `<option value="${id}" ${id === LOCALE ? 'selected' : ''}>${esc(p.label)}</option>`).join('')}</select></label>` : ''}
       <p class="muted small">${esc(ui('settings.credits'))}</p>
-      <button class="btn primary" data-close>${esc(ui('btn.close'))}</button></div>`, () => { busy = wasBusy; });
+      <div class="sheet-foot"><button class="btn primary" data-close>${esc(ui('btn.close'))}</button></div></div>`, () => { busy = wasBusy; }, 'sheet');
     const vol = $('#set-vol');
     vol.oninput = () => { Music.setVolume(vol.value / 100); $('#set-vol-n').textContent = vol.value; if (Music.muted && +vol.value > 0) setMute(false); };
     const mute = $('#set-mute');
@@ -829,6 +833,7 @@
   function bind() {
     $('#stage').addEventListener('click', (e) => { if (e.target.closest('button,#choices,#modal,#title,#topbar,select,a')) return; advance(); });
     document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && $('#modal').classList.contains('on') && $('#modal').classList.contains('sheet')) { e.preventDefault(); $('#modal').querySelector('[data-close]').click(); return; }
       if ($('#title').classList.contains('on')) return;
       if (e.key === ' ' || e.key === 'Enter') {
         if (document.activeElement && document.activeElement.tagName === 'BUTTON' && document.activeElement.closest('#choices,#modal')) return;

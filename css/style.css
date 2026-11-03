@@ -342,3 +342,13 @@ html[lang^="zh"] #text { line-height: 1.75; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* sheet modals (notebook, settings): always-visible back and close */
+#modal.sheet .modal-card { padding-top: 0; padding-bottom: 0; }
+.sheet-head { position: sticky; top: 0; z-index: 2; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 8px; margin: 0 -28px 12px; padding: 12px 16px 10px; background: linear-gradient(rgba(14, 8, 9, .97), rgba(14, 8, 9, .92)); border-bottom: 1px solid var(--edge); }
+.sheet-head h2 { margin: 0; font-size: clamp(19px, 2.6vw, 24px); }
+.sheet-head .icon-btn { min-width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 0 10px; }
+.sheet-head .icon-btn svg { width: 16px; height: 16px; }
+.sheet-head .sheet-back span { font: 14px var(--f-label); }
+.sheet-foot { position: sticky; bottom: 0; z-index: 2; margin: 0 -28px; padding: 12px 16px 16px; background: linear-gradient(rgba(14, 8, 9, 0), rgba(14, 8, 9, .96) 35%); }
+@media (max-width: 640px) { .sheet-head, .sheet-foot { margin-left: -16px; margin-right: -16px; } .sheet-head .sheet-back span { display: none; } }
