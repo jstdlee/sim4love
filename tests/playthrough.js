@@ -8,7 +8,8 @@
    --route=ava: a thoughtful player courting one heroine (healthiest option by effects, confesses to her);
              fails unless that heroine's true ending is reached
    --lang=zh: play in Simplified Chinese and flag on-screen lines that are still English
-   --outfit-shots=hina:casual,chloe:stall  screenshot the first time each outfit is on stage (screenshots/outfits/)
+   --outfit-shots=hina:casual,chloe:stall  screenshot the first time each outfit is on stage (<shots dir>/outfits/)
+   --hud-shots    with --outfit-shots on --mobile: also capture the opened hearts list
    --shots:  save a screenshot at every chapter card, bad end, results screen and the final screen
    --url=http://127.0.0.1:8787/  play against a running Worker (e.g. `wrangler dev` with the Turnstile
              test keys in .dev.vars) instead of the built-in static server; the Turnstile gate is passed first
@@ -93,6 +94,7 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
   const recaps = new Set(); const toasts = new Set();
   // --outfit-shots=hina:casual,chloe:stall  save one screenshot the first time each listed outfit is on stage.
   const outfitsSeen = new Map();
+  const hudShots = process.argv.includes('--hud-shots');
   const outfitShots = new Set(((process.argv.find((a) => a.startsWith('--outfit-shots=')) || '').split('=')[1] || '').split(',').filter(Boolean));
   const outfitDir = shotDir ? path.join(shotDir, 'outfits') : path.join(__dirname, '..', 'screenshots', 'outfits');
   if (outfitShots.size) fs.mkdirSync(outfitDir, { recursive: true });
@@ -112,7 +114,13 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
       const m = f.match(/chars\/([a-z]+)_([a-z]+)_[a-z]+\.webp$/);
       if (!m) continue;
       const k = `${m[1]}:${m[2]}`;
-      if (!outfitsSeen.has(k)) { outfitsSeen.set(k, st.ch); if (outfitShots.has(k)) { await page.waitForTimeout(700); await page.screenshot({ path: path.join(outfitDir, `${k.replace(':', '-')}-${st.ch}.png`) }); } }
+      if (!outfitsSeen.has(k)) { outfitsSeen.set(k, st.ch); if (outfitShots.has(k)) { await page.waitForTimeout(700); await page.screenshot({ path: path.join(outfitDir, `${k.replace(':', '-')}-${st.ch}.png`) });
+          if (hudShots && await page.$('#hud .hsum')) { // --hud-shots: the folded hearts list, opened and closed again
+            await page.click('#hud .hsum'); await page.waitForTimeout(250);
+            await page.screenshot({ path: path.join(outfitDir, `${k.replace(':', '-')}-${st.ch}-hud-open.png`) });
+            await page.click('#hud .hsum'); await page.waitForTimeout(150);
+            if (await page.$('#hud .hearts.open')) errors.push('Hearts list did not close');
+          } } }
     }
     for (const t of st.toast) { if (!toasts.size) await shot(`${st.ch}-toast`); toasts.add(t); if (leak(t)) english.add(`${st.ch} toast: ${t.slice(0, 70)}`); }
     if (st.recap && !recaps.has(st.ch)) {
@@ -132,7 +140,6 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
     const sig = JSON.stringify([st.ch, st.pc, st.modal, st.choices, st.text]);
     same = sig === last ? same + 1 : 0; last = sig;
     if (same > 400) { errors.push(`Stuck at ${st.ch} pc ${st.pc}: "${st.text.slice(0, 80)}"`); break; }
-    if (st.card && routeTarget && !cards.has(st.ch) && process.env.ROUTE_DEBUG) console.log(st.ch, JSON.stringify(await page.evaluate(() => { const S = SimEngine.state; return { route: S.route, trust: S.stats.trust, ava: S.stats.ava, f: Object.keys(S.flags).filter((k) => /ava|broke/i.test(k)), fit: window.CastSim && window.CastSim.fit ? window.CastSim.fit(S, 'ava') : null }; })));
     if (st.card) { if (!cards.has(st.ch)) { cards.add(st.ch); await page.waitForTimeout(500); await shot(`${st.ch}-card`); } await page.waitForTimeout(200); continue; }
     if (st.modal) {
       if (st.bad) { badEnds++; await page.waitForTimeout(450); await shot(`${st.ch}-badend-${badEnds}`); }
@@ -232,7 +239,7 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
   if (!music.unlocked || !tracks.size) errors.push('Music never started: ' + JSON.stringify(music));
   if (english.size) errors.push(`Untranslated English on screen (${english.size}):\n  ` + [...english].slice(0, 40).join('\n  '));
   await browser.close(); if (!remote) server.close();
-  console.log(JSON.stringify({ strategy, mobile, lang, music: [...tracks], chapters: seen.size, recaps: recaps.size, outfitsOnStage: outfitsSeen.size, ...(process.env.OUTFIT_DEBUG ? { outfitKeys: [...outfitsSeen.keys()], outfitWanted: [...outfitShots] } : {}), castToasts: toasts.size, choices, badEnds, endingScreens: endings, ...final }));
+  console.log(JSON.stringify({ strategy, mobile, lang, music: [...tracks], chapters: seen.size, recaps: recaps.size, outfitsOnStage: outfitsSeen.size, castToasts: toasts.size, choices, badEnds, endingScreens: endings, ...final }));
   if (shotDir) console.log('screenshots: ' + shotDir);
   if (errors.length) { console.error('PAGE ERRORS:\n' + errors.join('\n')); process.exit(1); }
   if (routeTarget) {
