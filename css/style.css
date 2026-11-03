@@ -297,6 +297,10 @@ svg.ico { width: 1em; height: 1em; flex: none; fill: none; stroke: currentColor;
 .set-row select, .lang-field select { font: 15px/1.2 var(--f-body); padding: 6px 10px; border: 1px solid rgba(201, 164, 92, .55); background: rgba(12, 6, 8, .85); color: var(--ink); border-radius: 0; grid-column: 2 / 4; }
 .set-row .toggle { grid-column: 2 / 4; justify-self: end; min-width: 76px; }
 .btn.toggle.on { background: var(--gold-fill); background-clip: padding-box; color: #1d0f12; }
+.site-links { margin: 10px 0 0; font: 12px/1.4 var(--f-label); letter-spacing: .04em; color: var(--muted); }
+.site-links a { color: var(--muted); text-decoration: none; padding: 4px 2px; }
+.site-links a:hover, .site-links a:focus-visible { color: var(--gold-hi); text-decoration: underline; text-underline-offset: 3px; }
+.settings .site-links { margin-top: 4px; }
 .title-opts { margin-top: 12px; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; }
 .lang-field { display: flex; align-items: center; gap: 8px; font: 14px/1 var(--f-label); color: var(--ink-2); }
 .lang-field[hidden] { display: none; }

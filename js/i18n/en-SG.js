@@ -45,6 +45,7 @@ window.I18N['en-SG'] = {
     'notebook.title': 'Love Notebook', 'notebook.lessons': 'Lessons', 'notebook.deeper': 'Think deeper', 'notebook.life': 'Your Life',
     'title.doc': 'sim4love', 'word.her': 'her', 'word.hobby': 'your hobby', 'name.mochi': 'Mochi', 'name.drmochi': 'Dr. Mochi',
     'menu.notebook': 'Notebook', 'menu.notebook.long': 'Love Notebook', 'menu.auto': 'Auto', 'menu.auto.long': 'Auto-advance',
+    'site.nav': 'About this site', 'site.about': 'About', 'site.privacy': 'Privacy', 'site.disclaimer': 'Disclaimer',
     'menu.title': 'Title', 'menu.title.long': 'Save and return to title', 'menu.settings': 'Settings',
     'notebook.cast': 'Cast', 'cast.notmet': 'Not met yet', 'cast.first': 'First impression', 'cast.seen': "What you've seen",
     'cast.radar': 'How you see {name}', 'cast.fit': 'Values fit', 'cast.fithint': 'Talk about what you each want to find out.',

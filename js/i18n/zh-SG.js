@@ -46,6 +46,7 @@ window.I18N['zh-SG'] = {
     'notebook.title': '恋爱笔记本', 'notebook.lessons': '课程', 'notebook.deeper': '深入思考', 'notebook.life': '你的生活',
     'title.doc': 'sim4love 恋爱模拟', 'word.her': '她', 'word.hobby': '你的爱好', 'name.mochi': '麻糬', 'name.drmochi': '麻糬博士',
     'menu.notebook': '笔记', 'menu.notebook.long': '恋爱笔记本', 'menu.auto': '自动', 'menu.auto.long': '自动播放',
+    'site.nav': '关于本网站', 'site.about': '关于', 'site.privacy': '隐私', 'site.disclaimer': '免责声明',
     'menu.title': '标题', 'menu.title.long': '保存并返回标题', 'menu.settings': '设置',
     'notebook.cast': '人物', 'cast.notmet': '尚未相遇', 'cast.first': '第一印象', 'cast.seen': '你亲眼所见',
     'cast.radar': '你眼中的{name}', 'cast.fit': '价值观契合', 'cast.fithint': '聊聊彼此想要什么，才能看清这一项。',

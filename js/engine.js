@@ -55,6 +55,10 @@
   const LOCALE = (() => {
     const packs = window.I18N || {};
     let want = null;
+    // ?lang=zh-SG / ?lang=en-SG (used by the public site's "Play" links) wins once and is remembered.
+    let q = null;
+    try { q = new URLSearchParams(location.search).get('lang'); } catch (e) { /* ignore */ }
+    if (q && packs[q] && packs[q].ready) { try { localStorage.setItem('sim4love.locale', q); } catch (e) { /* ignore */ } return q; }
     try { want = localStorage.getItem('sim4love.locale'); } catch (e) { /* ignore */ }
     if (want && packs[want] && packs[want].ready) return want;
     // First visit: follow the browser language (zh* -> Simplified Chinese, everything else -> English).
@@ -969,6 +973,14 @@
     const on = document.querySelector('#modal .notebook .tab.on');
     if (on && on.scrollIntoView) on.scrollIntoView({ block: 'nearest', inline: 'nearest' });
   }
+  // Links to the public site pages. On the deployed Worker (/play) they are same-origin; anywhere else
+  // (a local copy, file://) they point at the public site.
+  function siteLinks() {
+    const base = (location.pathname === '/play' && /^https?:$/.test(location.protocol)) ? '' : 'https://sim4love.jstdlee.workers.dev';
+    const pre = LOCALE === 'zh-SG' ? '/zh' : '';
+    return ['about', 'privacy', 'disclaimer'].map(k => `<a href="${base}${pre}/${k}">${esc(ui('site.' + k))}</a>`).join('<span aria-hidden="true"> · </span>');
+  }
+
   function openSettings() {
     const wasBusy = busy;
     const packs = Object.entries(window.I18N || {}).filter(([, p]) => p.ready);
@@ -981,6 +993,7 @@
         <button id="set-social" class="btn small toggle ${S.opts && S.opts.social === false ? '' : 'on'}" role="switch" aria-checked="${!(S.opts && S.opts.social === false)}">${esc(ui(S.opts && S.opts.social === false ? 'settings.off' : 'settings.on'))}</button></label>
       ${packs.length > 1 ? `<label class="set-row"><span>${esc(ui('title.lang'))}</span><select id="set-locale">${packs.map(([id, p]) => `<option value="${id}" ${id === LOCALE ? 'selected' : ''}>${esc(p.label)}</option>`).join('')}</select></label>` : ''}
       <p class="muted small">${esc(ui('settings.credits'))}</p>
+      <nav class="site-links small" aria-label="${esc(ui('site.nav'))}">${siteLinks()}</nav>
       <div class="sheet-foot"><button class="btn primary" data-close>${esc(ui('btn.close'))}</button></div></div>`, () => { busy = wasBusy; }, 'sheet');
     const vol = $('#set-vol');
     vol.oninput = () => { Music.setVolume(vol.value / 100); $('#set-vol-n').textContent = vol.value; if (Music.muted && +vol.value > 0) setMute(false); };
@@ -1141,6 +1154,7 @@
     document.querySelectorAll('[data-ui]').forEach(el => { el.textContent = ui(el.dataset.ui); });
     document.querySelectorAll('[data-ui-label]').forEach(el => { const t = ui(el.dataset.uiLabel); el.title = t; el.setAttribute('aria-label', t); });
     document.title = ui('title.doc');
+    const tl = $('#title-links'); if (tl) { tl.innerHTML = siteLinks(); tl.setAttribute('aria-label', ui('site.nav')); }
     bind(); renderHud(); showTitle();
     ageGate();
     preload();
