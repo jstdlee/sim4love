@@ -1,0 +1,19 @@
+{
+  // Static game served by Workers static assets, fronted by a Turnstile gate (src/worker.js).
+  "name": "sim4love",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    // Run the gate before any asset is served.
+    "run_worker_first": true
+  },
+  "vars": {
+    // Public Turnstile sitekey (widget "sim4love"). Local dev overrides it with the test key in .dev.vars.
+    "TURNSTILE_SITEKEY": "0x4AAAAAAFxYVF2nH3im19Ac",
+    // Hostnames siteverify must report. Production only; never add localhost here.
+    "TURNSTILE_HOSTNAMES": "sim4love.jstdlee.workers.dev"
+  }
+  // Secrets (wrangler secret put): TURNSTILE_SECRET, COOKIE_KEY.
+}

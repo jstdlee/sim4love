@@ -3,7 +3,7 @@
   "private": true,
   "description": "Cute anime visual novel about healthy relationships",
   "scripts": {
-    "test": "node tests/validate.js",
-    "test:play": "node tests/playthrough.js first && node tests/playthrough.js last"
+    "test": "node tests/validate.js && node tests/softlock.js",
+    "test:play": "node tests/playthrough.js first && node tests/playthrough.js last && node tests/playthrough.js random --mobile"
   }
 }
