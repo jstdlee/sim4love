@@ -8,8 +8,38 @@ const BGS = new Set(Object.keys(W.SPRITES.bg));
 const CAST = new Set(Object.keys(W.Art.CAST));
 const SPEAKERS = new Set([...CAST, '@route', '@talk']);
 const PHONE = new Set([...SPEAKERS, 'me', 'sys']);
-const HEROINES = ['hina', 'rei', 'mio', 'kaede', 'yuna'];
+const HEROINES = ['hina', 'rei', 'mio', 'kaede', 'yuna', 'chloe', 'preet'];
 const FX = new Set([...HEROINES, 'kenta', 'trust', 'wisdom', 'self', 'proj', 'goal', 'passion', 'health', 'wallet', 'cash', '@route', '@talk']);
+const CAST_IDS = new Set(Object.keys(W.CAST || {}));
+const fxOk = (k) => FX.has(k) || (/^(trust|aff)\.(\w+)$/.test(k) && CAST_IDS.has(k.split('.')[1]));
+/* Cast commands (docs/CAST_BIBLE.md §5.9): ids, axes, flaw tags/states, judgement ids, and a 'why' for every change. */
+const CID = (id) => CAST_IDS.has(id) || id === '@route' || id === '@talk';
+const AXES = new Set([...(W.CAST_AXES || []), 'fit']);
+const FLAW_STATES = ['hidden', 'seen', 'growing', 'resolved'];
+function castCheck(c, at) {
+  if (c.reveal) for (const [id, ax] of Object.entries(c.reveal)) {
+    if (!CID(id)) errors.push(`${at}: reveal for unknown cast id "${id}"`);
+    for (const a of [].concat(ax)) if (!AXES.has(a)) errors.push(`${at}: reveal of unknown axis "${a}"`);
+  }
+  if (c.grow) for (const [id, m] of Object.entries(c.grow)) {
+    if (!CID(id)) errors.push(`${at}: grow for unknown cast id "${id}"`);
+    for (const a of Object.keys(m)) if (!AXES.has(a)) errors.push(`${at}: grow of unknown axis "${a}"`);
+  }
+  if (c.flaw) for (const [id, m] of Object.entries(c.flaw)) {
+    const C = W.CAST[id];
+    if (!C && !CID(id)) errors.push(`${at}: flaw for unknown cast id "${id}"`);
+    for (const [tag, st] of Object.entries(m)) {
+      if (C && !(C.flaws || []).includes(tag)) errors.push(`${at}: unknown flaw tag "${tag}" for ${id}`);
+      if (!FLAW_STATES.includes(st)) errors.push(`${at}: unknown flaw state "${st}"`);
+    }
+  }
+  if ((c.reveal || c.grow || c.flaw) && !c.why) errors.push(`${at}: cast change without a "why"`);
+  if (c.judge) {
+    if (!(W.JUDGEMENTS || {})[c.judge.id]) errors.push(`${at}: unknown judgement "${c.judge.id}"`);
+    if (c.judge.verdict && !['fair', 'unfair'].includes(c.judge.verdict)) errors.push(`${at}: judgement verdict must be fair|unfair`);
+  }
+  if (c.contact) for (const id of [].concat(c.contact)) if (!CID(id)) errors.push(`${at}: contact for unknown cast id "${id}"`);
+}
 const ENDING_IDS = new Set([...Object.keys(W.ENDINGS), '@auto']);
 const errors = [], warn = [];
 let interactions = 0, badEnds = 0, lines = 0;
@@ -34,7 +64,8 @@ function walk(list, where) {
     if (c.variant) { variantsUsed.add(c.variant); if (!W.VARIANTS[c.variant]) errors.push(`${at}: unknown variant pool "${c.variant}"`); }
     if (c.lesson) { lessonsUsed.add(c.lesson); if (!W.LESSONS[c.lesson]) errors.push(`${at}: unknown lesson "${c.lesson}"`); }
     if (c.deeper && !W.THINK[c.deeper]) errors.push(`${at}: unknown Think Deeper card "${c.deeper}"`);
-    if (c.fx) for (const k of Object.keys(c.fx)) if (!FX.has(k)) errors.push(`${at}: unknown fx key "${k}"`);
+    if (c.fx) for (const k of Object.keys(c.fx)) if (!fxOk(k)) errors.push(`${at}: unknown fx key "${k}"`);
+    castCheck(c, at);
     if (c.badEnd) {
       badEnds++;
       if (!c.badEnd.title || !c.badEnd.text) errors.push(`${at}: bad end needs title + text`);
@@ -48,7 +79,7 @@ function walk(list, where) {
         if (!o.t) errors.push(`${ot}: missing text`);
         if (o.lesson) { lessonsUsed.add(o.lesson); if (!W.LESSONS[o.lesson]) errors.push(`${ot}: unknown lesson "${o.lesson}"`); }
         if (o.ach && !W.ACHIEVEMENTS[o.ach]) errors.push(`${ot}: unknown achievement "${o.ach}"`);
-        if (o.fx) for (const k of Object.keys(o.fx)) if (!FX.has(k)) errors.push(`${ot}: unknown fx key "${k}"`);
+        if (o.fx) for (const k of Object.keys(o.fx)) if (!fxOk(k)) errors.push(`${ot}: unknown fx key "${k}"`);
         if (o.val) for (const k of Object.keys(o.val)) if (!W.VALUE_AXES.includes(k)) errors.push(`${ot}: unknown value axis "${k}"`);
         walk(o.then || [], `${ot}.then`);
       });

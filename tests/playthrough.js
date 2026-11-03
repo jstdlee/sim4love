@@ -86,6 +86,7 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
   await page.waitForTimeout(1200);
 
   const seen = new Set(); const attempts = {}; const cards = new Set(); const endings = [];
+  const recaps = new Set(); const toasts = new Set();
   const hudBad = []; let choices = 0, badEnds = 0, done = false, same = 0, last = '';
   for (let i = 0; i < 40000 && !done; i++) {
     const st = await page.evaluate(() => {
@@ -94,9 +95,17 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
         modal: q('#modal').classList.contains('on'), next: !!q('#modal [data-act="next"]'), title: !!q('#modal [data-act="title"]'),
         bad: !!q('#modal .badend'), ending: (q('#modal .ending h2') || q('#modal .ending') || {}).textContent || '',
         choices: q('#choices').classList.contains('on'), ctext: q('#choices').textContent,
-        nopts: q('#choices').querySelectorAll('.opt:not([disabled])').length, text: q('#text').textContent };
+        nopts: q('#choices').querySelectorAll('.opt:not([disabled])').length, text: q('#text').textContent,
+        recap: !!q('#modal .recap'), toast: [...document.querySelectorAll('#toasts .toast.cast')].map((t) => t.textContent.trim()) };
     });
     seen.add(st.ch);
+    for (const t of st.toast) { if (!toasts.size) await shot(`${st.ch}-toast`); toasts.add(t); if (leak(t)) english.add(`${st.ch} toast: ${t.slice(0, 70)}`); }
+    if (st.recap && !recaps.has(st.ch)) {
+      recaps.add(st.ch);
+      const rc = await page.evaluate(() => ({ rows: document.querySelectorAll('#modal .rc-list .rc-row').length, more: !!document.querySelector('#modal .rc-all') }));
+      if (rc.rows > 8) errors.push(`${st.ch} recap shows ${rc.rows} rows before "Show all" (max 8)`);
+      if (recaps.size === 3) { await page.waitForTimeout(400); await shot(`${st.ch}-recap`); }
+    }
     if (leak(st.text.trim())) english.add(`${st.ch}: ${st.text.trim().slice(0, 70)}`);
     if (st.choices) for (const o of await page.$$eval('#choices .opt', (els) => els.map((e) => e.textContent.trim()))) if (leak(o)) english.add(`${st.ch} choice: ${o.slice(0, 70)}`);
     if (st.modal && lang === 'zh-SG') for (const t of await page.$$eval('#modal h1, #modal h2, #modal h3, #modal p, #modal li, #modal button', (els) => els.map((e) => e.textContent.trim()))) if (leak(t)) english.add(`${st.ch} modal: ${t.slice(0, 70)}`);
@@ -128,6 +137,50 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
     await page.evaluate(() => { const e = new KeyboardEvent('keydown', { key: ' ', bubbles: true }); document.dispatchEvent(e); document.dispatchEvent(e); });
     await page.waitForTimeout(8);
   }
+  // Cast layer: every chapter ends with Mochi's recap, archived to S.recaps; the Cast tab and a profile with a radar render.
+  if (recaps.size < 20) errors.push(`Recap shown in ${recaps.size}/20 chapters`);
+  const archived = await page.evaluate(() => Object.keys(SimEngine.state.recaps || {}).length);
+  if (archived < 20) errors.push(`Recaps archived for ${archived}/20 chapters`);
+  if (!toasts.size) errors.push('No mid-scene cast toast was ever shown');
+  await page.evaluate(() => SimEngine.openNotebook('cast')); await page.waitForTimeout(500);
+  const castCards = await page.$$eval('#modal .cast-card', (els) => els.length);
+  if (castCards < 20) errors.push(`Cast tab shows ${castCards} cards, expected 20`);
+  const panes = await page.evaluate(() => {
+    const vis = (el) => !!el && el.getClientRects().length > 0 && getComputedStyle(el).display !== 'none';
+    const tab = document.querySelector('#modal .notebook .tab.on');
+    const tr = tab && tab.getBoundingClientRect(), br = tab && tab.parentElement.getBoundingClientRect();
+    return { cast: vis(document.querySelector('#modal [data-pane="cast"] .cast-card')), lessons: vis(document.querySelector('#modal [data-pane="lessons"]')),
+      tabInView: !!tr && tr.left >= br.left - 1 && tr.right <= br.right + 1 };
+  });
+  if (!panes.cast || panes.lessons) errors.push(`Cast tab: wrong pane visible (cast ${panes.cast}, lessons ${panes.lessons})`);
+  if (!panes.tabInView) errors.push('Cast tab: active tab is scrolled out of view');
+  await shot('cast-tab');
+  // Open the profile with the most partial reveals (some axes seen, some still "?").
+  const pick = await page.evaluate(() => {
+    const C = SimEngine.state.cast || {}; let best = null, bestN = -1;
+    for (const [id, e] of Object.entries(C)) {
+      if (!e.met || !document.querySelector(`#modal .cast-card[data-act="cast:${id}"]`)) continue;
+      const v = Object.values(e.seen || {}), n = v.filter(Boolean).length;
+      const score = n < v.length ? n : n - 10;
+      if (score > bestN) { bestN = score; best = id; }
+    }
+    return best;
+  });
+  const cardSel = pick ? `#modal .cast-card[data-act="cast:${pick}"]` : '#modal .cast-card >> nth=0';
+  if (mobile) await page.tap(cardSel); else await page.click(cardSel);
+  await page.waitForTimeout(500);
+  const pf = await page.evaluate(() => ({ radar: !!document.querySelector('#modal .pf-radar svg.radar'), first: !!document.querySelector('#modal .rd-first'),
+    face: (() => { const f = document.querySelector('#modal .pf-face'), i = f && f.firstElementChild; if (!i) return false;
+      const fr = f.getBoundingClientRect(), ir = i.getBoundingClientRect(); return getComputedStyle(i).position !== 'absolute' && ir.top >= fr.top - 1 && ir.top <= fr.bottom; })(),
+    labels: document.querySelectorAll('#modal .rd-label').length, overflow: (document.querySelector('#modal .sheet, #modal .notebook') || document.body).scrollWidth > window.innerWidth + 1,
+    texts: [...document.querySelectorAll('#modal h3, #modal li, #modal p')].map((e) => e.textContent.trim()) }));
+  if (!pf.radar || !pf.first || pf.labels !== 7) errors.push(`Profile radar did not render (radar ${pf.radar}, first ${pf.first}, labels ${pf.labels})`);
+  if (pf.overflow) errors.push('Profile overflows horizontally');
+  if (!pf.face) errors.push('Profile portrait escapes its frame');
+  for (const t of pf.texts) if (leak(t)) english.add(`profile: ${t.slice(0, 70)}`);
+  await shot('cast-profile');
+  const ownBack = await page.$('#modal [data-act="notebook:cast"]'); if (ownBack) await ownBack.click(); await page.waitForTimeout(300);
+  const fin = await page.$('#modal [data-close]'); if (fin) await fin.click();
   const outOfRange = await page.evaluate(() => [...document.querySelectorAll('#hud .chip i, #modal .bar b, #modal .pair b')]
     .map((e) => e.textContent.trim()).filter((t) => /^-?\d+$/.test(t) && (+t < 0 || +t > 100)));
   if (outOfRange.length || hudBad.length) errors.push('Meter outside 0-100 on screen: ' + outOfRange.concat(hudBad).join(', '));
@@ -139,7 +192,7 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
   if (!music.unlocked || !tracks.size) errors.push('Music never started: ' + JSON.stringify(music));
   if (english.size) errors.push(`Untranslated English on screen (${english.size}):\n  ` + [...english].slice(0, 40).join('\n  '));
   await browser.close(); if (!remote) server.close();
-  console.log(JSON.stringify({ strategy, mobile, lang, music: [...tracks], chapters: seen.size, choices, badEnds, endingScreens: endings, ...final }));
+  console.log(JSON.stringify({ strategy, mobile, lang, music: [...tracks], chapters: seen.size, recaps: recaps.size, castToasts: toasts.size, choices, badEnds, endingScreens: endings, ...final }));
   if (shotDir) console.log('screenshots: ' + shotDir);
   if (errors.length) { console.error('PAGE ERRORS:\n' + errors.join('\n')); process.exit(1); }
   if (!done || !seen.has('ch20')) { console.error('Did not reach the end of Chapter 20'); process.exit(1); }

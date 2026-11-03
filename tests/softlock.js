@@ -28,7 +28,7 @@ function compile(list) {
         const c = { choice: cmd.choice, opts: [] }; out.push(c);
         const ends = [];
         for (const o of cmd.opts) {
-          c.opts.push({ t: o.t, fx: o.fx, val: o.val, flag: o.flag, lesson: o.lesson, ach: o.ach, rose: o.rose, show: o.if, pc: out.length });
+          c.opts.push({ t: o.t, fx: o.fx, val: o.val, flag: o.flag, lesson: o.lesson, ach: o.ach, rose: o.rose, show: o.if, sig: o.sig, clarity: o.clarity, lieTo: o.lieTo, honestHard: o.honestHard, pc: out.length });
           emit(o.then || []);
           const j = { jmp: -1 }; out.push(j); ends.push(j);
         }
@@ -47,7 +47,10 @@ function compile(list) {
 }
 
 const errors = [], warns = [];
-const STAT_KEYS = ['hina', 'rei', 'mio', 'kaede', 'yuna', 'kenta', 'trust', 'wisdom', 'self', 'proj'];
+const STAT_KEYS = ['hina', 'rei', 'mio', 'kaede', 'yuna', 'chloe', 'preet', 'kenta', 'trust', 'wisdom', 'self', 'proj'];
+const ROUTES = window.SIM.HEROINES.slice();
+const CS = window.CastSim;
+const castWho = (S) => (k) => (k === '@route' ? routeKey(S) || 'kenta' : k === '@talk' ? S.talkWith || routeKey(S) || 'kenta' : k);
 const LIFE_KEYS = ['goal', 'passion', 'health', 'wallet'];
 const clampN = (v, a, b) => Math.max(a, Math.min(b, v));
 const routeKey = (S) => (S.route && S.route !== 'solo' ? S.route : null);
@@ -96,13 +99,17 @@ function randomState(chIndex) {
   stats.trust = clampN(stats.trust, 0, 100); stats.proj = clampN(stats.proj, 0, 100);
   const life = Object.fromEntries(LIFE_KEYS.map((k) => [k, Math.round(rnd() * 100)]));
   const flags = {}; FLAG_NAMES.forEach((f) => { if (rnd() < 0.5) flags[f] = true; });
-  const route = chIndex >= 8 ? pick(['hina', 'mio', 'kaede', 'yuna', 'solo']) : null;
-  if (flags.kindGoodbye) flags.kindGoodbye = route === 'solo' ? pick(['hina', 'mio', 'kaede', 'yuna']) : undefined; // value flag: heroine id
+  const route = chIndex >= 8 ? pick(ROUTES.concat('solo')) : null;
+  if (flags.kindGoodbye) flags.kindGoodbye = route === 'solo' ? pick(ROUTES) : undefined; // value flag: heroine id
   if (flags.passion) flags.passion = pick(Object.keys(window.PASSIONS || { music: 1 }));
   const lessons = Object.keys(window.LESSONS).filter(() => rnd() < (rnd() < 0.1 ? 1 : 0.5));
   const reflections = {}; Object.keys(window.THINK || {}).forEach((k) => { if (rnd() < 0.5) reflections[k] = { lens: null }; });
   const values = Object.fromEntries((window.VALUE_AXES || []).map((a) => [a, Math.round(rnd() * 4 - 2)]));
-  return Object.assign(freshState(), { route, stats, life, flags, lessons, reflections, values, money: Math.round(rnd() * 600 - 100) });
+  const S = Object.assign(freshState(), { route, stats, life, flags, lessons, reflections, values, money: Math.round(rnd() * 600 - 100) });
+  // cast layer: random reveals/flaws/trust, and the social toggle on or off
+  S.chN = chIndex + 1; CS.init(S); S.opts.social = rnd() < 0.5;
+  for (const e of Object.values(S.cast)) { e.trust = Math.round(rnd() * 100); e.aff = Math.round(rnd() * 100); Object.keys(e.seen).forEach((a) => { if (rnd() < 0.3) e.seen[a] = true; }); }
+  return S;
 }
 /* mirror of engine.js applyFx */
 function applyFx(S, fx) {
@@ -110,6 +117,7 @@ function applyFx(S, fx) {
   for (const [k0, d] of Object.entries(fx)) {
     const k = k0 === '@route' ? routeKey(S) : k0 === '@talk' ? (S.stats[S.talkWith || routeKey(S) || 'kenta'] !== undefined ? (S.talkWith || routeKey(S) || 'kenta') : null) : k0;
     if (!k || !d) continue;
+    if (/^(trust|aff)\./.test(k)) { if (S.cast) CS.fx(S, k, d); continue; }
     if (k === 'trust' && !routeKey(S)) continue;
     if (k === 'cash') { S.money += d; if (!fx.wallet) S.life.wallet = clampN(S.life.wallet + clampN(Math.round(d / 10), -20, 20), 0, 100); continue; }
     if (LIFE_KEYS.includes(k)) { S.life[k] = clampN(S.life[k] + d, 0, 100); continue; }
@@ -122,7 +130,7 @@ const addAch = (S, id) => { if (id && !S.achievements.includes(id)) S.achievemen
 /* policy: 'random' or 'greedy' (a thoughtful player: the option with the healthiest fx, small random tie-break) */
 let POLICY = 'random';
 const GOOD = { wisdom: 1, self: 1, trust: 1, '@route': 0.5, kenta: 0.4, goal: 0.6, passion: 0.6, health: 0.6, wallet: 0.6, cash: 0.05, proj: -1.5 };
-const NAMES = { hina: 'Hanis.', mio: 'Xin Yi.', kaede: 'Kavya.', yuna: 'Elise.' };
+const NAMES = { hina: 'Hanis.', mio: 'Xin Yi.', kaede: 'Kavya.', yuna: 'Elise.', chloe: 'Chloe.', preet: 'Preet.' };
 let TARGET = null; // greedy on a heroine route: also courts her and confesses to her
 const optScore = (o) => Object.entries(o.fx || {}).reduce((n, [k, v]) => n + (GOOD[k] || 0) * v + (k === TARGET ? v : 0), 0)
   + (o.rose ? 3 : 0) + (TARGET && o.t === NAMES[TARGET] ? 1000 : 0) + rnd() * 0.5;
@@ -131,6 +139,7 @@ const optScore = (o) => Object.entries(o.fx || {}).reduce((n, [k, v]) => n + (GO
    Returns { ok, reason, S, hit } — hit = the forced option was actually taken. */
 function runChapter(prog, S0, force) {
   let S = clone(S0), pc = 0, steps = 0, hit = false, checkpoint = null;
+  CS.begin(S, S.chN || 1);
   const tried = new Map(); // choice pc → set of option indexes that led to a bad end
   while (steps++ < 20000) {
     if (pc >= prog.length) return { ok: false, reason: 'ran past the end of the program without chapterEnd', S, hit };
@@ -144,6 +153,8 @@ function runChapter(prog, S0, force) {
     if (c.deeper) { S.reflections[c.deeper] = S.reflections[c.deeper] || { lens: null }; continue; }
     if (c.flag !== undefined) { typeof c.flag === 'string' ? (S.flags[c.flag] = true) : Object.assign(S.flags, c.flag); continue; }
     if (c.fx) { applyFx(S, c.fx); continue; }
+    if (c.reveal || c.grow || c.flaw || c.judge || c.contact) { CS.cmd(S, c, castWho(S)); continue; }
+    if (c.show || c.s) { const k = castWho(S)(c.show || c.s); if (S.cast[k]) CS.stage(S, k); }
     if (c.val) { Object.entries(c.val).forEach(([a, x]) => { S.values[a] = clampN(x, -2, 2); }); continue; }
     if (c.route) { S.route = c.route; if (c.route !== 'solo') S.stats.trust = Math.max(S.stats.trust, 20); continue; }
     if (c.ending) {
@@ -151,7 +162,7 @@ function runChapter(prog, S0, force) {
       if (!window.ENDINGS[e]) return { ok: false, reason: `ending "${e}" does not exist`, S, hit };
       if (!S.endings.includes(e)) S.endings.push(e); continue;
     }
-    if (c.chapterEnd) return { ok: true, S, hit };
+    if (c.chapterEnd) { CS.chapterEnd(S); for (const [id, e] of Object.entries(S.cast)) if (!(e.trust >= 0 && e.trust <= 100)) return { ok: false, reason: `cast trust out of range for ${id}`, S, hit }; return { ok: true, S, hit }; }
     if (c.choice) {
       const here = pc - 1;
       let visible = c.opts.map((o, i) => i).filter((i) => !c.opts[i].show || c.opts[i].show(S));
@@ -166,6 +177,7 @@ function runChapter(prog, S0, force) {
       else i = pick(left);
       checkpoint = { S: clone(S), pc: here, i };
       const o = c.opts[i];
+      CS.choose(S, o, Object.keys(S.cs.stage), castWho(S));
       applyFx(S, o.fx); addLesson(S, o.lesson); addAch(S, o.ach);
       if (o.val) Object.entries(o.val).forEach(([a, x]) => { S.values[a] = clampN(x, -2, 2); });
       if (o.flag) typeof o.flag === 'string' ? (S.flags[o.flag] = true) : Object.assign(S.flags, o.flag);
@@ -218,13 +230,14 @@ let fullOk = 0;
 const endingsSeen = new Set();
 const tally = { random: {}, greedy: {} };
 const lessonPct = { random: [], greedy: [] };
-const TARGETS = [null, 'hina', 'mio', 'kaede', 'yuna'];
+const TARGETS = [null].concat(ROUTES);
 for (let r = 0; r < FULL * 2; r++) {
   POLICY = r < FULL ? 'random' : 'greedy';
   TARGET = POLICY === 'greedy' ? TARGETS[r % TARGETS.length] : null;
   let S = freshState();
   let ok = true;
   for (const id of window.CHAPTER_ORDER) {
+    S.chN = window.CHAPTER_ORDER.indexOf(id) + 1; if (!S.opts) { CS.init(S); S.opts.social = r % 2 === 0; }
     const res = runChapter(compile(window.CHAPTERS[id].script), S, null);
     if (!res.ok) { errors.push(`full playthrough #${r} stuck in ${id}: ${res.reason}`); ok = false; break; }
     S = res.S;
