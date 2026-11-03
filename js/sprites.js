@@ -182,6 +182,13 @@ window.SPRITES = {
           sad: 'assets/chars/yuna_stream_sad.webp',
           smug: 'assets/chars/yuna_stream_smug.webp',
           blush: 'assets/chars/yuna_stream_blush.webp'
+        },
+        dance: {
+          neutral: 'assets/chars/yuna_home_neutral.webp',
+          happy: 'assets/chars/yuna_home_happy.webp',
+          sad: 'assets/chars/yuna_home_sad.webp',
+          smug: 'assets/chars/yuna_home_smug.webp',
+          blush: 'assets/chars/yuna_home_blush.webp'
         }
       }
     },
@@ -344,6 +351,12 @@ window.SPRITES = {
           happy: 'assets/chars/nana_weekend_happy.webp',
           surprised: 'assets/chars/nana_weekend_surprised.webp',
           shy: 'assets/chars/nana_weekend_shy.webp'
+        },
+        occasion: {
+          neutral: 'assets/chars/nana_gallery_neutral.webp',
+          happy: 'assets/chars/nana_gallery_happy.webp',
+          surprised: 'assets/chars/nana_gallery_surprised.webp',
+          shy: 'assets/chars/nana_gallery_shy.webp'
         }
       }
     },
@@ -508,6 +521,10 @@ window.SPRITES = {
           sad: 'assets/chars/ogawa_cafe_sad.webp'
         },
         casual: {
+          neutral: 'assets/chars/ogawa_nightclass_neutral.webp',
+          happy: 'assets/chars/ogawa_nightclass_happy.webp'
+        },
+        occasion: {
           neutral: 'assets/chars/ogawa_nightclass_neutral.webp',
           happy: 'assets/chars/ogawa_nightclass_happy.webp'
         }

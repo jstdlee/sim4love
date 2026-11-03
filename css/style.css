@@ -448,7 +448,6 @@ html[lang^="zh"] #text { line-height: 1.75; }
 .rc-field b { font-family: var(--f-display); margin-left: 4px; }
 .rc-field b.up { color: var(--green); } .rc-field b.down { color: var(--red); }
 .rc-why { color: var(--ink-2); font-size: 13px; }
-.rc-src { color: var(--gold-lo); font: 11px var(--f-label); white-space: nowrap; padding-top: 3px; }
 .rc-all { display: block; margin: 0 auto 10px; }
 .rc-foot { border-top: 1px solid var(--edge); padding-top: 8px; margin: 6px 0 4px; font-size: 13px; color: var(--ink-2); }
 .rc-foot p { margin: 4px 0; }

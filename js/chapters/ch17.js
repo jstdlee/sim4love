@@ -7,6 +7,7 @@ window.CHAPTERS.ch17 = {
   script: [
     SIM.gate(),
     { bg: 'partyroom' },
+    WEAR('later'),
     { n: "A friend's 19th birthday at a Pasir Ris chalet. BBQ pit, a karaoke machine with one working mic, and coolers full of drinks." },
     { n: "The legal drinking age here is 18. Lots of people here drink. Lots don't, for religious, health or personal reasons, and nobody has to explain why." },
     SIM.split([{ n: "{her} is here too, back for the holidays, deep in conversation with the birthday girl." }],
@@ -29,7 +30,9 @@ window.CHAPTERS.ch17 = {
     ] },
 
     // 17-2 bystander
+    { hide: '*' },
     { bg: 'beach' },
+    WEAR('later'),
     { show: 'saki', e: 'sad', at: 'left' },
     { n: "By the water: Sam Wong, a friend of a friend, very drunk and barely standing. A guy she met tonight has his arm around her." },
     { s: 'Guy', t: "Relax, I'll send her home. My car's right there." },
@@ -54,6 +57,7 @@ window.CHAPTERS.ch17 = {
 
     // 17-3 drink safety
     { bg: 'partyroom' },
+    WEAR('later'),
     { n: "Back inside. You left your drink on the BBQ table for ten minutes while you were outside." },
     { choice: "Your cup is still there. Probably yours.", opts: [
       { t: "Pour it away and get a new one.", fx: { health: 4, wisdom: 6 }, lesson: 'drinksafety', then: [
@@ -101,6 +105,7 @@ window.CHAPTERS.ch17 = {
 
     // 17-5 chat privacy
     { bg: 'cafe' },
+    WEAR('later'),
     { n: "Next morning, kaya toast and kopi. The group chat is passing round photos of a guy passed out on the chalet sofa, with drawings on his face." },
     { choice: "Forty people are typing \"HAHAHA\".", opts: [
       { t: "Don't forward. Ask people to delete. Message him to check he's okay.", fx: { wisdom: 8, self: 4 }, lesson: 'chatprivacy', then: [

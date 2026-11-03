@@ -5,6 +5,7 @@ window.CHAPTERS.ch5 = {
   next: "Chapter 6 — Carnival Week", status: 'done',
   script: [
     { bg: 'camp' },
+    WEAR('camp'),
     { n: "Pulau Ubin. JC1 adventure camp, three days. No aircon. Fourteen mosquito bites per person, minimum." },
     { s: 'farah', e: 'neutral', at: 'center', t: "Phones in the box. Yes, yours also. You'll survive. Your grandparents survived without Wi-Fi." },
     { hide: '*' },
@@ -12,6 +13,7 @@ window.CHAPTERS.ch5 = {
     // Preet in the kayak
     { if: (s) => !!s.flags.preetMet, then: [
       { bg: 'beach' },
+      WEAR('camp'),
       { show: 'preet', e: 'neutral', at: 'center' },
       { n: "Day two. Kayak pairs. You're with Preet, who has read the safety briefing twice and is now explaining it to you a third time." },
       { s: 'preet', e: 'neutral', t: "Paddle together on \"one\". Lean into the turn, not away. ...Sorry. I lecture when I'm nervous. I can't swim very well." },
@@ -30,6 +32,7 @@ window.CHAPTERS.ch5 = {
 
     // 5-1 unfiltered Elise
     { bg: 'campsite' },
+    WEAR('camp'),
     { n: "Day two, after the kayak capsize drill. Elise is soaked, no make-up, hair everywhere, laughing so hard she snorts." },
     { show: 'yuna', e: 'happy', at: 'center' },
     { s: 'yuna', e: 'surprised', t: "Don't look at me! I look like a kuih that fell in the drain." },
@@ -48,6 +51,7 @@ window.CHAPTERS.ch5 = {
 
     // 5-2 dinner duty
     { bg: 'campsite_night' },
+    WEAR('camp'),
     { n: "Dinner duty. Your group of six has to cook curry for forty. Hanis is cutting onions, eyes streaming. Marcus is \"supervising\"." },
     { show: 'hina', e: 'neutral', at: 'right' }, { show: 'takumi', e: 'smug', at: 'left' },
     { s: 'takumi', e: 'smug', t: "Bro, girls are better at this lah. Let Hanis handle, we go set up the speaker." },
@@ -64,11 +68,13 @@ window.CHAPTERS.ch5 = {
 
     // talk: goodlife
     { bg: 'campsite_night' },
+    WEAR('camp'),
     { n: "Campfire. Someone's toasting marshmallows on a satay stick. Someone else asks: \"Eh, what's a good life, actually?\"" },
     { talk: 'goodlife' },
 
     // 5-3 refusal: the bottle
     { bg: 'campsite_night' },
+    WEAR('camp'),
     { n: "After lights out. Behind the bunks, Ryan has a bottle he smuggled in his sleeping bag." },
     { show: 'ren', e: 'smug', at: 'center' },
     { s: 'ren', e: 'smug', t: "Come on. One shot only. Don't be the baby. Everyone's having." },
@@ -89,7 +95,8 @@ window.CHAPTERS.ch5 = {
     { hide: '*' },
 
     // 5-4 projection — Xin Yi at the jetty
-    { bg: 'field' },
+    { bg: 'campsite' },
+    WEAR('camp'),
     { n: "Day three, the jetty. Waiting for the bumboat back. Xin Yi is sketching the boats. She looks like a page out of Starlight Postman." },
     { show: 'mio', e: 'neutral', at: 'center' },
     { think: "Quiet, likes books... she must be gentle and fragile and need protecting. Like the heroine." },
@@ -106,6 +113,7 @@ window.CHAPTERS.ch5 = {
 
     // 5-5 stay put
     { bg: 'camp' },
+    WEAR('camp'),
     { n: "Last day. Flying fox. Kavya is at the top of the tower, frozen. Everyone below is yelling \"JUST GO!\"" },
     { choice: "You're next in line, right beside her...", opts: [
       { t: "Stand next to her. \"No rush. Can take the stairs also. I'm staying here either way.\"", fx: { kaede: 12, wisdom: 6 }, lesson: 'stayput', ach: 'stayPut', then: [
@@ -121,6 +129,7 @@ window.CHAPTERS.ch5 = {
     ] },
     { hide: '*' },
     { bg: 'bedroom' },
+    WEAR('home'),
     { n: "Home. You shower for forty minutes. Mosquito bites in places you didn't know you had." },
     { mochi: "Ubin report: zero phones, many mosquitoes, a few real people. You're getting better at seeing them.", e: 'happy' },
     { chapterEnd: true },

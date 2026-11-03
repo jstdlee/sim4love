@@ -9,6 +9,7 @@ window.CHAPTERS.ch18 = {
   script: [
     SIM.gate(),
     { bg: 'apartment' },
+    WEAR('laterHome'),
     { n: "Late in the year. You're nineteen, halfway through NS, and stuff that felt far away in JC is suddenly a real question." },
     { mochi: "Dr. Mochi is back. Same glasses. Older audience. Still nothing explicit. This one's about talking.", e: 'doctor' },
 
@@ -46,6 +47,7 @@ window.CHAPTERS.ch18 = {
 
     // 18-2 shared protection
     { bg: 'park' },
+    WEAR('later'),
     { show: 'kenta', e: 'smug', at: 'center' },
     { s: 'kenta', e: 'smug', t: "Anyway, Aisyah's on the pill, so protection is her job. Easy." },
     { choice: "Haziq has learned a lot. Not everything.", opts: [
@@ -72,6 +74,7 @@ window.CHAPTERS.ch18 = {
 
     // 18-3 testing
     { bg: 'polyclinic' },
+    WEAR('later', { nurse: 'polyclinic' }),
     SIM.split([
       { n: "You both decided: before anything changes, get tested together. The polyclinic waiting room is very beige and very quiet. Your queue number is 2047." },
       { show: '@route', e: 'shy', at: 'left' },
@@ -95,6 +98,7 @@ window.CHAPTERS.ch18 = {
     // 18-4 ongoing consent
     SIM.split([
       { bg: 'apartment' },
+      WEAR('laterHome'),
       { n: "Months later. A quiet evening, a close moment, a hug that goes on a long time." },
       { show: '@route', e: 'shy', at: 'center' },
       { s: '@route', e: 'shy', t: "Actually... not tonight. Sorry. I thought I wanted to, and I don't, right now." },
@@ -115,6 +119,7 @@ window.CHAPTERS.ch18 = {
       { hide: '*' },
     ], [
       { bg: 'park' },
+      WEAR('later'),
       { show: 'kenta', e: 'neutral', at: 'center' },
       { s: 'kenta', e: 'neutral', t: "Bro. Last night Aisyah said \"not tonight\" after we planned it. I said okay but I was a bit sulky. Was that bad?" },
       { choice: "Haziq is asking honestly.", opts: [
@@ -151,6 +156,7 @@ window.CHAPTERS.ch18 = {
     // Natalie: slow start
     { if: (s) => s.route === 'solo' && !!s.flags.nanaCoffee, then: [
       { bg: 'cafe' },
+      WEAR('later', { nana: 'studio' }),
       { show: 'nana', e: 'happy', at: 'center' },
       { n: "Saturday coffee again, then a pottery studio she found. Your bowl looks like a hat." },
       { s: 'nana', e: 'neutral', t: "I'm switching from accountancy to occupational therapy. My parents think I'm throwing away a safe course. I think I'm throwing away a course I hate." },
@@ -168,6 +174,7 @@ window.CHAPTERS.ch18 = {
     ] },
     // Joy's video call
     { bg: 'voiddeck' },
+    WEAR('later'),
     { show: 'joy', e: 'happy', at: 'center' },
     { n: "Joy is on a video call at the void deck, phone propped on a water bottle. Two kids in Iloilo are holding up a school certificate." },
     { choice: "She hangs up and wipes her eyes quickly.", opts: [
@@ -182,6 +189,7 @@ window.CHAPTERS.ch18 = {
     // Preet forgives a lie
     { if: (s) => !!s.flags.preetMet, then: [
       { bg: 'park' },
+      WEAR('later'),
       { show: 'preet', e: 'neutral', at: 'center' },
       { n: "Preet's younger brother lied about where he was on Friday night. You expect a lecture. Instead:" },
       { s: 'preet', e: 'neutral', t: "He lied because he was scared I'd judge him. So I told him I'm glad he's safe, and we'll talk about the lie tomorrow. ...Who even am I." },
@@ -192,6 +200,7 @@ window.CHAPTERS.ch18 = {
 
     // children talk + Think Deeper
     { bg: 'park' },
+    WEAR('later'),
     { talk: 'children' },
     { deeper: 'children' },
     SIM.evening('ch18'),

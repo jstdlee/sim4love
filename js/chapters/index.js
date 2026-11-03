@@ -38,6 +38,7 @@ SIM.evening = (ch, label) => ({ choice: label || 'A free evening. Where does it 
 /* Ch9+ gate: integrity < 0 or Your Life < 20 → Mochi's remedial lesson (never a hard block). */
 SIM.gate = () => ({ if: (s) => SIM.integrity(s) < 0 || SIM.lifeAvg(s) < 20, then: [
   { bg: 'bedroom' },
+  WEAR('home'),
   { mochi: 'Stop. Before we go on, rookie, a remedial lesson. Mandatory. I made slides.', e: 'angry' },
   { mochi: 'Love IQ and Self-respect are below zero, or your own life is running on empty. A relationship cannot fix either one.', e: 'sad' },
   { choice: 'Mochi is waiting. What do you do?', opts: [

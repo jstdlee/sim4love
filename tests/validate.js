@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* Static validation of all chapter scripts (talks expanded) — no browser needed.  Run: node tests/validate.js
    Checks every bg / speaker / expression / lesson / achievement / ending / resource / variant / talk / deeper id,
-   fx keys, option shape, chapter metadata, and that every lesson is unlockable somewhere. */
+   fx keys, option shape, chapter metadata, that every outfit resolves to real art (with a usage report), and that every lesson is unlockable somewhere. */
 const { expand } = require('./load.js');
 const W = window;
 const BGS = new Set(Object.keys(W.SPRITES.bg));
@@ -114,6 +114,59 @@ const unusedPools = Object.keys(W.VARIANTS).filter((p) => !variantsUsed.has(p));
 if (unusedPools.length) warn.push(`variant pools never played: ${unusedPools.join(', ')}`);
 const unusedEnd = Object.keys(W.ENDINGS).filter((e) => !JSON.stringify(Object.values(W.CHAPTERS).map((c) => c.script)).includes(`"${e}"`));
 
+// ---------- wardrobe: every outfit a script asks for must resolve to real art (js/sprites.js) ----------
+// Walks every chapter (talks expanded, every branch) tracking the outfit map the engine would hold:
+// bg clears it, {outfit} merges into it, {show/s, o} sets one. Each person on stage in a scene is counted once.
+const SPR = W.SPRITES.chars;
+const outfitOk = (id, o) => !!(SPR[id] && SPR[id].outfits && SPR[id].outfits[o]);
+const defOutfit = (id) => (W.SPRITES.outfits[id] || {}).default;
+for (const [name, map] of Object.entries(W.WARDROBE || {})) for (const [id, o] of Object.entries(map)) {
+  if (!SPR[id]) errors.push(`WARDROBE.${name}: unknown character "${id}"`);
+  else if (!outfitOk(id, o)) errors.push(`WARDROBE.${name}: ${id} has no "${o}" art`);
+}
+for (const [id, c] of Object.entries(W.CAST || {})) for (const o of c.outfits || []) if (SPR[id] && !outfitOk(id, o)) errors.push(`CAST.${id}.outfits: "${o}" has no art`);
+const usage = {}; let unset = 0;
+const ROUTE = ['hina', 'mio', 'kaede', 'yuna', 'chloe', 'preet', 'rei'];
+function wear(list, where, st) {
+  list.forEach((c, i) => {
+    const at = `${where}[${i}]`;
+    if (!c || typeof c !== 'object') return;
+    if (c.bg !== undefined) { st.scene = at; st.map = {}; }
+    if (c.outfit) for (const [k, o0] of Object.entries(c.outfit)) {
+      const o = typeof o0 === 'string' ? o0 : o0 && o0.id;
+      for (const id of k === '@route' ? ROUTE : [k]) {
+        if (!SPR[id]) errors.push(`${at}: outfit for unknown character "${id}"`);
+        else if (!outfitOk(id, o)) errors.push(`${at}: ${id} has no "${o}" art (would fall back to ${defOutfit(id)})`);
+        st.map[id] = o;
+      }
+    }
+    const who = c.show || c.s;
+    if (who && who !== '@talk') for (const id of who === '@route' ? ROUTE : [who]) {
+      if (!SPR[id]) continue;
+      if (c.o) { if (!outfitOk(id, c.o)) errors.push(`${at}: ${id} has no "${c.o}" art`); st.map[id] = c.o; }
+      const o = st.map[id] || `(default ${defOutfit(id)})`;
+      if (!st.map[id]) unset++;
+      const key = `${st.scene}|${id}`;
+      if (!st.counted.has(key + '|' + o)) { st.counted.add(key + '|' + o); ((usage[id] = usage[id] || {})[o] = (usage[id][o] || 0) + 1); }
+    }
+    // Branches start from the current map; what they set carries on after them (as in the engine).
+    const ends = [];
+    const sub = (l, w) => { const b = { ...st, map: { ...st.map } }; wear(l, w, b); ends.push(b); };
+    if (c.choice) c.opts.forEach((o, j) => sub(o.then || [], `${at}.opts[${j}].then`));
+    if (c.if) { sub(c.then || [], `${at}.then`); sub(c.else || [], `${at}.else`); }
+    const start = { ...st.map };
+    for (const b of ends) {
+      if (b.scene !== st.scene) st.scene = b.scene;
+      for (const [k, o] of Object.entries(b.map)) if (o !== start[k]) st.map[k] = o;
+    }
+  });
+  return st;
+}
+for (const id of W.CHAPTER_ORDER) if (W.CHAPTERS[id]) wear(expand(W.CHAPTERS[id].script), id, { scene: id, map: {}, counted: new Set() });
+const wardrobeReport = Object.keys(SPR).filter((id) => usage[id]).map((id) =>
+  `  ${id.padEnd(7)} ` + Object.entries(usage[id]).sort((a, b) => b[1] - a[1]).map(([o, n]) => `${o} ${n}`).join(' · '));
+if (unset) warn.push(`${unset} on-stage appearances with no scene outfit set (default art used)`);
+
 // ---------- music ----------
 const fs = require('fs'), path = require('path');
 const root = path.join(__dirname, '..');
@@ -153,6 +206,7 @@ for (const [loc, pack] of Object.entries(W.I18N)) {
 console.log(rows.join('\n'));
 console.log(`\nchapters: ${rows.length} · script lines: ${totalLines} · choices: ${interactions} · bad ends: ${badEnds} · lessons: ${Object.keys(W.LESSONS).length} · variant pools: ${Object.keys(W.VARIANTS).length} · think cards: ${Object.keys(W.THINK).length}`);
 if (unusedEnd.length) console.log(`(endings chosen at runtime by SIM.endingFor: ${unusedEnd.length})`);
+console.log(`\nwardrobe (scenes per outfit, every branch counted):\n${wardrobeReport.join('\n')}`);
 console.log(`music: ${Object.keys(W.BGM.tracks).length} tracks · locales: ${coverage.join(' · ') || 'en only'}`);
 warn.forEach((w) => console.log('WARN', w));
 if (errors.length) { console.error('\nERRORS:\n' + errors.join('\n')); process.exit(1); }

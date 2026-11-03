@@ -18,10 +18,12 @@ window.CHAPTERS = window.CHAPTERS || {};
     script: [
       SIM.gate(),
       { bg: 'night' },
+      WEAR('home'),
       { n: "October. Monsoon season. Promos. It's rained for nine days straight and everyone is one bad day away from crying." },
       SIM.split([
         // 11-1 listen first
         { bg: 'cafe' },
+        WEAR('school'),
         { s: '@route', e: 'sad', at: 'center', t: "Today was the worst. Cher read my mark out loud, my best friend ignored me at recess, and my mum says I'm \"always on the phone with that boy\"." },
         { choice: "She's venting. What do you do?", opts: [
           { t: "Listen. Repeat back what you heard. Then: \"You want advice, or just a hug?\"", fx: { '@route': 8, trust: 8, wisdom: 4 }, lesson: 'listenfirst', then: [
@@ -39,6 +41,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 
         // 11-2 the forgotten promise
         { bg: 'bedroom' },
+        WEAR('home'),
         R((h) => [{ n: `Saturday, 4:40 PM. You wake up from a nap. Six missed calls. You promised to come to ${PROMISE[h]}. It started at three.` }]),
         { phone: '@route' }, { txt: '@route', t: "you said you'd come." }, { phoneOff: true },
         { choice: "You messed up. How do you apologise?", opts: [
@@ -56,6 +59,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 
         // 11-3 escalation
         { bg: 'street' },
+        WEAR('out'),
         { s: '@route', e: 'angry', at: 'center', t: "It's not just today. You keep saying you'll come and then you don't. I feel like I'm always the one trying!" },
         { choice: "Her voice is shaking. Yours wants to go up.", opts: [
           { t: "\"I can see this really hurt you.\"", fx: { trust: 8, '@route': 6, wisdom: 4 }, lesson: 'dismissing', then: [
@@ -88,7 +92,7 @@ window.CHAPTERS = window.CHAPTERS || {};
         { hide: '*' },
 
         // 11-5 repair
-        { bg: 'rooftop' }, { bgm: 'reflect' },
+        { bg: 'rooftop' }, WEAR('out'), { bgm: 'reflect' },
         { n: "Next day. The rain's finally stopped. You meet at the rooftop garden of her block." },
         { choice: "Time to fix it. What do you say?", opts: [
           { t: "Say what you need, then ask hers: \"I need a heads-up when plans change. What do you need from me?\"", fx: { trust: 10, '@route': 6, self: 4, wisdom: 4 }, lesson: 'repair', then: [
@@ -106,6 +110,7 @@ window.CHAPTERS = window.CHAPTERS || {};
       ], [
         // solo branch: the fight is with Haziq
         { bg: 'hawker' },
+        WEAR('out'),
         { s: 'kenta', e: 'sad', at: 'center', t: "Bro. Nadia broke up with me, my dad scolded me over my results, and Coach benched me. Worst week." },
         { choice: "Haziq is venting.", opts: [
           { t: "Listen. Then: \"You want advice, or you want me to just sit here?\"", fx: { kenta: 8, wisdom: 4 }, lesson: 'listenfirst', then: [
@@ -117,6 +122,7 @@ window.CHAPTERS = window.CHAPTERS || {};
         ] },
         { hide: '*' },
         { bg: 'bedroom' },
+        WEAR('home'),
         { n: "Saturday. You promised to come to Haziq's basketball final. You fall asleep. Six missed calls." },
         { choice: "You let him down.", opts: [
           { t: "Call him: \"I said I'd come and I didn't. No excuse. Sorry. Supper on me?\"", fx: { kenta: 10, self: 4 }, lesson: 'apology', then: [
@@ -141,6 +147,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 
       // mentor beat: Uncle Ong over Chinese chess
       { bg: 'voiddeck' },
+      WEAR('out', { ogawa: 'nightclass' }),
       { show: 'ogawa', e: 'neutral', at: 'center' },
       { n: "The void deck, after his café closes. Uncle Ong has the Chinese chess board out. He's beating you in eleven moves." },
       { s: 'ogawa', e: 'neutral', t: "You know why my marriage ended? Not because we fought. Everybody fights." },

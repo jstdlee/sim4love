@@ -17,6 +17,7 @@ window.CHAPTERS = window.CHAPTERS || {};
     script: [
       SIM.gate(),
       { bg: 'gradhall' },
+      WEAR('results'),
       { n: "February. The school hall, a long table of envelopes, and two hundred people pretending to be calm. Your NS enlistment letter came last week." },
       { n: "You open yours. It's good. Not perfect. Good. Enough for the course you wanted." },
 
@@ -54,6 +55,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 
       // 15-5 Dad and your passion
       { bg: 'dining' },
+      WEAR('home'),
       { show: 'dad', e: 'neutral', at: 'center' },
       { s: 'dad', t: "Results not bad. So now, stop the {passion}. Cannot pay bills one. Time to be serious." },
       { choice: "Dinner has gone very quiet.", opts: [
@@ -95,6 +97,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 
       // 15-3 Haziq and Alpha Kai
       { bg: 'field' },
+      WEAR('out', { rei: 'herself' }),
       { n: "Alpha Kai's whole thing gets exposed online: fake testimonials, rented cars, a refund page that never loads." },
       { show: 'kenta', e: 'sad', at: 'center' },
       { s: 'kenta', e: 'sad', t: "Bro. I bought his course. $998. My part-time money. I feel so stupid." },
@@ -112,6 +115,7 @@ window.CHAPTERS = window.CHAPTERS || {};
       // 15-4 Rae
       { if: (s) => s.flags.reiRedemption, then: [
         { bg: 'gradhall' },
+        WEAR('out', { rei: 'herself' }),
         { show: 'rei', e: 'neutral', at: 'center' },
         { s: 'rei', e: 'neutral', t: "The police opened a case against Mr. G. I gave a statement. Three other girls did too." },
         { s: 'rei', e: 'happy', t: "You didn't try to \"save\" me with money. You gave me a phone number. That's what actually worked." },
@@ -129,10 +133,11 @@ window.CHAPTERS = window.CHAPTERS || {};
 
       // learning talk + Think Deeper
       { bg: 'hawker' },
+      WEAR('out', { rei: 'herself' }),
       SIM.split([{ talk: 'learning' }], [{ talk: 'learning' }]),
       { deeper: 'nstiming' },
       SIM.split([
-        R((h) => [{ bg: h === 'hina' ? 'mrt' : h === 'chloe' ? 'hawker' : 'airport' }, { n: h === 'hina' ? "You see Hanis off at the MRT for her first hospital placement week. It's not the airport, but it feels like one." : h === 'chloe' ? "Opening day at Chloe's kiosk, 5 AM. You carry trays and watch her sell the first box. It's not the airport, but it feels like one." : "Changi, Terminal 3. Her family, your family, way too many snacks. A long hug at the gate." }]),
+        R((h) => [{ bg: h === 'hina' ? 'mrt' : h === 'chloe' ? 'hawker' : 'airport' }, WEAR('later', { hina: 'cca', chloe: 'pitch' }), { n: h === 'hina' ? "You see Hanis off at the MRT for her first hospital placement week. It's not the airport, but it feels like one." : h === 'chloe' ? "Opening day at Chloe's kiosk, 5 AM. You carry trays and watch her sell the first box. It's not the airport, but it feels like one." : "Changi, Terminal 3. Her family, your family, way too many snacks. A long hug at the gate." }]),
         { show: '@route', e: 'shy', at: 'center' },
         { s: '@route', e: 'shy', t: "Sunday calls. Goodnight texts. And you send me your first recording." },
         { hide: '*' },

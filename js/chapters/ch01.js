@@ -5,6 +5,7 @@ window.CHAPTERS.ch1 = {
   next: "Chapter 2 — The Group Date", status: 'done',
   script: [
     { bg: 'bedroom', petals: false },
+    WEAR('school'),
     { n: "February. Orientation week at Bayview JC. 6:52 AM." },
     { n: "Last year in Sec 4, {name} confessed to a girl at the canteen drinks stall. She said \"eww\" and ordered a bandung." },
     { think: "New school. Nobody here knows about the bandung. This year, confirm got girlfriend. ...Probably." },
@@ -41,6 +42,7 @@ window.CHAPTERS.ch1 = {
 
     // 1-2 Rae
     { bg: 'street', petals: true },
+    WEAR('school'),
     { n: "The covered walkway to the MRT. Frangipani on the ground, everyone in uniforms that still have the fold lines." },
     { n: "Someone walks straight into you, eyes on her phone. Iced kopi everywhere. Mostly on her." },
     { s: 'rei', e: 'surprised', at: 'center', t: "Oh my gosh, sorry sorry! ...Wait. Have we met? Your face is so familiar." },
@@ -71,6 +73,7 @@ window.CHAPTERS.ch1 = {
 
     // 1-3 Xin Yi
     { bg: 'library', petals: false },
+    WEAR('school'),
     { n: "Lunch break. The library aircon is set to \"durian storage\". You are here for the aircon." },
     { n: "A girl on tiptoe at the top shelf. A book slips, bounces once, lands by your shoe." },
     { n: "\"The Starlight Postman\", volume 7. A fantasy series about a boy who delivers letters between stars." },
@@ -101,6 +104,7 @@ window.CHAPTERS.ch1 = {
 
     // 1-4 Kavya
     { bg: 'field', petals: false },
+    WEAR('track'),
     { n: "After CCA trials, Kavya Pillai from track said, \"Wait for me at the field after school.\" You've been waiting 45 minutes. Your Milo is warm now." },
     { n: "She finally jogs up, ponytail swinging, spikes in one hand." },
     { s: 'kaede', e: 'smug', at: 'center', t: "Oh. You actually waited? 😏" },
@@ -126,6 +130,7 @@ window.CHAPTERS.ch1 = {
 
     // partner talk: refusal
     { bg: 'classroom', petals: false },
+    WEAR('school'),
     { n: "Thursday, canteen. The chicken rice queue is eight people long. A guy with a fade and a basketball drops into the seat beside you." },
     { s: 'kenta', e: 'happy', at: 'left', t: "Bro! Haziq. Same CT. We're friends now, settled." },
     { s: 'kenta', e: 'smug', t: "Hanis, lend me your chem tutorial to copy lah. Friends don't say no, right?" },
@@ -137,6 +142,7 @@ window.CHAPTERS.ch1 = {
 
     // Preet: first impression in GP
     { bg: 'classroom', petals: false },
+    WEAR('school'),
     { n: "GP tutorial. Mr. Lim asks whether social media makes people lonelier. Before anyone else has opened their mouth, a girl in the front row has answered, with three sub-points." },
     { show: 'preet', e: 'neutral', at: 'center' },
     { s: 'preet', e: 'neutral', t: "...and thirdly, \"connection\" isn't the same as company. Sorry. I'll stop. Somebody else go." },
@@ -156,6 +162,7 @@ window.CHAPTERS.ch1 = {
 
     // 1-5 Elise
     { bg: 'night', petals: false },
+    WEAR('home'),
     { n: "11:40 PM. You should be asleep. Your phone buzzes." },
     { phone: "Elise ✨" },
     { txt: 'yuna', t: "heyyy {name} 🥺 can u do my GP essay outline?? ur SO smart" },
@@ -183,6 +190,7 @@ window.CHAPTERS.ch1 = {
 
     // wrap-up
     { bg: 'bedroom', petals: false },
+    WEAR('home'),
     { n: "Later. The fan is on 3. You can't sleep." },
     { mochi: "Phew. Week one: survived!", e: 'happy' },
     { if: (s) => s.stats.wisdom >= 30, then: [

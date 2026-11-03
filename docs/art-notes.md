@@ -17,7 +17,7 @@ Generated art for the Singapore setting. Manifest: `js/sprites.js` (`window.SPRI
 - `SPRITES.outfits[id] = { default: '<outfit>', <outfit>: [exprs] }` is a summary for tools and tests (aliases excluded).
 - `SPRITES.sprite(id, expr, outfit)` returns the file path using the bible order: outfit + expression → that outfit's neutral → default outfit + expression (expression chain, e.g. blush → shy → happy) → default neutral.
 - Script usage: `{s:'hina', e:'happy', o:'festive'}` or `{outfit:{hina:'festive'}}` (sticky for the scene). An unknown outfit quietly uses the default set.
-- Aliases: where `js/data/cast.js` names an outfit differently, the alias points at the closest art set (table below). Outfits with no art yet (`yuna` dance, `ogawa` occasion) fall back to the default outfit.
+- Aliases: where `js/data/cast.js` names an outfit differently, the alias points at the closest art set (table below). Every outfit named in `js/data/cast.js` has art or an alias (`yuna` dance→home, `ogawa` occasion→nightclass, `nana` occasion→gallery); `tests/validate.js` fails on any outfit name without art. Scene outfits come from the presets in `js/data/wardrobe.js`.
 
 ### Counts (v3)
 | id | outfits | sprites | outfits and expressions | cast.js aliases |
@@ -25,17 +25,17 @@ Generated art for the Singapore setting. Manifest: `js/sprites.js` (`window.SPRI
 | hina | 4 | 22 | **uniform** (default): neutral, happy, sad, surprised, angry, blush, shy; **casual**: neutral, happy, sad, angry, blush; **cca**: neutral, happy, sad, angry, blush; **festive**: neutral, happy, sad, angry, blush | — |
 | mio | 4 | 22 | **uniform** (default): neutral, happy, sad, surprised, smug, blush, shy; **camp**: neutral, happy, sad, angry, blush; **casual**: neutral, happy, sad, angry, blush; **festive**: neutral, happy, sad, angry, blush | — |
 | kaede | 4 | 23 | **uniform** (default): neutral, happy, surprised, smug, angry, cool, blush, shy; **casual**: neutral, happy, smug, angry, cool; **festive**: neutral, happy, smug, angry, cool; **track**: neutral, happy, smug, angry, cool | — |
-| yuna | 4 | 22 | **uniform** (default): neutral, happy, sad, surprised, angry, blush, shy; **festive**: neutral, happy, sad, smug, blush; **home**: neutral, happy, sad, smug, blush; **stream**: neutral, happy, sad, smug, blush | stage→stream |
+| yuna | 4 | 22 | **uniform** (default): neutral, happy, sad, surprised, angry, blush, shy; **festive**: neutral, happy, sad, smug, blush; **home**: neutral, happy, sad, smug, blush; **stream**: neutral, happy, sad, smug, blush | stage→stream, dance→home |
 | chloe | 4 | 22 | **casual** (default): neutral, happy, sad, surprised, smug, angry, blush; **festive**: neutral, happy, smug, angry, blush; **pitch**: neutral, happy, smug, angry, blush; **stall**: neutral, happy, smug, angry, blush | — |
 | preet | 4 | 21 | **uniform** (default): neutral, happy, sad, surprised, angry, blush; **festive**: neutral, happy, sad, angry, blush; **run**: neutral, happy, sad, angry, blush; **volunteer**: neutral, happy, sad, angry, blush | — |
 | rei | 4 | 18 | **persona** (default): neutral, happy, sad, surprised, smug, scheme; **herself**: neutral, happy, sad, surprised; **law**: neutral, happy, sad, surprised; **occasion**: neutral, happy, sad, surprised | student→law, talk→occasion |
-| nana | 4 | 17 | **casual** (default): neutral, happy, sad, surprised, shy; **gallery**: neutral, happy, surprised, shy; **studio**: neutral, happy, surprised, shy; **weekend**: neutral, happy, surprised, shy | — |
+| nana | 4 | 17 | **casual** (default): neutral, happy, sad, surprised, shy; **gallery**: neutral, happy, surprised, shy; **studio**: neutral, happy, surprised, shy; **weekend**: neutral, happy, surprised, shy | occasion→gallery |
 | kenta | 4 | 16 | **uniform** (default): neutral, happy, sad, surprised, smug, angry, shy; **festive**: neutral, happy, sad; **ns**: neutral, happy, sad; **sport**: neutral, happy, sad | — |
 | mei | 4 | 9 | **casual** (default): neutral, happy, angry; **festive**: neutral, happy; **home**: neutral, happy; **internship**: neutral, happy | work→internship |
 | mom | 4 | 10 | **home** (default): neutral, happy, sad, surprised; **festive**: neutral, happy; **nightclass**: neutral, happy; **work**: neutral, happy | — |
 | dad | 4 | 9 | **home** (default): neutral, happy, angry; **occasion**: neutral, happy; **weekend**: neutral, happy; **work**: neutral, happy | — |
 | ama | 4 | 9 | **home** (default): neutral, happy, sad; **class**: neutral, happy; **dance**: neutral, sad; **festive**: neutral, happy | — |
-| ogawa | 3 | 7 | **cafe** (default): neutral, happy, sad; **morning**: neutral, happy; **nightclass**: neutral, happy | apron→cafe, casual→nightclass |
+| ogawa | 3 | 7 | **cafe** (default): neutral, happy, sad; **morning**: neutral, happy; **nightclass**: neutral, happy | apron→cafe, casual→nightclass, occasion→nightclass |
 | farah | 3 | 7 | **school** (default): neutral, happy, angry; **camp**: neutral, happy; **festive**: neutral, happy | work→school, occasion→festive |
 | nurse | 3 | 7 | **health** (default): neutral, happy, sad; **camp**: neutral, happy; **polyclinic**: neutral, happy | scrubs→health, clinic→polyclinic, casual→camp |
 | joy | 3 | 7 | **work** (default): neutral, happy, sad; **festive**: neutral, happy; **sunday**: neutral, happy | — |

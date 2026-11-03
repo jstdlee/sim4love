@@ -6,6 +6,7 @@ window.CHAPTERS.ch7 = {
   script: [
     // 7-1 facts vs fantasy
     { bg: 'bedroom' },
+    WEAR('home'),
     { mochi: "Rookie. I read your notes app. \"30 Perfect Things About Her\". I fact-checked. Twenty-six are made up.", e: 'smug' },
     { mochi: "\"She loves rainy days like me.\" You've never talked about weather. \"She would never get angry.\" Everyone gets angry.", e: 'neutral' },
     { choice: "Mochi holds up your list...", opts: [
@@ -26,8 +27,10 @@ window.CHAPTERS.ch7 = {
 
     // 7-2 Elise's room
     { bg: 'voiddeck' },
+    WEAR('out'),
     { variant: 'voiddeck.pass' },
     { bg: 'apartment' },
+    WEAR('out', { yuna: 'home' }),
     { n: "You help Elise carry the dance props back to her flat in Tampines. Her room: clothes everywhere, ring light, nine empty energy drink cans." },
     { show: 'yuna', e: 'sad', at: 'center' },
     { s: 'yuna', e: 'sad', t: "Don't judge. I sleep four hours. If I don't post every day the numbers drop. Online me is... so tiring." },
@@ -47,11 +50,13 @@ window.CHAPTERS.ch7 = {
 
     // talk: greed
     { bg: 'hawker' },
+    WEAR('hawker'),
     { n: "Prata, half-half. Elise is scrolling a \"how I made $10k in a week\" video with the sound on." },
     { talk: 'greed' },
 
     // 7-3 Haziq's streamer
     { bg: 'field' },
+    WEAR('out'),
     { show: 'kenta', e: 'sad', at: 'center' },
     { s: 'kenta', e: 'shy', t: "Bro. Don't laugh. There's this streamer, Lulu. She says I'm \"special\". She remembers my name." },
     { s: 'kenta', e: 'sad', t: "I spent... $600. All my CNY angbao money. She sent me this." },
@@ -73,6 +78,7 @@ window.CHAPTERS.ch7 = {
 
     // 7-4 Alpha Kai
     { bg: 'night' },
+    WEAR('home'),
     { phone: "Alpha Kai 💪 LIVE" },
     { txt: 'kai', t: "LAMBO OR LOSER. Real men attract the HOTTEST girls. This watch? $40k. MINDSET. 💎" },
     { txt: 'sys', t: "chat: bro the rental sticker still on the windscreen 💀" },
@@ -92,6 +98,7 @@ window.CHAPTERS.ch7 = {
     // Chloe does the maths
     { if: (s) => !!s.flags.chloeMet, then: [
       { bg: 'hawker' },
+      WEAR('hawker'),
       { show: 'chloe', e: 'smug', at: 'center' },
       { s: 'chloe', e: 'smug', t: "I saw that watch ad on your phone. $29 a month for 24 months is $696, for a watch that says \"Rolax\". Want to see what $696 does in a savings account instead?" },
       { choice: "Chloe already has the calculator out.", opts: [
@@ -108,6 +115,7 @@ window.CHAPTERS.ch7 = {
 
     // 7-5 attention
     { bg: 'bedroom' },
+    WEAR('home'),
     { mochi: "Question. Who are you when nobody's watching?", e: 'neutral' },
     { choice: "One free evening. Nobody will know.", opts: [
       { t: "Practise {passion}.", fx: { passion: 8, self: 3 }, lesson: 'attention', then: [{ variant: 'evening.passion' }] },
@@ -118,6 +126,7 @@ window.CHAPTERS.ch7 = {
       ] },
     ] },
     { bg: 'classroom' },
+    WEAR('school'),
     { s: 'yuna', e: 'happy', at: 'center', t: "Hey. Thanks for treating me like a normal person who's bad at sleeping. I slept seven hours. SEVEN!" },
     { chapterEnd: true },
   ],

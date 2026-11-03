@@ -5,6 +5,7 @@ window.CHAPTERS.ch2 = {
   next: "Chapter 3 — Seen at 2:14 AM", status: 'done',
   script: [
     { bg: 'bedroom' },
+    WEAR('home'),
     { variant: 'mochi.morning' },
     { s: 'kenta', e: 'happy', at: 'center', t: "Bro. BRO. I organised a group outing. Saturday, Sentosa. Five girls said yes." },
     { me: "Five?" },
@@ -14,6 +15,7 @@ window.CHAPTERS.ch2 = {
 
     // 2-1 cable car queue
     { bg: 'sentosa' },
+    WEAR('out'),
     { n: "Saturday, Mount Faber. The cable car queue is forty minutes and has no shade. You end up next to Xin Yi." },
     { show: 'mio', e: 'shy', at: 'center' },
     { choice: "Forty minutes. What do you talk about?", opts: [
@@ -40,6 +42,7 @@ window.CHAPTERS.ch2 = {
 
     // 2-2 negging
     { bg: 'beach' },
+    WEAR('out'),
     { n: "In the cable car, an ad autoplays on your phone. You forgot it was on loudspeaker." },
     { phone: "Alpha Kai 💪" },
     { txt: 'kai', t: "ALPHA TIP #7: NEG her to lower her value. Try: \"You'd be cute if you smiled more.\" Works every time. Link in bio. 🔥" },
@@ -65,6 +68,7 @@ window.CHAPTERS.ch2 = {
 
     // 2-3 dessert
     { bg: 'mall' },
+    WEAR('out'),
     { n: "Beach Station, a dessert kiosk. Mango bingsu, $18 for the \"premium\". Your pocket money for the whole month is about $100." },
     { choice: "You kind of want to look generous...", opts: [
       { t: "\"Two big ones, we share? I'll get this, you all belanja drinks later.\"", fx: { hina: 4, mio: 4, kaede: 4, yuna: 4, wisdom: 5, cash: -18 }, lesson: 'buyinglove', then: [
@@ -83,6 +87,7 @@ window.CHAPTERS.ch2 = {
 
     // 2-4 horror ride
     { bg: 'mall' },
+    WEAR('out'),
     { n: "Too hot outside, so everyone ends up in the arcade. There's a VR horror ride for two. Elise grabs your arm and points her phone at you both." },
     { s: 'yuna', e: 'happy', at: 'left', t: "Say something scared for my story! Pretend you're protecting me~" },
     { show: 'hina', e: 'neutral', at: 'right' },
@@ -104,6 +109,7 @@ window.CHAPTERS.ch2 = {
 
     // 2-5 Haziq falls
     { bg: 'sentosa' },
+    WEAR('out'),
     { n: "Siloso Beach. Haziq tries a \"cool\" move on the rope swing and goes face-first into the sea. Everyone laughs." },
     { choice: "Haziq crawls out, dripping, ears red...", opts: [
       { t: "Pull him up, throw him your towel, laugh with him: \"Ten out of ten for commitment, bro.\"", fx: { kenta: 12, hina: 4, wisdom: 5 }, lesson: 'punchingdown', then: [
@@ -117,11 +123,13 @@ window.CHAPTERS.ch2 = {
 
     // partner talk: friendship
     { bg: 'beach' },
+    WEAR('out'),
     { n: "Sunset. Everyone's sandy and tired, sharing one packet of keropok. Elise is filming the sky. Somebody asks how many close friends you each have." },
     { talk: 'friendship' },
 
     // 2-6 KTV + Rae
     { bg: 'karaoke' },
+    WEAR('out'),
     { n: "Nobody wants to go home yet, so: KTV at VivoCity. Haziq is murdering a Jay Chou song. Your phone buzzes." },
     { if: (s) => s.flags.reiHasLine, then: [{ phone: "Rae 🌙" }, { txt: 'rei', t: "ur friends are so boring, they don't get u like i do 🥺" }],
       else: [{ phone: '+65 8••• ••••' }, { txt: 'rei', t: "hiii it's Rae from the walkway 🌙 ur friends are so boring, they don't get u like i do 🥺" }] },
@@ -144,6 +152,7 @@ window.CHAPTERS.ch2 = {
 
     // 2-7 choose your passion
     { bg: 'night' },
+    WEAR('home'),
     { n: "Walking home from the MRT, legs aching, a bit sunburnt. Mochi opens a new panel on your phone: four bars called Your Life." },
     { mochi: "Pick something that's yours. Not to impress anyone. Something you'd do even if nobody ever saw.", e: 'neutral' },
     { choice: "Your passion:", opts: [

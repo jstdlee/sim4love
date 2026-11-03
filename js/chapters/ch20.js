@@ -7,6 +7,7 @@ window.CHAPTERS.ch20 = {
   script: [
     SIM.gate(),
     { bg: 'rooftop' },
+    WEAR('later', { rei: 'law' }),
     { mochi: "Final chapter, rookie. No more classes. Just you.", e: 'happy' },
 
     // 20-1 honesty (callback to 14-4)
@@ -39,6 +40,7 @@ window.CHAPTERS.ch20 = {
 
     // 20-2 status trip on credit
     { bg: 'apartment' },
+    WEAR('laterHome', { rei: 'law' }),
     SIM.split([
       { n: "Your feed is all Bali villas and Maldives proposals. A travel app offers \"Luxury Couples Getaway, pay in 12 instalments\"." },
       { choice: "Your anniversary is next month.", opts: [
@@ -66,6 +68,7 @@ window.CHAPTERS.ch20 = {
 
     // 20-3 own stage
     { bg: 'park' },
+    WEAR('later', { chloe: 'pitch', rei: 'law' }),
     { n: "Your project has a showcase on Saturday. Same night as something big for someone else: a family dinner, a game night, a friend's gig." },
     { choice: "You can't be in two places.", opts: [
       { t: "Go to your showcase. Tell them early, offer another time, and mean it.", fx: { self: 10, goal: 8, passion: 6 }, lesson: 'ownstage', then: [
@@ -78,6 +81,7 @@ window.CHAPTERS.ch20 = {
 
     // 20-4 money as a team
     { bg: 'hawker' },
+    WEAR('later', { rei: 'law' }),
     SIM.split([
       { with: '@route' },
       { talk: 'jointmoney' },
@@ -106,7 +110,7 @@ window.CHAPTERS.ch20 = {
     { deeper: 'marriagecost' },
 
     // 20-5 Mochi's last question
-    { bg: 'rooftop' }, { bgm: 'reflect' },
+    { bg: 'rooftop' }, WEAR('later', { rei: 'law' }), { bgm: 'reflect' },
     { mochi: "Last question, rookie. No marks. What is love?", e: 'neutral' },
     { choice: "Mochi waits.", opts: [
       { t: "\"Plain stuff. Showing up. Telling the truth. Letting each other grow, even apart.\"", fx: { wisdom: 8, self: 6 }, ach: 'plainLove', rose: true, then: [

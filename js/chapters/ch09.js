@@ -6,6 +6,7 @@ window.CHAPTERS.ch9 = {
   script: [
     SIM.gate(),
     { bg: 'bedroom' },
+    WEAR('home'),
     { variant: 'mochi.morning' },
     SIM.split([
       // 9-1 effort drop
@@ -14,11 +15,11 @@ window.CHAPTERS.ch9 = {
       { choice: "Third Saturday in a row with no plan...", opts: [
         { t: "Plan something small around a thing she mentioned last week.", fx: { '@route': 8, trust: 6, wisdom: 4 }, lesson: 'effortdrop', then: [
           SIM.byRoute({
-            hina: [{ bg: 'park' }, { bgm: 'romance' }, { s: 'hina', e: 'happy', at: 'center', t: "The old dragon playground in Toa Payoh! I mentioned it ONCE. You remembered." }],
-            mio: [{ bg: 'library' }, { bgm: 'romance' }, { s: 'mio', e: 'happy', at: 'center', t: "Bookshop crawl? Three shops? ...I need a bigger tote bag." }],
-            kaede: [{ bg: 'park' }, { bgm: 'romance' }, { s: 'kaede', e: 'happy', at: 'center', t: "7 AM run then prata. Now you're talking. Slowly, but talking." }],
-            yuna: [{ bg: 'park' }, { bgm: 'romance' }, { s: 'yuna', e: 'shy', at: 'center', t: "Can we... not post today? Just walk around Botanic Gardens like normal people?" }],
-            chloe: [{ bg: 'hawker' }, { bgm: 'romance' },
+            hina: [{ bg: 'park' }, WEAR('out'), { bgm: 'romance' }, { s: 'hina', e: 'happy', at: 'center', t: "The old dragon playground in Toa Payoh! I mentioned it ONCE. You remembered." }],
+            mio: [{ bg: 'library' }, WEAR('out'), { bgm: 'romance' }, { s: 'mio', e: 'happy', at: 'center', t: "Bookshop crawl? Three shops? ...I need a bigger tote bag." }],
+            kaede: [{ bg: 'park' }, WEAR('out', { kaede: 'track' }), { bgm: 'romance' }, { s: 'kaede', e: 'happy', at: 'center', t: "7 AM run then prata. Now you're talking. Slowly, but talking." }],
+            yuna: [{ bg: 'park' }, WEAR('out', { yuna: 'home' }), { bgm: 'romance' }, { s: 'yuna', e: 'shy', at: 'center', t: "Can we... not post today? Just walk around Botanic Gardens like normal people?" }],
+            chloe: [{ bg: 'hawker' }, WEAR('out'), { bgm: 'romance' },
               { s: 'chloe', e: 'happy', at: 'center', t: "Ten-dollar hawker crawl. Five stalls, two dollars each. Best value wins. Loser buys sugarcane." },
               { s: 'chloe', e: 'smug', t: "Okay. You paid for the satay, I paid for the rojak, so you owe me forty cents. Transaction complete. ...Joking." },
               { flaw: { chloe: { transactional: 'seen' } }, why: "She joked that the date was a transaction." },
@@ -33,7 +34,7 @@ window.CHAPTERS.ch9 = {
                   { s: 'chloe', e: 'neutral', t: "Received. ...Huh. That was less fun than I thought it would be." },
                 ] },
               ] }],
-            preet: [{ bg: 'classroom' }, { bgm: 'romance' },
+            preet: [{ bg: 'classroom' }, WEAR('out', { preet: 'volunteer' }), { bgm: 'romance' },
               { s: 'preet', e: 'happy', at: 'center', t: "Two hours of fractions at the CC tuition room, then prata. My idea of a perfect date. You're allowed to say it isn't yours." },
               { n: "You stay. Danish, nine, finally gets equivalent fractions and does a victory lap around the tables." },
               { s: 'preet', e: 'happy', t: "See? Best feeling in the world. ...Okay, second best. The prata is coming." },
@@ -52,6 +53,7 @@ window.CHAPTERS.ch9 = {
 
       // 9-2 too fast
       { bg: 'night' },
+      WEAR('home'),
       { n: "Day eight. You feel SO in love. Your thumbs are typing things." },
       { choice: "What do you do with all this feeling?", opts: [
         { t: "Tell her one specific thing you like about being with her.", fx: { '@route': 6, trust: 6 }, lesson: 'toofast', then: [
@@ -68,6 +70,7 @@ window.CHAPTERS.ch9 = {
 
       // 9-3 locker room
       { bg: 'field' },
+      WEAR('school'),
       { show: 'takumi', e: 'smug', at: 'left' }, { show: 'ren', e: 'smug', at: 'right' },
       { s: 'ren', e: 'smug', t: "So how far already? 😏 Details, bro." },
       { choice: "The boys are waiting for a story...", opts: [
@@ -88,6 +91,7 @@ window.CHAPTERS.ch9 = {
 
       // 9-4 Haziq's birthday
       { bg: 'karaoke' },
+      WEAR('out'),
       { phone: "Haziq 🏀" }, { txt: 'kenta', t: "bro my bday ktv sat. u coming? u pangseh 3 times already lol. no pressure. (pressure)" }, { phoneOff: true },
       { choice: "You've bailed on Haziq three times...", opts: [
         { t: "Go. Tell her. She says \"of course, have fun!\"", fx: { kenta: 12, trust: 4, self: 4 }, lesson: 'ownlife', then: [
@@ -104,6 +108,7 @@ window.CHAPTERS.ch9 = {
 
       // 9-5 one month
       { bg: 'street' },
+      WEAR('out'),
       { n: "One month. A mini anniversary." },
       { choice: "What do you do?", opts: [
         { t: "Something small, made from things you know about her.", fx: { '@route': 10, trust: 8 }, lesson: 'remember', then: [
@@ -126,6 +131,7 @@ window.CHAPTERS.ch9 = {
 
       // 9-6 date budget
       { bg: 'mall' },
+      WEAR('out'),
       { think: "Date budget this month: $60. A fancy restaurant would really impress her..." },
       { choice: "Next date...", opts: [
         { t: "Cheap and good: cook together, a park, the library. Split the kopi.", fx: { '@route': 6, trust: 4, wallet: 4 }, lesson: 'datebudget', then: [

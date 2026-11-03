@@ -5,6 +5,7 @@ window.CHAPTERS.ch4 = {
   next: "Chapter 5 — Ubin Camp", status: 'done',
   script: [
     { bg: 'cafe' },
+    WEAR('out'),
     { n: "Sunday closing time at Uncle Ong's café. Chairs up on the tables, the floor still wet. He slides an envelope across the counter." },
     { s: 'ogawa', e: 'happy', at: 'center', t: "Four weekends washing cups. $480. Count it. Then count again. Nobody else will count for you." },
     { fx: { cash: 480 } },
@@ -26,13 +27,14 @@ window.CHAPTERS.ch4 = {
 
     // 4-2 livestream
     { bg: 'night' },
+    WEAR('home'),
     { n: "That night, lying in bed. A notification: Elise is live." },
     { phone: "LIVE 🔴 Elise ✨ 2.3k watching" },
     { txt: 'sys', t: "TOP GIFTER gets a shoutout! 🚀 Rocket = $50" },
     { txt: 'yuna', t: "thank u babe for the rose!! 🌹 omg who's gonna be my top gifter tonight~" },
     { choice: "Elise is live, smiling at 2,300 people...", opts: [
       { t: "Close the app. Tomorrow, ask her how rehearsal went.", fx: { yuna: 8, wisdom: 6, self: 6 }, lesson: 'paidattention', rose: true, then: [
-        { phoneOff: true }, { bg: 'classroom' },
+        { phoneOff: true }, { bg: 'classroom' }, WEAR('school'),
         { s: 'yuna', e: 'surprised', at: 'center', t: "You... asked about rehearsal? Nobody asks about rehearsal. They ask about the live." },
         { s: 'yuna', e: 'happy', t: "It was a disaster, actually. Want to hear? It's so bad." },
       ] },
@@ -49,7 +51,9 @@ window.CHAPTERS.ch4 = {
     ] },
 
     // 4-3 Kavya spikes
+    { hide: '*' },
     { bg: 'mall' },
+    WEAR('out'),
     { n: "Saturday, the sports shop at Jurong Point. Kavya asked you to come \"for a second opinion\"." },
     { s: 'kaede', e: 'happy', at: 'center', t: "These spikes. $240. Nationals in six weeks, and mine are literally falling apart." },
     { s: 'kaede', e: 'smug', t: "You just got paid right? Buy for me? ...Kidding. Mostly." },
@@ -70,6 +74,7 @@ window.CHAPTERS.ch4 = {
 
     // 4-4 instalments
     { bg: 'mall' },
+    WEAR('out'),
     { n: "On the way out, the phone shop. The new model, $998. Huge sign: ONLY $83/MONTH! 0% FOR 12 MONTHS!*" },
     { n: "*Late fee $30. After month 12, interest at 26.8% a year." },
     { choice: "Your current phone works fine...", opts: [
@@ -83,6 +88,7 @@ window.CHAPTERS.ch4 = {
 
     // 4-5 family money
     { bg: 'dining' },
+    WEAR('home'),
     { n: "Dinner at home. Steamed fish, kangkong, the TV on Channel 8 with no one watching." },
     { s: 'mom', e: 'neutral', at: 'center', t: "So. First pay ah. Your father and I were saying... some families give a bit back to the house." },
     { show: 'dad', e: 'neutral', at: 'right' },
@@ -102,6 +108,7 @@ window.CHAPTERS.ch4 = {
 
     // Ah Ma, one block away
     { bg: 'dining' },
+    WEAR('home'),
     { show: 'ama', e: 'neutral', at: 'center' },
     { n: "Sunday. Mum sends you to visit Ah Ma, one block away. She's folding plastic bags from the market into tiny triangles." },
     { s: 'ama', e: 'neutral', t: "You buy bubble tea? Fifteen dollar? Aiyoh. Fifteen dollar, Ah Ma can eat three days." },
@@ -120,6 +127,7 @@ window.CHAPTERS.ch4 = {
 
     // Chloe at the kueh stall
     { bg: 'hawker' },
+    WEAR('hawker'),
     { show: 'chloe', e: 'neutral', at: 'center' },
     { n: "The kueh stall at the Seri Bayu hawker centre. The girl behind the counter is doing sums on a calculator while serving three customers." },
     { s: 'chloe', e: 'smug', t: "Fifteen-dollar bubble tea? That's three plates of chicken rice. You're not buying a drink, you're buying a photo. I'm Chloe. Kueh lapis, two dollars." },
@@ -145,6 +153,7 @@ window.CHAPTERS.ch4 = {
 
     // talk: spending
     { bg: 'hawker' },
+    WEAR('hawker'),
     { variant: 'hawker.arrive' },
     { talk: 'spending' },
     { deeper: 'consumption' },

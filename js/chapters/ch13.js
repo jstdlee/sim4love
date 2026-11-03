@@ -9,6 +9,7 @@ window.CHAPTERS.ch13 = {
   script: [
     SIM.gate(),
     { bg: 'classroom' },
+    WEAR('school'),
     { n: "JC2, Term 2. Sexual-health week. Forty seventeen-year-olds, one school nurse, and enough giggling to power the MRT." },
     { mochi: "Ahem. Today I am DOCTOR Mochi. The glasses are real. The degree is from the University of Trust Me.", e: 'doctor' },
 
@@ -33,6 +34,7 @@ window.CHAPTERS.ch13 = {
 
     // 13-2 STIs are serious
     { bg: 'healthroom' },
+    WEAR('school'),
     { show: 'nurse', e: 'neutral', at: 'center' },
     { s: 'nurse', t: "Okay. STIs. Many have no symptoms at all, so people pass them on without knowing." },
     { s: 'nurse', t: "Untreated chlamydia or gonorrhoea can lead to infertility. Syphilis can damage the heart and brain. HIV is lifelong: very treatable now, not curable. Some types of HPV cause cancers, and there is a vaccine." },
@@ -50,6 +52,7 @@ window.CHAPTERS.ch13 = {
 
     // 13-3 question box: risk by behaviour
     { bg: 'classroom' },
+    WEAR('school'),
     { n: "The anonymous question box. The nurse reads one out: \"Which kind of sex has the highest STI risk?\"" },
     { s: 'Classmate', t: "Easy. Only gay guys get HIV. Hahaha." },
     { choice: "Some people laugh. Some look at the floor.", opts: [
@@ -92,6 +95,7 @@ window.CHAPTERS.ch13 = {
 
     // 13-5 Haziq and the "24-year-old girlfriend"
     { bg: 'voiddeck' },
+    WEAR('out'),
     { show: 'kenta', e: 'happy', at: 'center' },
     { s: 'kenta', e: 'happy', t: "Bro. Don't tell anyone ah. I got an online girlfriend. She's 24. She sends me gifts, says my friends are immature, and wants it to be our secret." },
     { s: 'kenta', e: 'neutral', t: "Now she wants photos. Like, private ones. That's normal right? She's mature." },
@@ -114,10 +118,12 @@ window.CHAPTERS.ch13 = {
 
     // 13-6 the rooftop talk, and the moment after
     { bg: 'rooftop' },
+    WEAR('school'),
     SIM.split([
       { n: "After the last workshop. The rooftop garden, sunset, both of you a bit embarrassed by the whole week." },
       { talk: 'boundaries' },
       { bg: 'apartment' },
+      WEAR('out'),
       { n: "A week later. Your flat, nobody home, a study session that's stopped being about studying. Things get heated." },
       { choice: "You both agreed to wait.", opts: [
         { t: "Stop. \"Let's not. We agreed. I'll walk you home.\"", fx: { self: 10, trust: 10, wisdom: 4 }, lesson: 'waitingok', then: [

@@ -6,6 +6,7 @@ window.CHAPTERS.ch19 = {
   script: [
     SIM.gate(),
     { bg: 'camp' },
+    WEAR('ns'),
     SIM.split([
       { n: "A long week in camp. {her} is busy with exams. You're scrolling on the bus home when a message request pops up." },
       { phone: 'Lin' },
@@ -43,6 +44,7 @@ window.CHAPTERS.ch19 = {
 
     // 19-2 deposit "agency"
     { bg: 'camp' },
+    WEAR('ns'),
     { show: 'ren', e: 'neutral', at: 'center' },
     { s: 'ren', t: "Guys, guys. VIP matchmaking agency. Dates with models, guaranteed. Just $300 deposit. Then a small \"verification fee\". Should I?" },
     { choice: "Ryan is holding his phone like it's a winning 4D ticket.", opts: [
@@ -58,7 +60,7 @@ window.CHAPTERS.ch19 = {
     { hide: '*' },
 
     // 19-3 sextortion
-    { bg: 'bedroom' }, { bgm: 'tense' },
+    { bg: 'bedroom' }, WEAR('laterHome'), { bgm: 'tense' },
     SIM.split([{ n: "A few nights later. A stranger from a gaming server you're in suddenly wants a video call. On camera, she starts undressing and asks you to do the same." }],
       [{ n: "Another match, very flirty. A video call at midnight. On camera, she starts undressing and asks you to do the same." }]),
     { choice: "Something about the video looks pre-recorded.", opts: [
@@ -84,6 +86,7 @@ window.CHAPTERS.ch19 = {
 
     // 19-4 MLM
     { bg: 'cafe' },
+    WEAR('later', { rei: 'law' }),
     { s: 'Brandon', t: "Bro! Long time! I'm with Alpha Kai's new network now. \"Wealth Mindset\" seminar on Saturday. Your friends are holding you back. You need a circle of winners." },
     { choice: "\"A circle of winners\" sounds suspiciously like a circle.", opts: [
       { t: "Decline. Look up the reviews. Warn Haziq before they reach him.", fx: { wisdom: 8, kenta: 4 }, lesson: 'mlm', then: [
@@ -104,7 +107,9 @@ window.CHAPTERS.ch19 = {
 
     // Chloe and the "business coach"
     { if: (s) => !!s.flags.chloeMet, then: [
+      { hide: '*' },
       { bg: 'hawker' },
+      WEAR('later', { chloe: 'stall', rei: 'law' }),
       { show: 'chloe', e: 'neutral', at: 'center' },
       { n: "Chloe has a new \"business coach\" from the same network. He wants her to sell wellness tea from her stall. Starter pack: $3,000." },
       { s: 'chloe', e: 'neutral', t: "He says I'm thinking too small. Maybe I am?" },
@@ -125,7 +130,9 @@ window.CHAPTERS.ch19 = {
     ] },
 
     // Ah Ma and "Officer Tan"
+    { hide: '*' },
     { bg: 'dining' },
+    WEAR('laterHome'),
     { show: 'ama', e: 'neutral', at: 'center' },
     { n: "Thursday, 2 PM. Ah Ma's phone rings. \"This is Officer Tan from the police. Your bank account is involved in money laundering. Transfer $8,000 to a safe account now, or we arrest you.\"" },
     { flaw: { ama: { 'trusts-official-voices': 'seen' } }, why: "A voice that sounded official told her to move her savings." },
@@ -155,6 +162,7 @@ window.CHAPTERS.ch19 = {
     // Natalie spots a fake profile, then goes quiet
     { if: (s) => s.route === 'solo' && !!s.flags.nanaCoffee, then: [
       { bg: 'cafe' },
+      WEAR('later', { rei: 'law' }),
       { show: 'nana', e: 'neutral', at: 'center' },
       { s: 'nana', e: 'neutral', t: "Look. \"Lin, 26, wine trader.\" My friend from church has been chatting with him for a month. Same photos as an influencer in Taiwan. I reverse-searched. Help me tell her gently? She's so lonely." },
       { reveal: { nana: 'compassion' }, why: "She spotted a fake profile and wanted to protect her friend's feelings." },
@@ -186,6 +194,7 @@ window.CHAPTERS.ch19 = {
 
     // Rae's talk and 19-5
     { bg: 'lecture' },
+    WEAR('later', { rei: 'occasion' }),
     { show: 'rei', e: 'neutral', at: 'center' },
     { if: (s) => s.flags.reiRedemption, then: [
       { n: "A community talk at the polytechnic: \"How scams target lonely men\". The speaker is Rae." },

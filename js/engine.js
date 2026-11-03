@@ -37,7 +37,7 @@
  *          '@route' (route heroine), '@talk' (current talk partner),
  *          'trust.<id>' / 'aff.<id>' (any cast member's Trust / Affection, js/data/cast.js).
  * Option extras: sig:'romance:chloe' (a romantic signal), clarity:'chloe' (you were clear about where things
- *          stand), lieTo:'id', honestHard:'id', id:'6-2' (source id shown in the recap).
+ *          stand), lieTo:'id', honestHard:'id', id:'6-2' (internal source id used to merge recap rows; not shown).
  * Option `rose:true`: a clear-eyed option that greys out while the Rose Filter is above 60.
  * Speakers: '@route' = route heroine; '@talk' = current talk partner.
  * Text tokens: {name} {her} {n:id} {full:id} {passion} {cash}.
@@ -816,7 +816,7 @@
     const judge = r.field.startsWith('judge.');
     return `<li class="rc-row ${r.kind}${r.struck ? ' struck' : ''}"><i aria-label="${esc(ui('recap.' + r.kind))}" title="${esc(ui('recap.' + r.kind))}">${r.kind === 'choice' ? '👆' : '📖'}</i>`
       + `<span class="rc-main"><span class="rc-field">${esc(fieldText(r))} ${d}</span>${reason ? `<span class="rc-why">${judge && r.struck ? `<s>${esc(judgeText(r.field.slice(6), false))}</s> ` : ''}${esc(reason)}</span>` : ''}</span>`
-      + `<small class="rc-src">${esc(r.src || '')}</small></li>`;
+      + '</li>'; // r.src is an internal id (merge key only); never shown to players
   }
   // Rows of one chapter: same person + field + source are merged; the most important 8 show first.
   function recapRows(rows) {

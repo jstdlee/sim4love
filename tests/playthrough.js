@@ -6,6 +6,7 @@
    - random: seeded random choices
    --mobile: iPhone-sized portrait viewport with touch
    --lang=zh: play in Simplified Chinese and flag on-screen lines that are still English
+   --outfit-shots=hina:casual,chloe:stall  screenshot the first time each outfit is on stage (screenshots/outfits/)
    --shots:  save a screenshot at every chapter card, bad end, results screen and the final screen
    --url=http://127.0.0.1:8787/  play against a running Worker (e.g. `wrangler dev` with the Turnstile
              test keys in .dev.vars) instead of the built-in static server; the Turnstile gate is passed first
@@ -87,6 +88,11 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
 
   const seen = new Set(); const attempts = {}; const cards = new Set(); const endings = [];
   const recaps = new Set(); const toasts = new Set();
+  // --outfit-shots=hina:casual,chloe:stall  save one screenshot the first time each listed outfit is on stage.
+  const outfitsSeen = new Map();
+  const outfitShots = new Set(((process.argv.find((a) => a.startsWith('--outfit-shots=')) || '').split('=')[1] || '').split(',').filter(Boolean));
+  const outfitDir = path.join(__dirname, '..', 'screenshots', 'outfits');
+  if (outfitShots.size) fs.mkdirSync(outfitDir, { recursive: true });
   const hudBad = []; let choices = 0, badEnds = 0, done = false, same = 0, last = '';
   for (let i = 0; i < 40000 && !done; i++) {
     const st = await page.evaluate(() => {
@@ -96,14 +102,24 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
         bad: !!q('#modal .badend'), ending: (q('#modal .ending h2') || q('#modal .ending') || {}).textContent || '',
         choices: q('#choices').classList.contains('on'), ctext: q('#choices').textContent,
         nopts: q('#choices').querySelectorAll('.opt:not([disabled])').length, text: q('#text').textContent,
-        recap: !!q('#modal .recap'), toast: [...document.querySelectorAll('#toasts .toast.cast')].map((t) => t.textContent.trim()) };
+        recap: !!q('#modal .recap'), sprites: [...document.querySelectorAll('#chars .char:not(.leaving) img')].map((i) => i.getAttribute('src') || ''), toast: [...document.querySelectorAll('#toasts .toast.cast')].map((t) => t.textContent.trim()) };
     });
     seen.add(st.ch);
+    for (const f of st.sprites) {
+      const m = f.match(/chars\/([a-z]+)_([a-z]+)_[a-z]+\.webp$/);
+      if (!m) continue;
+      const k = `${m[1]}:${m[2]}`;
+      if (!outfitsSeen.has(k)) { outfitsSeen.set(k, st.ch); if (outfitShots.has(k)) { await page.waitForTimeout(700); await page.screenshot({ path: path.join(outfitDir, `${k.replace(':', '-')}-${st.ch}.png`) }); } }
+    }
     for (const t of st.toast) { if (!toasts.size) await shot(`${st.ch}-toast`); toasts.add(t); if (leak(t)) english.add(`${st.ch} toast: ${t.slice(0, 70)}`); }
     if (st.recap && !recaps.has(st.ch)) {
       recaps.add(st.ch);
-      const rc = await page.evaluate(() => ({ rows: document.querySelectorAll('#modal .rc-list .rc-row').length, more: !!document.querySelector('#modal .rc-all') }));
+      const rc = await page.evaluate(() => ({ rows: document.querySelectorAll('#modal .rc-list .rc-row').length, more: !!document.querySelector('#modal .rc-all'),
+        text: (document.querySelector('#modal .recap') || {}).innerText || '' }));
       if (rc.rows > 8) errors.push(`${st.ch} recap shows ${rc.rows} rows before "Show all" (max 8)`);
+      // Internal source ids ("3-c1", "ch3") must never reach players.
+      const ids = rc.text.match(/\b\d+-c\d+\b|\bch\d+\b/g);
+      if (ids) errors.push(`${st.ch} recap shows internal ids: ${[...new Set(ids)].join(', ')}`);
       if (recaps.size === 3) { await page.waitForTimeout(400); await shot(`${st.ch}-recap`); }
     }
     if (leak(st.text.trim())) english.add(`${st.ch}: ${st.text.trim().slice(0, 70)}`);
@@ -192,7 +208,7 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
   if (!music.unlocked || !tracks.size) errors.push('Music never started: ' + JSON.stringify(music));
   if (english.size) errors.push(`Untranslated English on screen (${english.size}):\n  ` + [...english].slice(0, 40).join('\n  '));
   await browser.close(); if (!remote) server.close();
-  console.log(JSON.stringify({ strategy, mobile, lang, music: [...tracks], chapters: seen.size, recaps: recaps.size, castToasts: toasts.size, choices, badEnds, endingScreens: endings, ...final }));
+  console.log(JSON.stringify({ strategy, mobile, lang, music: [...tracks], chapters: seen.size, recaps: recaps.size, outfitsOnStage: outfitsSeen.size, castToasts: toasts.size, choices, badEnds, endingScreens: endings, ...final }));
   if (shotDir) console.log('screenshots: ' + shotDir);
   if (errors.length) { console.error('PAGE ERRORS:\n' + errors.join('\n')); process.exit(1); }
   if (!done || !seen.has('ch20')) { console.error('Did not reach the end of Chapter 20'); process.exit(1); }

@@ -5,6 +5,7 @@ window.CHAPTERS.ch6 = {
   next: "Chapter 7 — Behind the Screen", status: 'done',
   script: [
     { bg: 'carnival' },
+    WEAR('carnival'),
     { n: "JC Carnival Week. Fairy lights, a dunk tank, and a CCA stall selling \"artisanal\" Milo for $6." },
 
     // 6-1 Hanis burnout
@@ -27,6 +28,7 @@ window.CHAPTERS.ch6 = {
 
     // 6-2 Rae again
     { bg: 'night' },
+    WEAR('home'),
     { if: (s) => s.flags.reiHasLine, then: [{ phone: "Rae 🌙" }], else: [{ phone: "+65 8••• ••••" }] },
     { txt: 'rei', t: "sorry about before. i'm not ok. my \"manager\" says i owe them $3000. idk what to do" },
     { txt: 'rei', t: "if you loved me you'd save me" },
@@ -50,6 +52,7 @@ window.CHAPTERS.ch6 = {
 
     // 6-3 Marcus fish-pond check
     { bg: 'carnival' },
+    WEAR('carnival'),
     { show: 'takumi', e: 'smug', at: 'center' },
     { s: 'takumi', e: 'smug', t: "Bro. Big brain: text all four \"you're the only one I talk to like this\". See who bites. Fish pond." },
     { choice: "Marcus is grinning...", opts: [
@@ -69,11 +72,13 @@ window.CHAPTERS.ch6 = {
 
     // talk: promises
     { bg: 'carnival' },
+    WEAR('carnival'),
     { n: "The dunk tank. Hanis promised the council she'd sit in it for one full hour. The water is very cold." },
     { talk: 'promises' },
 
     // 6-4 polished mask
     { bg: 'carnival' },
+    WEAR('carnival'),
     { n: "Talent night. Marcus has a \"personal brand\" now: a borrowed watch, a memorised monologue, and a fake British accent." },
     { s: 'takumi', e: 'cool', at: 'left', t: "Be mysterious, bro. Never show the real you. The real you is mid." },
     { choice: "After-party. Your turn to talk to people...", opts: [
@@ -89,6 +94,7 @@ window.CHAPTERS.ch6 = {
     // Chloe's carnival stall, Preet's booth
     { if: (s) => !!s.flags.chloeMet, then: [
       { bg: 'carnival' },
+      WEAR('carnival'),
       { show: 'chloe', e: 'happy', at: 'center' },
       { n: "The enterprise club stall: Chloe's kueh, priced to the cent. The sign says \"Student price = honest price\"." },
       { s: 'chloe', e: 'happy', t: "I'm forty boxes up on last year. Help me for an hour? Pay is one kueh." },
@@ -105,6 +111,7 @@ window.CHAPTERS.ch6 = {
     ] },
     { if: (s) => !!s.flags.preetMet, then: [
       { bg: 'carnival' },
+      WEAR('carnival'),
       { show: 'preet', e: 'neutral', at: 'center' },
       { n: "The debate club runs a \"Lie or Truth?\" booth. You guess wrong about a scam ad, and Preet explains why for four minutes." },
       { s: 'preet', e: 'shy', t: "...and that's why the — sorry. You paid fifty cents. You didn't pay for a lecture." },
@@ -122,6 +129,7 @@ window.CHAPTERS.ch6 = {
 
     // 6-5 your own stage
     { bg: 'carnival' },
+    WEAR('carnival'),
     { n: "Open mic, last slot. Nobody signed up. The MC scans the crowd, desperate." },
     { choice: "There's an empty slot...", opts: [
       { t: "Sign up. Three minutes of {passion}. Shaky, real, yours.", fx: { passion: 12, self: 10 }, lesson: 'ownstage', ach: 'ownStage', then: [

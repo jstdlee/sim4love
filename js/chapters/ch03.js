@@ -6,6 +6,7 @@ window.CHAPTERS.ch3 = {
   script: [
     // 3-1 Kavya's date
     { bg: 'cafe' },
+    WEAR('out', { kaede: 'track' }),
     { variant: 'cafe.arrive' },
     { if: (s) => s.flags.kaedeReschedule, then: [
       { s: 'kaede', e: 'happy', at: 'center', t: "See? I came. On time. Screenshot this." },
@@ -30,6 +31,7 @@ window.CHAPTERS.ch3 = {
 
     // 3-2 text anxiety
     { bg: 'night' },
+    WEAR('home'),
     { n: "9 PM. You text Xin Yi about Starlight Postman." },
     { phone: "Xin Yi 📖" }, { txt: 'me', t: "just finished ch 5. the letter scene?? 😭" }, { txt: 'sys', t: "Seen 11:02 PM" },
     { n: "2:14 AM. Nothing." },
@@ -50,6 +52,7 @@ window.CHAPTERS.ch3 = {
 
     // 3-3 chat privacy
     { bg: 'classroom' },
+    WEAR('school'),
     { n: "Econs lecture. The aircon is blasting. Your phone buzzes under the table." },
     { phone: "boys only 🏀" }, { txt: 'kenta', t: "bro send ss of what Elise texts u lol" }, { txt: 'kenta', t: "we need content" },
     { choice: "The boys are waiting...", opts: [
@@ -66,6 +69,7 @@ window.CHAPTERS.ch3 = {
 
     // Preet: the gossip, then the CC tuition room
     { bg: 'classroom' },
+    WEAR('school'),
     { n: "Recess. A girl at the next table is telling everyone that a classmate's parents are divorcing. Preet turns around." },
     { show: 'preet', e: 'angry', at: 'center' },
     { s: 'preet', e: 'angry', t: "That's not your story to tell. And you got the facts wrong, which makes it worse." },
@@ -98,6 +102,7 @@ window.CHAPTERS.ch3 = {
 
     // 3-4 Aileen
     { bg: 'night' },
+    WEAR('home'),
     { n: "A new follower: \"Aileen 💋\". Model photos, zero mutuals. Two days of flirty DMs." },
     { phone: "Aileen 💋" }, { txt: 'aileen', t: "ur so different from other guys 🥰" }, { txt: 'aileen', t: "send me a private pic? just for me. i'll send one back 😘" },
     { choice: "Aileen wants a private photo...", opts: [
@@ -125,12 +130,16 @@ window.CHAPTERS.ch3 = {
     ] },
 
     // partner talk: white lies
+    { hide: '*' },
     { bg: 'classroom' },
+    WEAR('school'),
     { n: "Recess. Elise's aunt gave her a very ugly keychain. She posted it: \"LOVE IT 😍\"." },
     { talk: 'whitelies' },
 
     // 3-5 Rae emergency
+    { hide: '*' },
     { bg: 'night' },
+    WEAR('home'),
     { if: (s) => s.flags.reiHasLine, then: [{ phone: "Rae 🌙" }], else: [{ phone: '+65 8••• ••••' }] },
     { txt: 'rei', t: "my mom's in hospital, i need $800 tonight 😭 ur the only one i can trust" }, { txt: 'rei', t: "pls send here: payl1nk.co/rae" },
     { choice: "Rae is begging...", opts: [
@@ -150,7 +159,9 @@ window.CHAPTERS.ch3 = {
     ] },
 
     // 3-6 Hanis's birthday
+    { hide: '*' },
     { bg: 'street' },
+    WEAR('school'),
     { n: "Friday. Hanis's birthday. She's waiting by the lift like always, pretending it's a normal day." },
     { if: (s) => s.flags.hinaHearts, then: [{ think: "Hearts in the egg. The cat-face cloth. \"Not that I'm expecting anything.\"" }] },
     { choice: "Her present...", opts: [
@@ -167,6 +178,7 @@ window.CHAPTERS.ch3 = {
     ] },
     { hide: '*' },
     { bg: 'bedroom' },
+    WEAR('home'),
     { s: 'mei', e: 'happy', at: 'center', t: "Eat already or not? There's mee goreng in the fridge. ...And don't ever send photos to people you haven't met. Okay. Night." },
     { chapterEnd: true },
   ],

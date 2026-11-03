@@ -26,6 +26,7 @@ window.CHAPTERS = window.CHAPTERS || {};
     script: [
       SIM.gate(),
       { bg: 'field' },
+      WEAR('school'),
       { variant: 'mochi.morning' },
       SIM.split([
         // 10-1 jealousy
@@ -57,6 +58,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 
         // 10-2 snooping
         { bg: 'cafe' },
+        WEAR('school'),
         R((h) => [{ n: `Bubble tea after class. {her} goes to the washroom. Her phone lights up on the table: "${FRIEND[h].n}: about tomorrow…"` }]),
         { choice: "The screen is still lit...", opts: [
           { t: "Don't touch it. Flip it face down so you're not tempted.", fx: { trust: 6, self: 4, wisdom: 4 }, lesson: 'snooping', then: [
@@ -75,6 +77,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 
         // 10-3 Alpha Kai on control
         { bg: 'bedroom' },
+        WEAR('home'),
         { phone: "Alpha Kai 🔴 LIVE" },
         { txt: 'kai', t: "Real men know where their woman is 24/7. Make her share location. Nothing to hide = she won't mind. 💯" },
         { phoneOff: true },
@@ -96,6 +99,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 
         // 10-4 double standard
         { bg: 'street' },
+        WEAR('school'),
         { s: '@route', e: 'neutral', at: 'center', t: "Can I ask something? Who's Rae? Why is she still texting you?" },
         { choice: "She saw the name on your screen.", opts: [
           { t: "Just be straight. Tell her who it is, and offer to show the chat if she wants.", fx: { trust: 10, '@route': 6, wisdom: 4 }, lesson: 'doublestandard', then: [
@@ -110,6 +114,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 
         // 10-5 celebrate her wins
         { bg: 'classroom' },
+        WEAR('school'),
         { n: "Your maths test comes back. 38 out of 100. Ten minutes later, the class group chat explodes." },
         R((h) => [{ n: WIN[h] }]),
         { choice: "She runs over, glowing. You're holding a 38.", opts: [
@@ -181,6 +186,7 @@ window.CHAPTERS = window.CHAPTERS || {};
         ] },
         { hide: '*' },
         { bg: 'classroom' },
+        WEAR('school'),
         { n: "Your maths test comes back: 38 out of 100. Same afternoon, Mei posts in the family chat." },
         { phone: "Family 🏠" }, { txt: 'mei', t: "I GOT THE INTERNSHIP 🎉🎉🎉" }, { phoneOff: true },
         { choice: "You're holding a 38.", opts: [

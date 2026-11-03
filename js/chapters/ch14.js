@@ -50,6 +50,7 @@ window.CHAPTERS = window.CHAPTERS || {};
     script: [
       SIM.gate(),
       { bg: 'library' },
+      WEAR('school'),
       { n: "August. Prelims in five weeks, A-Levels in ten. The library smells of highlighters and panic." },
 
       // 14-1 focus
@@ -82,6 +83,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 
       // 14-2 sleep
       { bg: 'bedroom' },
+      WEAR('home'),
       { n: "Three all-nighters. Four cans of energy drink on the desk. Your hands are shaking a bit, which you decide is \"focus\"." },
       { choice: "It's 2 AM. Paper 2 is tomorrow.", opts: [
         { t: "Close the books. Eat, shower, sleep. Walk to school in the morning.", fx: { health: 12, goal: 6 }, lesson: 'sleep', then: [
@@ -102,6 +104,7 @@ window.CHAPTERS = window.CHAPTERS || {};
       // 14-3 support
       SIM.split([
         { bg: 'mrt' },
+        WEAR('school'),
         { show: '@route', e: 'sad', at: 'center' },
         R((h) => [{ n: WHY[h] }]),
         { s: '@route', e: 'sad', t: "I'm so tired. Of everything. Sorry. I'm being dramatic." },
@@ -122,6 +125,7 @@ window.CHAPTERS = window.CHAPTERS || {};
         { hide: '*' },
       ], [
         { bg: 'night' },
+        WEAR('home'),
         { show: 'kenta', e: 'sad', at: 'center' },
         { s: 'kenta', e: 'sad', t: "My dad said if I don't get into engineering at NUS I'm \"wasting the family's money\". I can't sleep, bro. I just... can't." },
         { choice: "Haziq never talks like this.", opts: [
@@ -138,6 +142,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 
       // 14-4 a small lie
       { bg: 'mall' },
+      WEAR('out'),
       SIM.split([
         R((h) => [{ n: ARCADE[h] }]),
         { phone: '{her}' },
@@ -163,6 +168,7 @@ window.CHAPTERS = window.CHAPTERS || {};
       // 14-5 breakup branch
       SIM.split([
         { bg: 'night' },
+        WEAR('out'),
         { if: (s) => s.stats.trust < 30, then: breakup, else: [
           { show: '@route', e: 'neutral', at: 'center' },
           { n: "After prelims. You're both wrecked, and it's been a hard term for the two of you." },
@@ -185,6 +191,7 @@ window.CHAPTERS = window.CHAPTERS || {};
       // 14-6 recovery
       { if: (s) => s.flags.brokeUp14, then: [
         { bg: 'bedroom' },
+        WEAR('home'),
         { n: "3 AM. Her profile is open on your phone. Your thumb is hovering over the old chats." },
         { choice: "3 AM.", opts: [
           { t: "Close it. Mute her for a while. Message Haziq in the morning. Back to the stuff that makes you you.", fx: { passion: 8, health: 8, self: 6 }, lesson: 'recovery', then: [
@@ -199,6 +206,7 @@ window.CHAPTERS = window.CHAPTERS || {};
         ] },
       ], else: [SIM.split([], [
         { bg: 'night' },
+        WEAR('home'),
         { phone: "Haziq" },
         { txt: 'kenta', t: "3am. on her profile. should i text her. i'm gonna text her" },
         { phoneOff: true },
@@ -215,11 +223,14 @@ window.CHAPTERS = window.CHAPTERS || {};
       // financial-support talk (still together) and Think Deeper
       SIM.split([
         { bg: 'cafe' },
+        WEAR('out'),
         { n: "The class trip after A-Levels costs $480. {her} can't afford it this year." },
         { talk: 'support' },
       ]),
       { bg: 'classroom' },
+      WEAR('school'),
       { bg: 'voiddeck' },
+      WEAR('out', { joy: 'work' }),
       { show: 'joy', e: 'neutral', at: 'center' },
       { s: 'joy', e: 'neutral', t: "Eh, you're Xin Yi's classmate, right? She hasn't slept properly in a week. Light still on at 3 AM. Her parents think it's studying. I don't think it's studying." },
       { reveal: { joy: 'sensitivity' }, why: "She noticed Xin Yi wasn't sleeping before anyone else did." },
@@ -234,6 +245,7 @@ window.CHAPTERS = window.CHAPTERS || {};
       { hide: '*' },
       { deeper: 'careerpressure' },
       { bg: 'bedroom' },
+      WEAR('home'),
       { show: 'mei', e: 'neutral', at: 'center' },
       { s: 'mei', t: "Eh. You look like a zombie. Whatever happened this year, you're still here, and you're nicer than last year. Now eat something." },
       { hide: '*' },

@@ -6,11 +6,13 @@ window.CHAPTERS.ch16 = {
   script: [
     SIM.gate(),
     { bg: 'camp' },
+    WEAR('ns'),
     { n: "You enlisted in March. Weekdays in camp: 5:30 AM wake-ups, a shaved head, a section of strangers slowly turning into friends." },
     { mochi: "I have also enlisted. Morale support. My rank is Cat.", e: 'smug' },
 
     // 16-1 adulting
     { bg: 'apartment' },
+    WEAR('laterHome'),
     { n: "First book-out weekend. You've ordered delivery four nights in a row, and Mum is still doing your laundry." },
     { show: 'mom', e: 'neutral', at: 'center' },
     { s: 'mom', t: "Your NSF allowance is not for Grab Food every day, ah. And your uniform won't wash itself." },
@@ -32,6 +34,7 @@ window.CHAPTERS.ch16 = {
 
     // 16-2 buy now, pay later
     { bg: 'mall' },
+    WEAR('later'),
     { n: "A mall kiosk: \"New phone, $0 today! Buy now, pay later!\" Next to it, a gaming PC with \"only $89 a month\" in giant letters." },
     { choice: "Your old phone has a crack shaped like a lightning bolt.", opts: [
       { t: "Read the terms and the total. Walk away, or buy one small thing you can actually pay off.", fx: { wallet: 8, wisdom: 6 }, lesson: 'debt', then: [
@@ -52,7 +55,9 @@ window.CHAPTERS.ch16 = {
     ] },
 
     // 16-3 Ryan
+    { hide: '*' },
     { bg: 'camp' },
+    WEAR('ns'),
     { show: 'ren', e: 'neutral', at: 'center' },
     { n: "Ryan from your JC class ended up in your section. Of course he did. Perfect outfit every book-out, a feed that looks like a watch ad." },
     { s: 'ren', t: "Bro, can borrow $600? Till allowance day. Promise. You're the only one I trust." },
@@ -75,6 +80,7 @@ window.CHAPTERS.ch16 = {
     // 16-4 distance and money
     SIM.split([
       { bg: 'apartment' },
+      WEAR('laterHome'),
       { phone: '{her}' },
       { txt: '@route', t: "why u didn't reply for an hour?? 😭" },
       SIM.byRoute({
@@ -102,6 +108,7 @@ window.CHAPTERS.ch16 = {
       ] },
     ], [
       { bg: 'hawker' },
+      WEAR('later'),
       { show: 'kenta', e: 'neutral', at: 'center' },
       { s: 'kenta', e: 'neutral', t: "Bro, every book-out you busy. I panic when you don't reply for an hour. Also, Bali? Only $680. Next month, jom!" },
       { choice: "Haziq misses you. Your wallet does not miss Bali.", opts: [
@@ -118,6 +125,7 @@ window.CHAPTERS.ch16 = {
 
     // 16-5 asking for help
     { bg: 'bedroom' },
+    WEAR('laterHome'),
     { n: "A few weeks later. You've barely talked to anyone. Every book-out you game till 5 AM and sleep till 3 PM. Everything feels grey." },
     { choice: "Twelve unread messages. You haven't opened any.", opts: [
       { t: "Call Mei. Join the weekend run club. Book a chat with the unit counsellor, or call mindline 1771.", fx: { health: 10, self: 8, kenta: 4 }, lesson: 'askhelp', ach: 'touchGrass', then: [
@@ -135,6 +143,7 @@ window.CHAPTERS.ch16 = {
 
     // Ah Ma's hidden fall; Joy on agency loans
     { bg: 'dining' },
+    WEAR('laterHome'),
     { show: 'ama', e: 'sad', at: 'center' },
     { n: "Book-out weekend. Ah Ma has a bruise on her arm the size of a mandarin orange. \"Bump the door only.\" Mum's face says she doesn't believe it." },
     { flaw: { ama: { 'refuses-help': 'seen', 'worries-about-money': 'seen' } }, why: "She hid a fall so nobody would spend money on her." },
@@ -156,6 +165,7 @@ window.CHAPTERS.ch16 = {
     ] },
     { hide: '*' },
     { bg: 'voiddeck' },
+    WEAR('later'),
     { show: 'joy', e: 'neutral', at: 'center' },
     { s: 'joy', e: 'neutral', t: "My cousin's agency says she 'owes' them eight months' salary for placement. Then they keep her passport. That's not a loan, that's a trap. I told her: call the MOM hotline. She says she can't say no to them." },
     { reveal: { joy: 'compassion' }, why: "She spent her day off helping her cousin fight an agency loan." },
@@ -165,6 +175,7 @@ window.CHAPTERS.ch16 = {
 
     // eldercare talk + Think Deeper
     { bg: 'dining' },
+    WEAR('laterHome'),
     { talk: 'eldercare' },
     { deeper: 'eldercare' },
     SIM.evening('ch16', "A free book-out evening. Where does it go?"),

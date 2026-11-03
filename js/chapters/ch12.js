@@ -24,6 +24,7 @@ window.CHAPTERS = window.CHAPTERS || {};
     script: [
       SIM.gate(),
       { bg: 'apartment' },
+      WEAR('out'),
       { n: "Year-end holidays. No school, long afternoons, the whole of December lying there like a cat in the sun." },
       SIM.split([
         // 12-1 asking first
@@ -64,6 +65,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 
         // 12-2 private photos
         { bg: 'bedroom' },
+        WEAR('home'),
         { phone: "boys only 🏀" },
         { txt: 'kenta', t: "bro couples send each other pics. ask her 😏" },
         { phoneOff: true },
@@ -88,6 +90,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 
         // 12-3 surprises
         { bg: 'mall' },
+        WEAR('out'),
         { think: "Her birthday's next week. HUGE surprise party. Thirty people, balloons, a cake with her face printed on it..." },
         { think: "She's told me twice she hates surprises. But this one is different. Right?" },
         { choice: "The surprise party...", opts: [
@@ -103,6 +106,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 
         // 12-4 her people
         { bg: 'dining' },
+        WEAR('festive'),
         R((h) => [{ n: VISIT[h].intro }]),
         { choice: "How do you handle her people?", opts: [
           { t: "Follow the house's customs, ask her relatives real questions, help clear the plates, phone in pocket.", fx: { '@route': 8, trust: 8, wisdom: 4 }, lesson: 'herpeople', then: [
@@ -121,6 +125,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 
         // 12-5 body jokes at East Coast Park
         { bg: 'beach' },
+        WEAR('out'),
         { n: "East Coast Park. Cycling, satay, and some boys from your class at the next table, rating girls who walk past." },
         { show: 'ren', e: 'smug', at: 'left' },
         { s: 'ren', e: 'smug', t: "Eh, your girlfriend ah, quite— you know. Rate lah. Out of ten." },
@@ -139,6 +144,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 
         // 12-6 your own "not yet"
         { bg: 'night' },
+        WEAR('out'),
         { n: "Later that week, walking her home. At the lift lobby she pulls you closer. She wants to go faster than you're ready for." },
         { choice: "You're not ready.", opts: [
           { t: "\"I really like you, and I'm not ready. Can we slow down?\"", fx: { self: 10, trust: 6, wisdom: 4 }, lesson: 'yourno', then: [
@@ -158,6 +164,7 @@ window.CHAPTERS = window.CHAPTERS || {};
         { show: 'kenta', e: 'happy', at: 'center' },
         { s: 'kenta', e: 'happy', t: "My nenek's 70th birthday kenduri! You're coming. Wear something with a collar. NOT the basketball jersey." },
         { bg: 'dining' },
+        WEAR('festive'),
         { n: "Haziq's grandmother's flat. Twenty relatives, rendang, nasi minyak, and every aunty is looking at you." },
         { choice: "How do you handle Haziq's family?", opts: [
           { t: "Shoes off, salam his nenek properly, ask his cousins stuff, help clear the plates.", fx: { kenta: 10, wisdom: 4 }, lesson: 'herpeople', then: [
@@ -169,6 +176,7 @@ window.CHAPTERS = window.CHAPTERS || {};
         ] },
         { hide: '*' },
         { bg: 'bedroom' },
+        WEAR('home'),
         { phone: "JC1 class chat" },
         { txt: 'ren', t: "[photo] lol look what someone sent me. is this the girl from 1T3??" },
         { phoneOff: true },
@@ -184,6 +192,7 @@ window.CHAPTERS = window.CHAPTERS || {};
           ] },
         ] },
         { bg: 'mall' },
+        WEAR('out'),
         { think: "Mei's birthday is next week. Huge surprise party? She's told me three times she hates surprises." },
         { choice: "Mei's birthday...", opts: [
           { t: "Ask her what she wants. Do that.", fx: { wisdom: 4 }, lesson: 'prefsmatter', then: [{ show: 'mei', e: 'happy', at: 'center' }, { s: 'mei', e: 'happy', t: "Laksa, a movie, and nobody singing at me? You know me." }] },
@@ -191,6 +200,7 @@ window.CHAPTERS = window.CHAPTERS || {};
         ] },
         { hide: '*' },
         { bg: 'beach' },
+        WEAR('out'),
         { show: 'ren', e: 'smug', at: 'left' },
         { s: 'ren', e: 'smug', t: "East Coast, bro. Let's rate the girls walking past. Out of ten." },
         { choice: "The boys are waiting.", opts: [
@@ -199,6 +209,7 @@ window.CHAPTERS = window.CHAPTERS || {};
         ] },
         { hide: '*' },
         { bg: 'night' },
+        WEAR('out'),
         { n: "At a classmate's party, a girl you barely know dares you to kiss her while everyone counts down." },
         { choice: "You don't want to.", opts: [
           { t: "\"Nah, I'm good.\" Smile, and mean it.", fx: { self: 10 }, lesson: 'yourno', then: [{ mochi: "Your no counts. Same as anyone's.", e: 'happy' }] },
@@ -208,6 +219,7 @@ window.CHAPTERS = window.CHAPTERS || {};
       // CNY week: Chloe's stall rush, Ah Ma's flat, Joy's Sunday
       { if: (s) => !!s.flags.chloeMet, then: [
         { bg: 'hawker' },
+        WEAR('festive'),
         { show: 'chloe', e: 'neutral', at: 'center' },
         { n: "CNY eve. Chloe's family stall has a queue to the car park. On the counter, half-hidden under a tray: a letter from the bank with \"FINAL REMINDER\" in red." },
         { s: 'chloe', e: 'smug', t: "Don't look at that. We're fine. We don't need anyone's help." },
@@ -230,6 +242,7 @@ window.CHAPTERS = window.CHAPTERS || {};
         { hide: '*' },
       ] },
       { bg: 'dining' },
+      WEAR('festive'),
       { show: 'ama', e: 'happy', at: 'center' },
       { n: "Day two of CNY at Ah Ma's flat, one block away. The TV is on Channel 8, the pineapple tarts are on the good plate, and she has a red packet for you she definitely cannot afford." },
       { s: 'ama', e: 'happy', t: "Take, take! Study hard. Don't spend on nonsense." },
@@ -259,6 +272,7 @@ window.CHAPTERS = window.CHAPTERS || {};
       ] },
       { hide: '*' },
       { bg: 'voiddeck' },
+      WEAR('out'),
       { show: 'joy', e: 'happy', at: 'center' },
       { n: "Sunday afternoon at the void deck. Joy, who looks after Xin Yi's grandmother, is on her day off with a notebook full of diagrams." },
       { choice: "Joy waves. The notebook says \"Caregiving Course, Module 4\".", opts: [

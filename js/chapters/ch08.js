@@ -54,7 +54,7 @@ window.CHAPTERS = window.CHAPTERS || {};
     ] },
   ];
   const confessTo = (h) => [
-    { bg: 'fireworks' }, { bgm: 'romance' }, { n: H[h].intro }, { show: h, e: 'neutral', at: 'center' },
+    { bg: 'fireworks' }, WEAR('out'), { bgm: 'romance' }, { n: H[h].intro }, { show: h, e: 'neutral', at: 'center' },
     { choice: "How do you tell her?", opts: [
       { t: "Step away from the crowd. Keep it simple: \"I like you. No need to answer now.\"", fx: { [h]: 6, wisdom: 6 }, lesson: 'publicpressure', then: answer(h) },
       { t: "Get the whole class to chant her name, then confess in front of everyone.", fx: { [h]: -15 }, lesson: 'publicpressure', then: [
@@ -77,6 +77,7 @@ window.CHAPTERS = window.CHAPTERS || {};
     next: "Chapter 9 — After \"Yes\"", status: 'done',
     script: [
       { bg: 'park' },
+      WEAR('out'),
       { n: "9 August. Your class has staked out a patch of grass near Marina Bay since 4 PM. Everyone's in red. The uncle with the flag on his bicycle is here again." },
       { s: 'kenta', e: 'happy', at: 'center', t: "Bro. Tonight right? Fireworks. Confession. Romance. I hold your bag." },
       { talk: 'whylike' },
@@ -84,6 +85,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 
       // 8-1 why her
       { bg: 'night' },
+      WEAR('out'),
       { mochi: "Before the fireworks. Why her? Whoever \"her\" is.", e: 'neutral' },
       { choice: "Why her?", opts: [
         { t: "How she treats people. And who I am around her.", fx: { wisdom: 8, proj: -6 }, lesson: 'whyher', then: [
@@ -96,6 +98,7 @@ window.CHAPTERS = window.CHAPTERS || {};
 
       // 8-2 who
       { bg: 'fireworks' },
+      WEAR('out'),
       { n: "The first firework goes up over the bay. The whole crowd goes \"woooo\"." },
       { choice: "Who do you want to tell?", opts: [
         { t: "Hanis.", if: can('hina'), then: confessTo('hina') },
@@ -110,6 +113,7 @@ window.CHAPTERS = window.CHAPTERS || {};
         ] },
       ] },
       { bg: 'night' },
+      WEAR('out'),
       { n: "The last firework fades. Somewhere nearby, the bicycle uncle is singing Home. Off-key. Beautiful." },
       { chapterEnd: true },
     ],
