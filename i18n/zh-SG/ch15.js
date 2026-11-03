@@ -17,6 +17,8 @@ Object.assign(window.I18N['zh-SG'].text, {
   "Seven-day weeks from 5 AM. Same island, but you'll barely see each other.": "一个礼拜七天，早上五点开工。同一个岛，但你们几乎见不到面。",
   "I got it. Social work, with a six-month NGO placement in Chiang Mai.": "我拿到了。社工系，还有去清迈非政府组织实习六个月。",
   "Chiang Mai. Six months. A different country, one hour behind.": "清迈。六个月。另一个国家，时差一个小时。",
+  "I got it. Marine science in California, with a coral-restoration lab. And my dad's job moves to Seattle anyway, so… same coast. Kinda.": "我上了。加州的海洋科学系，有一个珊瑚复育实验室。反正我爸的工作也要调去西雅图，所以……同一个海岸。算是吧。",
+  "California. Fifteen hours behind. When she wakes up, you're having dinner.": "加州。比这里慢十五个小时。她起床的时候，你在吃晚餐。",
   "...Say something leh?": "……你说话啦？",
   "Her dream just came true, and part of it is far away.": "她的梦想成真了，而有一部分在很远的地方。",
   "\"I'll miss you like crazy. Go. We'll figure out the rest.\"": "“我会超级想你。去吧。其他的我们再一起想办法。”",

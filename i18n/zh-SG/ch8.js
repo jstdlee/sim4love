@@ -74,6 +74,10 @@ Object.assign(window.I18N['zh-SG'].text, {
   "Yes. ...Wait, let me say it properly. Yes. I had a counter-argument ready in case you didn't ask.": "好。……等等，让我好好说。好。我连反驳稿都准备好了，以防你不问。",
   "I like you a lot as a friend. Not like that. I'd rather be honest with you than polite.": "我很喜欢你这个朋友，但不是那种喜欢。我宁愿对你诚实，也不要只是客气。",
   "Preet": "普丽特",
+  "Ava.": "艾娃。",
+  "Ava is lying on the grass with her film camera pointed at the sky, waiting for the first firework. \"I have six shots left. No pressure.\"": "艾娃躺在草地上，胶片相机对着天空，等第一发烟花。“我只剩六张了。没压力。”",
+  "Yes. Okay, wow. ...Wait. So are we dating? Like, dating dating? Where I'm from you go on a few dates before you decide. Here you just decide? Okay. Yes anyway.": "好。哇，好。……等等。所以我们是在交往吗？就是，真的交往那种？在我那边，是先约会几次再决定的。你们这里是直接决定？好吧。还是好。",
+  "You're one of the best things about moving here. But I don't feel it like that. I'd rather tell you now than be nice about it later.": "你是我搬来这里之后遇到最好的事之一。但我对你不是那种感觉。我宁愿现在跟你说清楚，也不要以后才客客气气地拖着。",
   "\"Not now. This year is exams and {passion}.\"": "“现在不要。今年先顾考试和{passion}。”",
   "No girlfriend. But you kept your dignity. And me.": "没有女朋友。但你保住了尊严。还有我。",
   "The last firework fades. Somewhere nearby, the bicycle uncle is singing Home. Off-key. Beautiful.": "最后一颗烟火散了。附近那个脚车安哥在唱《Home》。走音，但很好听。"

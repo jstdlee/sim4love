@@ -237,5 +237,17 @@ Object.assign(window.I18N['zh-SG'].text, {
   "Some things aren't a matter of taste": "有些事不是品味的问题",
   "Lying that hides harm, fraud and breaking promises in silence aren't \"different values\". Keep an integrity floor, and notice who else keeps one.": "用来掩盖伤害的谎言、诈骗、默默打破承诺，都不是“不同的价值观”。守住诚信的底线，也留意身边还有谁守着它。",
   "Us vs. the problem": "我们 vs. 问题",
-  "Housing prices, career pressure, family expectations: many fights between couples are really outside pressures. Name the pressure together before blaming each other.": "房价、事业压力、家人的期望：很多情侣之间的争吵，其实是来自外界的压力。在互相指责之前，先一起说出那个压力是什么。"
+  "Housing prices, career pressure, family expectations: many fights between couples are really outside pressures. Name the pressure together before blaming each other.": "房价、事业压力、家人的期望：很多情侣之间的争吵，其实是来自外界的压力。在互相指责之前，先一起说出那个压力是什么。",
+  "Ask before you hug": "拥抱前先问",
+  "Some people hug everyone; some people don't like being touched at all. \"Can I hug you?\" costs two seconds, and \"no\" or \"high five instead\" are both fine answers. Asking is how warm people stay warm.": "有些人见谁都抱，有些人完全不喜欢被碰。“我可以抱你吗？”只要两秒钟，而“不要”或“改成击掌”都是很好的回答。先问，热情的人才能一直热情下去。",
+  "Different, not wrong": "不一样，不是不对",
+  "Tipping, splitting the bill, hugging hello, giving money to parents: families and countries do these differently. Ask \"how does it work where you grew up?\" before deciding someone is rude, cheap or strange.": "给小费、分账、见面拥抱、拿钱给父母：每个家庭、每个国家的做法都不一样。在认定对方没礼貌、小气或奇怪之前，先问一句：“你长大的地方是怎么做的？”",
+  "Invited, not borrowed": "是受邀，不是借来穿",
+  "Clothes like a baju kurung, a cheongsam or a sari carry meaning for the people who wear them. Ask what it means, and wear it when someone invites you to, the way they wear it. That is appreciation; a costume for photos is not.": "像马来装、旗袍或纱丽这样的衣服，对穿它们的人有特别的意义。先问它代表什么，等有人邀请你时再穿，而且照他们的方式穿。这才是欣赏；为了拍照而穿的戏服不是。",
+  "Say the goodbye out loud": "把再见说出口",
+  "Fading out feels gentler than ending, but it leaves the other person guessing for months. A real goodbye, or a real \"let's try to stay\", is kinder than going quiet and hoping the distance decides for you.": "慢慢消失感觉比正式结束温和，可是它会让对方猜上好几个月。一句真正的再见，或一句真正的“我们试着撑下去”，都比沉默、等距离替你做决定来得体贴。",
+  "Too cheap to be true": "便宜到不像真的",
+  "A $450 flight that normally costs $1,300, a condo room far below the market, an \"agent\" who only talks on Telegram and wants a deposit today: price and pressure together are the scam. Book on the airline's own site, view a room before paying, and check an agent on the CEA register.": "平常要$1,300的机票只要$450、远低于市价的公寓房间、只在Telegram上联络又要你今天就付订金的“中介”：价格加上催促，本身就是骗局。在航空公司官网订票，付钱前先看房，并在CEA名册上查中介。",
+  "Officials don't ask for money by phone": "官员不会打电话跟你要钱",
+  "Scammers pretend to be the police, an embassy or a bank, sometimes in your family's own language. Real officials never ask you to transfer money or share OTPs over a call. Hang up, find the real number yourself, and call back. ScamShield Helpline: 1799.": "骗子会假扮警察、大使馆或银行，有时还用你家人的母语。真正的官员绝对不会在电话里叫你转账或提供OTP。挂掉，自己找真正的号码，再打回去。防骗热线：1799。"
 });
