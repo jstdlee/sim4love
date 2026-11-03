@@ -25,6 +25,11 @@ How to read this:
 - **Think Deeper 🔍.** Seven partner talks are followed by an optional **Think Deeper** card (GAME_DESIGN §6.2): a
   mentor offers 2–3 balanced lenses (structural/economic, personal responsibility, culture/family) on a big-life topic,
   with Singapore context, then a reflection prompt. No grading. Chapters: 4, 9, 14, 15, 16, 18, 20 (table at the end).
+- **Cast layer.** Every chapter also feeds the character systems in [CAST_BIBLE.md](CAST_BIBLE.md) §5: per-person
+  Affection and Trust, hidden "?" radar axes revealed by story beats, flaws (hidden → seen → growing → resolved),
+  first-impression judgements that are struck through when proved unfair, optional neglect / juggling / gossip
+  (Settings toggle), mid-scene toasts and Mochi's end-of-chapter "What changed" recap. Chloe (`chloe`), Preet
+  (`preet`), Ah Ma (`ama`), Joy and Natalie have beats from Ch1 onward; Chloe and Preet are confessable in Ch8.
 - **Partner talks and variants.** Each chapter also has one **partner talk** (a value discussion with genuinely
   opposing views) and reuses locations with different lines per visit. Profiles, talk template, variant pools and
   the per-chapter topic map: [VALUE_PROFILES.md](VALUE_PROFILES.md). Per-chapter art needs: the table at the end.

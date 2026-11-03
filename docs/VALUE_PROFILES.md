@@ -75,6 +75,12 @@ Display names come from the i18n `names` table; ids stay (`hina`, `mio`, `kaede`
 | **Typical clash with the player** | money for her family vs. your savings; she wants to talk *now* | she needs space when you need answers; kids | she ranks career above everything, you may not | spending, honesty, flakiness | your urge to "rescue" her with money |
 | **Growth arc** | learns that saying yes to every family request burns her out | learns to say difficult things out loud, including to her parents | learns to rest and to cook one meal | learns to say no, keep promises, drop white lies | rebuilds honesty; testifies against Mr. G |
 
+**Chloe Goh (`chloe`) and Harpreet "Preet" Kaur (`preet`)** are full routes too (Ch8 confession, true / normal /
+kind-goodbye endings). Their value rows, and the late-route profile for Natalie (`nana`, *A Slow Start* epilogue),
+live in [CAST_BIBLE.md](CAST_BIBLE.md) §3 with the 7-axis character radar; this table keeps the original five.
+The radar (Intellect, Warmth, Compassion, Gentleness, Generosity, Sensitivity, Fit) is a separate layer from these
+value axes: value axes drive talks and endings, the radar is what the player *learns* about a person (CAST_BIBLE §5).
+
 ## 4. Supporting cast profiles
 
 Every supporting character has a profile so they can argue a side in group talks and give the player
@@ -96,6 +102,7 @@ contrasting advice. They are not mouthpieces: each has a strength and a blind sp
 | **Natalie Rodrigues** (`nana`) | Friend of friends (Part V) | spend +1, learning +1 | acts on impulse | impulse vs. getting to know someone (Ch17) |
 | **Alpha Kai** | Online "guru" | — (greed) | sells contempt as confidence | greed / materialism (not a valid side) |
 | **"Mr. G"** (`goto`) | Faceless scam ring boss | — (fraud) | — | fraud (not a valid side) |
+| **Ah Ma** (`ama`, grandmother) | One block away; does her phone "homework" | family +2, spend −2 | trusts official-sounding voices (Ch19 scam call) | frugality from her side; eldercare (Ch16) |
 
 Kai and Mr. G are the only characters whose positions are never presented as legitimate: they are fraud and
 contempt, and the game says so.

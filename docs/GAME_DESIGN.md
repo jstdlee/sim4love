@@ -138,7 +138,7 @@ Routes available after Ch8: `hina`, `mio`, `kaede`, `yuna` (Elise only if the pl
 | ID | Name (display) | Role | Lesson function |
 |---|---|---|---|
 | `mochi` | **Mochi** | Love-God-in-training cat (once a void-deck community cat) living in the phone. Narrator, coach, rewinds time | Names the lesson; comic relief |
-| `kenta` | **Haziq Ismail** ("Haziq") | Best friend, Malay Singaporean, loud, loyal; wants a big family one day | Bro advice — sometimes terrible ("don't reply for 3 days"), sometimes wise; friendships matter |
+| `kenta` | **Muhammad Haziq bin Ismail** ("Haziq") | Best friend, Malay Singaporean, loud, loyal; wants a big family one day | Bro advice — sometimes terrible ("don't reply for 3 days"), sometimes wise; friendships matter |
 | `kai` | **"Alpha" Kai** | Online dating-guru streamer selling a course (online persona, no nationality) | The *player-side* temptation: negging, control, "never accept no". His tactics always backfire; exposed in Ch15 |
 | `ogawa` | **Uncle Ong** | Kind kopitiam-café owner, divorced, plays Chinese chess, studying accounting part-time at 52 | Mentor; models secure, reflective masculinity; normalises asking for help and lifelong learning |
 | `mei` | **Mei** | Player's older sister (the player's family is Chinese Singaporean: Mom, Dad, Mei) | Reality checks; family support |

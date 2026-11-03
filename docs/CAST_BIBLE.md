@@ -610,7 +610,7 @@ Trust works the same way for everyone.
 
 | | |
 |---|---|
-| Names | EN *Haziq* / *Muhammad Haziq* (bin Ismail) · zh *哈齐克* / *穆罕默德·哈齐克* |
+| Names | EN *Haziq* / *Muhammad Haziq bin Ismail* · zh *哈齐克* / *穆罕默德·哈齐克·本·伊斯迈尔* |
 | Age | 16 at Ch1 |
 | Background | Malay Singaporean, youngest of four, two blocks away. Basketball captain. Brilliant with his nephews. Later NS section mate. |
 | Role | Best friend; the player's mirror for every bad idea the internet sells boys |
@@ -1290,12 +1290,15 @@ before the other heroines' extra outfits, since they have no art at all.
    VALUE_PROFILES §3 entries and partner-talk lines (generic fallbacks work until then).
 6. Update CHAPTERS.md, VALUE_PROFILES.md and GAME_DESIGN §4 to point to this bible.
 
-**Continuity notes (found while writing; not fixed in code here):**
-- `js/data/think.js`, card `children`: the hook gives Mei a baby, which contradicts her Ch15 internship. Proposed
+**Status (Nov 2026):** items 1–6 are implemented (`js/data/cast.js`, `js/cast-sim.js`, `js/data/judgements.js`, the Cast
+tab and profile in `js/engine.js`; tests in `tests/validate.js`, `tests/softlock.js` and `tests/playthrough.js`).
+
+**Continuity notes (found while writing; marked where fixed):**
+- (Fixed) `js/data/think.js`, card `children`: the hook gave Mei a baby, which contradicts her Ch15 internship. Proposed
   text is in §1.2.
-- Haziq's surname: `Muhammad Haziq` (i18n) versus `Haziq Ismail` (GAME_DESIGN §4). Use `Muhammad Haziq bin Ismail`.
+- (Fixed) Haziq's surname: `Muhammad Haziq` (i18n) versus `Haziq Ismail` (GAME_DESIGN §4). Use `Muhammad Haziq bin Ismail`.
 - Marcus and Ryan speak as JC classmates in `ch5`, `ch9` and `ch12`, but GAME_DESIGN introduces Ryan only in NS.
   This bible follows the code: both are JC classmates, and Ryan is also in the player's NS unit.
-- `joy` has a sprite but no lines yet; her beats are all planned.
-- Art prompts list Hanis as "17yo" and Kavya as "18yo"; this bible sets 16 and 17 at Ch1 (they age through the
+- (Fixed) `joy` had a sprite but no lines; her beats are now in Ch12, 14, 16 and 18.
+- (Fixed) Art prompts listed Hanis as "17yo" and Kavya as "18yo"; this bible sets 16 and 17 at Ch1 (they age through the
   story). The prompts should say "late teens" and be checked per Part.
