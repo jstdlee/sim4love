@@ -77,6 +77,7 @@ function safeNext(raw, origin) {
 
 function looksLikeNavigation(request, url) {
   if (request.method !== 'GET' && request.method !== 'HEAD') return false;
+  if (url.pathname === PLAY_PATH) return true; // always an HTML page; some clients rewrite Sec-Fetch-Mode
   const mode = request.headers.get('Sec-Fetch-Mode');
   if (mode) return mode === 'navigate';
   const accept = request.headers.get('Accept') || '';
