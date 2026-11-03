@@ -17,6 +17,8 @@ Object.assign(window.I18N['zh-SG'].text, {
   "Saturday, 4:40 PM. You wake up from a nap. Six missed calls. You promised to come to her reading at the library. It started at three.": "礼拜六，下午四点四十。你午睡醒来。六通未接来电。你答应要去她在图书馆的朗读会。三点就开始了。",
   "Saturday, 4:40 PM. You wake up from a nap. Six missed calls. You promised to come to her relay final. It started at three.": "礼拜六，下午四点四十。你午睡醒来。六通未接来电。你答应要去她的接力决赛。三点就开始了。",
   "Saturday, 4:40 PM. You wake up from a nap. Six missed calls. You promised to come to her showcase dress rehearsal. It started at three.": "礼拜六，下午四点四十。你午睡醒来。六通未接来电。你答应要去她汇演的彩排。三点就开始了。",
+  "Saturday, 4:40 PM. You wake up from a nap. Six missed calls. You promised to come to her stall at the youth enterprise fair. It started at three.": "礼拜六，下午四点四十。你午睡醒来。六通未接来电。你答应要去她在青年创业市集的摊位。三点就开始了。",
+  "Saturday, 4:40 PM. You wake up from a nap. Six missed calls. You promised to come to her debate prize-giving. It started at three.": "礼拜六，下午四点四十。你午睡醒来。六通未接来电。你答应要去她的辩论颁奖礼。三点就开始了。",
   "you said you'd come.": "你说你会来的。",
   "You messed up. How do you apologise?": "你搞砸了。怎么道歉？",
   "Properly: say what you did, own it, no \"but\", ask how to make it right.": "好好道歉：讲清楚你做了什么、承认、不加“可是”，问怎么弥补。",

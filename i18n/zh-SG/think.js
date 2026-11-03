@@ -47,7 +47,7 @@ Object.assign(window.I18N['zh-SG'].text, {
   "Ageing parents are a family project, not a test of which partner loves their side more.": "父母年老是一个家庭项目，不是用来考验哪一方更爱自己家人的测试。",
   "What did your family teach you about caring for elders?": "关于照顾长辈，你的家庭教了你什么？",
   "Who pays for a child?": "养一个孩子，谁来付？",
-  "Mei, with her baby on her hip: \"Everyone asks when we're having the second one. Nobody asks who's going to sleep.\"": "小美抱着她的宝宝说：“大家都在问我们什么时候生第二个。没有人问谁来熬夜。”",
+  "Mei, holding her colleague's newborn at a full-month party: \"Everyone asks when they're having the second one. Nobody asks who's going to sleep.\"": "小美在同事宝宝的满月宴上，抱着那个新生儿说：“大家都在问他们什么时候生第二个。没有人问谁来熬夜。”",
   "Much of the cost of raising children is unpaid time: night feeds, sick days, school runs. When budgets and leave are tight, it turns into \"who sacrifices?\" fights between partners.": "养育孩子的很多成本都是无偿的时间：半夜喂奶、孩子生病的日子、接送上下学。当预算和假期都很紧的时候，就会变成伴侣之间“谁来牺牲？”的争吵。",
   "Readiness is a shared choice: money, health, where you will live, who takes leave, and whether you both want it at all. Talking about it early is part of loving someone.": "准备好了没有，是一个共同的选择：钱、健康、住在哪里、谁请假，以及你们两个到底想不想要。早点谈这件事，就是爱一个人的一部分。",
   "Relatives may ask \"when got baby?\" at every reunion dinner. Their excitement is often love, but the decision belongs to the couple.": "亲戚可能在每一次团圆饭上都问“几时生孩子？”他们的兴奋往往是出于爱，但决定权在这对夫妻手上。",

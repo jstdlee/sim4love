@@ -13,6 +13,10 @@ Object.assign(window.I18N['zh-SG'].text, {
   "Twelve time zones. She leaves in August.": "时差十二个小时。她八月就走。",
   "I got it. I got into the dance academy in Seoul.": "我上了。首尔那间舞蹈学院我上了。",
   "Seoul. Two years. Six hours away.": "首尔。两年。飞六个小时。",
+  "I got it. The incubator kiosk at the new hawker centre, with a starter loan. My own stall.": "我拿到了。新小贩中心的创业孵化摊位，还有启动贷款。我自己的摊位。",
+  "Seven-day weeks from 5 AM. Same island, but you'll barely see each other.": "一个礼拜七天，早上五点开工。同一个岛，但你们几乎见不到面。",
+  "I got it. Social work, with a six-month NGO placement in Chiang Mai.": "我拿到了。社工系，还有去清迈非政府组织实习六个月。",
+  "Chiang Mai. Six months. A different country, one hour behind.": "清迈。六个月。另一个国家，时差一个小时。",
   "...Say something leh?": "……你说话啦？",
   "Her dream just came true, and part of it is far away.": "她的梦想成真了，而有一部分在很远的地方。",
   "\"I'll miss you like crazy. Go. We'll figure out the rest.\"": "“我会超级想你。去吧。其他的我们再一起想办法。”",
@@ -72,5 +76,6 @@ Object.assign(window.I18N['zh-SG'].text, {
   "\"Studying is just a paper chase. I'm done after this.\"": "“读书就是在追一张纸。考完我就不读了。”",
   "You see Hanis off at the MRT for her first hospital placement week. It's not the airport, but it feels like one.": "你在地铁站送哈妮丝去第一个医院实习周。不是机场，但感觉很像。",
   "Changi, Terminal 3. Her family, your family, way too many snacks. A long hug at the gate.": "樟宜机场第三搭客大厦。她的家人、你的家人、多到夸张的零食。登机口前长长的一个拥抱。",
+  "Opening day at Chloe's kiosk, 5 AM. You carry trays and watch her sell the first box. It's not the airport, but it feels like one.": "可儿的摊位开张日，早上五点。你搬托盘，看着她卖出第一盒。不是机场，但感觉很像。",
   "Sunday calls. Goodnight texts. And you send me your first recording.": "礼拜天通电话。每晚传晚安。还有，你第一个录音要传给我。"
 });

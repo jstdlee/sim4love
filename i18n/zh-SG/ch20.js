@@ -61,6 +61,7 @@ Object.assign(window.I18N['zh-SG'].text, {
   "Fireworks last eight seconds. Then someone has to sweep up. Hope you like sweeping.": "烟火只有八秒。然后总要有人扫地。希望你也喜欢扫地。",
   "\"Don't know yet. Ask me again in ten years.\"": "“还不知道。十年后再问我。”",
   "Most honest answer I've ever had. Keep asking yourself.": "我听过最诚实的答案。继续问自己。",
+  "Ah Ma now help teach the CC phone class. Advanced level. Got waiting list, you know.": "阿嬷现在在民众俱乐部帮忙教手机班。高级班。还要排队的，你知道吗。",
   "Two years later.": "两年后。",
   "That's the end of my guide, rookie. Not the end of your story. Go live it.": "我的指南到这里结束了，菜鸟。你的故事还没。去活吧。"
 });

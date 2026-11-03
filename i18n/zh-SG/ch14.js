@@ -36,6 +36,8 @@ Object.assign(window.I18N['zh-SG'].text, {
   "Her parents saw her mid-year chemistry grade. Now every dinner is medicine-or-nothing. Xin Yi hasn't written a word of her own in a month.": "她爸妈看到她年中考的化学成绩。现在每顿晚饭都是“不读医就什么都不是”。欣怡已经一个月没写过一个属于自己的字。",
   "She tore a hamstring two weeks before the SEA Games selection trial. Her parents are overseas, and her aunt keeps saying it's \"a sign to focus on studies\".": "东运会选拔赛前两个礼拜，她拉伤了腿后肌。爸妈在国外，阿姨一直说这是“老天叫你专心读书”。",
   "A clip of hers went viral for the wrong reasons. The comments are vicious, her mum is doing double shifts, and Elise has stopped streaming.": "她的一段影片因为不好的原因爆红了。留言很恶毒，妈妈在轮两班，伊莉丝已经停播了。",
+  "The supplier stopped giving her dad credit. Chloe has been doing the 5 AM prep before school every day, and yesterday she fell asleep standing at the steamer.": "供应商不再让她爸爸赊账了。可儿每天上学前都在做清晨五点的备料，昨天她站在蒸笼前睡着了。",
+  "She said yes to everything again: debate camp, CC tuition, peer-educator training, two projects. Last night she cried over a printer jam and then apologised to the printer.": "她又什么都答应了：辩论营、民众俱乐部补习、朋辈辅导员培训、两个作业。昨晚她因为打印机卡纸哭了，然后还跟打印机道歉。",
   "I'm so tired. Of everything. Sorry. I'm being dramatic.": "我好累。什么都累。对不起。我好像很夸张。",
   "She's crying quietly on the platform.": "她在月台上安静地哭。",
   "Sit with her. Listen. \"You don't have to be okay. Want to see the school counsellor? I'll walk you there.\"": "陪她坐着。听她说。“你不用硬撑。要不要去见学校辅导员？我陪你走过去。”",
@@ -105,5 +107,12 @@ Object.assign(window.I18N['zh-SG'].text, {
   "\"Take turns, and keep it fair over the month.\"": "“轮流请，一个月下来公平就好。”",
   "\"Whoever has more pays. That's what partners do.\"": "“谁钱多谁付。情侣就是这样。”",
   "\"It's literally two dollars. Don't make it a thing.\"": "“才两块钱而已。不用搞得那么大。”",
+  "Eh, you're Xin Yi's classmate, right? She hasn't slept properly in a week. Light still on at 3 AM. Her parents think it's studying. I don't think it's studying.": "欸，你是欣怡的同学对吧？她一个礼拜都没好好睡了。凌晨三点灯还亮着。她爸妈以为她在读书。我不觉得是在读书。",
+  "She noticed Xin Yi wasn't sleeping before anyone else did.": "她比任何人都早发现欣怡没在睡觉。",
+  "Joy looks worried.": "乔伊看起来很担心。",
+  "Send Xin Yi a no-pressure check-in, and thank Joy for noticing.": "给欣怡发一个没有压力的问候，也谢谢乔伊发现了。",
+  "hey. no need to reply. just: you ok? 🍵": "嘿。不用回。只是想问：你还好吗？🍵",
+  "Thank you. Sometimes the aunty sees things. Nobody asks the aunty.": "谢谢你。有时候安娣会看到一些事情。只是没人问安娣。",
+  "\"Not really my business.\"": "“不太关我的事。”",
   "Eh. You look like a zombie. Whatever happened this year, you're still here, and you're nicer than last year. Now eat something.": "诶。你看起来像僵尸。不管今年发生什么，你还在，而且比去年好相处。现在去吃点东西。"
 });

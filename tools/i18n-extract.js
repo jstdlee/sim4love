@@ -3,7 +3,7 @@
    for coverage. Usage: node tools/i18n-extract.js [--json] → prints the strings (or a JSON array). */
 const { expand } = require('../tests/load.js');
 const TEXT_KEYS = new Set(['t', 'n', 'mochi', 'me', 'think', 'choice', 'title', 'subtitle', 'part', 'next', 'text', 'hook', 'question',
-  'reframe', 'share', 'contempt', 'cave', 'prompt', 'stancePrompt', 'type', 'label', 'verb', 'lines', 'phone', 'q', 'a', 'answer', 'body', 'note']);
+  'reframe', 'share', 'contempt', 'cave', 'prompt', 'stancePrompt', 'type', 'label', 'verb', 'lines', 'phone', 'q', 'a', 'answer', 'body', 'note', 'why', 'strike']);
 const NAME_KEYS = new Set(['s', 'txt']);
 function collect(grouped) {
   const seen = new Set();
@@ -31,6 +31,10 @@ function collect(grouped) {
   group('lessons'); walk(window.LESSONS, 'lessons');
   group('think'); walk(window.THINK, 'think');
   group('endings'); walk(window.ENDINGS, 'endings');
+  group('cast'); // Cast tab, profiles, recap reasons (js/data/judgements.js, js/cast-sim.js)
+  const all = (o) => { if (typeof o === 'string') add(o); else if (o && typeof o === 'object') Object.values(o).forEach(all); };
+  for (const j of Object.values(window.JUDGEMENTS || {})) { add(j.t); add(j.strike); }
+  all(window.CAST_TEXT); all((window.CastSim || {}).WHY);
   group('misc'); walk(window.ACHIEVEMENTS, 'ach'); walk(window.PASSIONS, 'passions');
   for (const r of Object.values(window.RESOURCES || {})) { add(r.title); r.lines.forEach(add); }
   return grouped ? groups.filter((g) => g.strings.length) : [...seen];
