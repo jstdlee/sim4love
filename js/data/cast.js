@@ -1,0 +1,101 @@
+/* The 20 main characters: radar (first impression -> true), flaws, neglect sensitivity, circles and outfits.
+   Source of truth: docs/CAST_BIBLE.md §3-5. Static data only; the state and rules live in js/cast-sim.js.
+   Axes: intellect, warmth, compassion, gentleness, generosity, sensitivity (+ fit, computed from VALUES).
+   rel: 'romance' | 'bond' | 'friend' | 'family' | 'mentor' (sets the Affection bar label).
+   avail: chapters they can be met in; neglect only counts in an avail chapter in which they were on stage.
+   story: axes the default story reveals, and the chapter it happens in (used to migrate older saves). */
+window.CAST_AXES = ['intellect', 'warmth', 'compassion', 'gentleness', 'generosity', 'sensitivity'];
+window.CAST_CIRCLES = ['school', 'estate', 'online', 'ns', 'family', 'art', 'track', 'work'];
+(function () {
+  const R = (a, b, c, d, e, f) => ({ intellect: a, warmth: b, compassion: c, gentleness: d, generosity: e, sensitivity: f });
+  const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
+  window.CAST = {
+    // ---------- heroines ----------
+    hina: { heroine: true, route: true, rel: 'romance', circles: ['estate', 'school'], neglect: 3, avail: range(1, 20),
+      first: R(55, 80, 70, 60, 70, 40), radar: R(72, 85, 88, 55, 75, 80),
+      flaws: ['hot-tempered', 'stubborn', 'yes-at-home', 'teases-to-hide'], outfits: ['uniform', 'casual', 'cca', 'festive'],
+      story: { gentleness: 2, compassion: 5 } },
+    mio: { heroine: true, route: true, rel: 'romance', circles: ['school'], neglect: 2, avail: range(1, 20),
+      first: R(70, 55, 65, 85, 60, 75), radar: R(90, 60, 75, 65, 55, 85),
+      flaws: ['avoids-conflict', 'says-it-on-paper', 'perfectionist', 'obeys-to-keep-peace'], outfits: ['uniform', 'casual', 'camp', 'festive'],
+      story: { gentleness: 5 } },
+    kaede: { heroine: true, route: true, rel: 'romance', circles: ['school', 'track'], neglect: 1, avail: range(1, 20),
+      first: R(60, 35, 45, 30, 50, 30), radar: R(75, 70, 65, 50, 60, 70),
+      flaws: ['hot-and-cold', 'competitive', 'wont-rest', 'jealous'], outfits: ['uniform', 'track', 'casual', 'festive'],
+      story: { warmth: 5, compassion: 6 } },
+    yuna: { heroine: true, route: true, rel: 'romance', circles: ['school', 'online'], neglect: 2, avail: range(1, 20),
+      first: R(45, 90, 60, 85, 70, 50), radar: R(65, 70, 80, 70, 90, 75),
+      flaws: ['white-lies', 'flaky', 'overspends', 'keeps-backups', 'cant-say-no'], outfits: ['uniform', 'stage', 'home', 'festive', 'dance'],
+      story: { warmth: 5 } },
+    rei: { heroine: true, route: false, rel: 'bond', circles: ['online'], neglect: 1, avail: [1, 2, 3, 6, 14, 15, 19, 20],
+      first: R(60, 98, 90, 95, 85, 50), radar: R(85, 55, 70, 60, 55, 80),
+      flaws: ['white-lies', 'self-blame', 'distrusts-kindness', 'isolates'], outfits: ['persona', 'herself', 'student', 'talk'],
+      story: { warmth: 3, gentleness: 3, generosity: 3, intellect: 15, compassion: 19 } },
+    chloe: { heroine: true, route: true, rel: 'romance', circles: ['estate', 'work'], neglect: 1, avail: [4, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+      first: R(60, 30, 35, 40, 20, 45), radar: R(82, 70, 80, 55, 65, 60),
+      flaws: ['keeps-score', 'transactional', 'workaholic', 'proud', 'ambition-blind-spot'], outfits: ['casual', 'stall', 'pitch', 'festive'],
+      story: { warmth: 9 } },
+    preet: { heroine: true, route: true, rel: 'romance', circles: ['school'], neglect: 2, gossipBlock: true, avail: [1, 3, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+      first: R(85, 35, 50, 25, 55, 40), radar: R(88, 75, 90, 60, 80, 75),
+      flaws: ['judgemental', 'lectures', 'overcommits', 'cant-switch-off'], outfits: ['uniform', 'volunteer', 'run', 'festive'],
+      story: { intellect: 1, compassion: 13 } },
+    nana: { heroine: true, route: 'late', rel: 'romance', circles: ['art'], neglect: 1, avail: [17, 18, 19, 20],
+      first: R(55, 80, 50, 45, 60, 35), radar: R(75, 70, 70, 75, 60, 80),
+      flaws: ['impulsive', 'ghosts-when-overwhelmed', 'says-yes-fast', 'hides-shame'], outfits: ['casual', 'studio', 'weekend', 'occasion'],
+      story: { compassion: 19 } },
+    // ---------- the twelve others ----------
+    kenta: { rel: 'friend', circles: ['school', 'ns', 'estate'], neglect: 2, avail: range(1, 20),
+      first: R(40, 85, 60, 50, 80, 40), radar: R(60, 90, 80, 70, 85, 70),
+      flaws: ['gullible', 'impulse-buyer', 'overshares', 'bad-bro-advice'], outfits: ['uniform', 'sport', 'festive', 'ns'],
+      story: { compassion: 13 } },
+    mei: { rel: 'family', circles: ['family'], neglect: 1, avail: [3, 4, 10, 12, 14, 15, 16, 18, 20],
+      first: R(80, 50, 55, 40, 50, 35), radar: R(85, 75, 80, 55, 75, 65),
+      flaws: ['carries-it-alone', 'bossy', 'hides-stress'], outfits: ['casual', 'work', 'home'],
+      story: { sensitivity: 15 } },
+    mom: { rel: 'family', circles: ['family', 'estate'], neglect: 1, avail: [4, 12, 16, 20],
+      first: R(55, 70, 70, 60, 70, 50), radar: R(70, 85, 90, 70, 85, 75),
+      flaws: ['worries-out-loud', 'compares', 'self-sacrificing'], outfits: ['home', 'work', 'festive'],
+      story: { compassion: 16 } },
+    dad: { rel: 'family', circles: ['family'], neglect: 0, avail: [4, 10, 15, 16, 20],
+      first: R(55, 40, 45, 35, 60, 30), radar: R(70, 75, 70, 60, 80, 70),
+      flaws: ['saves-face', 'dismisses-dreams', 'stubborn'], outfits: ['work', 'home', 'weekend', 'occasion'],
+      story: { generosity: 4, sensitivity: 15 } },
+    ama: { rel: 'family', circles: ['family', 'estate'], neglect: 2, avail: [4, 12, 16, 19, 20],
+      first: R(30, 70, 70, 60, 60, 50), radar: R(70, 85, 80, 55, 85, 70),
+      flaws: ['refuses-help', 'trusts-official-voices', 'worries-about-money'], outfits: ['home', 'class', 'dance', 'festive'],
+      story: { generosity: 12, sensitivity: 16 } },
+    ogawa: { rel: 'mentor', circles: ['work'], neglect: 0, avail: [4, 10, 11, 15, 20],
+      first: R(70, 70, 70, 75, 70, 40), radar: R(80, 70, 75, 70, 80, 75),
+      flaws: ['avoids-feelings', 'unasked-advice', 'workaholic-past'], outfits: ['apron', 'casual', 'occasion'],
+      story: {} },
+    farah: { rel: 'mentor', circles: ['school'], neglect: 0, avail: [1, 5, 9, 14, 15],
+      first: R(85, 40, 55, 45, 50, 40), radar: R(90, 80, 85, 75, 70, 70),
+      flaws: ['over-prepares', 'cant-switch-off', 'takes-it-personally'], outfits: ['work', 'camp', 'occasion'],
+      story: { warmth: 5 } },
+    nurse: { rel: 'mentor', circles: ['school'], neglect: 0, avail: [5, 13, 14, 18],
+      first: R(80, 35, 60, 40, 50, 40), radar: R(85, 70, 85, 65, 65, 60),
+      flaws: ['blunt', 'overworked'], outfits: ['scrubs', 'casual', 'clinic'],
+      story: {} },
+    joy: { rel: 'friend', circles: ['estate'], neglect: 0, avail: [12, 14, 16, 18],
+      first: R(40, 70, 70, 70, 70, 50), radar: R(75, 85, 90, 80, 75, 80),
+      flaws: ['puts-everyone-first', 'cant-say-no', 'hides-homesickness'], outfits: ['work', 'sunday', 'festive'],
+      story: { compassion: 16 } },
+    takumi: { rel: 'friend', circles: ['school'], neglect: 0, avail: [5, 6, 9, 14, 15],
+      first: R(80, 70, 50, 60, 65, 30), radar: R(70, 45, 55, 55, 50, 70),
+      flaws: ['credit-taker', 'saves-face', 'flaky', 'copies'], outfits: ['uniform', 'casual', 'blazer'],
+      story: { warmth: 6, generosity: 6 } },
+    ren: { rel: 'friend', circles: ['school', 'ns'], neglect: 1, avail: [5, 9, 12, 16, 17, 19],
+      first: R(55, 60, 35, 40, 70, 25), radar: R(60, 55, 55, 45, 50, 65),
+      flaws: ['crude-jokes', 'borrows-never-repays', 'image-obsessed', 'peer-pressure'], outfits: ['uniform', 'casual', 'ns'],
+      story: { generosity: 16 } },
+    saki: { rel: 'friend', circles: ['art'], neglect: 0, avail: [17, 19, 20],
+      first: R(50, 70, 55, 55, 55, 40), radar: R(70, 80, 75, 70, 70, 65),
+      flaws: ['people-pleaser', 'trusts-too-fast'], outfits: ['casual', 'gig', 'occasion'],
+      story: { intellect: 19, gentleness: 19 } },
+  };
+  // Flaw tags first become visible ('seen') in the chapter shown here; story beats can reveal them earlier.
+  window.CAST_FLAW_CH = {
+    'hina:hot-tempered': 2, 'hina:yes-at-home': 12, 'mio:avoids-conflict': 5, 'mio:obeys-to-keep-peace': 12, 'kaede:hot-and-cold': 1,
+    'kaede:jealous': 10, 'yuna:white-lies': 6, 'yuna:overspends': 4, 'rei:white-lies': 3, 'kenta:gullible': 4,
+  };
+})();

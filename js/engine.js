@@ -16,16 +16,28 @@
  *   {flag:'name'} | {flag:{a:true,b:2}}   set flags silently
  *   {fx:{...}}                            apply stat changes outside a choice (shows toasts)
  *   {val:{spend:-2}}                      set the player's stance on a value axis (S.values)
- *   {route:'hina'|'mio'|'kaede'|'yuna'|'solo'}  lock the relationship route, trust >= 20
+ *   {route:'hina'|'mio'|'kaede'|'yuna'|'chloe'|'preet'|'solo'}  lock the route; trust starts from her cast Trust
  *   {ach:'id'} {ending:'id'} {resource:'id'}
  *   {variant:'loc.slot'}                  play one authored variant from a pool (js/data/variants)
  *   {talk:'topic', with:'kaede'}          partner talk (expanded at compile time from js/data/talks.js)
  *   {with:'kaede'|'@route'}               set who the current talk is with (speaker '@talk')
  *   {deeper:'topic'}                      optional Think Deeper card (js/data/think.js); never blocks
+ * Cast commands (js/cast-sim.js, docs/CAST_BIBLE.md §5). Each may carry why:'reason' for Mochi's recap:
+ *   {reveal:'chloe.compassion'} | {reveal:{chloe:['compassion','warmth']}}   show a hidden radar axis
+ *   {grow:{chloe:{gentleness:4}}}         a character changes (capped at ±20 per axis)
+ *   {flaw:{chloe:{guarded:'seen'}}}       flaw state: hidden -> seen -> growing -> resolved (forward only)
+ *   {judge:{who:'chloe', id:'chloe.onlymoney', verdict:'unfair'}}   log a judgement (js/data/judgements.js)
+ *   {contact:'ama'}                       count as real time with someone this chapter (stops neglect)
+ *   {outfit:{hina:'festive'}}             outfit for the rest of the scene (also o:'x' on show/s lines);
+ *                                         falls back to the default sprite when the art does not exist
  *
+
  * fx keys: heroine ids, kenta, trust, wisdom (Love IQ), self (Self-respect), proj (Rose Filter),
  *          goal, passion, health, wallet (Your Life, 0-100), cash (SGD, also nudges wallet),
- *          '@route' (route heroine), '@talk' (current talk partner).
+ *          '@route' (route heroine), '@talk' (current talk partner),
+ *          'trust.<id>' / 'aff.<id>' (any cast member's Trust / Affection, js/data/cast.js).
+ * Option extras: sig:'romance:chloe' (a romantic signal), clarity:'chloe' (you were clear about where things
+ *          stand), lieTo:'id', honestHard:'id', id:'6-2' (source id shown in the recap).
  * Option `rose:true`: a clear-eyed option that greys out while the Rose Filter is above 60.
  * Speakers: '@route' = route heroine; '@talk' = current talk partner.
  * Text tokens: {name} {her} {n:id} {full:id} {passion} {cash}.
@@ -34,7 +46,8 @@
   'use strict';
   const $ = (q) => document.querySelector(q);
   const SAVE_KEY = 'sim4love.save.v2';
-  const HEROINES = ['hina', 'mio', 'kaede', 'yuna'];
+  const HEROINES = ['hina', 'mio', 'kaede', 'yuna', 'chloe', 'preet'];
+  const CS = () => window.CastSim;
   const LIFE_KEYS = ['goal', 'passion', 'health', 'wallet'];
   const AXES = ['spend', 'gifts', 'family', 'career', 'children', 'childEdu', 'learning', 'friends', 'lending', 'conflict', 'honesty', 'promises', 'home'];
 
@@ -72,6 +85,7 @@
 
   const STAT_META = {
     hina: { icon: 'heart' }, mio: { icon: 'heart' }, kaede: { icon: 'heart' }, yuna: { icon: 'heart' },
+    chloe: { icon: 'heart' }, preet: { icon: 'heart' },
     rei: { icon: 'heart', hidden: true }, kenta: { icon: 'heart', quiet: true },
     trust: { label: 'stat.trust', icon: 'link', routeOnly: true },
     wisdom: { label: 'stat.wisdom', icon: 'spark' },
@@ -86,8 +100,9 @@
   const statLabel = (k) => STAT_META[k] && STAT_META[k].label ? ui(STAT_META[k].label) : nameOf(k);
 
   // ---------- compile nested script into a flat program ----------
-  function compile(list) {
+  function compile(list, chN) {
     const out = [];
+    let k = 0;
     function emit(arr) {
       for (const cmd of arr) {
         if (cmd.talk) { emit(window.SIM.talk(cmd.talk, cmd.with)); continue; }
@@ -95,9 +110,12 @@
           const c = { choice: cmd.choice, opts: [] };
           out.push(c);
           const ends = [];
+          const src = cmd.id || `${chN || '?'}-c${++k}`;
           for (const o of cmd.opts) {
-            c.opts.push({ t: o.t, fx: o.fx, val: o.val, lesson: o.lesson, flag: o.flag, ach: o.ach, show: o.if, rose: o.rose, pc: out.length });
+            c.opts.push({ t: o.t, fx: o.fx, val: o.val, lesson: o.lesson, flag: o.flag, ach: o.ach, show: o.if, rose: o.rose, pc: out.length,
+              sig: o.sig, clarity: o.clarity, lieTo: o.lieTo, honestHard: o.honestHard, src: o.id || src });
             emit(o.then || []);
+            out.push({ _k: -1 }); // end of this option's consequences: recap rows after this are "story" again
             const j = { jmp: -1 }; out.push(j); ends.push(j);
           }
           ends.forEach(j => (j.jmp = out.length));
@@ -115,6 +133,8 @@
     emit(list);
     return out;
   }
+  const chIdx = (id) => ORDER().indexOf(id) + 1;
+  const compileCh = (id) => compile(CHAPTERS[id].script, chIdx(id));
 
   // ---------- state ----------
   const ORDER = () => window.CHAPTER_ORDER || Object.keys(window.CHAPTERS);
@@ -126,7 +146,7 @@
     values: Object.fromEntries(AXES.map(a => [a, 0])),
     flags: {}, lessons: [], badEnds: [], achievements: [], endings: [],
     reflections: {}, seenVariants: [], poolVisits: {}, seed: (Math.random() * 1e9) | 0, vq: [], talkWith: null,
-    view: { bg: 'title', petals: false, chars: {}, phone: null, msgs: [] },
+    view: { bg: 'title', petals: false, chars: {}, phone: null, msgs: [], outfit: {} },
   });
   let S = fresh();
   let PROG = [];
@@ -252,9 +272,9 @@
     if (instant || !cur) { layer.style.transition = 'none'; show(); void layer.offsetWidth; layer.style.transition = ''; return; }
     requestAnimationFrame(() => requestAnimationFrame(show));
   }
-  function swapExpr(el, k, e) {
+  function swapExpr(el, k, e, o) {
     const tmp = document.createElement('div');
-    tmp.innerHTML = Art.character(k, e, nameOf(k, true));
+    tmp.innerHTML = Art.character(k, e, nameOf(k, true), o);
     const next = tmp.firstElementChild;
     const prev = [...el.children];
     if (!prev.length || next.tagName !== 'IMG') { el.innerHTML = ''; el.appendChild(next); return; }
@@ -271,9 +291,11 @@
       const st = S.view.chars[k];
       let el = layer.querySelector(`[data-key="${k}"]:not(.leaving)`);
       if (!el) { el = document.createElement('div'); el.className = 'char entering'; el.dataset.key = k; layer.appendChild(el); requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove('entering'))); }
-      if (el.dataset.expr !== st.e) {
+      const o = (S.view.outfit || {})[k] || '';
+      const ek = o ? st.e + '@' + o : st.e;
+      if (el.dataset.expr !== ek) {
         const first = !el.dataset.expr;
-        swapExpr(el, k, st.e); el.dataset.expr = st.e;
+        swapExpr(el, k, st.e, o || undefined); el.dataset.expr = ek;
         if (!first) { el.classList.remove('bounce'); void el.offsetWidth; el.classList.add('bounce'); }
       }
       el.dataset.at = st.at || 'center';
@@ -370,6 +392,11 @@
     Object.entries(fx).forEach(([k0, d]) => {
       const k = resolveKey(k0);
       if (!k || !d) return;
+      if (/^(trust|aff)\./.test(k)) {
+        const id = k.split('.')[1];
+        if (CS().fx(S, k, d)) show(`${nameOf(id)} · ${k[0] === 't' ? ui('stat.trust') : relName(id)} ${d > 0 ? '+' : ''}${d}`, d, (Art.CAST[id] || {}).color || '#8fc7e6');
+        return;
+      }
       if (k === 'trust' && !routeKey()) return; // trust only exists inside a relationship
       if (k === 'cash') {
         S.money += d;
@@ -382,9 +409,12 @@
         show(`${ui('life.' + k)} ${d > 0 ? '+' : ''}${d}`, d, '#9fd08a');
         return;
       }
-      S.stats[k] = (S.stats[k] || 0) + d;
+      const before = S.stats[k] || 0;
+      S.stats[k] = before + d;
       if (k === 'trust') S.stats.trust = clamp(S.stats.trust, 0, 100);
-      if (k === 'proj') S.stats.proj = clamp(S.stats.proj, 0, 100);
+      if (k === 'proj') { S.stats.proj = clamp(S.stats.proj, 0, 100); if (S.stats.proj <= 60) CS().flush(S); }
+      if (k === 'trust') CS().note(S, null, 'trust', S.stats.trust - before);
+      else if (CS().STAT_IDS.includes(k)) CS().note(S, k, 'aff', d);
       const m = STAT_META[k] || {};
       if (m.quiet && !routeKey()) { show(`${nameOf(k)} ${d > 0 ? '+' : ''}${d}`, d, '#c9a45c'); return; }
       const label = m.hidden ? `${nameOf(k)} ???` : `${statLabel(k)} ${d > 0 ? '+' : ''}${d}`;
@@ -393,12 +423,15 @@
     renderHud();
     if (fx.proj) renderChars();
   }
-  function applyVal(v) { if (v) Object.entries(v).forEach(([a, x]) => { S.values[a] = clamp(x, -2, 2); }); }
-  function toast(text, kind, color) {
+  function applyVal(v) {
+    if (v) Object.entries(v).forEach(([a, x]) => { S.values[a] = clamp(x, -2, 2); if (S.valuesSet && !S.valuesSet.includes(a)) S.valuesSet.push(a); });
+  }
+  const relName = (id) => ui('rel.' + (((window.CAST || {})[id] || {}).rel || 'friend'));
+  function toast(text, kind, color, html) {
     const t = document.createElement('div');
     t.className = 'toast ' + kind;
     if (color) t.style.setProperty('--c', color);
-    t.textContent = text;
+    if (html) t.innerHTML = text; else t.textContent = text;
     const box = $('#toasts');
     box.appendChild(t);
     // Keep the stack short so toasts never cover a whole card on small screens.
@@ -437,26 +470,37 @@
     let c;
     while ((c = nextCmd())) {
       if (c.jmp !== undefined) { S.pc = c.jmp; continue; }
+      if (c._k) { kPop(); continue; }
       if (c.cond) { if (!c.cond(S)) S.pc = c.jfalse; continue; }
       if (c.variant) { playVariant(c.variant); continue; }
       if (c.with !== undefined && !c.talk) { S.talkWith = window.SIM.resolveWith(c, S); continue; }
-      if (c.bg !== undefined) { S.view.bg = c.bg; S.view.bgm = null; S.view.petals = !!c.petals; renderBg(); continue; }
+      if (c.bg !== undefined) { S.view.bg = c.bg; S.view.bgm = null; S.view.petals = !!c.petals; S.view.outfit = {}; renderBg(); continue; }
+      if (c.reveal || c.grow || c.flaw || c.judge || c.contact) { castCmd(c); continue; }
+      if (c.outfit) { Object.entries(c.outfit).forEach(([k0, o]) => { const k = who(k0); (S.view.outfit = S.view.outfit || {})[k] = typeof o === 'string' ? o : o && o.id; }); renderChars(); continue; }
       if (c.bgm !== undefined) { S.view.bgm = c.bgm === 'auto' ? null : c.bgm; syncMusic(); continue; }
       if (c.flag !== undefined) { typeof c.flag === 'string' ? (S.flags[c.flag] = true) : Object.assign(S.flags, c.flag); continue; }
       if (c.fx) { applyFx(c.fx); continue; }
       if (c.val) { applyVal(c.val); continue; }
-      if (c.route) { S.route = c.route; if (routeKey()) S.stats.trust = Math.max(S.stats.trust, 20); renderHud(); continue; }
+      if (c.route) {
+        S.route = c.route;
+        // Trust carries over from before the lock: juggling and gossip lower where the relationship starts.
+        const r = routeKey();
+        if (r && S.cast && S.cast[r]) { S.stats.trust = Math.max(S.stats.trust, clamp(S.cast[r].trust, 10, 100)); S.cast[r].trust = S.stats.trust; }
+        else if (r) S.stats.trust = Math.max(S.stats.trust, 20);
+        renderHud(); continue;
+      }
       if (c.ach) { unlockAch(c.ach); continue; }
       if (c.lesson) { showLesson(c.lesson, () => { step(); save(); }); return; }
       if (c.deeper) { showDeeper(c.deeper); return; }
       if (c.resource) { showResource(c.resource); return; }
       if (c.ending) { showEnding(c.ending === '@auto' ? window.SIM.endingFor(S) : c.ending); return; }
-      if (c.show) { const k = who(c.show); S.view.chars[k] = { e: c.e || 'neutral', at: c.at || 'center' }; renderChars(); continue; }
+      if (c.show) { const k = who(c.show); if (c.o) (S.view.outfit = S.view.outfit || {})[k] = c.o; S.view.chars[k] = { e: c.e || 'neutral', at: c.at || 'center' }; CS().stage(S, k); renderChars(); continue; }
       if (c.hide) { const k = c.hide === '*' ? '*' : who(c.hide); if (k === '*') S.view.chars = {}; else delete S.view.chars[k]; renderChars(); continue; }
       if (c.phone) { S.view.phone = c.phone; S.view.msgs = []; renderPhone(); continue; }
       if (c.phoneOff) { S.view.phone = null; S.view.msgs = []; renderPhone(); continue; }
       if (c.txt) {
         const from = who(c.txt);
+        CS().stage(S, from);
         S.view.msgs.push({ from, t: c.t }); renderPhone();
         const nm = from === 'me' ? S.name : from === 'sys' ? '' : nameOf(from) === from ? fmt(from) : nameOf(from);
         setBox('phonebox', nm || ui('phone.title'), c.t, (Art.CAST[from] && Art.CAST[from].color) || (from === 'me' ? '#8fa8e6' : '#c9a45c'));
@@ -466,6 +510,8 @@
         const k = who(c.s);
         if (!Art.CAST[k]) { renderChars(); setBox('say', nameOf(k) === k ? fmt(k) : nameOf(k), c.t, '#c9a45c'); return; } // walk-on NPC: name only, no sprite
         const prev = S.view.chars[k];
+        if (c.o) (S.view.outfit = S.view.outfit || {})[k] = c.o;
+        CS().stage(S, k);
         S.view.chars[k] = { e: c.e || (prev && prev.e) || 'neutral', at: c.at || (prev && prev.at) || 'center' };
         renderChars(k);
         setBox('say', nameOf(k), c.t, (Art.CAST[k] || {}).color);
@@ -477,8 +523,36 @@
       if (c.mochi) { setBox('mochi', ui('name.mochi'), c.mochi, '#ff8fb8', c.e); return; }
       if (c.choice) { showChoice(c); return; }
       if (c.badEnd) { showBadEnd(c.badEnd); return; }
-      if (c.chapterEnd) { showResults(); return; }
+      if (c.chapterEnd) { endChapter(); return; }
     }
+  }
+  // Choice depth: rows logged while an option's consequences run are "your choice" rows with that choice's id.
+  function kPush(o) { (S.kst = S.kst || []).push({ src: o.src, reason: o.t }); kSync(); }
+  function kPop() { if (S.kst && S.kst.length) S.kst.pop(); kSync(); }
+  function kSync() { const top = (S.kst || [])[S.kst.length - 1]; S.kd = (S.kst || []).length; S.ksrc = top ? top.src : null; S.kreason = top ? top.reason : null; }
+  function castCmd(c) {
+    const n0 = S.changes.length;
+    CS().cmd(S, c, who);
+    castToasts(S.changes.slice(n0));
+  }
+  // Mid-scene toasts for what you just learned (reveals, flaws, judgements). Numbers stay in the recap.
+  function castToasts(rows) {
+    rows.forEach((r, i) => {
+      let t = null;
+      if (r.field.startsWith('reveal.')) t = `${icon('lens')}${ui('toast.reveal', { name: nameOf(r.who), axis: ui('axis.' + r.field.slice(7)) })}`;
+      else if (r.field === 'blur') t = `${icon('rose')}${ui('toast.blur', { name: nameOf(r.who) })}`;
+      else if (r.field.startsWith('flaw.')) t = `${icon('spark')}${ui('toast.flaw', { name: nameOf(r.who), flaw: flawName(r.field.slice(5)) })}`;
+      else if (r.field.startsWith('judge.')) t = `${icon('scale')}${ui(r.struck ? 'toast.struck' : 'toast.judge', { name: nameOf(r.who) })}`;
+      if (t) setTimeout(() => toast(t, 'up cast', (Art.CAST[r.who] || {}).color || '#c9a45c', true), i * 300);
+    });
+  }
+  const flawName = (tag) => tx(((window.CAST_TEXT || {}).flaw || {})[tag] || tag);
+  function endChapter() {
+    S.kst = []; kSync();
+    if (!S.cast) { showResults(); return; }
+    const rows = CS().chapterEnd(S);
+    save();
+    showRecap(rows, S.cs.ch, () => showResults());
   }
   function advance() {
     if (busy) return;
@@ -517,6 +591,10 @@
       if (Date.now() - shownAt < 450) return;
       const o = c.opts[+b.dataset.i];
       wrap.classList.remove('on'); wrap.innerHTML = '';
+      if (o.pc !== undefined) kPush(o);
+      const n0 = S.changes ? S.changes.length : 0;
+      if (S.cast) CS().choose(S, o, Object.keys(S.view.chars), who);
+      if (S.changes) castToasts(S.changes.slice(n0));
       applyFx(o.fx);
       applyVal(o.val);
       if (o.flag) S.flags[o.flag] = true;
@@ -682,7 +760,8 @@
     busy = true;
     const ch = CHAPTERS[S.chapter];
     const nextId = ORDER()[ORDER().indexOf(S.chapter) + 1];
-    const people = routeKey() ? [routeKey()] : S.route === 'solo' ? ['kenta'] : HEROINES.concat('rei');
+    const met = (k) => (S.stats[k] || 0) !== 0 || (S.cast && S.cast[k] && S.cast[k].met);
+    const people = routeKey() ? [routeKey()] : S.route === 'solo' ? ['kenta'] : HEROINES.filter((k, i) => i < 4 || met(k)).concat('rei');
     const bars = people.map(k => {
       const c = Art.CAST[k], v = S.stats[k];
       const pct = clamp(v * 2 + 10, 0, 100);
@@ -710,6 +789,144 @@
     </div>`);
   }
 
+
+  // ---------- cast: recap, Cast tab, profile (docs/CAST_BIBLE.md §5.6-5.8) ----------
+  const castIds = () => Object.keys(window.CAST || {});
+  const axisName = (a) => ui('axis.' + a);
+  function fieldText(r) {
+    const f = r.field;
+    if (f === 'trust') return ui('stat.trust');
+    if (f === 'aff') return relName(r.who);
+    if (f.startsWith('reveal.')) return ui('recap.reveal', { axis: axisName(f.slice(7)) });
+    if (f.startsWith('radar.')) return axisName(f.slice(6));
+    if (f.startsWith('flaw.')) return `${flawName(f.slice(5))} · ${ui('flaw.' + r.state)}`;
+    if (f.startsWith('judge.')) return ui(r.struck ? 'recap.struck' : 'recap.judge');
+    if (f === 'fuse') return ui(r.off ? 'recap.fuseoff' : 'recap.fuse');
+    if (f === 'blur') return ui('recap.blur');
+    if (f === 'quiet') return ui('recap.quiet');
+    return f;
+  }
+  function judgeText(id, struck) {
+    const J = (window.JUDGEMENTS || {})[id] || {};
+    return fmt(struck ? J.strike || J.t || id : J.t || id);
+  }
+  function rowHtml(r) {
+    const d = r.delta ? `<b class="${r.delta > 0 ? 'up' : 'down'}">${r.delta > 0 ? '+' : '−'}${Math.abs(r.delta)}</b>` : '';
+    const reason = r.field.startsWith('judge.') ? judgeText(r.field.slice(6), r.struck) : r.reason ? fmt(r.reason) : '';
+    const judge = r.field.startsWith('judge.');
+    return `<li class="rc-row ${r.kind}${r.struck ? ' struck' : ''}"><i aria-label="${esc(ui('recap.' + r.kind))}" title="${esc(ui('recap.' + r.kind))}">${r.kind === 'choice' ? '👆' : '📖'}</i>`
+      + `<span class="rc-main"><span class="rc-field">${esc(fieldText(r))} ${d}</span>${reason ? `<span class="rc-why">${judge && r.struck ? `<s>${esc(judgeText(r.field.slice(6), false))}</s> ` : ''}${esc(reason)}</span>` : ''}</span>`
+      + `<small class="rc-src">${esc(r.src || '')}</small></li>`;
+  }
+  // Rows of one chapter: same person + field + source are merged; the most important 8 show first.
+  function recapRows(rows) {
+    const merged = [];
+    rows.filter(r => r.who !== '*').forEach(r => {
+      const key = [r.who, r.field, r.src, r.kind].join('|');
+      const m = !r.field.startsWith('judge.') && !r.field.startsWith('flaw.') && merged.find(x => x.key === key);
+      if (m) m.delta += r.delta; else merged.push(Object.assign({ key }, r));
+    });
+    const weight = (r) => (r.field.startsWith('reveal.') || r.field.startsWith('judge.') ? 100 : r.field.startsWith('flaw.') ? 90 : r.field === 'fuse' ? 80 : 0) + Math.abs(r.delta || 0);
+    return merged.filter(r => r.delta || !/^(trust|aff|radar\.)/.test(r.field)).map((r, i) => Object.assign(r, { w: weight(r), i }));
+  }
+  function recapBody(rows, all) {
+    const list = recapRows(rows);
+    const top = new Set(list.slice().sort((a, b) => b.w - a.w || a.i - b.i).slice(0, 8).map(r => r.i));
+    const keep = all ? list : list.filter(r => top.has(r.i));
+    const groups = [];
+    keep.forEach(r => { let g = groups.find(x => x.who === r.who); if (!g) groups.push(g = { who: r.who, rows: [] }); g.rows.push(r); });
+    const html = groups.map(g => `<section class="rc-person" style="--c:${(Art.CAST[g.who] || {}).color || '#c9a45c'}"><h3><button class="linkish" data-act="cast:${g.who}">${esc(nameOf(g.who))}</button></h3><ul>${g.rows.map(rowHtml).join('')}</ul></section>`).join('');
+    return { html, more: list.length - keep.length, total: list.length };
+  }
+  function recapFoot(rows) {
+    const fuses = castIds().filter(id => S.cast[id] && S.cast[id].fuse);
+    const live = (S.gossip || []).filter(g => !g.dead);
+    const seeded = rows.filter(r => r.who === '*' && r.field === 'gossip').length;
+    const bits = [];
+    if (fuses.length) bits.push(`<p>${icon('moon')}${esc(ui('recap.fuses'))}: ${fuses.map(id => esc(nameOf(id))).join(' · ')}</p>`);
+    if (live.length || seeded) bits.push(`<p>${icon('note')}${esc(ui('recap.gossip', { n: live.length }))}</p>`);
+    if ((S.cs.q || []).length) bits.push(`<p>${icon('rose')}${esc(ui('recap.queued'))}</p>`);
+    return bits.length ? `<footer class="rc-foot">${bits.join('')}</footer>` : '';
+  }
+  function showRecap(rows, chN, then, readonly) {
+    const b = recapBody(rows, false);
+    const ch = CHAPTERS[ORDER()[chN - 1]] || {};
+    modal(`<div class="recap" data-ch="${chN}">
+        <div class="lesson-kind ornament">${esc(ui('recap.kicker'))}${ch.title ? ' · ' + esc(tx(ch.title)) : ''}</div>
+        <h2>${esc(ui('recap.title'))}</h2>
+        <div class="lesson-mochi">${mochiFace(b.total ? 'happy' : 'neutral')}<span>${esc(b.total ? ui('recap.mochi') : ui('recap.none'))}</span></div>
+        <div class="rc-list">${b.html}</div>
+        ${b.more > 0 ? `<button class="btn small rc-all" type="button">${esc(ui('recap.showall', { n: b.total }))}</button>` : ''}
+        ${recapFoot(rows)}
+        <p class="muted small rc-legend">👆 ${esc(ui('recap.choice'))} · 📖 ${esc(ui('recap.story'))}</p>
+        <button class="btn primary" data-close>${esc(ui(readonly ? 'btn.close' : 'btn.continue'))}</button>
+      </div>`, then, 'recapm');
+    const m = $('#modal');
+    m._recap = { rows, chN, then };
+    const allBtn = m.querySelector('.rc-all');
+    if (allBtn) allBtn.onclick = (e) => { e.stopPropagation(); m.querySelector('.rc-list').innerHTML = recapBody(rows, true).html; allBtn.remove(); };
+  }
+
+  function radarSvg(id) {
+    const P = CS().perceived(S, id), e = S.cast[id];
+    const axes = (window.CAST_AXES || []).concat('fit');
+    const fit = e.seen.fit ? CS().fit(S, id) : null;
+    const first = axes.map(a => (a === 'fit' ? 50 : P.first[a]));
+    const now = axes.map((a, i) => (a === 'fit' ? (fit == null ? null : fit) : P.now[a]));
+    const R = 92, cx = 150, cy = 128, N = axes.length;
+    const pt = (i, v) => { const ang = -Math.PI / 2 + i * 2 * Math.PI / N, r = R * clamp(v, 0, 100) / 100; return [cx + r * Math.cos(ang), cy + r * Math.sin(ang)]; };
+    const poly = (vals) => vals.map((v, i) => pt(i, v).map(n => n.toFixed(1)).join(',')).join(' ');
+    const rings = [25, 50, 75, 100].map(v => `<polygon class="rd-ring" points="${poly(axes.map(() => v))}"/>`).join('');
+    const spokes = axes.map((a, i) => { const [x, y] = pt(i, 100); return `<line class="rd-spoke" x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}"/>`; }).join('');
+    const anySeen = now.some(v => v != null);
+    const solid = anySeen ? `<polygon class="rd-now" points="${poly(now.map((v, i) => (v == null ? first[i] : v)))}"/>` + now.map((v, i) => (v == null ? '' : `<circle class="rd-dot" cx="${pt(i, v)[0].toFixed(1)}" cy="${pt(i, v)[1].toFixed(1)}" r="3.2"/>`)).join('') : '';
+    const labels = axes.map((a, i) => {
+      const [x, y] = pt(i, 122);
+      const anchor = Math.abs(x - cx) < 8 ? 'middle' : x > cx ? 'start' : 'end';
+      const v = now[i];
+      return `<text class="rd-label ${v == null ? 'unk' : ''}" x="${x.toFixed(1)}" y="${(y + 4).toFixed(1)}" text-anchor="${anchor}">${esc(axisName(a))} <tspan class="rd-val">${v == null ? '?' : v}</tspan></text>`;
+    }).join('');
+    return `<svg class="radar" viewBox="0 0 300 256" role="img" aria-label="${esc(ui('cast.radar', { name: nameOf(id) }))}">${rings}${spokes}<polygon class="rd-first" points="${poly(first)}"/>${solid}${labels}</svg>
+      <div class="rd-key"><span class="k-first">${esc(ui('cast.first'))}</span><span class="k-now">${esc(ui('cast.seen'))}</span></div>`;
+  }
+  function castBar(label, v, color) {
+    return `<div class="bar"><span>${esc(label)}</span><div class="track"><div class="fill" style="width:${clamp(Math.round(v), 0, 100)}%;--c:${color}"></div></div><b>${clamp(Math.round(v), 0, 100)}</b></div>`;
+  }
+  function castRole(id) { return tx(((window.CAST_TEXT || {}).role || {})[id] || ''); }
+  function castGrid() {
+    const all = castIds(), ids = all.filter(id => window.CAST[id].heroine).concat(all.filter(id => !window.CAST[id].heroine));
+    return `<div class="cast-grid">${ids.map(id => {
+      const e = S.cast && S.cast[id];
+      if (!e || !e.met) return `<div class="cast-card locked"><div class="cc-face">?</div><b>???</b><small>${esc(ui('cast.notmet'))}</small></div>`;
+      const c = Art.CAST[id] || {};
+      return `<button class="cast-card" data-act="cast:${id}" style="--c:${c.color || '#c9a45c'}"><div class="cc-face">${Art.character(id, 'neutral', nameOf(id, true))}</div><b>${esc(nameOf(id))}</b><small>${esc(castRole(id))}</small>${e.fuse ? `<i class="cc-fuse" title="${esc(ui('recap.fuse'))}">${icon('moon')}</i>` : ''}</button>`;
+    }).join('')}</div>`;
+  }
+  function openProfile(id) {
+    const C = window.CAST[id], e = S.cast[id];
+    if (!C || !e) { openNotebook('cast'); return; }
+    const color = (Art.CAST[id] || {}).color || '#c9a45c';
+    const fit = e.seen.fit ? CS().fit(S, id) : null;
+    const flaws = Object.entries(e.flaws).map(([tag, st]) => `<li class="flaw ${st}"><b>${esc(st === 'hidden' ? '?' : flawName(tag))}</b><small>${esc(ui('flaw.' + st))}</small></li>`).join('');
+    const tl = CS().timeline(S, id);
+    const judg = e.judgements.map(j => `<li class="${j.struck ? 'struck' : ''}"><small>${esc(ui('cast.ch', { n: j.ch }))}</small>${j.struck ? `<s>${esc(judgeText(j.id, false))}</s><span>${esc(judgeText(j.id, true))}</span>` : `<span>${esc(judgeText(j.id, false))}</span>`}</li>`).join('');
+    const hist = tl.filter(r => !r.field.startsWith('judge.')).slice(-12).reverse().map(r => `<li><small>${esc(ui('cast.ch', { n: r.ch }))}</small>${rowHtml(r).replace(/^<li[^>]*>|<\/li>$/g, '')}</li>`).join('');
+    const proj = C.heroine && (S.stats.proj || 0) > 0 ? `<p class="muted small">${icon('rose')}${esc(ui('cast.rosehint'))}</p>` : '';
+    modal(`<div class="notebook profile" style="--c:${color}">${sheetHead(nameOf(id, true))}
+      <div class="pf-top"><div class="pf-face">${Art.character(id, 'neutral', nameOf(id, true))}</div>
+        <div class="pf-meta"><p class="pf-role">${esc(castRole(id))}</p>
+          ${castBar(relName(id), CS().aff(S, id) * (CS().STAT_IDS.includes(id) ? 2 : 1) + (CS().STAT_IDS.includes(id) ? 10 : 0), color)}
+          ${castBar(ui('stat.trust'), e.trust, '#8fc7e6')}
+          <p class="pf-fit">${esc(ui('cast.fit'))}: <b>${fit == null ? '?' : fit}</b>${fit == null ? `<small>${esc(ui('cast.fithint'))}</small>` : ''}</p>
+          ${e.fuse ? `<p class="pf-fuse">${icon('moon')}${esc(ui('recap.fuse'))}</p>` : ''}</div></div>
+      <div class="pf-radar">${radarSvg(id)}</div>${proj}
+      <h3>${esc(ui('cast.flaws'))}</h3><ul class="pf-flaws">${flaws || `<li class="muted">${esc(ui('cast.empty'))}</li>`}</ul>
+      ${judg ? `<h3>${esc(ui('cast.judgements'))}</h3><ul class="pf-judge">${judg}</ul>` : ''}
+      <h3>${esc(ui('cast.timeline'))}</h3><ul class="pf-tl">${hist || `<li class="muted">${esc(ui('cast.empty'))}</li>`}</ul>
+      <div class="sheet-foot"><button class="btn" data-act="notebook:cast">${esc(ui('btn.back'))}</button><button class="btn primary" data-close>${esc(ui('btn.close'))}</button></div></div>`, null, 'sheet');
+    const back = $('#modal .sheet-back'); if (back) { back.removeAttribute('data-close'); back.dataset.act = 'notebook:cast'; }
+  }
+
   // ---------- menus ----------
   function sheetHead(title) {
     return `<div class="sheet-head"><button class="icon-btn sheet-back" data-close="back" aria-label="${esc(ui('btn.back'))}" title="${esc(ui('btn.back'))}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>${esc(ui('btn.back'))}</span></button><h2>${esc(title)}</h2><button class="icon-btn sheet-x" data-close="x" aria-label="${esc(ui('btn.close'))}" title="${esc(ui('btn.close'))}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></div>`;
@@ -723,12 +940,16 @@
       : `<li class="locked"><i aria-hidden="true">${icon('lock')}</i><b>${esc(ui('deeper.locked'))}</b><span>${esc(ui('deeper.lockedhint'))}</span></li>`).join('');
     const life = `<div class="life-pane">${lifeBars()}<p class="muted">${esc(ui('life.hint'))}</p></div>`;
     const t = tab || 'lessons';
+    const castN = S.cast ? castIds().filter(id => S.cast[id].met).length : 0;
     modal(`<div class="notebook">${sheetHead(ui('notebook.title'))}
-      <div class="tabs" role="tablist"><button class="tab ${t === 'lessons' ? 'on' : ''}" data-tab="lessons">${esc(ui('notebook.lessons'))} <small>${S.lessons.length}/${Object.keys(LESSONS).length}</small></button><button class="tab ${t === 'deep' ? 'on' : ''}" data-tab="deep">${esc(ui('notebook.deeper'))} <small>${Object.keys(S.reflections).length}/${Object.keys(window.THINK || {}).length}</small></button><button class="tab ${t === 'life' ? 'on' : ''}" data-tab="life">${esc(ui('life.title'))}</button></div>
+      <div class="tabs" role="tablist"><button class="tab ${t === 'lessons' ? 'on' : ''}" data-tab="lessons">${esc(ui('notebook.lessons'))} <small>${S.lessons.length}/${Object.keys(LESSONS).length}</small></button><button class="tab ${t === 'deep' ? 'on' : ''}" data-tab="deep">${esc(ui('notebook.deeper'))} <small>${Object.keys(S.reflections).length}/${Object.keys(window.THINK || {}).length}</small></button><button class="tab ${t === 'life' ? 'on' : ''}" data-tab="life">${esc(ui('life.title'))}</button><button class="tab ${t === 'cast' ? 'on' : ''}" data-tab="cast">${esc(ui('notebook.cast'))} <small>${castN}/${castIds().length}</small></button></div>
       <ul data-pane="lessons" ${t === 'lessons' ? '' : 'hidden'}>${all}</ul>
       <ul data-pane="deep" ${t === 'deep' ? '' : 'hidden'}>${deep}</ul>
       <div data-pane="life" ${t === 'life' ? '' : 'hidden'}>${life}</div>
+      <div data-pane="cast" ${t === 'cast' ? '' : 'hidden'}>${S.cast ? castGrid() : ''}${S.recaps && Object.keys(S.recaps).length ? `<div class="row recaps">${Object.keys(S.recaps).map(Number).sort((a, b) => a - b).map(n => `<button class="btn small" data-act="recap:${n}">${esc(ui('recap.chip', { n }))}</button>`).join('')}</div>` : ''}</div>
       <div class="sheet-foot"><button class="btn primary" data-close>${esc(ui('btn.close'))}</button></div></div>`, null, 'sheet');
+    const on = document.querySelector('#modal .notebook .tab.on');
+    if (on && on.scrollIntoView) on.scrollIntoView({ block: 'nearest', inline: 'nearest' });
   }
   function openSettings() {
     const wasBusy = busy;
@@ -738,6 +959,8 @@
         <input id="set-vol" type="range" min="0" max="100" step="5" value="${Math.round(Music.volume * 100)}" aria-label="${esc(ui('settings.music'))}"><b id="set-vol-n">${Math.round(Music.volume * 100)}</b></label>
       <label class="set-row"><span>${esc(ui('settings.mute'))}</span>
         <button id="set-mute" class="btn small toggle ${Music.muted ? 'on' : ''}" role="switch" aria-checked="${Music.muted}">${esc(ui(Music.muted ? 'settings.on' : 'settings.off'))}</button></label>
+      <label class="set-row"><span>${esc(ui('settings.social'))}<small class="muted">${esc(ui('settings.socialhint'))}</small></span>
+        <button id="set-social" class="btn small toggle ${S.opts && S.opts.social === false ? '' : 'on'}" role="switch" aria-checked="${!(S.opts && S.opts.social === false)}">${esc(ui(S.opts && S.opts.social === false ? 'settings.off' : 'settings.on'))}</button></label>
       ${packs.length > 1 ? `<label class="set-row"><span>${esc(ui('title.lang'))}</span><select id="set-locale">${packs.map(([id, p]) => `<option value="${id}" ${id === LOCALE ? 'selected' : ''}>${esc(p.label)}</option>`).join('')}</select></label>` : ''}
       <p class="muted small">${esc(ui('settings.credits'))}</p>
       <div class="sheet-foot"><button class="btn primary" data-close>${esc(ui('btn.close'))}</button></div></div>`, () => { busy = wasBusy; }, 'sheet');
@@ -748,6 +971,25 @@
     mute.onclick = (e) => { e.preventDefault(); setMute(!Music.muted); };
     const sel = $('#set-locale');
     if (sel) sel.onchange = () => switchLocale(sel.value);
+    const soc = $('#set-social');
+    soc.onclick = (e) => {
+      e.preventDefault();
+      S.opts = Object.assign({}, S.opts, { social: S.opts ? S.opts.social === false : false });
+      try { localStorage.setItem('sim4love.social', S.opts.social ? '1' : '0'); } catch (x) { /* ignore */ }
+      soc.classList.toggle('on', S.opts.social); soc.setAttribute('aria-checked', String(S.opts.social)); soc.textContent = ui(S.opts.social ? 'settings.on' : 'settings.off');
+      save();
+    };
+  }
+  // Re-point every close control of the open modal at `fn` (used when a profile is opened from the recap).
+  function patchClose(fn) {
+    const m = $('#modal');
+    m.querySelectorAll('[data-act^="notebook:"]').forEach(b => { b.removeAttribute('data-act'); b.dataset.close = 'back'; });
+    const prev = m.onclick;
+    m.onclick = (ev) => {
+      const b = ev.target.closest('[data-close]');
+      if (b || (ev.target === m && m.classList.contains('sheet'))) { m.classList.remove('on'); m.innerHTML = ''; m.className = ''; busy = false; fn(); return; }
+      prev && prev(ev);
+    };
   }
   function switchLocale(id) {
     if (!$('#game').classList.contains('at-title')) save();
@@ -757,13 +999,23 @@
   function handleAct(a) {
     const m = $('#modal'); m.classList.remove('on'); m.innerHTML = ''; m.className = ''; busy = false;
     if (a.startsWith('deep:')) { const id = a.slice(5); deeperCard(THINK[id], id, () => openNotebook('deep'), true); return; }
+    if (a.startsWith('cast:')) {
+      const rc = m._recap; m._recap = null;
+      const id = a.slice(5);
+      openProfile(id);
+      // From the end-of-chapter recap: closing the profile returns to the recap so the chapter can continue.
+      if (rc) { const back = () => showRecap(rc.rows, rc.chN, rc.then); patchClose(back); }
+      return;
+    }
+    if (a.startsWith('notebook:')) { openNotebook(a.slice(9)); return; }
+    if (a.startsWith('recap:')) { const n = +a.slice(6); showRecap((S.recaps || {})[n] || [], n, () => openNotebook('cast'), true); return; }
     if (a === 'restart') startGame(S.name);
     if (a === 'title') showTitle();
     if (a === 'next') {
       const nextId = ORDER()[ORDER().indexOf(S.chapter) + 1];
       if (!nextId) return;
       S.chapter = nextId; S.pc = 0; S.vq = []; S.view.chars = {}; S.view.phone = null; S.view.msgs = [];
-      PROG = compile(CHAPTERS[S.chapter].script); restoreView(); save();
+      PROG = compileCh(S.chapter); CS().begin(S, chIdx(S.chapter)); restoreView(); save();
       chapterCard(() => step());
     }
   }
@@ -816,7 +1068,11 @@
       values: Object.assign(f.values, fromSave.values) }) : f;
     if (!fromSave) S.name = (name || 'Ethan').trim().slice(0, 12) || 'Ethan';
     if (!CHAPTERS[S.chapter]) S.chapter = ORDER()[0];
-    PROG = compile(CHAPTERS[S.chapter].script);
+    S.view.outfit = S.view.outfit || {};
+    if (fromSave) CS().migrate(S, chIdx(S.chapter) - 1); else CS().init(S);
+    if (!fromSave) { let pref = null; try { pref = localStorage.getItem('sim4love.social'); } catch (e) { /* ignore */ } if (pref === '0') S.opts.social = false; }
+    if (!fromSave || !S.cs.ch) CS().begin(S, chIdx(S.chapter));
+    PROG = compileCh(S.chapter);
     busy = false;
     if (fromSave) { if (!(S.vq && S.vq.length)) S.pc = Math.max(0, S.pc - 1); restoreView(); step(); return; }
     restoreView();
@@ -860,7 +1116,7 @@
 
   let BAD_END_TOTAL = 0;
   window.addEventListener('DOMContentLoaded', () => {
-    BAD_END_TOTAL = new Set(Object.values(CHAPTERS).flatMap(ch => compile(ch.script).filter(c => c.badEnd).map(c => c.badEnd.title))).size;
+    BAD_END_TOTAL = new Set(Object.values(CHAPTERS).flatMap(ch => compile(ch.script, 0).filter(c => c.badEnd).map(c => c.badEnd.title))).size;
     document.documentElement.lang = LOCALE;
     document.querySelectorAll('[data-ui]').forEach(el => { el.textContent = ui(el.dataset.ui); });
     document.querySelectorAll('[data-ui-label]').forEach(el => { const t = ui(el.dataset.uiLabel); el.title = t; el.setAttribute('aria-label', t); });
@@ -913,11 +1169,12 @@
   }
   function preload() {
     const sp = window.SPRITES; if (!sp) return;
-    const urls = [...Object.values(sp.bg || {}), ...Object.values(sp.chars || {}).flatMap(o => Object.values(o))];
+    const flat = (o) => Object.values(o || {}).flatMap(v => (typeof v === 'string' ? [v] : v && typeof v === 'object' ? flat(v) : []));
+    const urls = [...flat(sp.bg), ...flat(sp.chars)].filter(u => !/^(data:|blob:)/.test(u) || u.length < 4096);
     const keep = (window.__simPreload = []);
     let i = 0;
     const next = () => { if (i >= urls.length) return; const img = new Image(); img.decoding = 'async'; img.onload = img.onerror = next; img.src = urls[i++]; keep.push(img); };
     for (let n = 0; n < 4; n++) next();
   }
-  window.SimEngine = { compile, fresh, get state() { return S; }, ui, nameOf, hash, tx, locale: LOCALE, music: Music };
+  window.SimEngine = { compile, fresh, openProfile: (id) => openProfile(id), openNotebook: (t) => openNotebook(t), showRecap: (n) => showRecap((S.recaps || {})[n] || S.changes || [], n, () => {}, true), get state() { return S; }, ui, nameOf, hash, tx, locale: LOCALE, music: Music };
 })();

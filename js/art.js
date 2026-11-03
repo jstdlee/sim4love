@@ -38,7 +38,7 @@
       iris: '#6a8a3a', irisDark: '#2a3a12',
       style: 'twintails', outfit: 'hoodie',
     },
-    kenta: { name: 'Haziq', full: 'Muhammad Haziq', color: '#e5874a', skin: '#e2b48e', skinShade: '#c79470',
+    kenta: { name: 'Haziq', full: 'Muhammad Haziq bin Ismail', color: '#e5874a', skin: '#e2b48e', skinShade: '#c79470',
       hair: '#1e1612', hairShade: '#0e0a08', hairHi: '#4e3e34', iris: '#4a3020', irisDark: '#1e120a', style: 'short', outfit: 'jersey', male: true },
     ogawa: { name: 'Uncle Ong', full: 'Mr. Ong Boon Huat', color: '#b98a4e', hair: '#d8d8d8', hairShade: '#a8a8a8', hairHi: '#ffffff',
       iris: '#3a2a1a', irisDark: '#140c06', style: 'short', outfit: 'apron', male: true, old: true },
@@ -58,6 +58,12 @@
     saki: { name: 'Sam', full: 'Sam Wong', color: '#8ac46a', hair: '#1a1820', hairShade: '#08070c', hairHi: '#4a4658', iris: '#2a1a10', irisDark: '#0c0604', style: 'short', outfit: 'uniform' },
     nana: { name: 'Natalie', full: 'Natalie Rodrigues', color: '#c46aa8', skin: '#c99272', skinShade: '#a87254', hair: '#2a1a14', hairShade: '#140c08', hairHi: '#6a4a3a',
       iris: '#3a2a1a', irisDark: '#140c06', style: 'long', outfit: 'blouse' },
+    chloe: { name: 'Chloe', full: 'Chloe Goh', color: '#5fae6e', skin: '#f3d2b5', skinShade: '#ddb293', hair: '#17141a', hairShade: '#08070a', hairHi: '#4a4452',
+      iris: '#3a2a1a', irisDark: '#140c06', style: 'bun', outfit: 'hoodie' },
+    preet: { name: 'Preet', full: 'Harpreet Kaur', color: '#3557b7', skin: '#b9805a', skinShade: '#99623f', hair: '#16100c', hairShade: '#080504', hairHi: '#4a3a30',
+      iris: '#3a2214', irisDark: '#140a04', style: 'braid', outfit: 'blazer' },
+    ama: { name: 'Ah Ma', full: 'Mdm. Lee Ah Lian', color: '#7fae9a', skin: '#f1d6c0', skinShade: '#d9b89e', hair: '#d6d2d0', hairShade: '#aaa5a2', hairHi: '#f4f2f0',
+      iris: '#3a2a1a', irisDark: '#140c06', style: 'short', outfit: 'blouse', old: true, glasses: true },
     kai: { name: 'Alpha Kai', full: 'Alpha Kai (influencer)', color: '#c9a227', hair: '#e8c45a', hairShade: '#b8942a', hairHi: '#fff0b0', iris: '#2a1a10', irisDark: '#0c0604', style: 'short', outfit: 'suit', male: true, glint: true },
     aileen: { name: '"Aileen"', full: '"Aileen" (unknown account)', color: '#9a8aa8', hair: '#2a2228', hairShade: '#140f12', hairHi: '#6a5a62', iris: '#3a2a1a', irisDark: '#140c06', style: 'long', outfit: 'blouse' },
   };
@@ -281,14 +287,25 @@
   // Generated artwork manifest (js/sprites.js): SPRITES.chars[key][expr] / SPRITES.bg[scene] -> file path.
   const SP = () => window.SPRITES || { chars: {}, bg: {} };
 
-  function character(key, exprName, label) {
+  /* Sprite lookup with outfits (docs/CAST_BIBLE.md §6): outfit+expr -> outfit neutral -> default+expr (expression
+     chain) -> default neutral -> SVG. An outfit set may be SPRITES.chars[key].outfits[outfit][expr] or a flat
+     SPRITES.chars[key]['outfit:expr'] key; until the art exists every outfit request quietly uses the default set. */
+  function spriteFor(key, exprName, outfitId) {
     const art = SP().chars[key];
+    if (!art) return null;
+    if (outfitId) {
+      const set = (art.outfits || {})[outfitId] || {};
+      const hit = set[exprName] || art[`${outfitId}:${exprName}`] || set.neutral || art[`${outfitId}:neutral`];
+      if (hit) return hit;
+    }
+    if (!art.neutral) return null;
+    return art[fallbackExpr(key, exprName)] || art.neutral;
+  }
+  function character(key, exprName, label, outfitId) {
     const c = CAST[key] || CAST.kenta;
     const alt = label || c.full || c.name || key;
-    if (art && art.neutral) {
-      const e2 = fallbackExpr(key, exprName);
-      return `<img class="char-svg" src="${art[e2] || art.neutral}" alt="${alt}" draggable="false">`;
-    }
+    const src = spriteFor(key, exprName, outfitId);
+    if (src) return `<img class="char-svg" src="${src}" alt="${alt}" draggable="false">`;
     SKIN = c.skin || '#ffe7d9'; SKIN_SHADE = c.skinShade || '#f5c9b6';
     const e = EXPR[exprName] || EXPR.neutral;
     const id = `${key}${++uid}`;
@@ -439,5 +456,11 @@
     return `<svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${BG[key] || BG.title}</svg>`;
   }
 
-  window.Art = { CAST, EXPR, FRAMING, fallbackExpr, character, background };
+  // Bible expressions for the newer cast map onto the closest drawn face until their own art exists.
+  Object.assign(CHAINS, { grin: ['happy', 'smug'], annoyed: ['angry', 'cool'], tired: ['sad'], determined: ['cool', 'smug'], embarrassed: ['shy', 'blush'],
+    stern: ['cool', 'angry'], laughing: ['happy'], worried: ['sad', 'shy'], teary: ['sad'] });
+  ['grin', 'annoyed', 'tired', 'determined', 'embarrassed', 'stern', 'laughing', 'worried', 'teary'].forEach((k) => {
+    if (!EXPR[k]) EXPR[k] = EXPR[CHAINS[k][0]] || EXPR.neutral;
+  });
+  window.Art = { CAST, EXPR, FRAMING, fallbackExpr, spriteFor, character, background };
 })();
