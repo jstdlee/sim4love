@@ -121,6 +121,46 @@ window.CHAPTERS.ch2 = {
     ] },
     { hide: '*' },
 
+    // 2-ava hugs and sambal
+    { if: (s) => !!s.flags.avaMet, then: [
+      { bg: 'beach' },
+      WEAR('out'),
+      { n: "Ava tagged along. Hanis invited her in the class chat and she said yes in four seconds. She's soaked, sandy and holding three people's slippers." },
+      { show: 'ava', e: 'happy', at: 'center' },
+      { s: 'ava', e: 'happy', t: "Can I hug you? I'm a hugger. You don't have to be. High fives are also elite." },
+      { choice: "She waits, arms half out, not moving until you answer.", opts: [
+        { t: "\"Sure, come.\"", fx: { ava: 6, 'trust.ava': 2 }, lesson: 'askfirst', then: [
+          { n: "A quick, sandy hug. She steps back right after." },
+          { s: 'ava', e: 'happy', t: "Thank you! Okay. Friendship officially sandy." },
+        ] },
+        { t: "\"Not really a hugger. High five?\"", fx: { ava: 6, 'trust.ava': 2 }, lesson: 'askfirst', then: [
+          { s: 'ava', e: 'happy', t: "Elite choice. Up top!" },
+          { n: "The high five is so loud that Haziq looks over." },
+        ] },
+        { t: "\"Maybe later. Not now.\"", fx: { ava: 6, 'trust.ava': 2 }, lesson: 'askfirst', then: [
+          { s: 'ava', e: 'neutral', t: "Totally fair. Offer stands. No expiry date." },
+        ] },
+      ] },
+      { mochi: "Three answers, three right ones. She asked, and she meant the question.", e: 'happy' },
+      { n: "Lunch on the sand. Haziq opens his mum's tupperware: sambal goreng, tempeh and long beans." },
+      { s: 'ava', e: 'surprised', t: "Oh, that's kinda weird. Beans with... is that peanut? And chilli?" },
+      { show: 'kenta', e: 'sad', at: 'right' },
+      { s: 'kenta', e: 'sad', t: "...It's my mum's." },
+      { flaw: { ava: { 'blunt-without-context': 'seen' } }, why: "She called Haziq's mum's sambal goreng \"kinda weird\"." },
+      { choice: "Haziq goes quiet. Ava hasn't noticed yet.", opts: [
+        { t: "\"It's sambal goreng. His mum makes it every Raya. Try one bite before you decide?\"", fx: { ava: 4, kenta: 4, wisdom: 3 }, lesson: 'cultures', then: [
+          { s: 'ava', e: 'blush', t: "Oh no. I said that out loud. Haziq, I'm sorry. Can I try some? Please?" },
+          { n: "She tries it. Her eyes go wide. She asks for the recipe, then asks whether his mum would mind her asking for the recipe." },
+          { s: 'kenta', e: 'happy', t: "Okay, okay. Forgiven. Ten out of ten for commitment." },
+        ] },
+        { t: "Laugh along. \"Haha, ya, bit weird.\"", fx: { kenta: -6, ava: -2 }, then: [
+          { n: "Haziq closes the box. He eats it later, alone, on the bus." },
+          { mochi: "'Weird' about someone's mum's cooking is never small. She didn't have the context. You did.", e: 'sad' },
+        ] },
+      ] },
+      { hide: '*' },
+    ] },
+
     // partner talk: friendship
     { bg: 'beach' },
     WEAR('out'),

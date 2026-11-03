@@ -29,19 +29,26 @@ window.CHAPTERS.ch17 = {
       ] },
     ] },
 
+    { if: (s) => !!s.flags.mateoMet, then: [
+      { show: 'mateo', e: 'happy', at: 'center' },
+      { s: 'mateo', e: 'happy', t: "Lime juice gang! I don't drink. Tonight I'm the designated hermano. I carry water, I carry people, I carry the karaoke." },
+      { hide: '*' },
+    ] },
+
     // 17-2 bystander
     { hide: '*' },
     { bg: 'beach' },
     WEAR('later'),
     { show: 'saki', e: 'sad', at: 'left' },
-    { n: "By the water: Sam Wong, a friend of a friend, very drunk and barely standing. A guy she met tonight has his arm around her." },
+    { n: "By the water: Sam de Vries, a friend of a friend, very drunk and barely standing. A guy she met tonight has his arm around her." },
     { s: 'Guy', t: "Relax, I'll send her home. My car's right there." },
     { choice: "Sam can't say where she lives.", opts: [
       { t: "Step in. Stay with her, find her friends, get her home with someone she trusts. If she can't be woken, call 995.", fx: { wisdom: 10, self: 8 }, lesson: 'bystander', ach: 'bystander', then: [
         { me: "It's okay, we got her. Sam, I'm going to find Natalie. You stay with us." },
         { show: 'nana', e: 'surprised', at: 'right' },
         { s: 'nana', e: 'surprised', t: "Sam! Okay. Water. Lie her on her side. Thank you so much. Her sister's coming to get her." },
-        { n: "The guy wanders off. Sam's sister arrives twenty minutes later. Next day Sam texts: \"I don't remember much. Thank you for staying.\"" },
+        { if: (s) => !!s.flags.mateoMet, then: [{ n: "Mateo jogs over with three bottles of water and stays with you until her sister arrives. Designated hermano, as promised." }] },
+        { n: "The guy wanders off. Sam's sister arrives twenty minutes later. Next day Sam texts: \"Ja, so, I don't remember much. But I know you stayed. Thank you. Really.\"" },
         { resource: 'alcohol' },
       ] },
       { t: "\"Not my business.\"", fx: { wisdom: -10, self: -6 }, lesson: 'bystander', then: [

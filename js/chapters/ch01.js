@@ -160,6 +160,33 @@ window.CHAPTERS.ch1 = {
     ] },
     { hide: '*' },
 
+    // 1-ava frangipani
+    { bg: 'field', petals: false },
+    WEAR('school'),
+    { n: "Recess. Under the frangipani tree by the field, a girl you don't know is lying flat on the grass, pointing an old film camera straight up." },
+    { show: 'ava', e: 'happy', at: 'center' },
+    { s: 'ava', e: 'happy', t: "Okay, real talk. What's this tree called? It smells like sunscreen and heaven." },
+    { flag: 'avaMet' },
+    { n: "Ava Mitchell. Transfer student: Texas, then Shanghai, then Dubai, now here. Third day. She already knows the canteen auntie's name." },
+    { choice: "She's waiting for an answer, camera still up.", opts: [
+      { t: "\"Frangipani. In Malay it's bunga kemboja. My Ah Ma calls it 鸡蛋花, egg flower.\"", fx: { ava: 8, wisdom: 2 }, then: [
+        { s: 'ava', e: 'surprised', t: "Egg flower? Wait. White outside, yellow in the middle. That's so accurate I'm mad." },
+        { s: 'ava', e: 'happy', t: "Three names for one tree. Okay, this country is lowkey the best." },
+        { contact: 'ava' },
+      ] },
+      { t: "\"No idea. Some tree lah.\"", fx: { ava: 3 }, then: [
+        { s: 'ava', e: 'neutral', t: "Some tree lah. Noted. I'm gonna find out, come back and tell you, and you're gonna be so impressed." },
+        { contact: 'ava' },
+      ] },
+      { t: "\"Er, you okay? Why are you lying on the grass?\"", fx: { ava: 4 }, then: [
+        { s: 'ava', e: 'happy', t: "Best angle! You can't photograph a tree politely. You have to commit." },
+        { contact: 'ava' },
+      ] },
+    ] },
+    { n: "A week later there's a small print in your pigeonhole. One frangipani flower, a little out of focus. On the back: \"egg flower!! — A\"" },
+    { reveal: { ava: 'warmth' }, why: "She photographed the frangipani and left you the print." },
+    { hide: '*' },
+
     // 1-5 Elise
     { bg: 'night', petals: false },
     WEAR('home'),

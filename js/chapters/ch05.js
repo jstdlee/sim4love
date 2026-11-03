@@ -111,6 +111,30 @@ window.CHAPTERS.ch5 = {
     ] },
     { hide: '*' },
 
+    // 5-ava Ubin night walk
+    { if: (s) => !!s.flags.avaMet, then: [
+      { bg: 'campsite_night' },
+      WEAR('camp'),
+      { n: "The night walk. Torches off for one minute so everyone can see the fireflies. There aren't any. Ava ends up walking next to you anyway." },
+      { show: 'ava', e: 'neutral', at: 'center' },
+      { s: 'ava', e: 'neutral', t: "I've done the new-kid thing four times. Texas, Shanghai, Dubai, here. I'm really good at the first month." },
+      { s: 'ava', e: 'happy', t: "Ask me anything. I've got a whole routine. Best country, best food, weirdest school rule. Go." },
+      { flaw: { ava: { 'one-foot-out': 'seen' } }, why: "\"I'm really good at the first month.\"" },
+      { choice: "She's smiling. Her torch is pointed at her shoes.", opts: [
+        { t: "\"Which goodbye was the worst?\"", fx: { ava: 8, wisdom: 4 }, then: [
+          { s: 'ava', e: 'sad', t: "...Nobody asks that one." },
+          { s: 'ava', e: 'sad', t: "Shanghai. My best friend Mei Ling and I said we'd call every Sunday. We did it twice. Now I just like her posts." },
+          { reveal: { ava: 'sensitivity' }, why: "You asked about the goodbyes, not the countries." },
+          { s: 'ava', e: 'neutral', t: "Okay. Thanks for asking the real one. Don't tell anyone I'm not always sunshine." },
+        ] },
+        { t: "\"Okay. Best country?\"", fx: { ava: 3 }, then: [
+          { s: 'ava', e: 'happy', t: "Easy. Wherever I am right now! ...That's the routine answer. It's also kinda true." },
+          { mochi: "A polished answer to a polished question. There was a realer one behind it.", e: 'neutral' },
+        ] },
+      ] },
+      { hide: '*' },
+    ] },
+
     // 5-5 stay put
     { bg: 'camp' },
     WEAR('camp'),

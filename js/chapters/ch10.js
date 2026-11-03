@@ -9,6 +9,7 @@ window.CHAPTERS = window.CHAPTERS || {};
     yuna: { n: 'Leo', who: 'her dance partner for the showcase', what: 'the lift in bar sixteen', be: 'It Was Her Dance Partner' },
     chloe: { n: 'Darren', who: "the supplier's son who delivers our pandan", what: 'the price of pandan leaves', be: 'It Was the Pandan Supplier' },
     preet: { n: 'Ethan', who: 'her debate partner', what: 'the rebuttal for the final', be: 'It Was Her Debate Partner' },
+    ava: { n: 'Lucas', who: 'my best friend from Dubai, he\'s visiting for a week', what: 'jet lag and the humidity', be: 'It Was Her Friend from Dubai' },
   };
   const WIN = {
     hina: "Hanis's team came first at the national first-aid competition.",
@@ -17,6 +18,7 @@ window.CHAPTERS = window.CHAPTERS || {};
     yuna: "Elise got a callback for the arts school audition.",
     chloe: "Chloe's kueh business plan won a youth hawker-entrepreneur grant.",
     preet: "Preet's team won the schools debate final. She was named best speaker.",
+    ava: "Ava's photo series on the coral nursery off Sisters' Islands won the national youth nature photography award.",
   };
   const R = (f) => SIM.byRoute(Object.fromEntries(SIM.HEROINES.map((h) => [h, f(h)])), []);
 
@@ -158,6 +160,19 @@ window.CHAPTERS = window.CHAPTERS || {};
               ] },
             ] },
           ],
+          ava: [
+            { s: 'ava', e: 'happy', at: 'center', t: "Okay, about the 38. I made you a plan! Three Khan Academy links and a timetable. We can start tonight." },
+            { flaw: { ava: { 'fixes-not-listens': 'seen' } }, why: "You were upset, and she sent a study plan before asking how you felt." },
+            { choice: "You didn't want a plan yet.", opts: [
+              { t: "\"Thank you. Can I just be annoyed for ten minutes first? Then the plan.\"", fx: { ava: 4, trust: 6 }, sig: 2, then: [
+                { s: 'ava', e: 'sad', t: "Oh. Yeah. Ten minutes. I'm timing it. ...Sorry. I go straight to fixing when someone I like is sad." },
+                { flaw: { ava: { 'fixes-not-listens': 'growing' } }, why: "You told her you needed listening before fixing." },
+              ] },
+              { t: "Take the plan. Say nothing.", fx: { ava: 1 }, then: [
+                { mochi: "She can't learn what you didn't say.", e: 'neutral' },
+              ] },
+            ] },
+          ],
         }, []),
         { hide: '*' },
         { talk: 'cheating' },
@@ -200,6 +215,35 @@ window.CHAPTERS = window.CHAPTERS || {};
         { hide: '*' },
         { talk: 'cheating' },
       ]),
+      // 10-debate-final: Ines and Preet, Ollie on sound
+      { if: (s) => !!s.flags.inesMet, then: [
+        { bg: 'lecture' },
+        WEAR('school'),
+        { n: "The inter-school debate final at the polytechnic auditorium. Ollie is at the sound desk, headphones round his neck. Inès's team loses to Preet's by one point." },
+        { show: 'ines', e: 'neutral', at: 'center' },
+        { s: 'ines', e: 'neutral', t: "One point. It's fine. The judges are very... local in their taste. I'm completely fine. I'll only think about it for six months." },
+        { flaw: { ines: { 'superior-defence': 'seen' } }, why: "After losing, she blamed the judges' \"local taste\"." },
+        { choice: "Inès is packing her cue cards very, very neatly.", opts: [
+          { t: "\"Preet's right there. Maybe say the thing you didn't say at the carnival?\"", fx: { 'aff.ines': 4, 'trust.ines': 4 }, then: [
+            { show: 'preet', e: 'neutral', at: 'left' },
+            { s: 'ines', e: 'neutral', t: "Preet. En fait... I was wrong about you all. \"You memorise.\" It was lazy. It's annoying to admit. Voilà." },
+            { s: 'preet', e: 'happy', t: "Accepted. Your second rebuttal was better than mine, by the way. Don't tell anyone." },
+            { s: 'ines', e: 'happy', t: "Too late. I'm telling everyone." },
+            { flaw: { ines: { 'superior-defence': 'growing' } }, why: "She apologised to Preet instead of blaming the judges." },
+            { flag: 'inesPreetFriends' },
+          ] },
+          { t: "Leave her to it.", fx: {}, then: [
+            { n: "She leaves first. The cue cards stay perfectly neat." },
+          ] },
+        ] },
+        { hide: '*' },
+        { if: (s) => !!s.flags.ollieMet, then: [
+          { show: 'ollie', e: 'happy', at: 'center' },
+          { s: 'ollie', e: 'happy', t: "Both of them, though. Not bad, that. Not bad at all." },
+          { n: "From Ollie, that's practically a parade." },
+          { hide: '*' },
+        ] },
+      ] },
       SIM.evening('ch10'),
       { chapterEnd: true },
     ],

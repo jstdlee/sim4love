@@ -113,6 +113,29 @@ window.CHAPTERS.ch7 = {
       { hide: '*' },
     ] },
 
+    // 7-ava old group chats
+    { if: (s) => !!s.flags.avaMet, then: [
+      { bg: 'bedroom' },
+      WEAR('home'),
+      { n: "Ava's Instagram: sunsets, kaya toast, the frangipani tree, a hundred and forty likes each. Her highlights still say \"Dubai 💛\" and \"Shanghai 🥟\"." },
+      { phone: "Ava" },
+      { txt: 'ava', t: "random q. do ppl here keep in touch after someone moves away" },
+      { txt: 'ava', t: "my dubai group chat hasn't said anything since april lol" },
+      { txt: 'ava', t: "also someone's screenshot of rae was going round the class chat. I messaged her. she's ok. just fyi" },
+      { reveal: { ava: 'compassion' }, why: "She quietly checked on Rae when a screenshot of her went round the class chat." },
+      { choice: "What do you reply?", opts: [
+        { t: "\"Some do, some don't. I'd want to be one who does.\"", fx: { ava: 6 }, then: [
+          { txt: 'ava', t: "ok that's lowkey the nicest thing anyone's said to me this month" },
+        ] },
+        { t: "\"lol probably not\"", fx: { ava: -2 }, then: [
+          { txt: 'ava', t: "haha ya. figured" },
+          { phoneOff: true },
+          { mochi: "She wasn't asking about them. She was asking about you.", e: 'sad' },
+        ] },
+      ] },
+      { phoneOff: true },
+    ] },
+
     // 7-5 attention
     { bg: 'bedroom' },
     WEAR('home'),

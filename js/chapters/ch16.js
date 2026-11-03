@@ -77,6 +77,38 @@ window.CHAPTERS.ch16 = {
     ] },
     { hide: '*' },
 
+    // 16-allowance-home: Mateo and Ryan in the bunk
+    { if: (s) => !!s.flags.mateoMet, then: [
+      { bg: 'camp' },
+      WEAR('ns'),
+      { show: 'mateo', e: 'neutral', at: 'left' },
+      { n: "Ten minutes to lights out. Mateo, in the next bunk, is doing something on his banking app with great seriousness." },
+      { s: 'mateo', e: 'happy', t: "Half my allowance to my abuela in Medellín. Every month. She says don't. I do anyway. Then I eat Maggi until payday. ¡Qué rico!" },
+      { flaw: { mateo: { 'sends-too-much-home': 'seen' } }, why: "He sends half his NS allowance home and lives on instant noodles." },
+      { choice: "He's laughing. Dinner was Maggi again.", opts: [
+        { t: "\"Respect, bro. But fix an amount, and keep some for you. Your abuela wants you to eat.\"", fx: { 'aff.mateo': 5, 'trust.mateo': 3, wisdom: 3 }, then: [
+          { s: 'mateo', e: 'neutral', t: "A fixed amount. Like a grown-up. Okay, sí. She'll be happy I eat vegetables. One vegetable." },
+          { flaw: { mateo: { 'sends-too-much-home': 'growing' } }, why: "He set a fixed amount and kept some for himself." },
+        ] },
+        { t: "\"Siao ah, half?\"", fx: { 'aff.mateo': -2 }, then: [
+          { s: 'mateo', e: 'neutral', t: "She raised me, bro. Half is a small number." },
+        ] },
+      ] },
+      { show: 'ren', e: 'neutral', at: 'right' },
+      { n: "Ryan's phone lights up on his bunk: \"Mam ☘️ calling\". He lets it ring out." },
+      { s: 'ren', e: 'neutral', t: "Her birthday. It's lunchtime in Cork. I'll call later. Probably." },
+      { choice: "The screen goes dark.", opts: [
+        { t: "\"Two minutes, bro. Just say happy birthday. We won't listen. Much.\"", fx: { wisdom: 3 }, flag: 'renCalledMum', then: [
+          { n: "He takes it to the corridor. Through the door: \"Grand, Mam, yeah. ...Happy birthday. I miss you too.\"" },
+          { s: 'mateo', e: 'happy', t: "Hermano. Beautiful. I'm not crying. NS is very dusty." },
+        ] },
+        { t: "Leave it. Not your business.", fx: {}, then: [
+          { mochi: "Distance doesn't only happen to couples. Sometimes it's a son and his mum.", e: 'neutral' },
+        ] },
+      ] },
+      { hide: '*' },
+    ] },
+
     // 16-4 distance and money
     SIM.split([
       { bg: 'apartment' },
@@ -90,6 +122,7 @@ window.CHAPTERS.ch16 = {
         yuna: [{ txt: '@route', t: "can u fly over next month? i found flights. only $680" }],
         chloe: [{ txt: '@route', t: "penang next month? \"market research\" for the kiosk. ferry + hostel, i found a deal. only $680" }],
         preet: [{ txt: '@route', t: "can u fly over next month? i found flights. only $680" }],
+        ava: [{ txt: '@route', t: "can u fly to california next month?? found flights w two layovers. only $680. also i made a spreadsheet of when we're both awake 📊" }],
       }, []),
       { phoneOff: true },
       { think: "Phones go in the box during training. And $680 is about two months of allowance." },

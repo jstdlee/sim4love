@@ -8,6 +8,7 @@ window.CHAPTERS = window.CHAPTERS || {};
     yuna: { got: "I got it. I got into the dance academy in Seoul.", far: "Seoul. Two years. Six hours away." },
     chloe: { got: "I got it. The incubator kiosk at the new hawker centre, with a starter loan. My own stall.", far: "Seven-day weeks from 5 AM. Same island, but you'll barely see each other." },
     preet: { got: "I got it. Social work, with a six-month NGO placement in Chiang Mai.", far: "Chiang Mai. Six months. A different country, one hour behind." },
+    ava: { got: "I got it. Marine science in California, with a coral-restoration lab. And my dad's job moves to Seattle anyway, so… same coast. Kinda.", far: "California. Fifteen hours behind. When she wakes up, you're having dinner." },
   };
   const R = (f) => SIM.byRoute(Object.fromEntries(SIM.HEROINES.map((h) => [h, f(h)])), []);
 

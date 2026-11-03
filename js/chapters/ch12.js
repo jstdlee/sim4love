@@ -15,6 +15,8 @@ window.CHAPTERS = window.CHAPTERS || {};
       custom: "You bring two mandarin oranges, greet her grandfather first, and spend twenty minutes washing steamboat ladles with her cousins." },
     preet: { intro: "Gurpurab at Preet's family's gurdwara, then lunch at her uncle's place. Twenty relatives, langar dal and parathas, and every single one of them is looking at you.",
       custom: "You cover your head at the gurdwara, sit on the floor for langar, help wash the steel plates, and say \"Sat Sri Akal\" to her grandmother." },
+    ava: { intro: "Friendsgiving at Ava's condo by East Coast. Her dad has smoked a Texas brisket for fourteen hours, her mum has invited half the condo, and every single one of them is looking at you.",
+      custom: "You bring Ah Ma's ngoh hiang in a tingkat and call her dad \"Uncle\". He laughs: \"Call me Mike.\" You try. It comes out as \"Uncle Mike\", and he decides he loves it." },
   };
   const R = (f) => SIM.byRoute(Object.fromEntries(SIM.HEROINES.map((h) => [h, f(h)])), []);
 
@@ -216,6 +218,48 @@ window.CHAPTERS = window.CHAPTERS || {};
           { t: "Do it so you don't look uncool.", fx: { self: -8 }, lesson: 'yourno', then: [{ n: "Everyone cheers. You feel weird for the rest of the night." }] },
         ] },
       ]),
+      // 12-two-feasts: Ines and Mateo
+      { if: (s) => !!s.flags.inesMet, then: [
+        { bg: 'dining' },
+        WEAR('festive'),
+        { show: 'ines', e: 'happy', at: 'center' },
+        { n: "Christmas Eve at the Diallo flat. Inès invited half the debate circuit. Thieboudienne at one end of the table, a Breton butter cake at the other. Her dad says grace in Wolof, her mum in French." },
+        { s: 'ines', e: 'happy', t: "Yes, I wear my Tabaski boubou to Christmas. My mother says it's festive enough for both. She is correct, for once." },
+        { n: "At nine, her phone rings. A video call from Dakar, her grandmother. Inès takes it into the corridor. When she comes back, her eyes are red." },
+        { s: 'ines', e: 'neutral', t: "Allergies. The butter cake. Very aggressive butter." },
+        { flaw: { ines: { 'wont-admit-homesick': 'seen' } }, why: "She cried after her grandmother's call and blamed the cake." },
+        { choice: "She sits down next to you without looking at anyone.", opts: [
+          { t: "Don't argue, don't fix. Just sit with her. \"Tell me about her?\"", fx: { 'aff.ines': 6, 'trust.ines': 4 }, then: [
+            { s: 'ines', e: 'neutral', t: "...She sells fabric at Marché HLM. She calls me \"ma petite avocate\". My little lawyer. I haven't seen her in two years." },
+            { reveal: { ines: 'sensitivity' }, why: "She told you about her grandmother instead of making a joke." },
+          ] },
+          { t: "\"Allergies, right. Pass the cake?\"", fx: { 'aff.ines': 1 }, then: [
+            { s: 'ines', e: 'happy', t: "Exactly. Allergies. Thank you for believing me." },
+            { mochi: "She offered you an exit and you took it. Sometimes the kind move is not to.", e: 'neutral' },
+          ] },
+        ] },
+        { hide: '*' },
+      ] },
+      { if: (s) => !!s.flags.mateoMet, then: [
+        { bg: 'apartment' },
+        WEAR('festive'),
+        { show: 'mateo', e: 'happy', at: 'center' },
+        { n: "Same week, the Tan Rojas flat in Bedok. A novena with his mum's prayer group in the living room, buñuelos on every plate. Then his dad lights joss sticks at the ancestor altar, and Mateo bows three times beside him." },
+        { s: 'mateo', e: 'happy', t: "Both, bro. Jesús and Ah Gong. Nobody fights. Ah Gong also gets buñuelos." },
+        { n: "Over dessert he tells the story of his graduation in Medellín. His dad was on a ship in the Gulf and missed it. Mateo does all the voices. Everyone laughs. He laughs loudest." },
+        { flaw: { mateo: { 'jokes-past-pain': 'seen' } }, why: "He turned his dad missing his graduation into a comedy bit." },
+        { choice: "Later, washing up together.", opts: [
+          { t: "\"You don't have to make it funny, you know.\"", fx: { 'aff.mateo': 6, 'trust.mateo': 4 }, then: [
+            { s: 'mateo', e: 'neutral', t: "...Sí. I know. It was the one day I really wanted him there. Then I moved here for him, and he's still on ships." },
+            { reveal: { mateo: 'sensitivity' }, why: "He stopped joking when you told him he didn't have to." },
+            { s: 'mateo', e: 'happy', t: "Okay. Enough. Gracias, hermano. Dry the plates. You're bad at it." },
+          ] },
+          { t: "Laugh again. \"Bro, the voices!\"", fx: { 'aff.mateo': 2 }, then: [
+            { n: "He does the voices again. His eyes don't quite join in." },
+          ] },
+        ] },
+        { hide: '*' },
+      ] },
       // CNY week: Chloe's stall rush, Ah Ma's flat, Joy's Sunday
       { if: (s) => !!s.flags.chloeMet, then: [
         { bg: 'hawker' },

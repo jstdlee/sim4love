@@ -79,6 +79,41 @@ window.CHAPTERS.ch20 = {
       ] },
     ] },
 
+    // 20-open-mic: Ollie and Sam
+    { if: (s) => !!s.flags.ollieMet, then: [
+      { bg: 'cafe' },
+      WEAR('later', { saki: 'crew' }),
+      { show: 'saki', e: 'happy', at: 'left' },
+      { show: 'ollie', e: 'happy', at: 'right' },
+      { n: "Thursday Open Night, two years on. Sam de Vries runs the stage now, with a headset and a roll of gaffer tape. Ollie still carries the amp." },
+      { s: 'saki', e: 'happy', t: "Ja, so, the last slot is free. Not so handy for me, so I'm giving it to you. Go." },
+      { s: 'ollie', e: 'neutral', t: "Told you years ago it was there. Three minutes. {passion}. No pressure." },
+      { choice: "The last slot is yours.", opts: [
+        { t: "Take it.", fx: { passion: 8, self: 6 }, then: [
+          { n: "You shake for ten seconds, then you don't. The café goes quiet in the good way." },
+          { s: 'ollie', e: 'happy', t: "...Not bad, that. Not bad at all." },
+          { s: 'saki', e: 'happy', t: "From him that's a standing ovation. Gezellig! Lime juice is on Uncle Ong." },
+        ] },
+        { t: "\"Next time.\"", fx: {}, then: [
+          { s: 'saki', e: 'neutral', t: "Ja, no. \"Next time\" is how people never go. But okay. It's there." },
+        ] },
+      ] },
+      { hide: '*' },
+    ] },
+    { if: (s) => !!s.flags.mateoMet, then: [
+      { bg: 'dining' },
+      WEAR('later'),
+      { show: 'mateo', e: 'happy', at: 'left' },
+      { show: 'ama', e: 'happy', at: 'right' },
+      { n: "Ah Ma's kitchen. Mateo is teaching her arepas. She is teaching him the Hokkien word for everything he gets wrong." },
+      { s: 'ama', e: 'happy', t: "Too thick! Like that cannot. Aiyoh, this boy. ...Okay, nice. Next week you come again." },
+      { s: 'mateo', e: 'happy', t: "¡Sí, Ah Ma! Next week I bring my abuela on video. Two grandmothers, one kitchen. Dios mío." },
+      { hide: '*' },
+    ] },
+    { if: (s) => !!s.flags.inesMet && !!s.flags.inesPreetFriends, then: [
+      { n: "Before Inès leaves for Sciences Po, she couriers Preet a box: three years of debate notes, colour-coded, with one card on top. \"To my best rival. You argue. Voilà. — I.\"" },
+    ] },
+
     // 20-4 money as a team
     { bg: 'hawker' },
     WEAR('later', { rei: 'law' }),

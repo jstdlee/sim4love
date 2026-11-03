@@ -39,6 +39,21 @@ window.CHAPTERS.ch9 = {
               { n: "You stay. Danish, nine, finally gets equivalent fractions and does a victory lap around the tables." },
               { s: 'preet', e: 'happy', t: "See? Best feeling in the world. ...Okay, second best. The prata is coming." },
               { reveal: { preet: 'warmth' }, why: "You saw her with the kids at the CC." }],
+            ava: [{ bg: 'hawker' }, WEAR('out'), { bgm: 'romance' },
+              { s: 'ava', e: 'happy', at: 'center', t: "Hawker date! Okay, I'm paying for mine. You pay for yours. Fifty-fifty, every time. That's how it works, right?" },
+              { choice: "Where you grew up, the guy usually treats.", opts: [
+                { t: "\"Let's make our own system. Take turns for small stuff, split the big ones.\"", fx: { trust: 4 }, then: [
+                  { s: 'ava', e: 'happy', t: "Turns for small, split for big. That's genius. We need a name for it." },
+                  { flag: 'avaBillSystem' },
+                ] },
+                { t: "\"Fifty-fifty works for me.\"", fx: { trust: 4 }, then: [
+                  { s: 'ava', e: 'happy', t: "Cool. Easy. No weird owing-each-other energy." },
+                ] },
+                { t: "\"Let me treat. Always.\"", fx: { trust: 4 }, then: [
+                  { s: 'ava', e: 'neutral', t: "That's sweet. But then I'd feel like I owe you, and I hate owing. Turns?" },
+                  { me: "Turns." },
+                ] },
+              ] }],
           }, [{ n: "A good, small Saturday." }]),
         ] },
         { t: "\"Can just stay home? I'm in a raid.\"", fx: { '@route': -8, trust: -6 }, lesson: 'effortdrop', then: [
@@ -119,6 +134,7 @@ window.CHAPTERS.ch9 = {
             yuna: [{ s: 'yuna', e: 'blush', at: 'center', t: "A playlist of songs I sang at KTV? Even the bad ones? Especially the bad ones." }],
             chloe: [{ s: 'chloe', e: 'blush', at: 'center', t: "A list of every kueh I ever said I liked? With a \"why\" column? ...That's the most romantic spreadsheet I've ever seen." }],
             preet: [{ s: 'preet', e: 'blush', at: 'center', t: "You made a fractions board game for my tuition kids? I'm not crying. It's the prata steam." }],
+            ava: [{ s: 'ava', e: 'blush', at: 'center', t: "You printed my frangipani photo? And framed it? And wrote \"egg flower\" on the back? Okay. This is coming with me through every move. Every single one." }],
           }, []),
         ] },
         { t: "Forget. Then \"it's just one month lol\".", fx: { '@route': -10, trust: -8 }, lesson: 'remember', then: [

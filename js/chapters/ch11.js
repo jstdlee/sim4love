@@ -9,6 +9,7 @@ window.CHAPTERS = window.CHAPTERS || {};
     yuna: 'her showcase dress rehearsal',
     chloe: 'her stall at the youth enterprise fair',
     preet: 'her debate prize-giving',
+    ava: 'her photo exhibition opening at the library',
   };
   const R = (f) => SIM.byRoute(Object.fromEntries(SIM.HEROINES.map((h) => [h, f(h)])), []);
 
@@ -106,6 +107,24 @@ window.CHAPTERS = window.CHAPTERS || {};
           ] },
         ] },
         { hide: '*' },
+        SIM.byRoute({ ava: [
+          { bg: 'cafe' },
+          WEAR('out'),
+          { n: "It starts with Saturdays. You can never do Saturdays, because of your shift, because the shift money goes home." },
+          { show: 'ava', e: 'sad', at: 'center' },
+          { s: 'ava', e: 'sad', t: "I'm not gonna lie, I don't get it. They're adults. Why do you pay for them?" },
+          { choice: "This isn't really about Saturdays.", opts: [
+            { t: "Explain your why, then ask hers. \"It's how my family says we're in it together. What does money mean in yours?\"", fx: { ava: 6, trust: 6 }, sig: 2, then: [
+              { s: 'ava', e: 'neutral', t: "...In mine it means \"you're on your own now, and that's love too.\" Huh. We're both right. That's so annoying." },
+              { flaw: { ava: { 'allowance-bubble': 'growing' } }, why: "You both explained the why instead of arguing about who was right." },
+            ] },
+            { t: "\"You wouldn't understand. You get eighty a week for nothing.\"", fx: { ava: -6, trust: -6 }, then: [
+              { s: 'ava', e: 'sad', t: "Okay. That one hurt. I asked because I wanted to understand." },
+              { mochi: "\"Who's right\" is the wrong question. \"Why does it matter to you\" is the right one.", e: 'sad' },
+            ] },
+          ] },
+          { hide: '*' },
+        ] }, []),
         { talk: 'coupletime' },
       ], [
         // solo branch: the fight is with Haziq

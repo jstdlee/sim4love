@@ -116,6 +116,25 @@ window.CHAPTERS.ch13 = {
     ] },
     { hide: '*' },
 
+    // 13-peer-education fair: Ines and Ava
+    { if: (s) => !!s.flags.inesMet || !!s.flags.avaMet, then: [
+      { bg: 'classroom' },
+      WEAR('school', { ines: 'casual' }),
+      { n: "Inter-school peer-education fair. Every booth has a poster, a bowl of sweets and one volunteer trying very hard." },
+      { if: (s) => !!s.flags.inesMet, then: [
+        { show: 'ines', e: 'neutral', at: 'center' },
+        { s: 'ines', e: 'neutral', t: "Silence is not a yes. \"Maybe\" is not a yes. Drunk, asleep, scared: not a yes. Only yes is yes, and you can take it back any time. Voilà." },
+        { n: "A Sec 4 boy asks a cheeky question. She answers it seriously and he ends up taking notes." },
+        { hide: '*' },
+      ] },
+      { if: (s) => !!s.flags.avaMet, then: [
+        { show: 'ava', e: 'neutral', at: 'center' },
+        { s: 'ava', e: 'neutral', t: "In Texas we did consent in health class. Role-plays, a poster that said \"Ask. Listen. Respect.\" Here CCE talks more about values and family." },
+        { s: 'ava', e: 'happy', t: "Honestly? Your why plus our practice would be the perfect class. Somebody tell MOE." },
+        { hide: '*' },
+      ] },
+    ] },
+
     // 13-6 the rooftop talk, and the moment after
     { bg: 'rooftop' },
     WEAR('school'),

@@ -42,6 +42,31 @@ window.CHAPTERS.ch19 = {
       ] },
     ] },
 
+    // 19-ava: the too-cheap flight
+    SIM.split([SIM.byRoute({ ava: [
+      { phone: 'Ava' },
+      { txt: '@route', t: "OKAY found a telegram travel agent. $450 return SFO to SIN for december!!! airline site says $1,300" },
+      { txt: '@route', t: "he says only 2 seats left and i have to paynow him tonight to hold them. should i??" },
+      { choice: "$450 for a $1,300 ticket. Tonight only.", opts: [
+        { t: "\"Video call me. Let's check the airline's own site together first. Real fares don't come from Telegram.\"", fx: { trust: 8, wisdom: 8 }, lesson: 'toocheap', flag: 'avaScamSafe', then: [
+          { phoneOff: true },
+          { n: "On the call you both check the booking reference he sent. It doesn't exist. His Telegram account is nine days old." },
+          { show: 'ava', e: 'surprised', at: 'center' },
+          { s: 'ava', e: 'surprised', t: "Oh my gosh. I almost sent it. I was so excited about seeing you I stopped thinking. Reporting him right now." },
+          { mochi: "Too cheap, too urgent, strange way to pay. Scammers love long-distance couples, because missing someone makes you hurry.", e: 'doctor' },
+          { resource: 'scam' },
+        ] },
+        { t: "\"Book it fast before it's gone!\"", fx: { trust: -4, wallet: -6 }, lesson: 'toocheap', then: [
+          { txt: '@route', t: "sent 😭 now he wants $200 more for \"seat insurance\"" },
+          { phoneOff: true },
+          { mochi: "The ticket never existed. The \"insurance\" won't either. Report it, and next time check the airline's site first.", e: 'sad' },
+          { resource: 'scam' },
+        ] },
+      ] },
+      { phoneOff: true },
+      { hide: '*' },
+    ] }, [])], []),
+
     // 19-2 deposit "agency"
     { bg: 'camp' },
     WEAR('ns'),
@@ -50,6 +75,7 @@ window.CHAPTERS.ch19 = {
     { choice: "Ryan is holding his phone like it's a winning 4D ticket.", opts: [
       { t: "\"Walk away, bro. You can't buy someone liking you. And that agency doesn't exist.\"", fx: { wisdom: 8, self: 4 }, lesson: 'depositscam', then: [
         { s: 'ren', e: 'sad', t: "...The website was made last week. Huh. Okay. I don't need another debt." },
+        { n: "That night he finally rings his mum in Cork. You hear \"Mam? It's me,\" then a long quiet, then: \"Actually, Mam, no. Not grand. Can I tell you something?\"" },
         { mochi: "Deposit, verification fee, \"insurance\", silence. The girl in the photos never existed.", e: 'doctor' },
       ] },
       { t: "\"Go lah! Models!\"", fx: { wisdom: -8 }, lesson: 'depositscam', then: [
@@ -159,6 +185,29 @@ window.CHAPTERS.ch19 = {
     ] },
     { hide: '*' },
 
+    // 19-embassy-call: Mateo's mum
+    { if: (s) => !!s.flags.mateoMet, then: [
+      { bg: 'apartment' },
+      WEAR('later'),
+      { show: 'mateo', e: 'neutral', at: 'center' },
+      { n: "Sunday lunch at the Tan Rojas flat. Mateo's mum answers her phone in Spanish, then goes pale." },
+      { s: 'mateo', e: 'neutral', t: "Bro. It's \"the Colombian embassy\". They say her passport is linked to a money-laundering case. She has to move her savings to a \"safe account\" today or be arrested." },
+      { choice: "His mum is already opening her banking app.", opts: [
+        { t: "\"Tell her to hang up. We find the embassy's real number on its official website and call that.\"", fx: { 'aff.mateo': 6, 'trust.mateo': 6, wisdom: 8 }, lesson: 'officialcall', then: [
+          { n: "She hangs up. Mateo finds the number on the embassy's official site. The real embassy says what real embassies always say: we never ask for money over the phone." },
+          { s: 'mateo', e: 'happy', t: "Hermano. You saved my mamá's savings. She says you're invited to lunch forever." },
+          { mochi: "Real officials never ask you to move money to a \"safe account\". Hang up, find the number yourself, call back. In any language.", e: 'doctor' },
+          { resource: 'scam' },
+        ] },
+        { t: "\"Better do what they say. Just in case.\"", fx: { 'aff.mateo': -4, wisdom: -8 }, lesson: 'officialcall', then: [
+          { n: "Mateo grabs the phone a second before she presses send. Nobody says much for the rest of lunch." },
+          { mochi: "\"Just in case\" is exactly the feeling they're selling. Real officials don't rush you to transfer money.", e: 'sad' },
+          { resource: 'scam' },
+        ] },
+      ] },
+      { hide: '*' },
+    ] },
+
     // Natalie spots a fake profile, then goes quiet
     { if: (s) => s.route === 'solo' && !!s.flags.nanaCoffee, then: [
       { bg: 'cafe' },
@@ -219,6 +268,31 @@ window.CHAPTERS.ch19 = {
       ] },
     ] },
     { hide: '*' },
+    // 19-deposit-scam: Ollie, with Rae
+    { if: (s) => !!s.flags.ollieMet, then: [
+      { bg: 'cafe' },
+      WEAR('later', { rei: 'occasion', ollie: 'weekend' }),
+      { show: 'ollie', e: 'sad', at: 'right' },
+      { n: "After the talk, Rae walks with you to Uncle Ong's café. Ollie is at the counter, staring at his phone." },
+      { s: 'ollie', e: 'sad', t: "Found a studio. Tiong Bahru, $1,100 a month, which is mad. Agent's overseas, so no viewing. Just a $2,000 deposit to hold it. Was about to send it, to be honest." },
+      { flaw: { ollie: { 'cant-ask-for-help': 'seen', 'too-polite-to-check': 'seen' } }, why: "He nearly paid a $2,000 deposit rather than ask for a viewing." },
+      { show: 'rei', e: 'neutral', at: 'left' },
+      { choice: "Rae raises an eyebrow at you.", opts: [
+        { t: "\"Ollie, that's a third of the usual rent, no viewing, overseas agent. Can we check the agent on the CEA register first?\"", fx: { 'aff.ollie': 5, 'trust.ollie': 5, wisdom: 6 }, lesson: 'toocheap', then: [
+          { s: 'rei', e: 'neutral', t: "Too cheap, no viewing, pay first. That's three lines from my script. Check the register." },
+          { n: "The agent's name isn't on the Council for Estate Agencies public register. The flat photos come from a listing in another city." },
+          { s: 'ollie', e: 'neutral', t: "Right. Should've asked. I'm rubbish at asking. ...Thanks, both of you. Reporting it now." },
+          { flaw: { ollie: { 'cant-ask-for-help': 'growing' } }, why: "He let you and Rae help him check, then reported it." },
+          { resource: 'scam' },
+        ] },
+        { t: "\"Wah, cheap. Grab it.\"", fx: { 'aff.ollie': -2 }, lesson: 'toocheap', then: [
+          { s: 'rei', e: 'neutral', t: "No. Ollie, don't. Check the agent's registration first." },
+          { mochi: "Rae spotted it. You nearly cheered it on. Too good to be true usually is.", e: 'sad' },
+          { resource: 'scam' },
+        ] },
+      ] },
+      { hide: '*' },
+    ] },
     SIM.evening('ch19'),
     { chapterEnd: true },
   ],

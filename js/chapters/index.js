@@ -161,7 +161,14 @@ SIM.endingFor = (s) => {
   if (life >= 75 && st.self >= 60 && st.wisdom >= 60 && st.proj <= 20) return 'own_story';
   if (s.flags.kindGoodbye) return 'kind_goodbye_' + s.flags.kindGoodbye;
   if (r) {
-    if (st.trust >= 70 && st.self >= 40 && st.wisdom >= 60 && life >= 55 && s.flags.supportedDream && s.flags.keptDream && st.proj <= 40) return 'true_' + r;
+    let ok = st.trust >= 70 && st.self >= 40 && st.wisdom >= 60 && life >= 55 && s.flags.supportedDream && s.flags.keptDream && st.proj <= 40;
+    // Ava's true end also needs the honest Ch14 talk, the Ch19 scam caught together and a values fit of 60+
+    // (docs/CAST_INTERNATIONAL.md §2.1). Fit is skipped when no values have been set yet.
+    if (ok && r === 'ava') {
+      const fit = window.CastSim && window.CastSim.fit ? window.CastSim.fit(s, 'ava') : null;
+      ok = !!s.flags.avaHonest14 && !!s.flags.avaScamSafe && (fit == null || fit >= 60);
+    }
+    if (ok) return 'true_' + r;
     return 'normal_' + r;
   }
   if ((st.kenta || 0) >= 60 && s.flags.broStall) return 'bro_end';
@@ -171,7 +178,7 @@ SIM.endingFor = (s) => {
 SIM.allLessons = (s) => Object.keys(window.LESSONS || {}).every((id) => s.lessons.includes(id));
 
 /* Resolve a {with} command: '@route' → route heroine (solo → c.solo), '@top' → closest heroine. */
-SIM.HEROINES = ['hina', 'mio', 'kaede', 'yuna', 'chloe', 'preet'];
+SIM.HEROINES = ['hina', 'mio', 'kaede', 'yuna', 'chloe', 'preet', 'ava'];
 SIM.resolveWith = (c, s) => {
   const r = s.route && s.route !== 'solo' ? s.route : null;
   if (c.with === '@route') return r || c.solo || 'kenta';

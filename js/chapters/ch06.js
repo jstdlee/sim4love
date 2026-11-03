@@ -127,6 +127,81 @@ window.CHAPTERS.ch6 = {
       { hide: '*' },
     ] },
 
+    // 6-debate exhibition: Ines vs Preet
+    { bg: 'carnival' },
+    WEAR('carnival'),
+    { n: "Main stage, 4 PM: an exhibition debate. \"This house believes exams measure memory, not intelligence.\" The visiting team is from the French international school." },
+    { show: 'ines', e: 'smug', at: 'right' },
+    { s: 'ines', e: 'smug', t: "En fait, it is simple. You Singaporeans memorise. We argue. Voilà, that is the whole motion." },
+    { flag: 'inesMet' },
+    { flaw: { ines: { contrarian: 'seen' } }, why: "\"You Singaporeans memorise. We argue.\"" },
+    { judge: { who: 'ines', id: 'ines.arrogant', verdict: 'unfair' } },
+    { show: 'preet', e: 'neutral', at: 'left' },
+    { s: 'preet', e: 'neutral', t: "Thank you. My opponent has just memorised a stereotype and argued it. I believe that proves our side." },
+    { n: "The crowd laughs. Inès laughs too, a beat late, and writes on an index card very hard." },
+    { s: 'ines', e: 'neutral', t: "Bof. Your argument is a feeling wearing a tie. ...A good feeling. Okay. Point to you." },
+    { reveal: { ines: 'intellect' }, why: "She rebuilt her whole case in ninety seconds after Preet's rebuttal." },
+    { hide: 'preet' },
+    { choice: "Afterwards, Inès is packing her index cards alone by the stage.", opts: [
+      { t: "\"Good debate. But 'you memorise' isn't fair. We argue plenty. You just saw.\"", fx: { 'trust.ines': 4, 'aff.ines': 4, wisdom: 3 }, then: [
+        { s: 'ines', e: 'neutral', t: "...Hm. You say it without a joke about the French. That is rare. Usually people tell me about baguettes." },
+        { s: 'ines', e: 'happy', t: "Inès. Tell your Preet she was good. Not better. Good." },
+        { flag: 'inesCalledOut' },
+        { contact: 'ines' },
+      ] },
+      { t: "\"Typical French. Think they're better than everyone.\"", fx: { 'aff.ines': -4 }, then: [
+        { s: 'ines', e: 'neutral', t: "Ah, voilà. So we both generalise. Very educational." },
+        { mochi: "She made a lazy generalisation. You answered with another one. Nobody won that round.", e: 'sad' },
+      ] },
+    ] },
+    { hide: '*' },
+
+    // 6-harmony booth: Ava and Hanis
+    { if: (s) => !!s.flags.avaMet, then: [
+      { bg: 'carnival' },
+      WEAR('carnival'),
+      { n: "The Racial Harmony booth: kuih, henna, and a rack of traditional clothes for the photo corner. Ava is holding up a baju kurung." },
+      { show: 'ava', e: 'happy', at: 'left' },
+      { s: 'ava', e: 'happy', t: "Okay, this is SO pretty. Can I just put it on for a pic? For fun?" },
+      { show: 'hina', e: 'neutral', at: 'right' },
+      { choice: "Hanis is running the booth.", opts: [
+        { t: "\"Hanis, Ava wants to try one. Maybe tell her about it first?\"", fx: { ava: 6, hina: 4 }, lesson: 'costume', flag: 'avaHarmony', then: [
+          { s: 'hina', e: 'happy', t: "Come, I show you properly. My nenek sewed this one. We wear it for Hari Raya, weddings, some Fridays." },
+          { s: 'ava', e: 'surprised', t: "Your grandma made this? Wait, then what does it mean when someone like me wears it? I don't want it to be a costume." },
+          { s: 'hina', e: 'happy', t: "Wear it like you mean it, not like a costume, and I'm happy. You asked. That's already the difference." },
+          { n: "Ava wears it exactly the way Hanis shows her, and hears the whole story of the pattern before she takes a single photo." },
+        ] },
+        { t: "\"Just wear lah, one photo only.\"", fx: { ava: 2, hina: -3 }, lesson: 'costume', then: [
+          { s: 'hina', e: 'neutral', t: "Er. Ask first lah. These are people's family clothes, not props." },
+          { s: 'ava', e: 'sad', t: "Oh. Right. Sorry. Can you tell me about them instead?" },
+        ] },
+      ] },
+      { hide: 'hina' },
+      { n: "Her phone lock screen is a blurry photo of baby coral growing on a rope frame." },
+      { choice: "Ava catches you looking.", opts: [
+        { t: "Ask about the coral.", fx: { ava: 4 }, then: [
+          { s: 'ava', e: 'happy', t: "Coral nursery off Sisters' Islands! You grow little fragments on ropes, then replant them on the reef. I want to do that for a living. Like, actually." },
+          { reveal: { ava: 'intellect' }, why: "She explained reef restoration in three sentences and one hand diagram." },
+        ] },
+        { t: "\"Nice wallpaper.\"", fx: {}, then: [
+          { s: 'ava', e: 'neutral', t: "Thanks! It's coral. Long story." },
+        ] },
+      ] },
+      { hide: '*' },
+    ] },
+
+    // 6-mateo over-promise
+    { if: (s) => !!s.flags.mateoMet, then: [
+      { bg: 'carnival' },
+      WEAR('carnival'),
+      { n: "Mateo told the class chat he'd bring \"the WHOLE futsal team, 15 guys, trust 💪\" to buy kueh and play the booth games. Two show up. One of them is Mateo." },
+      { show: 'mateo', e: 'sad', at: 'center' },
+      { s: 'mateo', e: 'sad', t: "Bro, they all said yes! In the chat! ...Yes in the chat is not yes in real life, sí?" },
+      { flaw: { mateo: { 'over-promises': 'seen' } }, why: "He promised fifteen people. Two came." },
+      { s: 'mateo', e: 'happy', t: "Okay. New rule. I promise two and bring three. ¡Qué bueno!" },
+      { hide: '*' },
+    ] },
+
     // 6-5 your own stage
     { bg: 'carnival' },
     WEAR('carnival'),

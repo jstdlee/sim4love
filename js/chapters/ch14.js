@@ -9,6 +9,7 @@ window.CHAPTERS = window.CHAPTERS || {};
     yuna: "A clip of hers went viral for the wrong reasons. The comments are vicious, her mum is doing double shifts, and Elise has stopped streaming.",
     chloe: "The supplier stopped giving her dad credit. Chloe has been doing the 5 AM prep before school every day, and yesterday she fell asleep standing at the steamer.",
     preet: "She said yes to everything again: debate camp, CC tuition, peer-educator training, two projects. Last night she cried over a printer jam and then apologised to the printer.",
+    ava: "Her dad's company is moving him to Seattle after the A-levels. Ava has been posting sunsets all week and replying to your texts with one word.",
   };
   const ARCADE = {
     hina: "You told {her} you were studying tonight. You're at the mall arcade with Elise, and it was fun right up until Elise posted a story.",
@@ -17,6 +18,7 @@ window.CHAPTERS = window.CHAPTERS || {};
     yuna: "You told {her} you were studying tonight. You're at the mall arcade with Haziq, and it was fun right up until Haziq posted a story.",
     chloe: "You told {her} you were studying tonight. You're at the mall arcade with Elise, and it was fun right up until Elise posted a story.",
     preet: "You told {her} you were studying tonight. You're at the mall arcade with Elise, and it was fun right up until Elise posted a story.",
+    ava: "You told {her} you were studying tonight. You're at the mall arcade with Elise, and it was fun right up until Elise posted a story.",
   };
   const R = (f) => SIM.byRoute(Object.fromEntries(SIM.HEROINES.map((h) => [h, f(h)])), []);
   const goodbye = (extra) => R((h) => [{ flag: { kindGoodbye: h, brokeUp14: true } }, { route: 'solo' }].concat(extra || []));
@@ -164,6 +166,39 @@ window.CHAPTERS = window.CHAPTERS || {};
             text: "Haziq posted a fake library photo. Yesterday's date was on the whiteboard. Now it isn't a small lie: it's a planned deception with a witness. Small lies grow. The cheapest moment to tell the truth is always the first one." } },
         ] },
       ] },
+
+      // 14-ava: "Easier if we end it now, right?"
+      SIM.split([SIM.byRoute({ ava: [
+        { bg: 'cafe' },
+        WEAR('out', { ollie: 'teaching' }),
+        { n: "Thursday Open Night. Ava came, but she's been quiet all evening at the back table, camera in her lap. Between sets, Ollie sits down across from you both with an iced tea." },
+        { show: 'ollie', e: 'neutral', at: 'right' },
+        { s: 'ollie', e: 'neutral', t: "Seattle, I hear. Did long-distance myself. Singapore and Manchester. Eight hours apart." },
+        { s: 'ollie', e: 'neutral', t: "Didn't work, to be honest. Not the distance. We both stopped saying the hard stuff to keep the calls nice. Bit of a nightmare by the end." },
+        { s: 'ollie', e: 'happy', t: "Doesn't mean yours won't. Just... say the hard stuff. Right. My set." },
+        { hide: 'ollie' },
+        { show: 'ava', e: 'sad', at: 'center' },
+        { s: 'ava', e: 'sad', t: "So. Seattle. Then probably California for uni. It's fine. I've done this four times." },
+        { s: 'ava', e: 'sad', t: "Easier if we end it now, right? Before it gets hard. Clean." },
+        { judge: { who: 'ava', id: 'ava.leave', verdict: 'fair' } },
+        { choice: "She's already half looking at the door.", opts: [
+          { t: "\"Easier, maybe. I don't want easier. I want to try. And if you're scared, tell me, instead of leaving early.\"", fx: { ava: 8, trust: 10, wisdom: 4 }, lesson: 'goodbye', flag: 'avaHonest14', then: [
+            { s: 'ava', e: 'surprised', t: "...Nobody's ever said the \"tell me\" part." },
+            { s: 'ava', e: 'neutral', t: "Okay. I'm scared. Of the time zones, and of being the one who stops calling first. That's the real version." },
+            { flaw: { ava: { 'one-foot-out': 'growing' } }, why: "She told you she was scared instead of leaving early." },
+          ] },
+          { t: "\"If that's what you want, let's end it properly. Face to face. No fading out.\"", fx: { ava: 4, self: 6, wisdom: 6 }, lesson: 'goodbye', then: [
+            { s: 'ava', e: 'sad', t: "Properly. I've never done a proper one. I always just... stopped replying." },
+            { s: 'ava', e: 'neutral', t: "Thank you for this one. I'm gonna miss you. There. I said it out loud." },
+            goodbye(),
+          ] },
+          { t: "Shrug. \"Up to you.\"", fx: { ava: -6, trust: -10 }, lesson: 'goodbye', then: [
+            { s: 'ava', e: 'sad', t: "...Right. Up to me. Cool." },
+            { mochi: "She asked a question she was scared of. You handed it back unopened.", e: 'sad' },
+          ] },
+        ] },
+        { hide: '*' },
+      ] }, [])], []),
 
       // 14-5 breakup branch
       SIM.split([
