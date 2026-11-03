@@ -171,7 +171,7 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
   await page.waitForTimeout(500);
   const pf = await page.evaluate(() => ({ radar: !!document.querySelector('#modal .pf-radar svg.radar'), first: !!document.querySelector('#modal .rd-first'),
     face: (() => { const f = document.querySelector('#modal .pf-face'), i = f && f.firstElementChild; if (!i) return false;
-      const fr = f.getBoundingClientRect(), ir = i.getBoundingClientRect(); return getComputedStyle(i).position !== 'absolute' && ir.top >= fr.top - 1 && ir.top <= fr.bottom; })(),
+      const fr = f.getBoundingClientRect(), ir = i.getBoundingClientRect(); const cx = (ir.left + ir.right) / 2; return getComputedStyle(i).position !== 'absolute' && cx >= fr.left && cx <= fr.right && ir.top <= fr.top + fr.height / 2; })(),
     labels: document.querySelectorAll('#modal .rd-label').length, overflow: (document.querySelector('#modal .sheet, #modal .notebook') || document.body).scrollWidth > window.innerWidth + 1,
     texts: [...document.querySelectorAll('#modal h3, #modal li, #modal p')].map((e) => e.textContent.trim()) }));
   if (!pf.radar || !pf.first || pf.labels !== 7) errors.push(`Profile radar did not render (radar ${pf.radar}, first ${pf.first}, labels ${pf.labels})`);

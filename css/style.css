@@ -388,6 +388,8 @@ html[lang^="zh"] #text { line-height: 1.75; }
 .cast-card.locked { cursor: default; opacity: .55; border-top-color: var(--edge); }
 .cc-face { width: 64px; height: 64px; border-radius: 50%; overflow: hidden; position: relative; background: radial-gradient(circle at 50% 35%, rgba(201, 164, 92, .18), rgba(0, 0, 0, .35)); display: grid; place-items: center; color: var(--gold-lo); font: 700 24px var(--f-display); }
 .cc-face > img, .cc-face > svg, .pf-face > img, .pf-face > svg { position: static; inset: auto; width: 220%; height: auto; max-width: none; margin-top: 62%; object-fit: initial; }
+/* Generated sprites are full-figure 2:3 portraits with the face about a third of the way down. */
+.cc-face > img, .pf-face > img { width: 180%; margin-top: -36%; align-self: start; }
 .cc-fuse { position: absolute; top: 6px; right: 6px; width: 16px; height: 16px; }
 .cc-fuse svg, .pf-fuse svg, .rc-foot svg, .profile .muted svg { width: 15px; height: 15px; fill: none; stroke: var(--gold-hi); stroke-width: 1.4; vertical-align: -3px; margin-right: 5px; }
 .notebook .recaps { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin: 0 0 14px; }
