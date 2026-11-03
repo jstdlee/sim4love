@@ -156,7 +156,7 @@ Supporting cast to add to `Art.CAST` + sprites when their scenes are written: `k
 - Data files are pure data (no DOM). Engine is the only file touching the DOM besides `art.js` markup builders.
 - IDs: lower camelCase for flags/lessons/achievements; chapter ids `ch1…ch10`; files `ch01…ch10.js`.
 - Never put real people, brands or the reference game's characters/dialogue in scripts or art prompts.
-- Rated 16+, content limits in GAME_DESIGN §3: non-explicit, attitude and education focus, **visuals at most a hug**;
+- Rated 14+ (in-game age confirmation, see "Age confirmation" below), content limits in GAME_DESIGN §3: non-explicit, attitude and education focus, **visuals at most a hug**;
   sexual-health facts only in Ch12–13 (high-school level) and Ch18 (adult); risks and red flags are framed by
   behaviour, never by gender or orientation. Serious topics must include a `{resource:…}` card.
 - No live AI. Every line is authored; the engine only *selects* among authored variants (§9).
@@ -182,7 +182,7 @@ Full design: [VALUE_PROFILES.md](VALUE_PROFILES.md). This section is the engine 
 
 ### 9.1 No live AI
 All dialogue is authored and reviewed. A runtime language model is deliberately **not** used: it could produce unsafe
-or explicit text, inaccurate health facts or off-tone lines in an educational 16+ game, needs a network and a paid
+or explicit text, inaccurate health facts or off-tone lines in an educational 14+ game, needs a network and a paid
 API, and makes behaviour untestable. Variety comes from authored pools selected deterministically. AI may be used
 offline by writers to *draft* variants, which are then reviewed, committed and validated like any other line.
 
@@ -287,3 +287,15 @@ Default locale **`en-SG`** (English text, Singapore help cards). Chinese (`zh-SG
   carry no action, so they are accepted only when `TURNSTILE_ALLOW_TEST_KEYS=1` (never set in production).
   `tests/playthrough.js --url=http://127.0.0.1:8787/` passes the gate and fails on any 4xx from the game origin.
   Opening `index.html` directly or via a static server still works without the gate.
+
+## Age confirmation
+
+- Client side, after the Turnstile gate: `ageGate()` in `js/engine.js` shows a modal (`#modal.age`) over the title
+  screen on first visit ("Are you 14 or older?", strings `age.*` in `js/i18n/`). It cannot be dismissed with Esc or
+  the backdrop; the title screen is `inert` while it is open; the language picker is offered inside the prompt.
+- **Yes** stores `localStorage['sim4love.age14'] = '1'` (never asked again on that device).
+- **No** stores `sessionStorage['sim4love.age14.no'] = '1'`, stops music (`Music.stop()`), removes `#game`, shows a
+  calm full-screen `#age-exit` message and tries `window.close()`. Reloading in the same session shows the exit
+  screen again; a fresh session asks again. This is a self-declaration, not age verification.
+- `tests/playthrough.js` checks the prompt (including Esc), "yes" persistence, and the "no" exit screen in a
+  separate browser context.

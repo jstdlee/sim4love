@@ -42,6 +42,18 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
   const ctx = await browser.newContext(mobile
     ? { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true }
     : { viewport: { width: 1280, height: 720 } });
+  // "No" path in a separate context (fresh storage and session): exit screen, game removed, sticks on reload.
+  {
+    const c2 = await browser.newContext(); const p2 = await c2.newPage();
+    await p2.goto(url);
+    await p2.waitForSelector('#age-no', { timeout: 30000 });
+    await p2.click('#age-no');
+    const ok1 = await p2.evaluate(() => !!document.querySelector('#age-exit') && !document.querySelector('#game'));
+    await p2.reload(); await p2.waitForTimeout(400);
+    const ok2 = await p2.evaluate(() => !!document.querySelector('#age-exit') && !document.querySelector('#game'));
+    if (!ok1 || !ok2) { console.error(`Age "no" exit screen failed (after click: ${ok1}, after reload: ${ok2})`); process.exit(1); }
+    await c2.close();
+  }
   const page = await ctx.newPage();
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
@@ -54,6 +66,15 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
   }
   await page.evaluate((l) => { try { localStorage.clear(); localStorage.setItem('sim4love.locale', l); } catch (e) { /* ignore */ } }, lang);
   await page.reload();
+  // Age confirmation (14+): must appear on a fresh device, cannot be dismissed with Esc, and "Yes" is remembered.
+  await page.waitForSelector('#age-yes', { timeout: 10000 });
+  await page.keyboard.press('Escape');
+  if (!(await page.$('#age-yes'))) errors.push('Age prompt closed on Escape');
+  await page.click('#age-yes');
+  if (await page.evaluate(() => localStorage.getItem('sim4love.age14')) !== '1') errors.push('Age "yes" not stored');
+  await page.reload();
+  await page.waitForTimeout(400);
+  if (await page.$('#age-yes')) errors.push('Age prompt shown again after "yes"');
   const locale = await page.evaluate(() => SimEngine.locale);
   if (locale !== lang) errors.push(`Locale is ${locale}, expected ${lang}`);
   const english = new Set(); const tracks = new Set();

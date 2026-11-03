@@ -161,7 +161,7 @@
     const put = (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* ignore */ } };
     let vol = parseFloat(get('sim4love.bgm.vol', '0.6')); if (!(vol >= 0 && vol <= 1)) vol = 0.6;
     let muted = get('sim4love.bgm.mute', '0') === '1';
-    let ctx = null, master = null, cur = null, want = null, unlocked = false;
+    let ctx = null, master = null, cur = null, want = null, unlocked = false, stopped = false;
     const buffers = {};
     const level = () => (muted ? 0 : vol * vol); // squared: closer to perceived loudness
     const FADE = 1.6;
@@ -174,7 +174,7 @@
       return buffers[id];
     }
     function play() {
-      if (!ctx || muted || !want || (cur && cur.id === want)) return;
+      if (!ctx || muted || stopped || !want || (cur && cur.id === want)) return;
       const id = want, tr = B.tracks[id];
       load(id).then(buf => {
         if (want !== id || muted || (cur && cur.id === id)) return;
@@ -224,7 +224,9 @@
         muted = !!m; put('sim4love.bgm.mute', muted ? '1' : '0'); apply();
         if (!muted) play(); else if (cur && ctx) { fadeOut(cur, ctx.currentTime); cur = null; }
       },
-      state: () => ({ unlocked, playing: cur && cur.id, wanted: want, volume: vol, muted, ctx: ctx && ctx.state }),
+      // Permanent stop for this page (age gate exit): nothing plays again until a reload.
+      stop() { stopped = true; want = null; if (cur && ctx) { fadeOut(cur, ctx.currentTime); cur = null; } if (ctx && ctx.suspend) setTimeout(() => ctx.suspend(), 1800); },
+      state: () => ({ unlocked, stopped, playing: cur && cur.id, wanted: want, volume: vol, muted, ctx: ctx && ctx.state }),
     };
   })();
   const bgmFor = () => S.view.bgm || Music.forBg(S.view.bg);
@@ -864,8 +866,51 @@
     document.querySelectorAll('[data-ui-label]').forEach(el => { const t = ui(el.dataset.uiLabel); el.title = t; el.setAttribute('aria-label', t); });
     document.title = ui('title.doc');
     bind(); renderHud(); showTitle();
+    ageGate();
     preload();
   });
+  // ---------- age confirmation (14+) ----------
+  // Asked once per device before the title screen. "Yes" is remembered in localStorage; "No" shows a calm exit
+  // screen and is remembered for this browser session only, so a fresh session asks again.
+  const AGE_YES = 'sim4love.age14', AGE_NO = 'sim4love.age14.no';
+  const store = (k, area) => { try { return (area || localStorage).getItem(k); } catch (e) { return null; } };
+  function ageGate() {
+    if (store(AGE_NO, sessionStorage) === '1') { ageExit(); return; }
+    if (store(AGE_YES) === '1') return;
+    const title = $('#title');
+    title.inert = true;
+    const packs = Object.entries(window.I18N || {}).filter(([, p]) => p.ready);
+    const langs = packs.length < 2 ? '' : `<label class="age-lang"><span>${esc(ui('title.lang'))}</span><select id="age-locale" aria-label="${esc(ui('title.lang'))}">${packs.map(([id, p]) => `<option value="${id}" ${id === LOCALE ? 'selected' : ''}>${esc(p.label)}</option>`).join('')}</select></label>`;
+    modal(`<div class="age" aria-labelledby="age-q" aria-describedby="age-note">
+        <div class="lesson-kind ornament">sim4love</div>
+        <h2 id="age-q">${esc(ui('age.title'))}</h2>
+        <p id="age-note">${esc(ui('age.note'))}</p>
+        <div class="row age-actions">
+          <button class="btn primary" data-close="yes" id="age-yes">${esc(ui('age.yes'))}</button>
+          <button class="btn" data-close="no" id="age-no">${esc(ui('age.no'))}</button>
+        </div>
+        ${langs}
+      </div>`, (answer) => {
+      title.inert = false;
+      if (answer === 'yes') {
+        try { localStorage.setItem(AGE_YES, '1'); } catch (e) { /* private mode: ask again next visit */ }
+        const nm = $('#player-name'); nm && nm.focus({ preventScroll: true });
+      } else ageExit(true);
+    }, 'age');
+    const sel = $('#age-locale');
+    if (sel) sel.onchange = () => switchLocale(sel.value);
+  }
+  function ageExit(fresh) {
+    try { sessionStorage.setItem(AGE_NO, '1'); } catch (e) { /* ignore */ }
+    Music.stop();
+    const game = $('#game'); if (game) game.remove();
+    const out = document.createElement('main');
+    out.id = 'age-exit';
+    out.innerHTML = `<div class="age-exit-card" role="alert"><div class="logo" aria-hidden="true">sim<span>4</span>love</div><p tabindex="-1">${esc(ui('age.exit'))}</p></div>`;
+    document.body.appendChild(out);
+    out.querySelector('p').focus({ preventScroll: true });
+    if (fresh) { try { window.close(); } catch (e) { /* most browsers refuse for tabs the user opened */ } }
+  }
   function preload() {
     const sp = window.SPRITES; if (!sp) return;
     const urls = [...Object.values(sp.bg || {}), ...Object.values(sp.chars || {}).flatMap(o => Object.values(o))];

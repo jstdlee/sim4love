@@ -16,6 +16,7 @@ window.I18N['en-SG'] = {
     kai: { short: 'Alpha Kai', full: 'Alpha Kai' }, aileen: { short: '"Aileen"', full: '"Aileen"' },
   },
   ui: {
+    'age.title': "Are you 14 or older?", 'age.note': "This game is for ages 14+. It covers relationships, sexual health and scams.", 'age.yes': "Yes, I'm 14+", 'age.no': "No, I'm under 14", 'age.exit': "This game is for ages 14 and up. Come back when you're older.",
     'title.tagline': 'A visual novel about real love', 'title.sub': 'Oh no, love is complicated! A training course in real relationships.',
     'title.name': 'Your name', 'title.start': 'Start Chapter 1', 'title.continue': 'Continue', 'title.hint': 'Tap or press Space to advance · 1–4 to choose',
     'title.lang': 'Language',

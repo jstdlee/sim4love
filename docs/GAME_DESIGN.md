@@ -1,6 +1,6 @@
 # sim4love — Game Design Document
 
-> A funny, hand-drawn anime-style HTML visual novel set in **Singapore** (20 chapters, ages 16+) that teaches boys and young men what
+> A funny, hand-drawn anime-style HTML visual novel set in **Singapore** (20 chapters, ages 14+) that teaches boys and young men what
 > healthy love looks like, and above all that **your own life comes first**: self-respect, your goals and passion,
 > your health and your money. Along the way: how to start and keep a relationship, the common mistakes boys make,
 > sexual health and consent, and the traps (manipulation, scams, control, overspending) to recognise and avoid.
@@ -58,7 +58,7 @@ Things we deliberately do *differently* (fixing the reference's criticisms):
 
 ## 3. Audience & tone
 
-- **Ages 16+.** Primary audience: boys and young men 16–22. Parts I–IV are set in junior college (JC1–JC2,
+- **Ages 14+.** Primary audience: boys and young men 14–22. Parts I–IV are set in junior college (JC1–JC2,
   characters 16–18); Part V is the year after the A-levels (characters 18–19; the player is doing National Service).
 - **Content limits.** Dialogue is non-explicit and focused on attitude and education. **Visuals are at most a hug**
   (an asked-for kiss may happen off-screen or as a fade). No nudity, no sexual description; intimate moments cut away.
@@ -332,7 +332,7 @@ stores its source URL and verification date, and must be re-verified before ever
 | `alcohol` | Ambulance 995 if someone can't be woken or is breathing strangely; never leave them alone |
 
 Checked and **not used**: Tinkle Friend (1800 2744 788, Singapore Children's Society) exists but serves primary-school
-children aged 13 and below, so it does not fit a 16+ game. For `zh-SG`, SOS lists Care Corner's Mandarin counselling
+children aged 13 and below, so it does not fit a 14+ game. For `zh-SG`, SOS lists Care Corner's Mandarin counselling
 line 1800 3535 800 (daily 10am–10pm) — verify before adding.
 
 ## 10. What works in educational games and sex education (benchmark)

@@ -5,6 +5,6 @@
    Do not put story text in `engine.js`.
 3. Replace `SIM.todo(...)` beats with real dialogue in the voice of `js/chapters/ch01.js`; keep the designed choices.
 4. Before committing: `node tests/validate.js` must print `OK`; run `node tests/playthrough.js first` when Playwright is available.
-5. Hard rules: original content only (never copy the reference game); 16+ and non-explicit; behaviours not genders;
+5. Hard rules: original content only (never copy the reference game); 14+ and non-explicit; behaviours not genders;
    respect without worship, disenchantment without contempt;
    healthy option = best outcome; serious topics get a `{resource:…}` card.

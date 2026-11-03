@@ -112,7 +112,7 @@ The backlog below is historical (the 20-chapter restructure and Singapore reloca
 
 ## Rules (do not break)
 1. **Original content only.** The reference game (完蛋！我被美女包围了！) is for design patterns. Never copy its characters, plot, dialogue or images.
-2. **16+, non-explicit.** No nudity or sexual description; intimacy cuts away; **visuals at most a hug**. High-school chapters: kiss only with an "ask".
+2. **14+, non-explicit.** No nudity or sexual description; intimacy cuts away; **visuals at most a hug**. High-school chapters: kiss only with an "ask".
    Sexual-health education sits in JC at a school sex-education level (Ch12, **Ch13 Health Class**: nobody has sex,
    facts via nurse/peer educator/Dr. Mochi) and adult-relationship topics in Ch18 (18+). Factual and reviewed.
    **Red flags are behaviours and risks, never orientations**; never present homosexuality as abnormal.

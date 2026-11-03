@@ -18,7 +18,7 @@
 | **Extras** | 119 notebook lessons, achievements, 7 Think Deeper cards |
 | **Languages** | English and Simplified Chinese (简体中文), switchable any time |
 | **Platforms** | Any modern browser, desktop or phone. No install, no account, no ads |
-| **Rating** | 16+ (see the content note) |
+| **Rating** | 14+ (see the content note) |
 
 <p align="center"><img src="docs/screens/title.jpg" alt="sim4love title screen" width="720"></p>
 
@@ -70,7 +70,7 @@ choices if you prefer a relaxed read.
 
 ## Content note
 
-Rated **16+**. The game deals with dating, peer pressure, online scams and relationship red flags, always in an
+Rated **14+**. The game deals with dating, peer pressure, online scams and relationship red flags, always in an
 educational, non-graphic way. There is **no explicit content**: the most you'll see on screen is a hug.
 
 ## How to play
@@ -80,7 +80,7 @@ educational, non-graphic way. There is **no explicit content**: the most you'll 
 - **Local server (optional):** `npx serve .` (or any static file server), then open the address it prints.
 - **Deploy your own copy:** `npx wrangler deploy` (Cloudflare Workers static assets behind a Turnstile gate, see `wrangler.jsonc` and `docs/ARCHITECTURE.md`; set your own sitekey and the `TURNSTILE_SECRET` / `COOKIE_KEY` secrets).
 
-Progress, language and music settings save automatically in your browser. The ⚙ button opens Settings.
+You will be asked to confirm you are 14 or older the first time you play. Progress, language and music settings save automatically in your browser. The ⚙ button opens Settings.
 
 ## Development
 

@@ -352,3 +352,19 @@ html[lang^="zh"] #text { line-height: 1.75; }
 .sheet-head .sheet-back span { font: 14px var(--f-label); }
 .sheet-foot { position: sticky; bottom: 0; z-index: 2; margin: 0 -28px; padding: 12px 16px 16px; background: linear-gradient(rgba(14, 8, 9, 0), rgba(14, 8, 9, .96) 35%); }
 @media (max-width: 640px) { .sheet-head, .sheet-foot { margin-left: -16px; margin-right: -16px; } .sheet-head .sheet-back span { display: none; } }
+
+/* ---------- age confirmation (14+) ---------- */
+#modal.age { background: radial-gradient(ellipse at 50% 45%, rgba(18, 8, 10, .7), rgba(6, 2, 3, .92)); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+.age { display: flex; flex-direction: column; align-items: center; }
+.age h2 { margin-top: 8px; }
+.age p { max-width: 40ch; color: var(--ink-2); }
+.age-actions { justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+.age-actions .btn { min-width: 190px; padding: 11px 24px 10px; font-size: 15px; }
+.age-lang { margin-top: 18px; display: inline-flex; gap: 10px; align-items: center; font: 13px/1.2 var(--f-label); color: var(--muted); letter-spacing: .04em; }
+.age-lang select { font: 14px/1.2 var(--f-label); color: var(--ink); background: var(--panel); border: 1px solid var(--gold-lo); padding: 5px 8px; }
+.age-lang select:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 2px; }
+#age-exit { position: fixed; inset: 0; display: grid; place-items: center; padding: 24px; background: radial-gradient(ellipse at 50% 35%, #2b1d16 0%, var(--bg) 60%, #0b0607 100%); }
+.age-exit-card { text-align: center; max-width: 30em; }
+.age-exit-card .logo { font-size: clamp(40px, 9vw, 64px); margin-bottom: 18px; }
+.age-exit-card p { margin: 0; font-size: clamp(17px, 2.2vw, 20px); line-height: 1.7; color: var(--ink-2); text-wrap: balance; outline: none; }
+@media (max-width: 480px) { .age-actions .btn { min-width: 0; width: 100%; } }

@@ -17,6 +17,7 @@ window.I18N['zh-SG'] = {
     kai: { short: '阿尔法·凯', full: '阿尔法·凯' }, aileen: { short: '“Aileen”', full: '“Aileen”' },
   },
   ui: {
+    'age.title': "你已年满 14 岁了吗？", 'age.note': "本游戏适合 14 岁及以上玩家，内容涉及恋爱关系、性健康和诈骗防范。", 'age.yes': "我已满 14 岁", 'age.no': "未满 14 岁", 'age.exit': "本游戏适合 14 岁及以上玩家，等你长大再来吧。",
     'title.tagline': '一部关于真实爱情的视觉小说', 'title.sub': '糟了，爱情好复杂！一堂关于真实恋爱关系的训练课。',
     'title.name': '你的名字', 'title.start': '开始第一章', 'title.continue': '继续游戏', 'title.hint': '点击或按空格键继续 · 按 1–4 选择',
     'title.lang': '语言',
