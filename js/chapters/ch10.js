@@ -7,14 +7,18 @@ window.CHAPTERS = window.CHAPTERS || {};
     mio: { n: 'Jun Hao', who: 'her co-editor on the school magazine', what: 'the magazine layout', be: 'It Was Her Editor' },
     kaede: { n: 'Arvind', who: 'her relay training partner', what: 'baton changes', be: 'It Was Her Relay Partner' },
     yuna: { n: 'Leo', who: 'her dance partner for the showcase', what: 'the lift in bar sixteen', be: 'It Was Her Dance Partner' },
+    chloe: { n: 'Darren', who: "the supplier's son who delivers our pandan", what: 'the price of pandan leaves', be: 'It Was the Pandan Supplier' },
+    preet: { n: 'Ethan', who: 'her debate partner', what: 'the rebuttal for the final', be: 'It Was Her Debate Partner' },
   };
   const WIN = {
     hina: "Hanis's team came first at the national first-aid competition.",
     mio: "Xin Yi won the national youth short story prize.",
     kaede: "Kavya broke the national schools record for the 400 m.",
     yuna: "Elise got a callback for the arts school audition.",
+    chloe: "Chloe's kueh business plan won a youth hawker-entrepreneur grant.",
+    preet: "Preet's team won the schools debate final. She was named best speaker.",
   };
-  const R = (f) => SIM.byRoute({ hina: f('hina'), mio: f('mio'), kaede: f('kaede'), yuna: f('yuna') }, []);
+  const R = (f) => SIM.byRoute(Object.fromEntries(SIM.HEROINES.map((h) => [h, f(h)])), []);
 
   window.CHAPTERS.ch10 = {
     id: 'ch10', part: "Part III — Being Together", title: "Chapter 10", subtitle: "Green-Eyed Monster",
@@ -120,6 +124,36 @@ window.CHAPTERS = window.CHAPTERS || {};
             { n: "She spends her big night comforting you. On the way home she checks her phone. Thirty congratulations. She hasn't replied to any." },
           ] },
         ] },
+        SIM.byRoute({
+          chloe: [
+            { n: "Three days later, Chloe faints at the stall after a 6 AM shift. Dehydration, the polyclinic says. She's back at the steamer by noon." },
+            { flaw: { chloe: { workaholic: 'seen' } }, why: "She collapsed after a 6 AM shift and went straight back to work." },
+            { choice: "She's already wiping down the counter.", opts: [
+              { t: "Take the afternoon shift with her aunty so she can sleep. \"The stall can survive one nap.\"", fx: { chloe: 6, trust: 6 }, sig: 2, then: [
+                { flaw: { chloe: { workaholic: 'growing' } }, why: "You covered her shift so she could rest." },
+                { s: 'chloe', e: 'shy', at: 'center', t: "...Fine. One nap. If the kueh sells out without me I'll be very offended." },
+              ] },
+              { t: "\"Wah, so hardworking. Inspiring.\"", fx: { chloe: 1 }, then: [
+                { mochi: "Praising overwork is a refill, not a rest. She needed someone to tell her to stop.", e: 'sad' },
+              ] },
+            ] },
+          ],
+          preet: [
+            { s: 'preet', e: 'neutral', at: 'center', t: "And you. You don't have to be okay about the 38, you know. You're allowed to be annoyed for one evening." },
+            { reveal: { preet: 'sensitivity' }, why: "She noticed you were hurting before you said it." },
+            { s: 'preet', e: 'happy', t: "Anyway. I also said yes to peer-educator training, two group projects, CC Saturdays and the debate camp. It's fine. I made a colour-coded plan." },
+            { flaw: { preet: { overcommits: 'seen' } }, why: "She said yes to five things in one week." },
+            { choice: "The colour-coded plan has no colour for sleep.", opts: [
+              { t: "Help her pick one thing to drop, and offer to tell the group with her.", fx: { preet: 4, trust: 6 }, sig: 2, then: [
+                { flaw: { preet: { overcommits: 'growing' } }, why: "You helped her drop one thing." },
+                { s: 'preet', e: 'shy', t: "Dropping the second group project feels illegal. ...It also feels like breathing." },
+              ] },
+              { t: "\"You'll manage lah, you always do.\"", fx: { preet: -2 }, then: [
+                { s: 'preet', e: 'neutral', t: "Yes. I always do. That's sort of the problem." },
+              ] },
+            ] },
+          ],
+        }, []),
         { hide: '*' },
         { talk: 'cheating' },
       ], [

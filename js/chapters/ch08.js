@@ -14,6 +14,12 @@ window.CHAPTERS = window.CHAPTERS || {};
     yuna: { intro: "Elise's phone is in her pocket. Not filming. Just watching the sky.",
       yes: "Yes. And... can we not post about it for a while? I want one thing that's just mine.",
       no: "You're the first boy who saw the real me. That's why I want to be honest: I don't feel the same." },
+    chloe: { intro: "Chloe is sitting on the Esplanade steps with a tiffin carrier of kueh lapis. \"Leftovers. Don't make it a thing.\"",
+      yes: "Okay. Yes. I ran the numbers on you weeks ago, you know. You came out positive. ...That was a joke. Mostly. Yes.",
+      no: "You're a good guy, and I mean that. But I don't feel it like that. Better I say it straight than keep you on a tab." },
+    preet: { intro: "Preet has lost her voice from cheering at the parade screen and is now arguing with Haziq by typing on her phone.",
+      yes: "Yes. ...Wait, let me say it properly. Yes. I had a counter-argument ready in case you didn't ask.",
+      no: "I like you a lot as a friend. Not like that. I'd rather be honest with you than polite." },
   };
   const answer = (h) => [
     { if: (s) => (s.stats[h] || 0) >= 40 && !s.flags.liedFishpond, then: [
@@ -57,13 +63,14 @@ window.CHAPTERS = window.CHAPTERS || {};
         ...answer(h),
       ] },
       { t: "Text her. Twenty emojis.", fx: { [h]: -4 }, lesson: 'publicpressure', then: [
-        { phone: { hina: "Hanis", mio: "Xin Yi", kaede: "Kavya", yuna: "Elise" }[h] }, { txt: 'me', t: "i like u 😳😳💕💕🌸🌸🎆🎆🥺🥺💘💘✨✨🙈🙈❤️❤️🔥🔥" }, { phoneOff: true },
+        { phone: { hina: "Hanis", mio: "Xin Yi", kaede: "Kavya", yuna: "Elise", chloe: "Chloe", preet: "Preet" }[h] }, { txt: 'me', t: "i like u 😳😳💕💕🌸🌸🎆🎆🥺🥺💘💘✨✨🙈🙈❤️❤️🔥🔥" }, { phoneOff: true },
         { n: "She calls instead. \"Can you say that with words? To my face?\" She's already walking over." },
         ...answer(h),
       ] },
     ] },
   ];
-  const can = (h) => (s) => (s.stats[h] || 0) >= 30 && (h !== 'yuna' || s.flags.yunaClarity);
+  const can = (h) => (s) => (s.stats[h] || 0) >= 30 && (h !== 'yuna' || s.flags.yunaClarity)
+    && (h !== 'chloe' || s.flags.chloeMet) && (h !== 'preet' || s.flags.preetMet);
 
   window.CHAPTERS.ch8 = {
     id: 'ch8', part: "Part II — Behind the Filter", title: "Chapter 8", subtitle: "National Day",
@@ -95,6 +102,8 @@ window.CHAPTERS = window.CHAPTERS || {};
         { t: "Xin Yi.", if: can('mio'), then: confessTo('mio') },
         { t: "Kavya.", if: can('kaede'), then: confessTo('kaede') },
         { t: "Elise.", if: can('yuna'), then: confessTo('yuna') },
+        { t: "Chloe.", if: can('chloe'), then: confessTo('chloe') },
+        { t: "Preet.", if: can('preet'), then: confessTo('preet') },
         { t: "\"Not now. This year is exams and {passion}.\"", fx: { goal: 8, passion: 8, self: 10 }, lesson: 'ownlife', then: [
           { route: 'solo' },
           { mochi: "No girlfriend. But you kept your dignity. And me.", e: 'happy' },

@@ -9,6 +9,25 @@ window.CHAPTERS.ch5 = {
     { s: 'farah', e: 'neutral', at: 'center', t: "Phones in the box. Yes, yours also. You'll survive. Your grandparents survived without Wi-Fi." },
     { hide: '*' },
 
+    // Preet in the kayak
+    { if: (s) => !!s.flags.preetMet, then: [
+      { bg: 'beach' },
+      { show: 'preet', e: 'neutral', at: 'center' },
+      { n: "Day two. Kayak pairs. You're with Preet, who has read the safety briefing twice and is now explaining it to you a third time." },
+      { s: 'preet', e: 'neutral', t: "Paddle together on \"one\". Lean into the turn, not away. ...Sorry. I lecture when I'm nervous. I can't swim very well." },
+      { flaw: { preet: { lectures: 'seen' } }, why: "She lectured because she was scared." },
+      { choice: "Preet is gripping the paddle very hard.", opts: [
+        { t: "\"Then you steer, I'll count. Deal?\"", fx: { preet: 6 }, sig: 'romance:preet', then: [
+          { s: 'preet', e: 'happy', t: "Deal. ...You didn't laugh. Thank you." },
+          { contact: 'preet' },
+        ] },
+        { t: "\"Relax lah, it's just a kayak.\"", fx: { preet: -2 }, then: [
+          { s: 'preet', e: 'sad', t: "Right. Just a kayak." },
+        ] },
+      ] },
+      { hide: '*' },
+    ] },
+
     // 5-1 unfiltered Elise
     { bg: 'campsite' },
     { n: "Day two, after the kayak capsize drill. Elise is soaked, no make-up, hair everywhere, laughing so hard she snorts." },

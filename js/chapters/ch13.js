@@ -68,7 +68,7 @@ window.CHAPTERS.ch13 = {
     { hide: '*' },
 
     // 13-4 green flag / red flag card sort
-    { n: "Peer-educator workshop. A JC2 senior hands out cards: \"Green flag or red flag?\" Your group sorts them." },
+    { n: "Peer-educator workshop. Preet, one of the trained peer educators, hands out cards: \"Green flag or red flag?\" Your group sorts them." },
     { n: "The cards: a partner who keeps pushing after a no. Wants to try choking \"because it's in videos\". Wants to film. Gets someone drunk first. Checks in and stops when asked." },
     { choice: "How does your group sort them?", opts: [
       { t: "Only \"checks in and stops when asked\" is green. Every other card is red, whoever does it.", fx: { wisdom: 10, self: 4 }, lesson: 'redflags', then: [
@@ -82,6 +82,11 @@ window.CHAPTERS.ch13 = {
         { mochi: "Videos are made to be watched, not copied. They show nothing about consent, safety or how real people feel.", e: 'angry' },
       ] },
     ] },
+    { show: 'preet', e: 'neutral', at: 'center' },
+    { n: "Someone at the back makes a crude joke about the cards. Preet doesn't shame him. She just asks, calmly, \"Would you still laugh if that card was about your sister?\" He goes quiet." },
+    { reveal: { preet: 'compassion' }, why: "She handled a crude joke without humiliating anyone." },
+    { contact: 'preet' },
+    { hide: '*' },
     { mochi: "Law card, Singapore. Sexual activity with anyone under 16 is a crime, whatever they \"agree\". At 16 or 17 it is still an offence in an exploitative relationship: a teacher, coach, guardian, a big age gap or control. Consent is no defence there.", e: 'doctor' },
     { mochi: "Sexual messages to under-16s, and grooming, are offences. Sexual images of anyone under 16 are child abuse material. Sharing or threatening to share anyone's intimate image without consent is an offence at any age, deepfakes included. Legal is not the same as ready.", e: 'doctor' },
 

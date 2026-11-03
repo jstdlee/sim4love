@@ -135,6 +135,25 @@ window.CHAPTERS.ch1 = {
     { s: 'kenta', e: 'happy', t: "Okay okay, Question 3 at recess. ...Wait, what's a mole actually?" },
     { hide: '*' },
 
+    // Preet: first impression in GP
+    { bg: 'classroom', petals: false },
+    { n: "GP tutorial. Mr. Lim asks whether social media makes people lonelier. Before anyone else has opened their mouth, a girl in the front row has answered, with three sub-points." },
+    { show: 'preet', e: 'neutral', at: 'center' },
+    { s: 'preet', e: 'neutral', t: "...and thirdly, \"connection\" isn't the same as company. Sorry. I'll stop. Somebody else go." },
+    { flag: 'preetMet' },
+    { reveal: { preet: 'intellect' }, why: "She answered the GP question in three sub-points." },
+    { judge: { who: 'preet', id: 'preet.better', verdict: 'unfair' } },
+    { choice: "She catches you looking.", opts: [
+      { t: "Tell her the third point was good. Ask what she meant.", fx: { preet: 8 }, then: [
+        { s: 'preet', e: 'happy', t: "Company is someone who'd notice if you weren't there. ...Okay, now I sound like a poster. I'm Preet." },
+        { contact: 'preet' },
+      ] },
+      { t: "Roll your eyes. Know-it-all.", fx: { preet: -2 }, then: [
+        { mochi: "Noted. First impressions are a draft, rookie. Don't print it yet.", e: 'neutral' },
+      ] },
+    ] },
+    { hide: '*' },
+
     // 1-5 Elise
     { bg: 'night', petals: false },
     { n: "11:40 PM. You should be asleep. Your phone buzzes." },

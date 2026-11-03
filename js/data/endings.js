@@ -8,6 +8,8 @@
     mio:   { n: 'Xin Yi', dream: 'her writing programme in Melbourne', place: 'the bookshop on the third floor of the mall', thing: 'a manuscript with your name in the acknowledgements, spelled right this time' },
     kaede: { n: 'Kavya', dream: 'her athletics scholarship', place: 'the track at dawn', thing: 'a race bib from her first college meet, mailed with a sticky note: "you waited, I ran"' },
     yuna:  { n: 'Elise', dream: 'her dance academy in Seoul', place: 'a quiet table at a hawker centre, no camera', thing: 'a photo that was never posted, just printed and kept' },
+    chloe: { n: 'Chloe', dream: 'her kiosk', place: 'the corner table at her kiosk after closing', thing: 'the first dollar the kiosk ever made, framed, with "not keeping score" written underneath' },
+    preet: { n: 'Preet', dream: 'her social-work placement', place: 'the CC tuition room on Saturday mornings', thing: 'a fractions board game held together with tape, signed by twelve kids' },
   };
   for (const [k, h] of Object.entries(H)) {
     E['true_' + k] = { type: "★ True End", title: "Plain Love",
@@ -35,6 +37,8 @@
       text: "Alone, and not the good kind of alone yet. Some lessons stuck. Some didn't. You still check her stories sometimes.\nBut you're twenty-one. Nothing is decided. The chess uncles at the void deck have been losing to each other for forty years, and they still show up every evening.\nMochi: \"New Game+ starts now. I'm not giving up on you. Don't you dare give up on you.\"" },
     bro_end: { type: "Comic Good End", title: "Prata Brothers",
       text: "You and Haziq go halves on a stall at the Seri Bayu hawker centre: \"Bro Prata\". The egg prata is excellent. The business plan was written on a tissue.\nIt works, mostly because you both actually turn up, do the books every Sunday, and never lend money to Ryan.\nMochi: \"Platonic love is still love. Also, I want plain prata. Fish curry. Free.\"" },
+    slow_start_nana: { type: "Side Ending", title: "A Slow Start",
+      text: "Natalie finished her first year of occupational therapy. You still do Saturday coffee. Sometimes pottery. Your bowls are getting less hat-shaped.\nNobody rushed anything. When she goes quiet now, she texts \"need a day\" first, and you wait. When you're unsure, you ask.\nMochi: \"No fireworks. Just two people who keep turning up on Saturdays. That's how the good ones start.\"" },
     rei_friend: { type: "Side Ending", title: "Rae, For Real",
       text: "Rae testified. The \"agency\" is gone, and so is Mr. G. She works at a café now, studies at night, and gives talks to younger students about scam scripts.\nYou're friends. Real ones, with boundaries. She says you were the first person who helped her without trying to buy her." },
     mochi_graduates: { type: "Secret Ending", title: "Mochi Graduates",

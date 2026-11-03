@@ -7,8 +7,10 @@ window.CHAPTERS = window.CHAPTERS || {};
     mio: 'her reading at the library',
     kaede: 'her relay final',
     yuna: 'her showcase dress rehearsal',
+    chloe: 'her stall at the youth enterprise fair',
+    preet: 'her debate prize-giving',
   };
-  const R = (f) => SIM.byRoute({ hina: f('hina'), mio: f('mio'), kaede: f('kaede'), yuna: f('yuna') }, []);
+  const R = (f) => SIM.byRoute(Object.fromEntries(SIM.HEROINES.map((h) => [h, f(h)])), []);
 
   window.CHAPTERS.ch11 = {
     id: 'ch11', part: "Part III — Being Together", title: "Chapter 11", subtitle: "The First Fight",

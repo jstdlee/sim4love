@@ -81,7 +81,7 @@ window.THINK = {
   },
   children: {
     title: 'Who pays for a child?', mentor: 'mei',
-    hook: 'Mei, with her baby on her hip: "Everyone asks when we\'re having the second one. Nobody asks who\'s going to sleep."',
+    hook: 'Mei, holding her colleague\'s newborn at a full-month party: "Everyone asks when they\'re having the second one. Nobody asks who\'s going to sleep."',
     lenses: [
       { kind: 'structural', text: 'Much of the cost of raising children is unpaid time: night feeds, sick days, school runs. When budgets and leave are tight, it turns into "who sacrifices?" fights between partners.' },
       { kind: 'personal', text: 'Readiness is a shared choice: money, health, where you will live, who takes leave, and whether you both want it at all. Talking about it early is part of loving someone.' },

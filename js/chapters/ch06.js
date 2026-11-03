@@ -86,6 +86,40 @@ window.CHAPTERS.ch6 = {
     ] },
     { hide: '*' },
 
+    // Chloe's carnival stall, Preet's booth
+    { if: (s) => !!s.flags.chloeMet, then: [
+      { bg: 'carnival' },
+      { show: 'chloe', e: 'happy', at: 'center' },
+      { n: "The enterprise club stall: Chloe's kueh, priced to the cent. The sign says \"Student price = honest price\"." },
+      { s: 'chloe', e: 'happy', t: "I'm forty boxes up on last year. Help me for an hour? Pay is one kueh." },
+      { choice: "Chloe holds out an apron.", opts: [
+        { t: "Put on the apron.", fx: { chloe: 12 }, then: [
+          { s: 'chloe', e: 'happy', t: "You're terrible at giving change and great at smiling. Net positive." },
+          { contact: 'chloe' },
+        ] },
+        { t: "\"One kueh? Exploitation.\"", fx: { chloe: 2 }, then: [
+          { s: 'chloe', e: 'smug', t: "Market rate, bro." },
+        ] },
+      ] },
+      { hide: '*' },
+    ] },
+    { if: (s) => !!s.flags.preetMet, then: [
+      { bg: 'carnival' },
+      { show: 'preet', e: 'neutral', at: 'center' },
+      { n: "The debate club runs a \"Lie or Truth?\" booth. You guess wrong about a scam ad, and Preet explains why for four minutes." },
+      { s: 'preet', e: 'shy', t: "...and that's why the — sorry. You paid fifty cents. You didn't pay for a lecture." },
+      { choice: "Preet looks embarrassed.", opts: [
+        { t: "\"I'd pay a dollar for the lecture. Go on.\"", fx: { preet: 8 }, then: [
+          { s: 'preet', e: 'happy', t: "Careful. I'll invoice you." },
+          { contact: 'preet' },
+        ] },
+        { t: "\"Yeah, bit much.\"", fx: { preet: -1 }, then: [
+          { s: 'preet', e: 'neutral', t: "Noted. Short version: don't trust ads." },
+        ] },
+      ] },
+      { hide: '*' },
+    ] },
+
     // 6-5 your own stage
     { bg: 'carnival' },
     { n: "Open mic, last slot. Nobody signed up. The MC scans the crowd, desperate." },

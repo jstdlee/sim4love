@@ -68,6 +68,7 @@ window.CHAPTERS.ch17 = {
     { show: 'nana', e: 'neutral', at: 'center' },
     { s: 'nana', e: 'neutral', t: "You were really good with Sam just now. Want to skip the rest of this and go somewhere quieter?" },
     { think: "I met her three hours ago. I feel the pull anyway." },
+    { judge: { who: 'nana', id: 'nana.forward', verdict: 'unfair' } },
     SIM.split([
       { choice: "You're with {her}. She's twenty metres away.", opts: [
         { t: "\"That's nice of you. But I'm with someone. Let's go get Sam some water.\"", fx: { trust: 6, self: 8 }, lesson: 'impulse', then: [
@@ -79,8 +80,13 @@ window.CHAPTERS.ch17 = {
       ] },
     ], [
       { choice: "You like her. You also met her three hours ago.", opts: [
-        { t: "\"I'd like to get to know you. Coffee on Saturday?\"", fx: { self: 8, wisdom: 6 }, lesson: 'impulse', then: [
+        { t: "\"I'd like to get to know you. Coffee on Saturday?\"", fx: { self: 8, wisdom: 6, 'aff.nana': 6, 'trust.nana': 10 }, lesson: 'impulse', sig: 2, clarity: 2, then: [
           { s: 'nana', e: 'surprised', t: "...Okay, that's weirdly charming. Saturday. You're paying." },
+          { flag: 'nanaCoffee' },
+          { n: "Saturday. Coffee turns into two hours. She asks more questions than she answers, and listens to every reply." },
+          { reveal: { nana: ['gentleness', 'sensitivity'] }, why: "Coffee on Saturday: she listened to every answer." },
+          { flaw: { nana: { 'says-yes-fast': 'seen' } }, why: "She said yes before you'd finished asking." },
+          { contact: 'nana' },
           { mochi: "Her asking was fine. What did YOU want, clear-headed? Good answer.", e: 'happy' },
         ] },
         { t: "Go on impulse: no talk, no plan, no protection.", fx: { self: -8, wisdom: -10, health: -4 }, lesson: 'impulse', then: [

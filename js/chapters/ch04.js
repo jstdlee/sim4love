@@ -100,6 +100,49 @@ window.CHAPTERS.ch4 = {
     ] },
     { hide: '*' },
 
+    // Ah Ma, one block away
+    { bg: 'dining' },
+    { show: 'ama', e: 'neutral', at: 'center' },
+    { n: "Sunday. Mum sends you to visit Ah Ma, one block away. She's folding plastic bags from the market into tiny triangles." },
+    { s: 'ama', e: 'neutral', t: "You buy bubble tea? Fifteen dollar? Aiyoh. Fifteen dollar, Ah Ma can eat three days." },
+    { n: "She holds her phone at arm's length and jabs at it like it owes her money." },
+    { judge: { who: 'ama', id: 'ama.phones', verdict: 'unfair' } },
+    { choice: "Ah Ma's phone is winning.", opts: [
+      { t: "Pull up a stool. \"Show me what you're trying to do.\"", fx: { 'aff.ama': 4, 'trust.ama': 2 }, then: [
+        { contact: 'ama' },
+        { s: 'ama', e: 'happy', t: "The CC phone class teacher say must practise. You come every Sunday, I practise on you." },
+      ] },
+      { t: "\"Just give me, Ah Ma. Faster.\"", fx: { 'aff.ama': 1 }, then: [
+        { s: 'ama', e: 'neutral', t: "Faster for you lah. For me, still don't know how." },
+      ] },
+    ] },
+    { hide: '*' },
+
+    // Chloe at the kueh stall
+    { bg: 'hawker' },
+    { show: 'chloe', e: 'neutral', at: 'center' },
+    { n: "The kueh stall at the Seri Bayu hawker centre. The girl behind the counter is doing sums on a calculator while serving three customers." },
+    { s: 'chloe', e: 'smug', t: "Fifteen-dollar bubble tea? That's three plates of chicken rice. You're not buying a drink, you're buying a photo. I'm Chloe. Kueh lapis, two dollars." },
+    { flag: 'chloeMet' },
+    { judge: { who: 'chloe', id: 'chloe.onlymoney', verdict: 'unfair' } },
+    { n: "An old aunty shuffles up. Chloe hands her two pieces of ondeh-ondeh, writes nothing down, and waves her off." },
+    { choice: "The aunty didn't pay.", opts: [
+      { t: "Ask, quietly, about the aunty.", fx: { chloe: 12, 'trust.chloe': 4 }, then: [
+        { s: 'chloe', e: 'neutral', t: "Mdm. Rokiah. Her pension comes on the 5th. Some months it doesn't stretch. Don't tell my dad. ...Okay, he knows. He pretends he doesn't." },
+        { reveal: { chloe: ['compassion', 'generosity'] }, why: "You saw the tab she never collects." },
+        { contact: 'chloe' },
+      ] },
+      { t: "Ask how she prices a kueh.", fx: { chloe: 8 }, then: [
+        { s: 'chloe', e: 'happy', t: "Rice flour, coconut, pandan, gas, time. Then I round down for students. Want to see the spreadsheet?" },
+        { reveal: { chloe: 'intellect' }, why: "She walked you through her costing." },
+        { contact: 'chloe' },
+      ] },
+      { t: "\"Must be nice. Free kueh for your friends.\"", fx: { chloe: -4 }, then: [
+        { s: 'chloe', e: 'angry', t: "She's not my friend. She's a customer. ...Who doesn't pay. Never mind." },
+      ] },
+    ] },
+    { hide: '*' },
+
     // talk: spending
     { bg: 'hawker' },
     { variant: 'hawker.arrive' },

@@ -130,6 +130,7 @@ SIM.talk = (topic, withWho) => {
     shareThen.push({ choice: T.stancePrompt || 'And your own view?', opts: T.stances.map((st) => ({
       t: st.t, val: { [T.axis]: st.v }, lesson: 'differentok', then: reply.concat(st.then || []) })) });
   }
+  shareThen.push({ reveal: { '@talk': ['fit'] }, why: 'You talked about what you each want.' });
   if (T.after) shareThen.push(...T.after);
   out.push({ choice: T.prompt || 'How do you answer?', opts: [
     { t: T.share, fx: { '@talk': 3, trust: 3, self: 2, wisdom: 1 }, then: shareThen },
@@ -169,7 +170,7 @@ SIM.endingFor = (s) => {
 SIM.allLessons = (s) => Object.keys(window.LESSONS || {}).every((id) => s.lessons.includes(id));
 
 /* Resolve a {with} command: '@route' → route heroine (solo → c.solo), '@top' → closest heroine. */
-SIM.HEROINES = ['hina', 'mio', 'kaede', 'yuna'];
+SIM.HEROINES = ['hina', 'mio', 'kaede', 'yuna', 'chloe', 'preet'];
 SIM.resolveWith = (c, s) => {
   const r = s.route && s.route !== 'solo' ? s.route : null;
   if (c.with === '@route') return r || c.solo || 'kenta';

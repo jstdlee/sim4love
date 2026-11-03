@@ -64,6 +64,38 @@ window.CHAPTERS.ch3 = {
       ] },
     ] },
 
+    // Preet: the gossip, then the CC tuition room
+    { bg: 'classroom' },
+    { n: "Recess. A girl at the next table is telling everyone that a classmate's parents are divorcing. Preet turns around." },
+    { show: 'preet', e: 'angry', at: 'center' },
+    { s: 'preet', e: 'angry', t: "That's not your story to tell. And you got the facts wrong, which makes it worse." },
+    { n: "The girl goes red. The whole table goes quiet. Preet is right, and it was also brutal." },
+    { flaw: { preet: { judgemental: 'seen' } }, why: "She shamed a gossiper in front of everyone." },
+    { judge: { who: 'preet', id: 'preet.judges', verdict: 'fair' } },
+    { choice: "Preet is still standing there.", opts: [
+      { t: "Later, tell her she was right, and ask if there's a way to say it without making the girl cry.", fx: { preet: 6, wisdom: 2 }, then: [
+        { grow: { preet: { gentleness: 6 } }, why: "You helped her correct someone without humiliating them." },
+        { flaw: { preet: { judgemental: 'growing' } }, why: "You helped her correct someone without humiliating them." },
+        { s: 'preet', e: 'shy', t: "...Yes. I do that. I'll apologise for the how, not the what." },
+      ] },
+      { t: "Laugh along. Savage.", fx: { preet: -2, self: -2 }, then: [
+        { mochi: "She was right about the gossip. Cheering the takedown is just more gossip.", e: 'neutral' },
+      ] },
+    ] },
+    { hide: '*' },
+    { n: "After school you see Preet heading to the CC with a bag of worksheets. She runs a free tuition room there." },
+    { choice: "Follow her?", opts: [
+      { t: "Stay and help for an hour.", fx: { preet: 10, wisdom: 2 }, then: [
+        { show: 'preet', e: 'happy', at: 'center' },
+        { n: "Six kids, one whiteboard. Preet kneels beside an eight-year-old and explains fractions with kaya toast. She doesn't sound like a poster at all." },
+        { reveal: { preet: ['warmth', 'gentleness'] }, why: "You watched her teach at the CC tuition room." },
+        { judge: { who: 'preet', id: 'preet.kind', verdict: 'fair' } },
+        { contact: 'preet' },
+        { hide: '*' },
+      ] },
+      { t: "Go home. You have your own homework.", fx: { goal: 2 } },
+    ] },
+
     // 3-4 Aileen
     { bg: 'night' },
     { n: "A new follower: \"Aileen 💋\". Model photos, zero mutuals. Two days of flirty DMs." },

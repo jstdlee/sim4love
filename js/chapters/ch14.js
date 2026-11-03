@@ -7,14 +7,18 @@ window.CHAPTERS = window.CHAPTERS || {};
     mio: "Her parents saw her mid-year chemistry grade. Now every dinner is medicine-or-nothing. Xin Yi hasn't written a word of her own in a month.",
     kaede: "She tore a hamstring two weeks before the SEA Games selection trial. Her parents are overseas, and her aunt keeps saying it's \"a sign to focus on studies\".",
     yuna: "A clip of hers went viral for the wrong reasons. The comments are vicious, her mum is doing double shifts, and Elise has stopped streaming.",
+    chloe: "The supplier stopped giving her dad credit. Chloe has been doing the 5 AM prep before school every day, and yesterday she fell asleep standing at the steamer.",
+    preet: "She said yes to everything again: debate camp, CC tuition, peer-educator training, two projects. Last night she cried over a printer jam and then apologised to the printer.",
   };
   const ARCADE = {
     hina: "You told {her} you were studying tonight. You're at the mall arcade with Elise, and it was fun right up until Elise posted a story.",
     mio: "You told {her} you were studying tonight. You're at the mall arcade with Elise, and it was fun right up until Elise posted a story.",
     kaede: "You told {her} you were studying tonight. You're at the mall arcade with Elise, and it was fun right up until Elise posted a story.",
     yuna: "You told {her} you were studying tonight. You're at the mall arcade with Haziq, and it was fun right up until Haziq posted a story.",
+    chloe: "You told {her} you were studying tonight. You're at the mall arcade with Elise, and it was fun right up until Elise posted a story.",
+    preet: "You told {her} you were studying tonight. You're at the mall arcade with Elise, and it was fun right up until Elise posted a story.",
   };
-  const R = (f) => SIM.byRoute({ hina: f('hina'), mio: f('mio'), kaede: f('kaede'), yuna: f('yuna') }, []);
+  const R = (f) => SIM.byRoute(Object.fromEntries(SIM.HEROINES.map((h) => [h, f(h)])), []);
   const goodbye = (extra) => R((h) => [{ flag: { kindGoodbye: h, brokeUp14: true } }, { route: 'solo' }].concat(extra || []));
   const endIt = (h) => [{ flag: { brokeUp14: true } }, { route: 'solo' }];
 
@@ -215,6 +219,19 @@ window.CHAPTERS = window.CHAPTERS || {};
         { talk: 'support' },
       ]),
       { bg: 'classroom' },
+      { bg: 'voiddeck' },
+      { show: 'joy', e: 'neutral', at: 'center' },
+      { s: 'joy', e: 'neutral', t: "Eh, you're Xin Yi's classmate, right? She hasn't slept properly in a week. Light still on at 3 AM. Her parents think it's studying. I don't think it's studying." },
+      { reveal: { joy: 'sensitivity' }, why: "She noticed Xin Yi wasn't sleeping before anyone else did." },
+      { choice: "Joy looks worried.", opts: [
+        { t: "Send Xin Yi a no-pressure check-in, and thank Joy for noticing.", fx: { mio: 3, 'aff.joy': 3, wisdom: 2 }, then: [
+          { txt: 'me', t: "hey. no need to reply. just: you ok? 🍵" },
+          { s: 'joy', e: 'happy', t: "Thank you. Sometimes the aunty sees things. Nobody asks the aunty." },
+          { contact: ['joy', 'mio'] },
+        ] },
+        { t: "\"Not really my business.\"", fx: { 'aff.joy': -2 } },
+      ] },
+      { hide: '*' },
       { deeper: 'careerpressure' },
       { bg: 'bedroom' },
       { show: 'mei', e: 'neutral', at: 'center' },

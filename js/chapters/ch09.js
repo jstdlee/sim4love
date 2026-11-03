@@ -18,6 +18,26 @@ window.CHAPTERS.ch9 = {
             mio: [{ bg: 'library' }, { bgm: 'romance' }, { s: 'mio', e: 'happy', at: 'center', t: "Bookshop crawl? Three shops? ...I need a bigger tote bag." }],
             kaede: [{ bg: 'park' }, { bgm: 'romance' }, { s: 'kaede', e: 'happy', at: 'center', t: "7 AM run then prata. Now you're talking. Slowly, but talking." }],
             yuna: [{ bg: 'park' }, { bgm: 'romance' }, { s: 'yuna', e: 'shy', at: 'center', t: "Can we... not post today? Just walk around Botanic Gardens like normal people?" }],
+            chloe: [{ bg: 'hawker' }, { bgm: 'romance' },
+              { s: 'chloe', e: 'happy', at: 'center', t: "Ten-dollar hawker crawl. Five stalls, two dollars each. Best value wins. Loser buys sugarcane." },
+              { s: 'chloe', e: 'smug', t: "Okay. You paid for the satay, I paid for the rojak, so you owe me forty cents. Transaction complete. ...Joking." },
+              { flaw: { chloe: { transactional: 'seen' } }, why: "She joked that the date was a transaction." },
+              { choice: "She already has the notes app open.", opts: [
+                { t: "\"I'm not keeping score. You can stop counting with me.\"", fx: { chloe: 4, trust: 3 }, sig: 3, clarity: 2, then: [
+                  { grow: { chloe: { warmth: 5 } }, why: "You told her you weren't keeping score." },
+                  { flaw: { chloe: { 'keeps-score': 'growing' } }, why: "You told her you weren't keeping score." },
+                  { s: 'chloe', e: 'blush', t: "...Okay. That will take practice. Here. I packed kueh for your mum. Don't read into it." },
+                  { reveal: { chloe: 'warmth' }, why: "She packed kueh for your mum." },
+                ] },
+                { t: "\"Forty cents. I'll PayNow you.\"", fx: { chloe: 1 }, then: [
+                  { s: 'chloe', e: 'neutral', t: "Received. ...Huh. That was less fun than I thought it would be." },
+                ] },
+              ] }],
+            preet: [{ bg: 'classroom' }, { bgm: 'romance' },
+              { s: 'preet', e: 'happy', at: 'center', t: "Two hours of fractions at the CC tuition room, then prata. My idea of a perfect date. You're allowed to say it isn't yours." },
+              { n: "You stay. Danish, nine, finally gets equivalent fractions and does a victory lap around the tables." },
+              { s: 'preet', e: 'happy', t: "See? Best feeling in the world. ...Okay, second best. The prata is coming." },
+              { reveal: { preet: 'warmth' }, why: "You saw her with the kids at the CC." }],
           }, [{ n: "A good, small Saturday." }]),
         ] },
         { t: "\"Can just stay home? I'm in a raid.\"", fx: { '@route': -8, trust: -6 }, lesson: 'effortdrop', then: [
@@ -92,6 +112,8 @@ window.CHAPTERS.ch9 = {
             mio: [{ s: 'mio', e: 'blush', at: 'center', t: "A letter. Handwritten. Like the postman. ...I'm keeping this forever. Don't look at me." }],
             kaede: [{ s: 'kaede', e: 'happy', at: 'center', t: "You timed my splits and made a chart? With stickers? Nerdiest gift ever. Perfect." }],
             yuna: [{ s: 'yuna', e: 'blush', at: 'center', t: "A playlist of songs I sang at KTV? Even the bad ones? Especially the bad ones." }],
+            chloe: [{ s: 'chloe', e: 'blush', at: 'center', t: "A list of every kueh I ever said I liked? With a \"why\" column? ...That's the most romantic spreadsheet I've ever seen." }],
+            preet: [{ s: 'preet', e: 'blush', at: 'center', t: "You made a fractions board game for my tuition kids? I'm not crying. It's the prata steam." }],
           }, []),
         ] },
         { t: "Forget. Then \"it's just one month lol\".", fx: { '@route': -10, trust: -8 }, lesson: 'remember', then: [

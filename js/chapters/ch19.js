@@ -102,6 +102,88 @@ window.CHAPTERS.ch19 = {
     ] },
     { talk: 'fraud' },
 
+    // Chloe and the "business coach"
+    { if: (s) => !!s.flags.chloeMet, then: [
+      { bg: 'hawker' },
+      { show: 'chloe', e: 'neutral', at: 'center' },
+      { n: "Chloe has a new \"business coach\" from the same network. He wants her to sell wellness tea from her stall. Starter pack: $3,000." },
+      { s: 'chloe', e: 'neutral', t: "He says I'm thinking too small. Maybe I am?" },
+      { flaw: { chloe: { 'ambition-blind-spot': 'seen' } }, why: "She nearly signed up for a scheme because it sounded like ambition." },
+      { judge: { who: 'chloe', id: 'chloe.almost', verdict: 'fair' } },
+      { choice: "Chloe has the contract open.", opts: [
+        { t: "Sit down and run the numbers out loud with her: starter pack, margins, who actually buys.", fx: { chloe: 4, wisdom: 4 }, lesson: 'mlm', then: [
+          { grow: { chloe: { intellect: 3 } }, why: "You ran the numbers out loud together." },
+          { flaw: { chloe: { 'ambition-blind-spot': 'resolved' } }, why: "You ran the numbers out loud together." },
+          { s: 'chloe', e: 'surprised', t: "Three thousand dollars to sell tea to my own customers, who'd rather buy kueh. ...Wow. I almost did that." },
+          { contact: 'chloe' },
+        ] },
+        { t: "\"Your call. You're the business person.\"", fx: { chloe: -2 }, lesson: 'mlm', then: [
+          { mochi: "Respecting her choices doesn't mean staying quiet when you can see the trap.", e: 'sad' },
+        ] },
+      ] },
+      { hide: '*' },
+    ] },
+
+    // Ah Ma and "Officer Tan"
+    { bg: 'dining' },
+    { show: 'ama', e: 'neutral', at: 'center' },
+    { n: "Thursday, 2 PM. Ah Ma's phone rings. \"This is Officer Tan from the police. Your bank account is involved in money laundering. Transfer $8,000 to a safe account now, or we arrest you.\"" },
+    { flaw: { ama: { 'trusts-official-voices': 'seen' } }, why: "A voice that sounded official told her to move her savings." },
+    { if: (s) => !!s.flags.amaShield, then: [
+      { s: 'ama', e: 'angry', t: "Officer Tan, my grandson say real police never ask money on the phone. I call him first. Bye bye!" },
+      { n: "She hangs up, calls you, and then reports the number on ScamShield herself." },
+      { flaw: { ama: { 'trusts-official-voices': 'resolved' } }, why: "She hung up and called you first." },
+      { fx: { 'trust.ama': 10 } },
+      { contact: 'ama' },
+    ], else: [
+      { n: "By the time Mum gets home, Ah Ma has transferred $2,000. The bank freezes the rest." },
+      { s: 'ama', e: 'sad', t: "Ah Ma so stupid. Don't tell anybody." },
+      { choice: "Ah Ma won't look at anyone.", opts: [
+        { t: "\"You're not stupid, Ah Ma. They're professionals. Let's call the bank and the police together, now.\"", fx: { 'trust.ama': 6, wisdom: 4 }, lesson: 'noshame', then: [
+          { mochi: "Scam fact card: call your bank's 24-hour hotline to freeze transfers. Report to the police: 999 if it's urgent, or the police e-services website. Install ScamShield. Real officers never ask you to transfer money.", e: 'doctor' },
+          { resource: 'scam' },
+          { contact: 'ama' },
+        ] },
+        { t: "\"Ah Ma, how could you fall for that?\"", fx: { 'trust.ama': -6 }, lesson: 'noshame', then: [
+          { mochi: "She's already blaming herself. Shame is what scammers count on to keep people quiet. Report it, together, now.", e: 'sad' },
+          { resource: 'scam' },
+        ] },
+      ] },
+    ] },
+    { hide: '*' },
+
+    // Natalie spots a fake profile, then goes quiet
+    { if: (s) => s.route === 'solo' && !!s.flags.nanaCoffee, then: [
+      { bg: 'cafe' },
+      { show: 'nana', e: 'neutral', at: 'center' },
+      { s: 'nana', e: 'neutral', t: "Look. \"Lin, 26, wine trader.\" My friend from church has been chatting with him for a month. Same photos as an influencer in Taiwan. I reverse-searched. Help me tell her gently? She's so lonely." },
+      { reveal: { nana: 'compassion' }, why: "She spotted a fake profile and wanted to protect her friend's feelings." },
+      { choice: "How do you help?", opts: [
+        { t: "Help her write a kind message: the evidence, no \"how could you\", and the scam hotline.", fx: { 'trust.nana': 6, wisdom: 2 }, then: [{ contact: 'nana' }] },
+        { t: "\"Just screenshot it to her lah.\"", fx: { 'trust.nana': -2 } },
+      ] },
+      { n: "Then Natalie goes quiet. A whole week. No replies." },
+      { flaw: { nana: { 'ghosts-when-overwhelmed': 'seen' } }, why: "She went silent for a week." },
+      { judge: { who: 'nana', id: 'nana.stupid', verdict: 'unfair' } },
+      { if: (s) => (((s.cast || {}).nana || {}).trust || 0) >= 40, then: [
+        { s: 'nana', e: 'sad', t: "Before I spotted Lin, there was someone else. I sent him $1,200. I couldn't tell you. I couldn't tell anyone." },
+        { flaw: { nana: { 'hides-shame': 'growing' } }, why: "She told you about the $1,200." },
+        { choice: "Natalie can't look at you.", opts: [
+          { t: "\"Thank you for telling me. Let's report it together. Rae's hotline helped Haziq. No judgement.\"", fx: { 'trust.nana': 8, 'aff.nana': 4 }, lesson: 'noshame', then: [
+            { flaw: { nana: { 'hides-shame': 'resolved', 'ghosts-when-overwhelmed': 'growing' } }, why: "You reported it together, with no judgement." },
+            { s: 'nana', e: 'shy', t: "...Okay. Together. Thank you for not looking at me like I'm stupid." },
+            { resource: 'scam' },
+          ] },
+          { t: "\"You of all people? You spotted Lin!\"", fx: { 'trust.nana': -8 }, lesson: 'noshame', then: [
+            { s: 'nana', e: 'sad', t: "I know. That's why I didn't tell you." },
+          ] },
+        ] },
+      ], else: [
+        { n: "A week later she sends a thumbs-up. Nothing else. Some things take more trust than you've built so far." },
+      ] },
+      { hide: '*' },
+    ] },
+
     // Rae's talk and 19-5
     { bg: 'lecture' },
     { show: 'rei', e: 'neutral', at: 'center' },

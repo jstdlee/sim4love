@@ -11,8 +11,12 @@ window.CHAPTERS = window.CHAPTERS || {};
       custom: "Shoes off, a real compliment for the kolam at the door, and yes to the third helping of murukku." },
     yuna: { intro: "Christmas lunch with Elise's Eurasian family. Twenty relatives, devil's curry and sugee cake, and every single one of them is looking at you.",
       custom: "You bring a card for her grandmother, call her \"Granny\" because she insists, and say yes to more sugee cake." },
+    chloe: { intro: "Reunion dinner at Chloe's family's flat above the kopitiam, after the stall closes. Twenty relatives, steamboat and pineapple tarts, and every single one of them is looking at you.",
+      custom: "You bring two mandarin oranges, greet her grandfather first, and spend twenty minutes washing steamboat ladles with her cousins." },
+    preet: { intro: "Gurpurab at Preet's family's gurdwara, then lunch at her uncle's place. Twenty relatives, langar dal and parathas, and every single one of them is looking at you.",
+      custom: "You cover your head at the gurdwara, sit on the floor for langar, help wash the steel plates, and say \"Sat Sri Akal\" to her grandmother." },
   };
-  const R = (f) => SIM.byRoute({ hina: f('hina'), mio: f('mio'), kaede: f('kaede'), yuna: f('yuna') }, []);
+  const R = (f) => SIM.byRoute(Object.fromEntries(SIM.HEROINES.map((h) => [h, f(h)])), []);
 
   window.CHAPTERS.ch12 = {
     id: 'ch12', part: "Part III — Being Together", title: "Chapter 12", subtitle: "Closeness",
@@ -201,6 +205,71 @@ window.CHAPTERS = window.CHAPTERS || {};
           { t: "Do it so you don't look uncool.", fx: { self: -8 }, lesson: 'yourno', then: [{ n: "Everyone cheers. You feel weird for the rest of the night." }] },
         ] },
       ]),
+      // CNY week: Chloe's stall rush, Ah Ma's flat, Joy's Sunday
+      { if: (s) => !!s.flags.chloeMet, then: [
+        { bg: 'hawker' },
+        { show: 'chloe', e: 'neutral', at: 'center' },
+        { n: "CNY eve. Chloe's family stall has a queue to the car park. On the counter, half-hidden under a tray: a letter from the bank with \"FINAL REMINDER\" in red." },
+        { s: 'chloe', e: 'smug', t: "Don't look at that. We're fine. We don't need anyone's help." },
+        { flaw: { chloe: { proud: 'seen' } }, why: "She hid her dad's debt letter and refused help." },
+        { judge: { who: 'chloe', id: 'chloe.proud', verdict: 'fair' } },
+        { choice: "The queue is getting longer.", opts: [
+          { t: "Don't mention money. Grab an apron and pack kueh boxes for three hours.", fx: { chloe: 6, 'trust.chloe': 6 }, sig: 2, then: [
+            { flaw: { chloe: { proud: 'growing' } }, why: "You helped with labour, not cash." },
+            { s: 'chloe', e: 'shy', t: "...You fold boxes badly. Thank you. Really." },
+          ] },
+          { t: "Offer her your red-packet money for the debt.", fx: { chloe: -2 }, then: [
+            { s: 'chloe', e: 'angry', t: "Put that away. I'm not a charity case." },
+            { mochi: "Kind thought, wrong currency. She wanted a hand, not a handout.", e: 'neutral' },
+          ] },
+          { t: "\"You don't have to prove anything to me, you know.\"", fx: { chloe: 4 }, then: [
+            { s: 'chloe', e: 'surprised', t: "...Nobody's said that to me before. Okay. Pass me the tongs." },
+            { reveal: { chloe: 'sensitivity' }, why: "She let you see she was scared." },
+          ] },
+        ] },
+        { hide: '*' },
+      ] },
+      { bg: 'dining' },
+      { show: 'ama', e: 'happy', at: 'center' },
+      { n: "Day two of CNY at Ah Ma's flat, one block away. The TV is on Channel 8, the pineapple tarts are on the good plate, and she has a red packet for you she definitely cannot afford." },
+      { s: 'ama', e: 'happy', t: "Take, take! Study hard. Don't spend on nonsense." },
+      { reveal: { ama: 'generosity' }, why: "She gave you a red packet she could barely afford." },
+      { s: 'ama', e: 'neutral', t: "Come, help Ah Ma. The phone class at the CC give homework. How to video call? I keep calling the wrong uncle." },
+      { contact: 'ama' },
+      { choice: "Ah Ma holds out her phone like it might bite.", opts: [
+        { t: "Sit with her, slowly. Let her press every button herself.", fx: { 'aff.ama': 5, 'trust.ama': 3 }, then: [
+          { reveal: { ama: 'intellect' }, why: "She learned the video call in ten minutes once nobody rushed her." },
+          { s: 'ama', e: 'happy', t: "Aiyah, so easy one! Why the teacher talk so fast?" },
+          { if: (s) => !!s.flags.preetMet, then: [
+            { show: 'preet', e: 'happy', at: 'right' },
+            { s: 'preet', e: 'happy', t: "Ah Ma! You came to my CC class! ...Oh, hi. She's my best student. Don't tell the others." },
+            { flag: 'amaPreet' },
+          ] },
+          { choice: "While you're on her phone...", opts: [
+            { t: "Install ScamShield and save \"Call grandson first\" as her favourite contact.", fx: { 'trust.ama': 4, wisdom: 4 }, flag: 'amaShield', lesson: 'emergencyscam', then: [
+              { s: 'ama', e: 'neutral', t: "Got police call, I call you first? Okay. Ah Ma remember." },
+            ] },
+            { t: "Just fix the video call. She's fine.", fx: {} },
+          ] },
+        ] },
+        { t: "Do it for her, fast, and hand it back.", fx: { 'aff.ama': 1 }, then: [
+          { s: 'ama', e: 'neutral', t: "Wah, so fast. ...Then next time how? I ask you again lor." },
+          { flaw: { ama: { 'refuses-help': 'seen' } }, why: "She said she'd rather not bother you again." },
+        ] },
+      ] },
+      { hide: '*' },
+      { bg: 'voiddeck' },
+      { show: 'joy', e: 'happy', at: 'center' },
+      { n: "Sunday afternoon at the void deck. Joy, who looks after Xin Yi's grandmother, is on her day off with a notebook full of diagrams." },
+      { choice: "Joy waves. The notebook says \"Caregiving Course, Module 4\".", opts: [
+        { t: "Ask what she's studying.", fx: { 'aff.joy': 5, wisdom: 2 }, then: [
+          { s: 'joy', e: 'happy', t: "Dementia care. Advanced. The exam is in Tagalog AND English, so I'm studying twice. When I go home to Iloilo, I want to open a day centre." },
+          { reveal: { joy: 'intellect' }, why: "You asked about her course." },
+          { contact: 'joy' },
+        ] },
+        { t: "Nod and keep walking.", fx: {} },
+      ] },
+      { hide: '*' },
       SIM.evening('ch12'),
       { chapterEnd: true },
     ],

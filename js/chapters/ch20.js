@@ -121,8 +121,12 @@ window.CHAPTERS.ch20 = {
     ] },
     { if: (s) => Object.keys(s.reflections || {}).length >= 7, then: [{ ach: 'deepThinker' }] },
 
+    { show: 'ama', e: 'happy', at: 'center' },
+    { s: 'ama', e: 'happy', t: "Ah Ma now help teach the CC phone class. Advanced level. Got waiting list, you know." },
+    { hide: '*' },
     { n: "Two years later." },
     { ending: '@auto' },
+    { if: (s) => s.route === 'solo' && !!s.flags.nanaCoffee && (((s.cast || {}).nana || {}).aff || 0) >= 10, then: [{ ending: 'slow_start_nana' }] },
     { if: (s) => s.flags.reiRedemption, then: [{ ending: 'rei_friend' }] },
     { if: (s) => s.lessons.length >= Math.ceil(Object.keys(window.LESSONS || {}).length * 0.85), then: [{ ending: 'mochi_graduates' }] },
     { mochi: "That's the end of my guide, rookie. Not the end of your story. Go live it.", e: 'happy' },

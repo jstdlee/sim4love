@@ -82,6 +82,8 @@ window.CHAPTERS.ch16 = {
         mio: [{ txt: '@route', t: "can u fly over next month? i found flights. only $680" }],
         kaede: [{ txt: '@route', t: "can u fly over next month? i found flights. only $680" }],
         yuna: [{ txt: '@route', t: "can u fly over next month? i found flights. only $680" }],
+        chloe: [{ txt: '@route', t: "penang next month? \"market research\" for the kiosk. ferry + hostel, i found a deal. only $680" }],
+        preet: [{ txt: '@route', t: "can u fly over next month? i found flights. only $680" }],
       }, []),
       { phoneOff: true },
       { think: "Phones go in the box during training. And $680 is about two months of allowance." },
@@ -130,6 +132,36 @@ window.CHAPTERS.ch16 = {
         { resource: 'mentalhealth' },
       ] },
     ] },
+
+    // Ah Ma's hidden fall; Joy on agency loans
+    { bg: 'dining' },
+    { show: 'ama', e: 'sad', at: 'center' },
+    { n: "Book-out weekend. Ah Ma has a bruise on her arm the size of a mandarin orange. \"Bump the door only.\" Mum's face says she doesn't believe it." },
+    { flaw: { ama: { 'refuses-help': 'seen', 'worries-about-money': 'seen' } }, why: "She hid a fall so nobody would spend money on her." },
+    { s: 'ama', e: 'sad', t: "Don't tell your mother. Polyclinic so expensive. I don't want to trouble anybody." },
+    { reveal: { ama: 'sensitivity' }, why: "She hid her fall to protect the family, not herself." },
+    { judge: { who: 'ama', id: 'ama.burden', verdict: 'fair' } },
+    { choice: "Ah Ma is asking you to keep a secret.", opts: [
+      { t: "\"You're not trouble, Ah Ma.\" Tell Mum together, and check the CHAS and MediSave rules for her visit.", fx: { 'trust.ama': 6, 'aff.ama': 4, wisdom: 4 }, sig: 2, then: [
+        { flaw: { ama: { 'refuses-help': 'growing' } }, why: "You told Mum together, and showed her it wouldn't cost what she feared." },
+        { s: 'mom', e: 'sad', at: 'right', t: "Ma. Next time you call me first. Not after. First." },
+        { if: (s) => !!s.flags.amaPreet && !s.flags.amaShield, then: [
+          { s: 'ama', e: 'happy', t: "Preet teacher also say same thing. She put the ScamShield for me last week. Very clever girl." },
+          { flag: 'amaShield' },
+        ] },
+      ] },
+      { t: "Keep her secret. She asked.", fx: { 'aff.ama': 2, 'trust.ama': -2 }, then: [
+        { mochi: "Respecting her is right. Hiding a fall from the people who'd help is not the same thing.", e: 'sad' },
+      ] },
+    ] },
+    { hide: '*' },
+    { bg: 'voiddeck' },
+    { show: 'joy', e: 'neutral', at: 'center' },
+    { s: 'joy', e: 'neutral', t: "My cousin's agency says she 'owes' them eight months' salary for placement. Then they keep her passport. That's not a loan, that's a trap. I told her: call the MOM hotline. She says she can't say no to them." },
+    { reveal: { joy: 'compassion' }, why: "She spent her day off helping her cousin fight an agency loan." },
+    { flaw: { joy: { 'cant-say-no': 'seen' } }, why: "You saw the same habit in her that she warned her cousin about." },
+    { contact: 'joy' },
+    { hide: '*' },
 
     // eldercare talk + Think Deeper
     { bg: 'dining' },

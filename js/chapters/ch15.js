@@ -6,8 +6,10 @@ window.CHAPTERS = window.CHAPTERS || {};
     mio: { got: "I got it. I got the writing programme in Melbourne.", far: "Melbourne. Seven hours of flying. A different time zone." },
     kaede: { got: "I got it. I got the athletics scholarship. In the US.", far: "Twelve time zones. She leaves in August." },
     yuna: { got: "I got it. I got into the dance academy in Seoul.", far: "Seoul. Two years. Six hours away." },
+    chloe: { got: "I got it. The incubator kiosk at the new hawker centre, with a starter loan. My own stall.", far: "Seven-day weeks from 5 AM. Same island, but you'll barely see each other." },
+    preet: { got: "I got it. Social work, with a six-month NGO placement in Chiang Mai.", far: "Chiang Mai. Six months. A different country, one hour behind." },
   };
-  const R = (f) => SIM.byRoute({ hina: f('hina'), mio: f('mio'), kaede: f('kaede'), yuna: f('yuna') }, []);
+  const R = (f) => SIM.byRoute(Object.fromEntries(SIM.HEROINES.map((h) => [h, f(h)])), []);
 
   window.CHAPTERS.ch15 = {
     id: 'ch15', part: "Part IV — Real Life", title: "Chapter 15", subtitle: "Results Day",
@@ -130,7 +132,7 @@ window.CHAPTERS = window.CHAPTERS || {};
       SIM.split([{ talk: 'learning' }], [{ talk: 'learning' }]),
       { deeper: 'nstiming' },
       SIM.split([
-        R((h) => [{ bg: h === 'hina' ? 'mrt' : 'airport' }, { n: h === 'hina' ? "You see Hanis off at the MRT for her first hospital placement week. It's not the airport, but it feels like one." : "Changi, Terminal 3. Her family, your family, way too many snacks. A long hug at the gate." }]),
+        R((h) => [{ bg: h === 'hina' ? 'mrt' : h === 'chloe' ? 'hawker' : 'airport' }, { n: h === 'hina' ? "You see Hanis off at the MRT for her first hospital placement week. It's not the airport, but it feels like one." : h === 'chloe' ? "Opening day at Chloe's kiosk, 5 AM. You carry trays and watch her sell the first box. It's not the airport, but it feels like one." : "Changi, Terminal 3. Her family, your family, way too many snacks. A long hug at the gate." }]),
         { show: '@route', e: 'shy', at: 'center' },
         { s: '@route', e: 'shy', t: "Sunday calls. Goodnight texts. And you send me your first recording." },
         { hide: '*' },

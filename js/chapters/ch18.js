@@ -148,6 +148,48 @@ window.CHAPTERS.ch18 = {
     ] },
     { hide: '*' },
 
+    // Natalie: slow start
+    { if: (s) => s.route === 'solo' && !!s.flags.nanaCoffee, then: [
+      { bg: 'cafe' },
+      { show: 'nana', e: 'happy', at: 'center' },
+      { n: "Saturday coffee again, then a pottery studio she found. Your bowl looks like a hat." },
+      { s: 'nana', e: 'neutral', t: "I'm switching from accountancy to occupational therapy. My parents think I'm throwing away a safe course. I think I'm throwing away a course I hate." },
+      { choice: "Natalie waits to see what you'll say.", opts: [
+        { t: "\"Tell me why OT.\"", fx: { 'aff.nana': 5, 'trust.nana': 10 }, sig: 2, then: [
+          { s: 'nana', e: 'happy', t: "My grandma's therapist taught her to button her own blouse again after the stroke. I want to be that person for someone." },
+          { reveal: { nana: 'intellect' }, why: "You asked why she was switching courses." },
+          { contact: 'nana' },
+        ] },
+        { t: "\"Accountancy is safer lah.\"", fx: { 'aff.nana': -3 }, then: [
+          { s: 'nana', e: 'neutral', t: "Everyone says that. I hoped you wouldn't." },
+        ] },
+      ] },
+      { hide: '*' },
+    ] },
+    // Joy's video call
+    { bg: 'voiddeck' },
+    { show: 'joy', e: 'happy', at: 'center' },
+    { n: "Joy is on a video call at the void deck, phone propped on a water bottle. Two kids in Iloilo are holding up a school certificate." },
+    { choice: "She hangs up and wipes her eyes quickly.", opts: [
+      { t: "\"Your kids? Tell me about them.\"", fx: { 'aff.joy': 4, 'trust.joy': 4 }, then: [
+        { s: 'joy', e: 'happy', t: "Angel, fourteen, and Paolo, nine. Paolo is top in maths. Seven years I've watched him grow up on a phone screen." },
+        { flaw: { joy: { 'hides-homesickness': 'growing' } }, why: "You asked about her kids, and she let you see how much she misses them." },
+        { contact: 'joy' },
+      ] },
+      { t: "Pretend you didn't see.", fx: { 'aff.joy': -1 } },
+    ] },
+    { hide: '*' },
+    // Preet forgives a lie
+    { if: (s) => !!s.flags.preetMet, then: [
+      { bg: 'park' },
+      { show: 'preet', e: 'neutral', at: 'center' },
+      { n: "Preet's younger brother lied about where he was on Friday night. You expect a lecture. Instead:" },
+      { s: 'preet', e: 'neutral', t: "He lied because he was scared I'd judge him. So I told him I'm glad he's safe, and we'll talk about the lie tomorrow. ...Who even am I." },
+      { flaw: { preet: { judgemental: 'resolved' } }, why: "She forgave her brother's lie before judging it." },
+      { contact: 'preet' },
+      { hide: '*' },
+    ] },
+
     // children talk + Think Deeper
     { bg: 'park' },
     { talk: 'children' },

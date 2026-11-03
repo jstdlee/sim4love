@@ -89,6 +89,23 @@ window.CHAPTERS.ch7 = {
       ] },
     ] },
 
+    // Chloe does the maths
+    { if: (s) => !!s.flags.chloeMet, then: [
+      { bg: 'hawker' },
+      { show: 'chloe', e: 'smug', at: 'center' },
+      { s: 'chloe', e: 'smug', t: "I saw that watch ad on your phone. $29 a month for 24 months is $696, for a watch that says \"Rolax\". Want to see what $696 does in a savings account instead?" },
+      { choice: "Chloe already has the calculator out.", opts: [
+        { t: "\"Show me.\"", fx: { chloe: 12, wallet: 4 }, then: [
+          { s: 'chloe', e: 'happy', t: "Finally. Someone who wants to see the spreadsheet." },
+          { contact: 'chloe' },
+        ] },
+        { t: "\"It's my money.\"", fx: { chloe: -1 }, then: [
+          { s: 'chloe', e: 'neutral', t: "It is. That's why I'd rather you kept it." },
+        ] },
+      ] },
+      { hide: '*' },
+    ] },
+
     // 7-5 attention
     { bg: 'bedroom' },
     { mochi: "Question. Who are you when nobody's watching?", e: 'neutral' },
