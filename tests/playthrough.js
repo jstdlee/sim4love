@@ -28,12 +28,12 @@ const server = http.createServer((req, res) => {
 });
 const strategy = (process.argv[2] && !process.argv[2].startsWith('--')) ? process.argv[2] : 'first';
 const mobile = process.argv.includes('--mobile');
+const routeTarget = (process.argv.find((a) => a.startsWith('--route=')) || '').slice(8);
 const shotArg = process.argv.find((a) => a.startsWith('--shots'));
 const shotDir = shotArg ? (shotArg.split('=')[1] || path.join(__dirname, '..', 'screenshots', `${mobile ? 'mobile' : 'desktop'}-${routeTarget ? 'route-' + routeTarget : strategy}${lang === 'zh-SG' ? '-zh' : ''}`)) : null;
 if (shotDir) fs.mkdirSync(shotDir, { recursive: true });
 let seed = 42; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
 
-const routeTarget = (process.argv.find((a) => a.startsWith('--route=')) || '').slice(8);
 const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6);
 
 (async () => {
@@ -94,7 +94,7 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
   // --outfit-shots=hina:casual,chloe:stall  save one screenshot the first time each listed outfit is on stage.
   const outfitsSeen = new Map();
   const outfitShots = new Set(((process.argv.find((a) => a.startsWith('--outfit-shots=')) || '').split('=')[1] || '').split(',').filter(Boolean));
-  const outfitDir = path.join(__dirname, '..', 'screenshots', 'outfits');
+  const outfitDir = shotDir ? path.join(shotDir, 'outfits') : path.join(__dirname, '..', 'screenshots', 'outfits');
   if (outfitShots.size) fs.mkdirSync(outfitDir, { recursive: true });
   const hudBad = []; let choices = 0, badEnds = 0, done = false, same = 0, last = '';
   for (let i = 0; i < 40000 && !done; i++) {
@@ -232,7 +232,7 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
   if (!music.unlocked || !tracks.size) errors.push('Music never started: ' + JSON.stringify(music));
   if (english.size) errors.push(`Untranslated English on screen (${english.size}):\n  ` + [...english].slice(0, 40).join('\n  '));
   await browser.close(); if (!remote) server.close();
-  console.log(JSON.stringify({ strategy, mobile, lang, music: [...tracks], chapters: seen.size, recaps: recaps.size, outfitsOnStage: outfitsSeen.size, castToasts: toasts.size, choices, badEnds, endingScreens: endings, ...final }));
+  console.log(JSON.stringify({ strategy, mobile, lang, music: [...tracks], chapters: seen.size, recaps: recaps.size, outfitsOnStage: outfitsSeen.size, ...(process.env.OUTFIT_DEBUG ? { outfitKeys: [...outfitsSeen.keys()], outfitWanted: [...outfitShots] } : {}), castToasts: toasts.size, choices, badEnds, endingScreens: endings, ...final }));
   if (shotDir) console.log('screenshots: ' + shotDir);
   if (errors.length) { console.error('PAGE ERRORS:\n' + errors.join('\n')); process.exit(1); }
   if (routeTarget) {
