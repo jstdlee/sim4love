@@ -271,7 +271,15 @@ Default locale **`en-SG`** (English text, Singapore help cards). Chinese (`zh-SG
 - **Worker.** `src/worker.js` runs before every asset (`assets.run_worker_first: true`, binding `ASSETS`). Requests
   with a valid pass cookie get the static asset unchanged (`Cache-Control: private, no-cache`). Without one,
   navigations get a small gate page rendered by the Worker (not in the asset tree) and everything else gets `403`.
-  Only `/assets/fonts/*` is public, so the gate can use the game's typefaces.
+  Only `/assets/fonts/*` and `/assets/site/*` are public, so the gate and the site can use the typefaces and icons.
+- **Public site.** The Worker renders a no-JS site from `src/site.js` + `src/site-content.js` (EN and zh-SG):
+  `/`, `/about`, `/privacy`, `/disclaimer` and `/zh/…`, plus `robots.txt`, `sitemap.xml`, `llms.txt`,
+  `llms-full.txt`, `/.well-known/security.txt`, `site.webmanifest` and `favicon.ico`. Pages carry canonical,
+  hreflang (en-SG, zh-SG, x-default), OG/Twitter tags and JSON-LD (Organization, WebSite, WebPage, plus VideoGame
+  and FAQPage on the home page). The help list comes from `src/site-resources.js`, generated from
+  `js/data/resources.js` by `tools/build-site-data.js` (`--check` fails when stale).
+- **Game path.** The game lives at gated `/play` (served from the `/` asset). `/index.html` 301-redirects to
+  `/play`, the gate's default `next` is `/play`, and gated responses carry `X-Robots-Tag: noindex`.
 - **Verify.** The gate embeds a managed Turnstile widget (action `enter`) that auto-submits to `POST /__verify`.
   The Worker calls siteverify server-side (token 1–2048 chars, 10 s timeout, `remoteip` from `CF-Connecting-IP`,
   fail closed) and requires `success`, `action === 'enter'` and a hostname in `TURNSTILE_HOSTNAMES`. On success it
@@ -285,7 +293,7 @@ Default locale **`en-SG`** (English text, Singapore help cards). Chinese (`zh-SG
   `TURNSTILE_SITEKEY=1x00000000000000000000AA`, `TURNSTILE_SECRET=1x0000000000000000000000000000000AA`,
   `TURNSTILE_HOSTNAMES=example.com`, `TURNSTILE_ALLOW_TEST_KEYS=1`, and any random `COOKIE_KEY`. Test-key results
   carry no action, so they are accepted only when `TURNSTILE_ALLOW_TEST_KEYS=1` (never set in production).
-  `tests/playthrough.js --url=http://127.0.0.1:8787/` passes the gate and fails on any 4xx from the game origin.
+  `tests/playthrough.js --url=http://127.0.0.1:8787/play` passes the gate and fails on any 4xx from the game origin.
   Opening `index.html` directly or via a static server still works without the gate.
 
 ## Age confirmation

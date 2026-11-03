@@ -4,7 +4,7 @@
 
 > One ordinary year in Singapore. Five very different people. Every choice you make says something about who you are.
 
-**▶ Play in your browser:** https://sim4love.jstdlee.workers.dev
+**▶ Play in your browser:** https://sim4love.jstdlee.workers.dev/play · [About](https://sim4love.jstdlee.workers.dev/about) · [Privacy](https://sim4love.jstdlee.workers.dev/privacy) · [Disclaimer](https://sim4love.jstdlee.workers.dev/disclaimer) · [中文](https://sim4love.jstdlee.workers.dev/zh/)
 
 ---
 
@@ -88,7 +88,9 @@ You will be asked to confirm you are 14 or older the first time you play. Progre
 node tests/validate.js   # script and data checks
 node tests/softlock.js   # proves every path can move forward
 node tests/playthrough.js first|last|random [--mobile] [--lang=zh] [--shots]   # browser playthrough (needs Playwright)
-node tests/playthrough.js random --url=http://127.0.0.1:8787/   # same, through `npx wrangler dev` and the Turnstile gate
+node tests/playthrough.js random --url=http://127.0.0.1:8787/play   # same, through `npx wrangler dev` and the Turnstile gate
+node tests/site.mjs [--url=https://sim4love.jstdlee.workers.dev]   # public site pages, SEO files and gating
+node tools/build-site-data.js [--check]   # regenerate the site's help list from js/data/resources.js
 node tools/i18n-pack.js status   # translation coverage (Chinese sources live in i18n/zh-SG/)
 python3 tools/make-music.py      # regenerate the soundtrack (numpy + ffmpeg)
 ```
