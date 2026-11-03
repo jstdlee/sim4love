@@ -1,6 +1,7 @@
-# sim4love — Cast Bible (expanded cast: 20 main characters)
+# sim4love — Cast Bible (expanded cast: 24 main characters)
 
-Status: **design spec, not yet coded.** This document defines the 20 main characters, the per-character systems
+Status: **design spec, not yet coded.** This document defines the 24 main characters (the four international additions, Ava, Inès, Mateo and Ollie, are
+specified in full in [CAST_INTERNATIONAL.md](CAST_INTERNATIONAL.md) and summarised in §1 and §4.13–4.16 below), the per-character systems
 (radar, hidden attributes, flaw tags, judgement log, neglect and gossip, chapter recap) and the art direction for
 the next sprite pass. Read [CORE_VALUES.md](CORE_VALUES.md) first; every line here obeys it. Chapter and
 interaction references (`4-3` = Chapter 4, interaction 3) follow [CHAPTERS.md](CHAPTERS.md); value axes follow
@@ -35,7 +36,7 @@ happens because of a choice). Radar values are written `first impression → tru
 7. **Ages.** The player is 16 at Ch1. JC1 classmates are 16–17 in Parts I–III, 17–18 in Part IV, 18–19 in Part V.
    Content stays non-explicit; visuals go no further than a hug.
 
-## 1. The 20 at a glance
+## 1. The 24 at a glance
 
 | # | id | Name (EN / zh) | Role | Heroine | Status |
 |---|---|---|---|---|---|
@@ -58,9 +59,13 @@ happens because of a choice). Radar values are written `first impression → tru
 | 17 | `joy` | Joy Santos / 乔伊·桑托斯 | Caregiver for Xin Yi's grandmother | — | existing (no lines yet), expanded |
 | 18 | `takumi` | Marcus Tan / 陈马克斯 | Student-council president, rival | — | existing, expanded |
 | 19 | `ren` | Ryan Teo / 张瑞安 | Classmate, later NS section mate | — | existing, expanded |
-| 20 | `saki` | Sam (Samantha) Wong / 萨姆·黄 | Friend of friends, events crew | — | existing, expanded |
+| 20 | `saki` | Sam (Samantha) de Vries / 萨姆·德弗里斯 | Friend of friends, events crew (Dutch, Singapore PR) | — | existing, re-backgrounded |
+| 21 | `ava` | Ava Mitchell / 艾娃·米切尔 | Expat transfer student from Austin, Texas; marine-bio and photography | ✔ route (heroine #9) | **new** (v4) |
+| 22 | `ines` | Inès Diallo / 伊内丝·迪亚洛 | Debate rival from the French international school | — | **new** (v4) |
+| 23 | `mateo` | Mateo Tan Rojas / 马特奥·陈·罗哈斯 | Colombian-Singaporean futsal friend, later NS buddy | — | **new** (v4) |
+| 24 | `ollie` | Ollie Bennett / 奥利·贝内特 | Sound engineer and Open Night host from Leeds; adult passion mentor | — | **new** (v4) |
 
-That is 8 heroines (6 school-era routes, Natalie's late route and Rae's bond track) and 12 other main characters. Only one new heroine slot was left after promoting existing cast, so Chloe and Preet are new and Natalie is promoted.
+That is 9 heroines (7 school-era routes including Ava, Natalie's late route and Rae's bond track) and 15 other main characters. Only one new heroine slot was left after promoting existing cast, so Chloe and Preet are new and Natalie is promoted.
 
 ### 1.1 Outside the 20
 
@@ -987,7 +992,7 @@ Expressions: neutral, smug, plus planned *panic* and *relieved*.
 |---|---|
 | Names | EN *Ryan* / *Ryan Teo* · zh *瑞安* / *张瑞安* |
 | Age | 16 at Ch1 |
-| Background | Chinese Singaporean. Parents divorced; lives with his father, who is rarely home. Pays his own phone bill and spends to fit in. Same NS unit as the player and Haziq. |
+| Background | Chinese Singaporean father, Irish mother who moved back to Cork after the divorce. Citizen; lives with his father, who is rarely home. Skips his mum's birthday call in Ch16 and finally rings her in Ch19 (with her: "Grand, Mam, yeah" / zh "挺好的，妈。"). Pays his own phone bill and spends to fit in. Same NS unit as the player and Haziq. |
 | Role | The friend who "rates the girls" and later borrows money; a debt arc that ends in asking for help |
 | Personality | Stylish, quick, crude jokes to fill silence, generous when flush, avoids his own feelings |
 | Values | spend +2, friends +2, gifts +1, lending +1 (as a borrower), learning −1, honesty −1, promises −1, conflict −1 |
@@ -1013,18 +1018,18 @@ chalet, VIP matchmaking deposit). **Topics:** lending and debt, gossip and objec
 | "I don't need another debt" → Credit Counselling | 19 | 👆 if you suggested it | flaw → growing |
 
 **Neglect sensitivity: 1.** He is the NS chat's main gossip node; going cold on him spreads fast.
-**Visual spec.** Angular-soft face, two-block haircut with ash-brown tips, a stud earring, light skin. Palette:
+**Visual spec.** Angular-soft face, wavy chestnut-auburn hair, hazel-green eyes, faint freckles, a stud earring, fair skin (v4 redraw). Palette:
 beige, black, gold. 1. *Uniform:* sleeves rolled, tie loose. 2. *Streetwear:* oversized cream jacket, chain, cargo
 pants. 3. *NS:* generic green field uniform. 4. *Chalet:* Hawaiian shirt, shorts. Expressions: neutral, sad, plus
 planned *smirk* and *ashamed*.
 
-### 4.12 Sam Wong (`saki`) · friend of friends · existing
+### 4.12 Sam de Vries (`saki`) · friend of friends · existing, re-backgrounded
 
 | | |
 |---|---|
-| Names | EN *Sam* / *Sam Wong* (Samantha) · zh *萨姆* / *萨姆·黄* |
+| Names | EN *Sam* / *Sam de Vries* (Samantha) · zh *萨姆* / *萨姆·德弗里斯* |
 | Age | 19 at Ch17 |
-| Background | Chinese Singaporean. Polytechnic graduate working as a junior stage manager for an events company. Usually the one who doesn't drink. |
+| Background | Dutch; moved to Singapore at 9 (dad in port logistics), Singapore PR, "Singaporean with a Dutch passport". Dutch directness ("Ja, no." / zh "嗯，不。", "Gezellig!"). Polytechnic graduate working as a junior stage manager for an events company. Usually the one who doesn't drink. |
 | Role | The friend the player protects in Ch17; later the one who opens a door for his music |
 | Personality | Organised, warm, people-pleasing with seniors, funny on headset |
 | Values | friends +2, career +1, learning +1, conflict +1, spend 0, honesty +1, promises +2 |
@@ -1036,8 +1041,9 @@ keep up with seniors once. The game never blames her and never frames her as a r
 **Radar:** INT 50→70 · WRM 70→80 · CMP 55→75 · GEN 55→70 · GNR 55→70 · SEN 40→65 · FIT ?
 Reveals: INT, GEN 📖 Ch19 you see her run a show · SEN 👆 Ch17 morning: ask how she is without lecturing.
 
-**Appearances:** in code Ch17 (chalet). Planned: Ch19 she asks you to help at a gig; Ch20 she gives you an
-open-mic slot (if you helped, with no strings), and leads a drink-safety talk for her crew.
+**Appearances:** in code Ch17 (chalet) and Ch20 (`20-open-mic`: she and Ollie give you the last slot). Planned: Ch19
+she asks you to help at a gig, and leads a drink-safety talk for her crew. The Ch17 incident is about peer pressure
+from seniors, never about nationality.
 **Topics:** consent and bystander action, friendship, refusal, career, peer pressure.
 
 | Arc beat | Ch | Kind | Change |
@@ -1046,10 +1052,42 @@ open-mic slot (if you helped, with no strings), and leads a drink-safety talk fo
 | Morning after: she sets her own limit | 17 | 📖 | `people-pleaser` → growing |
 | Open-mic slot | 20 | 👆 (earlier help, no strings) | Friendship +8 |
 
-**Neglect sensitivity: 0.** **Visual spec.** Soft round face, shoulder-length dark brown hair with a side part, light
-skin. Palette: black, mustard, denim. 1. *Chalet casual:* mustard tee, denim shorts. 2. *Show crew:* all-black
+**Neglect sensitivity: 0.** **Visual spec.** Soft round face, straight blonde chin-length bob, blue-grey eyes, fair
+skin (v4 redraw). Palette: black, mustard, denim. 1. *Chalet casual:* mustard tee, denim shorts. 2. *Show crew:* all-black
 crew tee, cargo pants, headset, gaffer tape on her belt. 3. *Occasion:* simple black jumpsuit. Expressions:
 neutral, sad, plus planned *happy*, *focused*.
+
+### 4.13 Ava Mitchell (`ava`) · heroine #9 · new (v4)
+
+American expat transfer student (Austin, Texas; fifth country), marine-biology and photography nerd. Casual,
+upbeat, asks before she hugs. Flaws: `one-foot-out` (leaves before she can be left), `blunt-without-context`,
+`allowance-bubble`, `fixes-not-listens`. Neglect 2. Route beats in Ch1, Ch4, Ch6, Ch8 (the "are we dating?" talk
+and the dating-norms think card), Ch9 (bill system), Ch10 (study plan), Ch11 (money fight), Ch12 (Friendsgiving),
+Ch13, Ch14 (Seattle move; Ollie's long-distance story; stay or end it properly), Ch15, Ch16, Ch19 (too-cheap
+flight). Endings: `true_ava` *Two Time Zones*, `normal_ava`, `kind_goodbye_ava` *See You Around*. Full spec:
+CAST_INTERNATIONAL.md §2.
+
+### 4.14 Inès Diallo (`ines`) · debate rival, then friend · new (v4)
+
+Senegalese-Breton, from Lyon; French international school. Articulate, dry, keeps "En fait", "Voilà", "Bof" in
+both languages. Flaws: `contrarian`, `cutting-wit`, `superior-defence`, `wont-admit-homesick`. Neglect 1. Beats:
+Ch6 debate booth, Ch8 think card, Ch10 debate final (apology to Preet), Ch12 Christmas Eve, Ch13 peer-education
+fair, Ch20 notes to Preet. Full spec: CAST_INTERNATIONAL.md §3.1.
+
+### 4.15 Mateo Tan Rojas (`mateo`) · futsal friend, NS buddy · new (v4)
+
+Colombian mother, Chinese Singaporean father (a ship's officer); grew up in Medellín. Lively, physical, "¡Hermano!".
+Flaws: `over-promises`, `hugs-first-asks-later`, `jokes-past-pain`, `sends-too-much-home`. Neglect 2. Beats: Ch4 void-deck
+futsal (asking before a hug), Ch6, Ch12 novena and ancestor altar, Ch16 allowance home, Ch17 designated hermano,
+Ch19 fake embassy call, Ch20 arepas with Ah Ma. Full spec: CAST_INTERNATIONAL.md §3.2.
+
+### 4.16 Ollie Bennett (`ollie`) · passion mentor · new (v4)
+
+26, from Leeds; sound engineer, community-club guitar teacher, Thursday Open Night host at Uncle Ong's café.
+British understatement ("Not bad, that." / zh "还不赖。"). Flaws: `understates-everything`, `cant-ask-for-help`,
+`jokes-to-avoid-conflict`, `too-polite-to-check`. Neglect 0. **Adult mentor only: always in public or group settings,
+never romantic, never alone with the player.** Beats: Ch4 Open Night, Ch10 debate sound desk, Ch14 long-distance
+story, Ch19 rental-deposit scam (with Rae), Ch20 open mic. Full spec: CAST_INTERNATIONAL.md §3.3.
 
 ---
 
@@ -1067,7 +1105,7 @@ neutral, sad, plus planned *happy*, *focused*.
 | `sensitivity` | Sensitivity | How much she notices moods, and how easily she is hurt |
 | `fit` | Values-fit | Computed overlap between her values and the player's stated values (§5.2) |
 
-All values are 0–100. Each of the 20 has a `first` (first-impression) and a `true` value for the six authored axes.
+All values are 0–100. Each of the 24 has a `first` (first-impression) and a `true` value for the six authored axes.
 There is **no appearance axis**.
 
 ### 5.2 Values-fit

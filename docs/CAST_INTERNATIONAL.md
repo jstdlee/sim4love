@@ -1,8 +1,8 @@
 # sim4love: International Cast Supplement (v4)
 
 > Supplement to `docs/CAST_BIBLE.md`, using the same entry format and the same systems (radar axes, values-fit,
-> flaw tags, neglect 0–3, 📖 story / 👆 player-choice beats). **Phase 1 = design + art only.** Nothing here is wired
-> into `js/data/cast.js`, `js/chapters/*`, `js/sprites.js` or `tests/` yet; that is Phase 2.
+> flaw tags, neglect 0–3, 📖 story / 👆 player-choice beats). **Status: wired in (Phase 2).** Ava, Inès, Mateo and Ollie
+> are in `js/data/cast.js`, `js/sprites.js`, `js/data/wardrobe.js`, `js/chapters/*`, the zh-SG translations and `tests/`.
 
 ## 0. Why this supplement exists, and the rules it follows
 
@@ -328,8 +328,7 @@ tee, chain, olive cargo). Expressions: uniform = neutral, sad, smug; ns = neutra
 Expressions: chalet = neutral, happy, sad; crew = neutral, happy; occasion = neutral, happy.
 
 **Legacy files:** the old flat sprites `assets/chars/ren_neutral.webp`, `ren_sad.webp`, `saki_neutral.webp`,
-`saki_sad.webp` are untouched in Phase 1 (code may still reference them). Phase 2 should repoint references to the
-outfit sprites and then delete them.
+`saki_sad.webp` were deleted in Phase 2; all references use the v4 outfit sprites.
 
 ---
 
