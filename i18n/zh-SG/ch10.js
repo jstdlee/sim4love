@@ -87,7 +87,7 @@ Object.assign(window.I18N['zh-SG'].text, {
   "Hanis's team came first at the national first-aid competition.": "哈妮丝的队伍拿下了全国急救比赛冠军。",
   "Xin Yi won the national youth short story prize.": "欣怡得了全国青少年短篇小说奖。",
   "Kavya broke the national schools record for the 400 m.": "卡维娅打破了全国学校400米纪录。",
-  "Elise got a callback for the arts school audition.": "伊莉丝的艺术学院试镜进了复试。",
+  "Elise got a callback for the arts school audition.": "爱丽丝的艺术学院试镜进了复试。",
   "Chloe's kueh business plan won a youth hawker-entrepreneur grant.": "可儿的糕点生意计划赢得了青年小贩创业基金。",
   "Preet's team won the schools debate final. She was named best speaker.": "普丽特的队伍赢得了校际辩论决赛，她被选为最佳辩手。",
   "Ava's photo series on the coral nursery off Sisters' Islands won the national youth nature photography award.": "艾娃拍姐妹岛外珊瑚苗圃的系列照片，得了全国青少年自然摄影奖。",

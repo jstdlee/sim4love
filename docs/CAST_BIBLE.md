@@ -43,7 +43,7 @@ happens because of a choice). Radar values are written `first impression → tru
 | 1 | `hina` | Nur Hanis / 努尔·哈妮丝 | Childhood friend, same HDB floor | ✔ route | existing, expanded |
 | 2 | `mio` | Lim Xin Yi / 林欣怡 | Bookworm and writer | ✔ route | existing, expanded |
 | 3 | `kaede` | Kavya Pillai / 卡维娅·皮莱 | Track star | ✔ route | existing, expanded |
-| 4 | `yuna` | Elise de Souza / 伊莉丝·德索萨 | Dance-cover streamer | ✔ route | existing, expanded |
+| 4 | `yuna` | Elise de Souza / 爱丽丝·德索萨 | Dance-cover streamer | ✔ route | existing, expanded |
 | 5 | `rei` | Rae Koh / 许瑞儿 | Scam ring's "face", then survivor and law student | ✔ bond (not romanceable) | existing, expanded |
 | 6 | `chloe` | Chloe Goh / 吴可儿 | Poly student running her family's kueh stall | ✔ route | **new** |
 | 7 | `preet` | Harpreet Kaur ("Preet") / 哈普丽特·考尔 | Debater, peer educator, volunteer tutor | ✔ route | **new** |
@@ -323,7 +323,7 @@ Expressions: neutral, cool, smug, happy, angry, plus planned *pain* (injury) and
 
 | | |
 |---|---|
-| Names | EN *Elise* / *Elise de Souza* · zh *伊莉丝* / *伊莉丝·德索萨* |
+| Names | EN *Elise* / *Elise de Souza* · zh *爱丽丝* / *爱丽丝·德索萨* |
 | Age | 16 at Ch1 |
 | Background | Eurasian Singaporean (Kristang family). Lives with her single mother, a night-shift call-centre lead, in a 3-room flat. Runs a dance-cover stream with 40k followers; sends half her income home. |
 | Role | Streamer and class idol; the "shine" heroine |

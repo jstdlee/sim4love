@@ -34,7 +34,7 @@ Object.assign(window.I18N['zh-SG'].text, {
   "Huh. That's... boring. And weirdly attractive? Who taught you this.": "哈？好……无聊。但又奇怪地有魅力？谁教你的？",
   "Me.": "我。",
   "Do it. Same message to all four.": "照做。四个人发一样的讯息。",
-  "Kavya and Elise share a CCA. By lunch they're comparing phones.": "卡维娅和伊莉丝同一个社团。午餐时间她们已经在对手机了。",
+  "Kavya and Elise share a CCA. By lunch they're comparing phones.": "卡维娅和爱丽丝同一个社团。午餐时间她们已经在对手机了。",
   "\"The only one\"?": "“只会跟我”？",
   "Same text. Same emoji. Wow.": "一样的字。一样的表情。哇。",
   "BAD END #9 — The Fish Pond Keeper": "坏结局 #9 · 鱼塘塘主",

@@ -14,7 +14,7 @@ Object.assign(window.I18N['zh-SG'].text, {
   "Deal. ...You didn't laugh. Thank you.": "成交。……你没有笑我。谢谢。",
   "\"Relax lah, it's just a kayak.\"": "“放轻松啦，只是皮划艇而已。”",
   "Right. Just a kayak.": "对。只是皮划艇而已。",
-  "Day two, after the kayak capsize drill. Elise is soaked, no make-up, hair everywhere, laughing so hard she snorts.": "第二天，翻艇演练后。伊莉丝全身湿透，素颜，头发乱成一团，笑到发出猪叫声。",
+  "Day two, after the kayak capsize drill. Elise is soaked, no make-up, hair everywhere, laughing so hard she snorts.": "第二天，翻艇演练后。爱丽丝全身湿透，素颜，头发乱成一团，笑到发出猪叫声。",
   "Don't look at me! I look like a kuih that fell in the drain.": "不要看我！我现在像一块掉进沟渠的糕。",
   "What do you say?": "你怎么说？",
   "\"Honestly? You look the most real you've looked all year. Also you laugh like a goose. It's great.\"": "“老实说？这是你今年最真实的样子。还有你笑起来像鹅。很好笑。”",

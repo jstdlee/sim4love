@@ -48,7 +48,7 @@ Object.assign(window.I18N['zh-SG'].text, {
   "Sunday lunch at Hanis's grandmother's flat in Geylang Serai. Twenty relatives, rendang and ketupat, and every single one of them is looking at you.": "礼拜天，在哈妮丝阿嫲芽笼士乃的组屋吃午餐。二十个亲戚、仁当和马来粽，每一个都在看你。",
   "Xin Yi's grandmother's 80th birthday dinner at her aunt's place. Twenty relatives, longevity noodles and peach buns, and every single one of them is looking at you.": "欣怡阿嫲八十大寿，在她阿姨家吃晚饭。二十个亲戚、长寿面和寿桃包，每一个都在看你。",
   "Kavya's cousin's engagement lunch at her family's place. Twenty relatives, murukku and mutton varuval, and every single one of them is looking at you.": "卡维娅表姐的订婚午宴，在她家。二十个亲戚、印度脆饼和干炒羊肉，每一个都在看你。",
-  "Christmas lunch with Elise's Eurasian family. Twenty relatives, devil's curry and sugee cake, and every single one of them is looking at you.": "在伊莉丝的欧亚裔家庭吃圣诞午餐。二十个亲戚、魔鬼咖喱和苏吉蛋糕，每一个都在看你。",
+  "Christmas lunch with Elise's Eurasian family. Twenty relatives, devil's curry and sugee cake, and every single one of them is looking at you.": "在爱丽丝的欧亚裔家庭吃圣诞午餐。二十个亲戚、魔鬼咖喱和苏吉蛋糕，每一个都在看你。",
   "Reunion dinner at Chloe's family's flat above the kopitiam, after the stall closes. Twenty relatives, steamboat and pineapple tarts, and every single one of them is looking at you.": "小贩摊收档后，在可儿家咖啡店楼上的组屋吃团圆饭。二十个亲戚，火锅和黄梨挞，每一个人都在看你。",
   "Gurpurab at Preet's family's gurdwara, then lunch at her uncle's place. Twenty relatives, langar dal and parathas, and every single one of them is looking at you.": "在普丽特家的谒师所过古鲁诞辰节，然后去她舅舅家吃午饭。二十个亲戚，免费餐的豆汤和印度薄饼，每一个人都在看你。",
   "Friendsgiving at Ava's condo by East Coast. Her dad has smoked a Texas brisket for fourteen hours, her mum has invited half the condo, and every single one of them is looking at you.": "东海岸艾娃家公寓的Friendsgiving感恩聚会。她爸烟熏了一块德州牛胸肉整整十四个小时，她妈邀了半栋公寓的人，而每一个人都在看你。",
