@@ -26,7 +26,7 @@ window.I18N['en-SG'] = {
     'title.lang': 'Language',
     'stat.trust': 'Trust', 'stat.wisdom': 'Love IQ', 'stat.self': 'Self-respect', 'stat.proj': 'Rose Filter',
     'life.goal': 'Goal', 'life.passion': 'Passion', 'life.health': 'Health', 'life.wallet': 'Wallet', 'life.cash': 'Savings',
-    'life.title': 'Your Life', 'life.hint': 'Your own story. Nobody else can live it for you.',
+    'hud.hearts': 'Hearts', 'hud.more': '+{n} more', 'hud.count': '{n} met', 'life.title': 'Your Life', 'life.hint': 'Your own story. Nobody else can live it for you.',
     'phone.typing': 'typing…', 'phone.title': 'Messages',
     'rose.blocked': 'Rose Filter is too high to see this option',
     'lesson.green': 'Healthy', 'lesson.red': 'Red flag', 'lesson.trap': 'Trap', 'lesson.new': 'New lesson', 'lesson.added': 'Added to your Love Notebook',

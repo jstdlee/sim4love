@@ -99,6 +99,10 @@ img.char-svg.incoming { opacity: 0; }
 #topbar { position: absolute; top: 0; left: 0; right: 0; display: flex; gap: 10px; justify-content: space-between; align-items: flex-start; padding: max(12px, env(safe-area-inset-top)) 16px 0; z-index: 5; }
 .at-title #topbar, .at-title #textbox { display: none; }
 #hud { display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; }
+.hearts { display: contents; }
+.chip.hsum { display: none; cursor: pointer; font: inherit; }
+.chip.hsum .more { font: 600 11px/1 var(--f-label); color: var(--ink-2); }
+.toast.more { color: var(--ink-2); font-size: 12px; padding: 4px 12px 3px; }
 .chip { display: inline-flex; align-items: baseline; gap: 6px; background: rgba(20, 10, 12, .82); border: 1px solid rgba(201, 164, 92, .45); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .5); color: var(--ink-2); padding: 4px 10px 3px; font: 13px/1.2 var(--f-label); white-space: nowrap; letter-spacing: .02em; }
 .chip b { color: var(--c); font-family: Georgia, serif; font-size: 12px; }
 .chip i { font: 700 13px/1 var(--f-display); font-style: normal; color: var(--gold-hi); min-width: 1ch; text-align: right; }
@@ -300,6 +304,16 @@ html[lang^="zh"] .btn, html[lang^="zh"] .ornament { letter-spacing: .06em; }
 html[lang^="zh"] #text { line-height: 1.75; }
 
 /* ---------- small screens ---------- */
+/* Narrow screens: fold several hearts into one summary chip with a dropdown list. */
+@media (max-width: 600px) {
+  #hud { position: relative; }
+  .chip.hsum { display: inline-flex; font-size: 10.5px; }
+  .chip.hsum::after { content: ''; width: 5px; height: 5px; border: solid var(--ink-2); border-width: 0 1px 1px 0; transform: rotate(45deg) translateY(-2px); margin-left: 2px; align-self: center; transition: transform .15s ease; }
+  .chip.hsum[aria-expanded="true"]::after { transform: rotate(-135deg) translateY(-1px); }
+  .hearts:not(.single) { display: none; }
+  .hearts.open { display: flex; flex-direction: column; gap: 2px; position: absolute; top: calc(100% + 4px); left: 0; z-index: 12; padding: 4px; background: rgba(20, 10, 12, .94); border: 1px solid rgba(201, 164, 92, .45); box-shadow: 0 8px 20px rgba(0, 0, 0, .5); }
+  .hearts.open .chip { justify-content: space-between; border-color: transparent; box-shadow: none; background: none; font-size: 12px; padding: 4px 6px; }
+}
 @media (max-width: 640px) {
   #topbar { padding: max(10px, env(safe-area-inset-top)) 10px 0; gap: 6px; }
   #hud { gap: 3px; }

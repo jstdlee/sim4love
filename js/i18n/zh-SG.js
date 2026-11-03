@@ -6,7 +6,7 @@ window.I18N['zh-SG'] = {
   ready: true, label: '简体中文',
   names: {
     hina: { short: '哈妮丝', full: '努尔·哈妮丝' }, mio: { short: '欣怡', full: '林欣怡' },
-    kaede: { short: '卡维娅', full: '卡维娅·皮莱' }, yuna: { short: '伊莉丝', full: '伊莉丝·德索萨' },
+    kaede: { short: '卡维娅', full: '卡维娅·皮莱' }, yuna: { short: '爱丽丝', full: '爱丽丝·德索萨' },
     rei: { short: '瑞儿', full: '许瑞儿' }, kenta: { short: '哈齐克', full: '穆罕默德·哈齐克·本·伊斯迈尔' },
     ogawa: { short: '王伯', full: '王文发先生' }, goto: { short: 'G先生', full: '戈帕尔先生' },
     takumi: { short: '马克斯', full: '陈马克斯' }, ren: { short: '瑞安', full: '张瑞安' },
@@ -27,7 +27,7 @@ window.I18N['zh-SG'] = {
     'title.lang': '语言',
     'stat.trust': '信任', 'stat.wisdom': '恋爱智商', 'stat.self': '自尊', 'stat.proj': '玫瑰滤镜',
     'life.goal': '目标', 'life.passion': '热爱', 'life.health': '健康', 'life.wallet': '钱包', 'life.cash': '储蓄',
-    'life.title': '你的生活', 'life.hint': '你自己的故事。没有人能替你活。',
+    'hud.hearts': '心动值', 'hud.more': '另有 {n} 项', 'hud.count': '共{n}人', 'life.title': '你的生活', 'life.hint': '你自己的故事。没有人能替你活。',
     'phone.typing': '正在输入…', 'phone.title': '信息',
     'rose.blocked': '玫瑰滤镜太高，看不清这个选项',
     'lesson.green': '健康', 'lesson.red': '红旗', 'lesson.trap': '陷阱', 'lesson.new': '新课程', 'lesson.added': '已加入你的恋爱笔记本',

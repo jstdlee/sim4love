@@ -318,10 +318,18 @@
       : `<div class="typing" aria-label="${esc(ui('phone.typing'))}"><i></i><i></i><i></i></div>`;
     box.scrollTop = box.scrollHeight;
   }
+  let hudOpen = false;
   function renderHud() {
     const chips = [];
     const hearts = routeKey() ? [routeKey()] : S.route === 'solo' ? [] : HEROINES.filter(k => S.stats[k]);
+    // Narrow screens (CSS <=600px): several hearts fold into one summary chip; tapping it opens the full list as a dropdown.
+    if (hearts.length > 1) {
+      const top = hearts.slice().sort((a, b) => (shown(b) - shown(a)) || (HEROINES.indexOf(a) - HEROINES.indexOf(b)))[0];
+      chips.push(`<button type="button" class="chip hsum" style="--c:${Art.CAST[top].color}" aria-expanded="${hudOpen}" aria-controls="hud-hearts" title="${esc(ui('hud.hearts'))}">${icon('heart')}${esc(nameOf(top))} <i>${shown(top)}</i><b class="more">· ${esc(ui('hud.count').replace('{n}', hearts.length))}</b></button>`);
+      chips.push(`<span id="hud-hearts" class="hearts${hudOpen ? ' open' : ''}" role="group" aria-label="${esc(ui('hud.hearts'))}">`);
+    } else chips.push('<span class="hearts single">');
     hearts.forEach(k => chips.push(`<span class="chip" style="--c:${Art.CAST[k].color}" title="${esc(nameOf(k))}">${icon('heart')}${esc(nameOf(k))} <i>${shown(k)}</i></span>`));
+    chips.push('</span>');
     if (routeKey()) chips.push(`<span class="chip" style="--c:#8fc7e6" title="${esc(ui('stat.trust'))}">${icon('link')}${esc(ui('stat.trust'))} <i>${shown('trust')}</i></span>`);
     chips.push(`<span class="chip" style="--c:#7fa6ff" title="${esc(ui('stat.wisdom'))}">${icon('spark')}${esc(ui('stat.wisdom'))} <i>${shown('wisdom')}</i></span>`);
     chips.push(`<span class="chip" style="--c:#e6c878" title="${esc(ui('stat.self'))}">${icon('crown')}${esc(ui('stat.self'))} <i>${shown('self')}</i></span>`);
@@ -434,8 +442,17 @@
     if (html) t.innerHTML = text; else t.textContent = text;
     const box = $('#toasts');
     box.appendChild(t);
-    // Keep the stack short so toasts never cover a whole card on small screens.
-    while (box.children.length > 3) box.firstChild.remove();
+    // Keep the stack short so toasts never cover a whole card; narrow screens keep two and fold the rest into "+N".
+    const cap = window.matchMedia && window.matchMedia('(max-width: 600px)').matches ? 2 : 3;
+    const live = () => [...box.children].filter((x) => !x.classList.contains('more'));
+    let dropped = 0;
+    while (live().length > cap) { live()[0].remove(); dropped++; }
+    if (cap === 2 && dropped) {
+      let m = box.querySelector('.toast.more');
+      if (!m) { m = document.createElement('div'); m.className = 'toast more'; m.dataset.n = '0'; }
+      m.dataset.n = String(+m.dataset.n + dropped); m.textContent = ui('hud.more').replace('{n}', m.dataset.n);
+      box.appendChild(m); clearTimeout(m._t); m._t = setTimeout(() => m.remove(), 2600);
+    }
     setTimeout(() => t.remove(), 2600);
   }
 
@@ -1090,6 +1107,8 @@
 
   // ---------- input ----------
   function bind() {
+    $('#hud').addEventListener('click', (e) => { if (!e.target.closest('.hsum')) return; hudOpen = !hudOpen; renderHud(); });
+    document.addEventListener('click', (e) => { if (hudOpen && !e.target.closest('#hud')) { hudOpen = false; renderHud(); e.stopPropagation(); e.preventDefault(); } }, true); // a tap outside only closes the list
     $('#stage').addEventListener('click', (e) => { if (e.target.closest('button,#choices,#modal,#title,#topbar,select,a')) return; advance(); });
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && $('#modal').classList.contains('on') && $('#modal').classList.contains('sheet')) { e.preventDefault(); $('#modal').querySelector('[data-close]').click(); return; }
