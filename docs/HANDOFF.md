@@ -18,7 +18,7 @@ For the next developer/agent taking over (e.g. the Grok bot). Read in this order
 | Art | ✅ Final art via `js/sprites.js` / `assets/` (do not edit) |
 | UI | ✅ Dark gilded theme, mobile-first; options appear in a stable per-player shuffled order; toast stack capped at 3 |
 | Tests | ✅ `tests/validate.js` · ✅ `tests/softlock.js` (random + greedy full runs, Rose Filter, ending reachability) · ✅ `tests/playthrough.js first|last|random [--mobile] [--shots]` (Playwright) |
-| Deploy | ✅ `npx wrangler deploy` → https://sim4love.jstdlee.workers.dev |
+| Deploy | ✅ `npx wrangler deploy` → https://sim4love.jstdlee.workers.dev, behind a Turnstile gate (`src/worker.js`, see ARCHITECTURE.md "Hosting and the Turnstile gate") |
 
 Engine note: a bad-end rewind drops the Rose Filter to 60 so a clear-eyed option is always selectable again (fixes a Ch6 rewind loop).
 

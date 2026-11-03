@@ -78,7 +78,7 @@ educational, non-graphic way. There is **no explicit content**: the most you'll 
 - **Online:** open the live link above. Works on desktop and mobile browsers.
 - **Offline:** download or clone this repository and open `index.html` in a modern browser. No build step.
 - **Local server (optional):** `npx serve .` (or any static file server), then open the address it prints.
-- **Deploy your own copy:** `npx wrangler deploy` (Cloudflare Workers static assets, see `wrangler.jsonc`).
+- **Deploy your own copy:** `npx wrangler deploy` (Cloudflare Workers static assets behind a Turnstile gate, see `wrangler.jsonc` and `docs/ARCHITECTURE.md`; set your own sitekey and the `TURNSTILE_SECRET` / `COOKIE_KEY` secrets).
 
 Progress, language and music settings save automatically in your browser. The âš™ button opens Settings.
 
@@ -88,6 +88,7 @@ Progress, language and music settings save automatically in your browser. The âš
 node tests/validate.js   # script and data checks
 node tests/softlock.js   # proves every path can move forward
 node tests/playthrough.js first|last|random [--mobile] [--lang=zh] [--shots]   # browser playthrough (needs Playwright)
+node tests/playthrough.js random --url=http://127.0.0.1:8787/   # same, through `npx wrangler dev` and the Turnstile gate
 node tools/i18n-pack.js status   # translation coverage (Chinese sources live in i18n/zh-SG/)
 python3 tools/make-music.py      # regenerate the soundtrack (numpy + ffmpeg)
 ```

@@ -15,3 +15,6 @@ assets/fonts/README.md
 screenshots
 /i18n/
 /tools/
+/src/
+.dev.vars
+.dev.vars*

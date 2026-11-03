@@ -7,6 +7,8 @@
    --mobile: iPhone-sized portrait viewport with touch
    --lang=zh: play in Simplified Chinese and flag on-screen lines that are still English
    --shots:  save a screenshot at every chapter card, bad end, results screen and the final screen
+   --url=http://127.0.0.1:8787/  play against a running Worker (e.g. `wrangler dev` with the Turnstile
+             test keys in .dev.vars) instead of the built-in static server; the Turnstile gate is passed first
    Fails (exit 1) on any page error, a stuck screen, or if the Chapter 20 ending is not reached. */
 const { chromium } = require('playwright');
 const fs = require('fs');
@@ -28,9 +30,14 @@ const shotDir = shotArg ? (shotArg.split('=')[1] || path.join(__dirname, '..', '
 if (shotDir) fs.mkdirSync(shotDir, { recursive: true });
 let seed = 42; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
 
+const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6);
+
 (async () => {
-  await new Promise((r) => server.listen(0, '127.0.0.1', r));
-  const url = `http://127.0.0.1:${server.address().port}/index.html`;
+  let url = remote;
+  if (!remote) {
+    await new Promise((r) => server.listen(0, '127.0.0.1', r));
+    url = `http://127.0.0.1:${server.address().port}/index.html`;
+  }
   const browser = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] });
   const ctx = await browser.newContext(mobile
     ? { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true }
@@ -38,8 +45,13 @@ let seed = 42; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 23328
   const page = await ctx.newPage();
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
+  page.on('response', (r) => { if (r.status() >= 400 && r.url().startsWith(new URL(url).origin)) errors.push(`HTTP ${r.status()} ${r.url()}`); });
   page.on('console', (m) => { if (m.type() === 'error' && !/fonts\.g|favicon/.test(m.text())) errors.push(m.text()); });
   await page.goto(url);
+  if (await page.$('#gate')) {
+    // Turnstile gate (Worker): the widget auto-submits on success, then the game page loads.
+    await page.waitForSelector('#btn-start', { timeout: 30000 });
+  }
   await page.evaluate((l) => { try { localStorage.clear(); localStorage.setItem('sim4love.locale', l); } catch (e) { /* ignore */ } }, lang);
   await page.reload();
   const locale = await page.evaluate(() => SimEngine.locale);
@@ -105,7 +117,7 @@ let seed = 42; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 23328
   if (music.playing) tracks.add(music.playing);
   if (!music.unlocked || !tracks.size) errors.push('Music never started: ' + JSON.stringify(music));
   if (english.size) errors.push(`Untranslated English on screen (${english.size}):\n  ` + [...english].slice(0, 40).join('\n  '));
-  await browser.close(); server.close();
+  await browser.close(); if (!remote) server.close();
   console.log(JSON.stringify({ strategy, mobile, lang, music: [...tracks], chapters: seen.size, choices, badEnds, endingScreens: endings, ...final }));
   if (shotDir) console.log('screenshots: ' + shotDir);
   if (errors.length) { console.error('PAGE ERRORS:\n' + errors.join('\n')); process.exit(1); }

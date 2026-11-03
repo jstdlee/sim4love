@@ -266,3 +266,24 @@ Default locale **`en-SG`** (English text, Singapore help cards). Chinese (`zh-SG
   if placeholders (`{name}`, `{her}`, `{n:id}`, …) or line breaks differ from the English. `tests/playthrough.js --lang=zh`
   flags English left on screen.
 
+## Hosting and the Turnstile gate
+
+- **Worker.** `src/worker.js` runs before every asset (`assets.run_worker_first: true`, binding `ASSETS`). Requests
+  with a valid pass cookie get the static asset unchanged (`Cache-Control: private, no-cache`). Without one,
+  navigations get a small gate page rendered by the Worker (not in the asset tree) and everything else gets `403`.
+  Only `/assets/fonts/*` is public, so the gate can use the game's typefaces.
+- **Verify.** The gate embeds a managed Turnstile widget (action `enter`) that auto-submits to `POST /__verify`.
+  The Worker calls siteverify server-side (token 1–2048 chars, 10 s timeout, `remoteip` from `CF-Connecting-IP`,
+  fail closed) and requires `success`, `action === 'enter'` and a hostname in `TURNSTILE_HOSTNAMES`. On success it
+  sets `s4l_pass=<expiry>.<HMAC-SHA256(expiry)>` (HttpOnly, Secure, SameSite=Lax, Path=/, 7 days) and 303-redirects
+  to the requested same-origin path. Bad, tampered or expired cookies show the gate again.
+- **Config.** `wrangler.jsonc` vars: `TURNSTILE_SITEKEY` (public, widget `sim4love` for
+  `sim4love.jstdlee.workers.dev`, `localhost`, `127.0.0.1`) and `TURNSTILE_HOSTNAMES` (production host only).
+  Secrets: `TURNSTILE_SECRET`, `COOKIE_KEY` (`wrangler secret put`, value via stdin). Rotating `COOKIE_KEY`
+  logs everyone out once.
+- **Local dev.** `npx wrangler dev` reads `.dev.vars` (git- and asset-ignored) with Turnstile's test keys:
+  `TURNSTILE_SITEKEY=1x00000000000000000000AA`, `TURNSTILE_SECRET=1x0000000000000000000000000000000AA`,
+  `TURNSTILE_HOSTNAMES=example.com`, `TURNSTILE_ALLOW_TEST_KEYS=1`, and any random `COOKIE_KEY`. Test-key results
+  carry no action, so they are accepted only when `TURNSTILE_ALLOW_TEST_KEYS=1` (never set in production).
+  `tests/playthrough.js --url=http://127.0.0.1:8787/` passes the gate and fails on any 4xx from the game origin.
+  Opening `index.html` directly or via a static server still works without the gate.
