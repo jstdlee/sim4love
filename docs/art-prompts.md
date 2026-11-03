@@ -17,11 +17,12 @@ uniforms, Japanese signage, real school crests, real brand or stall names. Falli
 Respect: Hanis's design stays as is; any religious or festive detail is accurate and respectful, never a joke.
 
 ## Characters (neutral first; then happy, blush, sad, angry, surprised, smug with the same seed)
-- hina: 17yo Malay Singaporean girl, short chestnut bob, orange hair clip, ahoge, warm amber eyes, yellow cardigan over the white JC blouse, teal ribbon
+- hina: late-teens Malay Singaporean girl, short chestnut bob, orange hair clip, ahoge, warm amber eyes, yellow cardigan over the white JC blouse, teal ribbon
 - rei: early-20s Chinese Singaporean woman, long straight glossy black hair, crimson eyes, beauty mark, red dress, gold heart necklace, glamorous
-- mio: 17yo shy Chinese Singaporean girl, long lavender hair in a single side braid, round glasses, violet eyes, white JC blouse with teal-and-navy skirt, holding a book
-- kaede: 18yo athletic Indian Singaporean girl, silver high ponytail, teal eyes, school CCA track jacket (navy, teal stripes, fictional Bayview crest), cool confident look
-- yuna: 17yo idol-like Eurasian Singaporean girl, pink twin tails with bows, star hair clip, magenta eyes, pink and white outfit, holding a smartphone
+- mio: late-teens shy Chinese Singaporean girl, long lavender hair in a single side braid, round glasses, violet eyes, white JC blouse with teal-and-navy skirt, holding a book
+- kaede: late-teens athletic Indian Singaporean girl, silver high ponytail, teal eyes, school CCA track jacket (navy, teal stripes, fictional Bayview crest), cool confident look
+- yuna: late-teens idol-like Eurasian Singaporean girl, pink twin tails with bows, star hair clip, magenta eyes, pink and white outfit, holding a smartphone
+- Ages: every student is "late teens" (16-17 at Ch1, aging through the story; check per Part). Never sexualised; nothing beyond a hug.
 - mochi: tiny white chibi cat mascot with small angel wings and a pink heart on its head, sticker style
 
 ## Backgrounds (16:9, no people, anime VN background art)
