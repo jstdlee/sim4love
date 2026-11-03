@@ -82,7 +82,7 @@ check(RESOURCES.every((r) => disZh.includes(r.zh.split(/[:：]/)[0])), 'zh discl
 const priv = (await get('/privacy')).body;
 const keys = [...new Set([...fs.readFileSync(path.join(root, 'js/engine.js'), 'utf8').matchAll(/'(sim4love\.[a-z0-9_.]+)'/gi)].map((x) => x[1]))];
 check(keys.length >= 8 && keys.every((k) => priv.includes(`<code>${k}</code>`)), `privacy lists every localStorage key in engine.js (${keys.join(', ')})`);
-check(['s4l_pass', 'cloudflare.com/privacypolicy', 'turnstile-privacy-policy', 'PDPA', 'github.com/jstdlee/sim4love/issues'].every((s) => priv.includes(s)), 'privacy mentions cookie, Cloudflare policies, PDPA, contact');
+check(['s4l_pass', 'cloudflare.com/privacypolicy', 'turnstile-privacy-policy', 'PDPA', 'github.com/jstdlee/sim4love/issues', 'mailto:sim4love@ohmyai.xyz'].every((s) => priv.includes(s)), 'privacy mentions cookie, Cloudflare policies, PDPA, contact');
 check(!/collect(s)? nothing|no data at all/i.test(priv), 'privacy makes no "collects nothing at all" claim');
 
 const robots = await get('/robots.txt', { nav: false });
@@ -100,6 +100,12 @@ for (const p of ['/llms.txt', '/llms-full.txt', '/.well-known/security.txt', '/s
   check(r.status === 200, `${p} -> 200 without a pass`);
 }
 check((await get('/llms.txt', { nav: false })).body.startsWith('# sim4love\n\n> '), 'llms.txt follows the llms.txt format');
+const MAIL = 'sim4love@ohmyai.xyz';
+for (const p of ['/about', '/privacy', '/disclaimer', '/zh/about', '/zh/privacy', '/zh/disclaimer']) {
+  check((await get(p)).body.includes(`href="mailto:${MAIL}"`), `${p} links the contact email`);
+}
+check((await get('/llms.txt', { nav: false })).body.includes(MAIL), 'llms.txt lists the contact email');
+check((await get('/.well-known/security.txt', { nav: false })).body.split('\n')[0] === `Contact: mailto:${MAIL}`, 'security.txt Contact: mailto: comes first');
 check((await get('/about/')).status === 301 && (await get('/zh')).status === 301, 'trailing-slash redirects');
 
 // Gated game.

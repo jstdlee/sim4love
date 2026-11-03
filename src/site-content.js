@@ -5,6 +5,8 @@
 export const UPDATED = '2026-11-03';
 export const REPO = 'https://github.com/jstdlee/sim4love';
 export const ISSUES = 'https://github.com/jstdlee/sim4love/issues';
+export const EMAIL = 'sim4love@ohmyai.xyz';
+const MAIL = '[' + EMAIL + '](mailto:' + EMAIL + ')';
 
 export const STORAGE_KEYS = [
   ['sim4love.save.v2', 'Your autosave: chapter, choices, stats and the name you typed', '自动存档：章节、选择、数值，以及你输入的名字'],
@@ -24,7 +26,7 @@ const en = {
   footer: {
     note: 'sim4love is fiction made for learning. It is not professional advice and is not affiliated with MOE or any school.',
     help: 'Need help now? In an emergency call **999** (Police) or **995** (Ambulance). [More Singapore helplines](/disclaimer#help).',
-    source: 'Source and feedback on [GitHub](' + REPO + ').',
+    source: 'Contact: ' + MAIL + ' · Source and feedback on [GitHub](' + REPO + ').',
   },
   home: {
     title: 'sim4love: a free visual novel about healthy relationships for Singapore teens',
@@ -95,7 +97,7 @@ const en = {
         { p: 'Progress, language and music settings save automatically in your browser. Clearing your browser’s site data resets everything.' },
       ]],
       ['made', 'Who made it', [
-        { p: 'sim4love is a small independent project. All dialogue is written by hand; there is no live AI in the game. The source is public on [GitHub](' + REPO + '), and that is the best place to send [feedback or corrections](' + ISSUES + ').' },
+        { p: 'sim4love is a small independent project. All dialogue is written by hand; there is no live AI in the game. The source is public on [GitHub](' + REPO + '), and that is the best place to send [feedback or corrections](' + ISSUES + '). For anything you would rather not post in public, email ' + MAIL + '.' },
       ]],
     ],
   },
@@ -130,7 +132,8 @@ const en = {
         { p: 'Help cards and these pages link to official Singapore services and to GitHub. Those sites have their own privacy policies.' },
       ]],
       ['contact', 'Changes and contact', [
-        { p: 'If this policy changes, the date below will change too. Questions? Open an issue on [GitHub](' + ISSUES + '). Issues are public, so please do not post personal details there.' },
+        { p: 'If this policy changes, the date below will change too. Questions? Email ' + MAIL + ' or open an issue on [GitHub](' + ISSUES + '). Issues are public, so please do not post personal details there.' },
+        { p: 'If you email us, we receive your email address and whatever you write. We use it only to reply, we do not add you to any list, and you can ask us to delete the conversation at any time. Mail to this address is forwarded by Cloudflare Email Routing to the maintainer\'s personal inbox.' },
       ]],
     ],
   },
@@ -155,7 +158,7 @@ const en = {
         { p: 'If you or someone else is in immediate danger, call **999** (Police) or **995** (Ambulance) now.' },
       ]],
       ['warranty', 'No warranty', [
-        { p: 'We work to keep the information accurate, but the game is provided as is, without any warranty. Spotted something wrong or out of date? Please tell us on [GitHub](' + ISSUES + ').' },
+        { p: 'We work to keep the information accurate, but the game is provided as is, without any warranty. Spotted something wrong or out of date? Please tell us at ' + MAIL + ' or on [GitHub](' + ISSUES + ').' },
       ]],
     ],
   },
@@ -167,7 +170,7 @@ const zh = {
   footer: {
     note: 'sim4love 是为学习而写的虚构故事，不是专业建议，也与教育部（MOE）或任何学校无关。',
     help: '现在就需要帮助？紧急情况请拨 **999**（警察）或 **995**（救护车）。[更多新加坡求助热线](/zh/disclaimer#help)。',
-    source: '源代码与反馈：[GitHub](' + REPO + ')。',
+    source: '联系：' + MAIL + ' · 源代码与反馈：[GitHub](' + REPO + ')。',
   },
   home: {
     title: 'sim4love：写给新加坡青少年的免费恋爱教育视觉小说',
@@ -238,7 +241,7 @@ const zh = {
         { p: '进度、语言和音乐设置会自动保存在你的浏览器里。清除浏览器的网站数据就会全部重置。' },
       ]],
       ['made', '谁做的', [
-        { p: 'sim4love 是一个小型独立项目。所有对白都由人手写成，游戏里没有实时 AI。源代码公开在 [GitHub](' + REPO + ')，欢迎在那里[提出反馈或指正](' + ISSUES + ')。' },
+        { p: 'sim4love 是一个小型独立项目。所有对白都由人手写成，游戏里没有实时 AI。源代码公开在 [GitHub](' + REPO + ')，欢迎在那里[提出反馈或指正](' + ISSUES + ')。不方便公开的事，可以发邮件到 ' + MAIL + '。' },
       ]],
     ],
   },
@@ -273,7 +276,8 @@ const zh = {
         { p: '求助卡和这些页面会链接到新加坡官方服务和 GitHub。那些网站有各自的隐私政策。' },
       ]],
       ['contact', '更新与联系', [
-        { p: '如果这份政策有变，下面的日期也会更新。有问题？请到 [GitHub](' + ISSUES + ') 开一个 issue。Issue 是公开的，请不要在那里留下个人资料。' },
+        { p: '如果这份政策有变，下面的日期也会更新。有问题？请发邮件到 ' + MAIL + '，或到 [GitHub](' + ISSUES + ') 开一个 issue。Issue 是公开的，请不要在那里留下个人资料。' },
+        { p: '如果你发邮件给我们，我们会收到你的邮箱地址和你写的内容。我们只用它来回复你，不会把你加入任何名单，你也可以随时要求我们删除这段往来。寄到这个地址的邮件由 Cloudflare Email Routing 转发到维护者的个人邮箱。' },
       ]],
     ],
   },
@@ -298,7 +302,7 @@ const zh = {
         { p: '如果你或别人正面临即时危险，请立刻拨打 **999**（警察）或 **995**（救护车）。' },
       ]],
       ['warranty', '不提供保证', [
-        { p: '我们会尽力保持资料准确，但游戏按现状提供，不附带任何保证。发现错误或过时的资料？请在 [GitHub](' + ISSUES + ') 告诉我们。' },
+        { p: '我们会尽力保持资料准确，但游戏按现状提供，不附带任何保证。发现错误或过时的资料？请发邮件到 ' + MAIL + '，或在 [GitHub](' + ISSUES + ') 告诉我们。' },
       ]],
     ],
   },

@@ -1,7 +1,7 @@
 /* Public website layer for sim4love: landing, about, privacy and disclaimer pages in en-SG and zh-SG, plus
    robots.txt, sitemap.xml, llms.txt, llms-full.txt and security.txt. Rendered by the Worker, no client JS.
    The game itself (/play and its assets) stays behind the Turnstile gate in worker.js. */
-import { COPY, STORAGE_KEYS, UPDATED, REPO, ISSUES } from './site-content.js';
+import { COPY, STORAGE_KEYS, UPDATED, REPO, ISSUES, EMAIL } from './site-content.js';
 import { RESOURCES, RESOURCES_VERIFIED } from './site-resources.js';
 
 export const SITE_URL = 'https://sim4love.jstdlee.workers.dev';
@@ -66,7 +66,7 @@ function fmtDate(iso, loc) {
 function jsonLd(loc, page) {
   const c = COPY[loc];
   const url = abs(pathFor(loc, page));
-  const org = { '@type': 'Organization', '@id': `${SITE_URL}/#org`, name: 'sim4love', url: SITE_URL + '/', logo: abs('/assets/site/icon-512.png'), sameAs: [REPO] };
+  const org = { '@type': 'Organization', '@id': `${SITE_URL}/#org`, name: 'sim4love', url: SITE_URL + '/', logo: abs('/assets/site/icon-512.png'), email: EMAIL, contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', email: EMAIL, availableLanguage: ['English', 'Chinese'] }, sameAs: [REPO] };
   const site = { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, name: 'sim4love', url: SITE_URL + '/', inLanguage: ['en-SG', 'zh-SG'], publisher: { '@id': `${SITE_URL}/#org` } };
   const game = {
     '@type': 'VideoGame', '@id': `${SITE_URL}/#game`, name: 'sim4love', url: abs('/play'),
@@ -340,6 +340,7 @@ sim4love is a free, browser-based anime visual novel set over one year at a fict
 - Price: free (SGD 0). Platforms: any modern browser, desktop or mobile
 - Privacy: no personal information collected or stored by the site; progress in localStorage; Cloudflare processes technical data for hosting and bot protection
 - Not affiliated with or endorsed by MOE, any school or any government agency. Not professional advice
+- Contact: ${EMAIL} (email) or ${ISSUES} (public issues)
 - Source: ${REPO}
 
 ## How to cite or recommend
@@ -353,7 +354,7 @@ sim4love is a free, browser-based anime visual novel set over one year at a fict
 ## Optional
 
 - [Singapore help resources used in the game](${abs('/disclaimer#help')})
-- [Feedback and corrections](${ISSUES})
+- [Feedback and corrections](${ISSUES}) or email ${EMAIL}
 `;
 }
 
@@ -393,7 +394,8 @@ ${['en', 'zh'].map((loc) => PAGES.map((p) => pageMd(loc, p)).join('\n\n---\n\n')
 
 export function securityTxt() {
   const exp = new Date(Date.UTC(Number(UPDATED.slice(0, 4)) + 1, Number(UPDATED.slice(5, 7)) - 1, Number(UPDATED.slice(8, 10)))).toISOString();
-  return `Contact: ${ISSUES}
+  return `Contact: mailto:${EMAIL}
+Contact: ${ISSUES}
 Expires: ${exp}
 Preferred-Languages: en, zh
 Canonical: ${abs('/.well-known/security.txt')}
