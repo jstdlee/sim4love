@@ -8,7 +8,7 @@ const BGS = new Set(Object.keys(W.SPRITES.bg));
 const CAST = new Set(Object.keys(W.Art.CAST));
 const SPEAKERS = new Set([...CAST, '@route', '@talk']);
 const PHONE = new Set([...SPEAKERS, 'me', 'sys']);
-const HEROINES = ['hina', 'rei', 'mio', 'kaede', 'yuna', 'chloe', 'preet'];
+const HEROINES = ['hina', 'rei', 'mio', 'kaede', 'yuna', 'chloe', 'preet', 'ava'];
 const FX = new Set([...HEROINES, 'kenta', 'trust', 'wisdom', 'self', 'proj', 'goal', 'passion', 'health', 'wallet', 'cash', '@route', '@talk']);
 const CAST_IDS = new Set(Object.keys(W.CAST || {}));
 const fxOk = (k) => FX.has(k) || (/^(trust|aff)\.(\w+)$/.test(k) && CAST_IDS.has(k.split('.')[1]));
@@ -126,7 +126,7 @@ for (const [name, map] of Object.entries(W.WARDROBE || {})) for (const [id, o] o
 }
 for (const [id, c] of Object.entries(W.CAST || {})) for (const o of c.outfits || []) if (SPR[id] && !outfitOk(id, o)) errors.push(`CAST.${id}.outfits: "${o}" has no art`);
 const usage = {}; let unset = 0;
-const ROUTE = ['hina', 'mio', 'kaede', 'yuna', 'chloe', 'preet', 'rei'];
+const ROUTE = ['hina', 'mio', 'kaede', 'yuna', 'chloe', 'preet', 'ava', 'rei'];
 function wear(list, where, st) {
   list.forEach((c, i) => {
     const at = `${where}[${i}]`;

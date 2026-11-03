@@ -5,6 +5,8 @@
    - last:   always pick the last enabled option (mostly mistakes / bad ends → tests rewind)
    - random: seeded random choices
    --mobile: iPhone-sized portrait viewport with touch
+   --route=ava: a thoughtful player courting one heroine (healthiest option by effects, confesses to her);
+             fails unless that heroine's true ending is reached
    --lang=zh: play in Simplified Chinese and flag on-screen lines that are still English
    --outfit-shots=hina:casual,chloe:stall  screenshot the first time each outfit is on stage (screenshots/outfits/)
    --shots:  save a screenshot at every chapter card, bad end, results screen and the final screen
@@ -27,10 +29,11 @@ const server = http.createServer((req, res) => {
 const strategy = (process.argv[2] && !process.argv[2].startsWith('--')) ? process.argv[2] : 'first';
 const mobile = process.argv.includes('--mobile');
 const shotArg = process.argv.find((a) => a.startsWith('--shots'));
-const shotDir = shotArg ? (shotArg.split('=')[1] || path.join(__dirname, '..', 'screenshots', `${mobile ? 'mobile' : 'desktop'}-${strategy}${lang === 'zh-SG' ? '-zh' : ''}`)) : null;
+const shotDir = shotArg ? (shotArg.split('=')[1] || path.join(__dirname, '..', 'screenshots', `${mobile ? 'mobile' : 'desktop'}-${routeTarget ? 'route-' + routeTarget : strategy}${lang === 'zh-SG' ? '-zh' : ''}`)) : null;
 if (shotDir) fs.mkdirSync(shotDir, { recursive: true });
 let seed = 42; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
 
+const routeTarget = (process.argv.find((a) => a.startsWith('--route=')) || '').slice(8);
 const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6);
 
 (async () => {
@@ -129,6 +132,7 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
     const sig = JSON.stringify([st.ch, st.pc, st.modal, st.choices, st.text]);
     same = sig === last ? same + 1 : 0; last = sig;
     if (same > 400) { errors.push(`Stuck at ${st.ch} pc ${st.pc}: "${st.text.slice(0, 80)}"`); break; }
+    if (st.card && routeTarget && !cards.has(st.ch) && process.env.ROUTE_DEBUG) console.log(st.ch, JSON.stringify(await page.evaluate(() => { const S = SimEngine.state; return { route: S.route, trust: S.stats.trust, ava: S.stats.ava, f: Object.keys(S.flags).filter((k) => /ava|broke/i.test(k)), fit: window.CastSim && window.CastSim.fit ? window.CastSim.fit(S, 'ava') : null }; })));
     if (st.card) { if (!cards.has(st.ch)) { cards.add(st.ch); await page.waitForTimeout(500); await shot(`${st.ch}-card`); } await page.waitForTimeout(200); continue; }
     if (st.modal) {
       if (st.bad) { badEnds++; await page.waitForTimeout(450); await shot(`${st.ch}-badend-${badEnds}`); }
@@ -143,6 +147,24 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
     if (st.choices && st.nopts) {
       await page.waitForTimeout(360);
       const key = st.ch + st.ctext; const tries = attempts[key] = (attempts[key] || 0) + 1;
+      if (routeTarget) {
+        // Rank enabled options by the same "healthy player" weights as tests/softlock.js greedy; after a rewind take the next best.
+        const order = await page.evaluate((T) => {
+          const GOOD = { wisdom: 1, self: 1, trust: 1, '@route': 0.5, kenta: 0.4, goal: 0.6, passion: 0.6, health: 0.6, wallet: 0.6, cash: 0.05, proj: -1.5 };
+          const NAME = { ava: 'Ava.', hina: 'Hanis.', mio: 'Xin Yi.', kaede: 'Kavya.', yuna: 'Elise.', chloe: 'Chloe.', preet: 'Preet.' }[T];
+          const c = SimEngine.choice; const btns = [...document.querySelectorAll('#choices .opt:not([disabled])')];
+          const sc = (o) => Object.entries(o.fx || {}).reduce((n, [k, v]) => n + (GOOD[k] || 0) * v + (k === T ? v : 0), 0) + (o.rose ? 3 : 0) + (o.t === NAME ? 1000 : 0)
+            - Object.entries(o.val || {}).reduce((n, [a, x]) => n + 10 * Math.abs(x - (((window.VALUES || {})[T] || {})[a] || 0)), 0); // answer value questions the way the target would, so fit() stays high
+          return btns.map((b, n) => [n, sc(c.opts[+b.dataset.i])]).sort((x, y) => y[1] - x[1]).map((x) => x[0]);
+        }, routeTarget);
+        const k = order[(tries - 1) % order.length];
+        const sel = `#choices .opt:not([disabled]) >> nth=${k}`;
+        await page.waitForTimeout(150); // the engine ignores taps in the first 450 ms; a dropped tap must not count as a try
+        if (mobile) await page.tap(sel); else await page.click(sel);
+        await page.waitForTimeout(40);
+        if (await page.evaluate((t) => document.querySelector('#choices').classList.contains('on') && document.querySelector('#choices').textContent === t, st.ctext)) attempts[key]--;
+        choices++; continue;
+      }
       const base = strategy === 'last' ? st.nopts - 1 : strategy === 'random' ? Math.floor(rnd() * st.nopts) : 0;
       // On a revisit (after a bad-end rewind) move to a different option so the run always progresses.
       const k = (base + (tries - 1) * (strategy === 'last' ? -1 : 1) + st.nopts * 10) % st.nopts;
@@ -160,7 +182,7 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
   if (!toasts.size) errors.push('No mid-scene cast toast was ever shown');
   await page.evaluate(() => SimEngine.openNotebook('cast')); await page.waitForTimeout(500);
   const castCards = await page.$$eval('#modal .cast-card', (els) => els.length);
-  if (castCards < 20) errors.push(`Cast tab shows ${castCards} cards, expected 20`);
+  if (castCards < 24) errors.push(`Cast tab shows ${castCards} cards, expected 24`);
   const panes = await page.evaluate(() => {
     const vis = (el) => !!el && el.getClientRects().length > 0 && getComputedStyle(el).display !== 'none';
     const tab = document.querySelector('#modal .notebook .tab.on');
@@ -203,6 +225,8 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
   if (overflow) errors.push('Horizontal overflow on the final screen');
   const final = await page.evaluate(() => ({ route: SimEngine.state.route, stats: SimEngine.state.stats, endings: SimEngine.state.endings, lessons: SimEngine.state.lessons.length, ach: SimEngine.state.achievements.length }));
+  const under = routeTarget ? await page.evaluate(() => { const T = JSON.parse(JSON.stringify(SimEngine.state)); T.stats.proj = Math.max(T.stats.proj, 21); return [window.SIM.endingFor(T), !!T.flags.avaHonest14, !!T.flags.avaScamSafe, !!T.flags.brokeUp14, window.CastSim && window.CastSim.fit ? window.CastSim.fit(T, 'ava') : null, T.route]; }) : null;
+  const diag = under && under.slice(1); const underEnd = under && under[0];
   const music = await page.evaluate(() => SimEngine.music.state());
   if (music.playing) tracks.add(music.playing);
   if (!music.unlocked || !tracks.size) errors.push('Music never started: ' + JSON.stringify(music));
@@ -211,6 +235,12 @@ const remote = (process.argv.find((a) => a.startsWith('--url=')) || '').slice(6)
   console.log(JSON.stringify({ strategy, mobile, lang, music: [...tracks], chapters: seen.size, recaps: recaps.size, outfitsOnStage: outfitsSeen.size, castToasts: toasts.size, choices, badEnds, endingScreens: endings, ...final }));
   if (shotDir) console.log('screenshots: ' + shotDir);
   if (errors.length) { console.error('PAGE ERRORS:\n' + errors.join('\n')); process.exit(1); }
+  if (routeTarget) {
+    // "Your Own Story" is the best end and sits on top of a route ending; check the route ending underneath it.
+    const got = (final.endings || []).includes('true_' + routeTarget) || underEnd === 'true_' + routeTarget;
+    console.log(`route ${routeTarget}: endings ${(final.endings || []).join(', ')} · route ending ${underEnd} · diag ${JSON.stringify(diag)}`);
+    if (!got) { console.error(`Route run did not reach true_${routeTarget}`); process.exit(1); }
+  }
   if (!done || !seen.has('ch20')) { console.error('Did not reach the end of Chapter 20'); process.exit(1); }
   console.log('OK');
 })();

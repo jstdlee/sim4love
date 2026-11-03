@@ -47,7 +47,7 @@ function compile(list) {
 }
 
 const errors = [], warns = [];
-const STAT_KEYS = ['hina', 'rei', 'mio', 'kaede', 'yuna', 'chloe', 'preet', 'kenta', 'trust', 'wisdom', 'self', 'proj'];
+const STAT_KEYS = ['hina', 'rei', 'mio', 'kaede', 'yuna', 'chloe', 'preet', 'ava', 'kenta', 'trust', 'wisdom', 'self', 'proj'];
 const ROUTES = window.SIM.HEROINES.slice();
 const CS = window.CastSim;
 const castWho = (S) => (k) => (k === '@route' ? routeKey(S) || 'kenta' : k === '@talk' ? S.talkWith || routeKey(S) || 'kenta' : k);
@@ -130,7 +130,7 @@ const addAch = (S, id) => { if (id && !S.achievements.includes(id)) S.achievemen
 /* policy: 'random' or 'greedy' (a thoughtful player: the option with the healthiest fx, small random tie-break) */
 let POLICY = 'random';
 const GOOD = { wisdom: 1, self: 1, trust: 1, '@route': 0.5, kenta: 0.4, goal: 0.6, passion: 0.6, health: 0.6, wallet: 0.6, cash: 0.05, proj: -1.5 };
-const NAMES = { hina: 'Hanis.', mio: 'Xin Yi.', kaede: 'Kavya.', yuna: 'Elise.', chloe: 'Chloe.', preet: 'Preet.' };
+const NAMES = { hina: 'Hanis.', mio: 'Xin Yi.', kaede: 'Kavya.', yuna: 'Elise.', chloe: 'Chloe.', preet: 'Preet.', ava: 'Ava.' };
 let TARGET = null; // greedy on a heroine route: also courts her and confesses to her
 const optScore = (o) => Object.entries(o.fx || {}).reduce((n, [k, v]) => n + (GOOD[k] || 0) * v + (k === TARGET ? v : 0), 0)
   + (o.rose ? 3 : 0) + (TARGET && o.t === NAMES[TARGET] ? 1000 : 0) + rnd() * 0.5;
@@ -255,6 +255,7 @@ for (let r = 0; r < FULL * 2; r++) {
   }
 }
 POLICY = 'random'; TARGET = null;
+if (!(tally.greedy.true_ava || Object.keys(tally.greedy).some((k) => k.endsWith('>true_ava')))) errors.push('no greedy Ava-route playthrough reached true_ava');
 
 console.log(rows.join('\n'));
 const avg = (a) => (a.length ? Math.round((a.reduce((x, y) => x + y, 0) / a.length) * 100) : 0);
