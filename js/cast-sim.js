@@ -4,8 +4,8 @@
 window.CastSim = (function () {
   const CAST = () => window.CAST || {};
   const AX = () => window.CAST_AXES;
-  const STAT_IDS = ['hina', 'mio', 'kaede', 'yuna', 'rei', 'kenta', 'chloe', 'preet'];   // Affection lives in S.stats
-  const ROUTES = ['hina', 'mio', 'kaede', 'yuna', 'chloe', 'preet'];                      // Ch8 route lock
+  const STAT_IDS = ['hina', 'mio', 'kaede', 'yuna', 'rei', 'kenta', 'chloe', 'preet', 'ava'];   // Affection lives in S.stats
+  const ROUTES = ['hina', 'mio', 'kaede', 'yuna', 'chloe', 'preet', 'ava'];                    // Ch8 route lock
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const rel = (id) => (CAST()[id] || {}).rel;
   const baseAff = (id) => (rel(id) === 'family' ? 50 : rel(id) === 'mentor' ? 30 : 0);

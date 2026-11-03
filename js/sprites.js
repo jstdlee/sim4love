@@ -693,6 +693,103 @@ window.SPRITES = {
         }
       }
     },
+    ava: {
+      neutral: 'assets/chars/ava_uniform_neutral.webp',
+      happy: 'assets/chars/ava_uniform_happy.webp',
+      sad: 'assets/chars/ava_uniform_sad.webp',
+      surprised: 'assets/chars/ava_uniform_surprised.webp',
+      blush: 'assets/chars/ava_uniform_blush.webp',
+      outfits: {
+        uniform: {
+          neutral: 'assets/chars/ava_uniform_neutral.webp',
+          happy: 'assets/chars/ava_uniform_happy.webp',
+          sad: 'assets/chars/ava_uniform_sad.webp',
+          surprised: 'assets/chars/ava_uniform_surprised.webp',
+          blush: 'assets/chars/ava_uniform_blush.webp'
+        },
+        casual: {
+          neutral: 'assets/chars/ava_casual_neutral.webp',
+          happy: 'assets/chars/ava_casual_happy.webp',
+          sad: 'assets/chars/ava_casual_sad.webp',
+          surprised: 'assets/chars/ava_casual_surprised.webp',
+          blush: 'assets/chars/ava_casual_blush.webp'
+        },
+        sport: {
+          neutral: 'assets/chars/ava_sport_neutral.webp',
+          happy: 'assets/chars/ava_sport_happy.webp',
+          sad: 'assets/chars/ava_sport_sad.webp',
+          surprised: 'assets/chars/ava_sport_surprised.webp',
+          blush: 'assets/chars/ava_sport_blush.webp'
+        },
+        occasion: {
+          neutral: 'assets/chars/ava_occasion_neutral.webp',
+          happy: 'assets/chars/ava_occasion_happy.webp',
+          sad: 'assets/chars/ava_occasion_sad.webp',
+          surprised: 'assets/chars/ava_occasion_surprised.webp',
+          blush: 'assets/chars/ava_occasion_blush.webp'
+        }
+      }
+    },
+    ines: {
+      neutral: 'assets/chars/ines_debate_neutral.webp',
+      happy: 'assets/chars/ines_debate_happy.webp',
+      smug: 'assets/chars/ines_debate_smug.webp',
+      outfits: {
+        debate: {
+          neutral: 'assets/chars/ines_debate_neutral.webp',
+          happy: 'assets/chars/ines_debate_happy.webp',
+          smug: 'assets/chars/ines_debate_smug.webp'
+        },
+        casual: {
+          neutral: 'assets/chars/ines_casual_neutral.webp',
+          happy: 'assets/chars/ines_casual_happy.webp'
+        },
+        festive: {
+          neutral: 'assets/chars/ines_festive_neutral.webp',
+          happy: 'assets/chars/ines_festive_happy.webp'
+        }
+      }
+    },
+    mateo: {
+      neutral: 'assets/chars/mateo_casual_neutral.webp',
+      happy: 'assets/chars/mateo_casual_happy.webp',
+      sad: 'assets/chars/mateo_casual_sad.webp',
+      outfits: {
+        casual: {
+          neutral: 'assets/chars/mateo_casual_neutral.webp',
+          happy: 'assets/chars/mateo_casual_happy.webp',
+          sad: 'assets/chars/mateo_casual_sad.webp'
+        },
+        ns: {
+          neutral: 'assets/chars/mateo_ns_neutral.webp',
+          happy: 'assets/chars/mateo_ns_happy.webp'
+        },
+        festive: {
+          neutral: 'assets/chars/mateo_festive_neutral.webp',
+          happy: 'assets/chars/mateo_festive_happy.webp'
+        }
+      }
+    },
+    ollie: {
+      neutral: 'assets/chars/ollie_openmic_neutral.webp',
+      happy: 'assets/chars/ollie_openmic_happy.webp',
+      sad: 'assets/chars/ollie_openmic_sad.webp',
+      outfits: {
+        openmic: {
+          neutral: 'assets/chars/ollie_openmic_neutral.webp',
+          happy: 'assets/chars/ollie_openmic_happy.webp',
+          sad: 'assets/chars/ollie_openmic_sad.webp'
+        },
+        teaching: {
+          neutral: 'assets/chars/ollie_teaching_neutral.webp',
+          happy: 'assets/chars/ollie_teaching_happy.webp'
+        },
+        weekend: {
+          neutral: 'assets/chars/ollie_weekend_neutral.webp',
+          sad: 'assets/chars/ollie_weekend_sad.webp'
+        }
+      }
+    },
     mochi: {
       neutral: 'assets/chars/mochi_neutral.png',
       happy: 'assets/chars/mochi_happy.png',
@@ -729,7 +826,11 @@ window.SPRITES = {
     joy: { default: 'work', work: ['neutral', 'happy', 'sad'], festive: ['neutral', 'happy'], sunday: ['neutral', 'happy'] },
     takumi: { default: 'uniform', uniform: ['neutral', 'sad', 'surprised', 'smug', 'cool'], casual: ['neutral', 'smug'], council: ['neutral', 'smug'] },
     ren: { default: 'uniform', uniform: ['neutral', 'sad', 'smug'], ns: ['neutral', 'sad'], street: ['neutral', 'smug'] },
-    saki: { default: 'chalet', chalet: ['neutral', 'happy', 'sad'], crew: ['neutral', 'happy'], occasion: ['neutral', 'happy'] }
+    saki: { default: 'chalet', chalet: ['neutral', 'happy', 'sad'], crew: ['neutral', 'happy'], occasion: ['neutral', 'happy'] },
+    ava: { default: 'uniform', uniform: ['neutral', 'happy', 'sad', 'surprised', 'blush'], casual: ['neutral', 'happy', 'sad', 'surprised', 'blush'], sport: ['neutral', 'happy', 'sad', 'surprised', 'blush'], occasion: ['neutral', 'happy', 'sad', 'surprised', 'blush'] },
+    ines: { default: 'debate', debate: ['neutral', 'happy', 'smug'], casual: ['neutral', 'happy'], festive: ['neutral', 'happy'] },
+    mateo: { default: 'casual', casual: ['neutral', 'happy', 'sad'], ns: ['neutral', 'happy'], festive: ['neutral', 'happy'] },
+    ollie: { default: 'openmic', openmic: ['neutral', 'happy', 'sad'], teaching: ['neutral', 'happy'], weekend: ['neutral', 'sad'] }
   },
   bg: {
     airport: 'assets/bg/airport.webp',

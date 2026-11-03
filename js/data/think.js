@@ -109,4 +109,33 @@ window.THINK = {
     reframe: 'Put the problem on the table between you, not between you and her. Then solve it as a team.',
     question: 'Which lens helps you two most right now?',
   },
+  allowance: {
+    title: 'Allowance, or helping at home?', mentor: 'ollie',
+    hook: 'Ava gets $80 a week and keeps all of it. You give part of your café pay to Mum. Which one is "normal"?',
+    lenses: [
+      { kind: 'personal', label: 'Independence first', text: 'In many families an allowance is practice money: you learn to budget, save and make mistakes while the stakes are small. Parents pay for the household, and children are not expected to contribute.' },
+      { kind: 'cultural', label: 'Family first', text: 'In many other families, including lots of Singapore homes, giving part of your first pay to your parents is a way of saying thank you and sharing the load. It is not a debt; it is belonging.' },
+      { kind: 'structural', label: 'What the bill says', text: 'Small habits differ too. Restaurants here usually add a 10% service charge, and then 9% GST on top, so there is no tipping culture; hawker stalls have no service charge at all. Neither side is being cheap or showing off.' },
+    ],
+    sg: [
+      { t: 'IRAS: when a service charge applies, GST is charged on the service charge too. A $100 meal with a 10% service charge comes to $119.90 with 9% GST.', src: 'https://www.iras.gov.sg/taxes/goods-services-tax-(gst)/consumers/quick-links/gst-and-service-charges' },
+      { t: 'Under the Maintenance of Parents Act, parents aged 60 and above who cannot support themselves can claim maintenance from their adult children. It is a safety net, not a rule that every child must give money home.', src: 'https://www.msf.gov.sg/what-we-do/maintenance-of-parents' },
+    ],
+    reframe: 'Two families, two reasonable systems. The useful question is not who is right but "what did your family teach you money means?"',
+    question: 'Which system did you grow up with, and which one do you want?',
+  },
+  dtr: {
+    title: '"So… are we dating?"', mentor: 'ines',
+    hook: 'Ava grew up with "you date first, then decide". Inès says in France people often just are together, no big question. Here, a lot of people expect someone to ask. Who has it right?',
+    lenses: [
+      { kind: 'cultural', label: 'Ask first', text: 'Many people here, and many families, expect a clear "will you be my girlfriend?" before anything is official. It makes things simple: you both know where you stand, and so do your friends.' },
+      { kind: 'cultural', label: 'Date first', text: 'In the US it is common to go on several dates before deciding what you are. In France couples often drift into being together without a formal question at all. Both work when both people know the norm.' },
+      { kind: 'personal', label: 'Say it anyway', text: 'Whatever the culture, the trouble starts when two people assume different rules. A short "what are we?" talk, said kindly, saves months of guessing. You can be romantic and still be clear.' },
+    ],
+    sg: [
+      { t: 'SingStat: in 2024 the median age at first marriage was 31.1 for grooms and 29.6 for brides, up from 30.2 and 28.2 a decade earlier. There is time; nobody has to decide everything at seventeen.', src: 'https://www.singstat.gov.sg/find-data/search-by-theme/population/marriages-and-divorces/latest-data' },
+    ],
+    reframe: 'There is no correct country. There is only whether the two of you have actually said it out loud.',
+    question: 'Do you need to hear the question, or is showing up enough?',
+  },
 };

@@ -16,7 +16,7 @@
  *   {flag:'name'} | {flag:{a:true,b:2}}   set flags silently
  *   {fx:{...}}                            apply stat changes outside a choice (shows toasts)
  *   {val:{spend:-2}}                      set the player's stance on a value axis (S.values)
- *   {route:'hina'|'mio'|'kaede'|'yuna'|'chloe'|'preet'|'solo'}  lock the route; trust starts from her cast Trust
+ *   {route:'hina'|'mio'|'kaede'|'yuna'|'chloe'|'preet'|'ava'|'solo'}  lock the route; trust starts from her cast Trust
  *   {ach:'id'} {ending:'id'} {resource:'id'}
  *   {variant:'loc.slot'}                  play one authored variant from a pool (js/data/variants)
  *   {talk:'topic', with:'kaede'}          partner talk (expanded at compile time from js/data/talks.js)
@@ -46,7 +46,7 @@
   'use strict';
   const $ = (q) => document.querySelector(q);
   const SAVE_KEY = 'sim4love.save.v2';
-  const HEROINES = ['hina', 'mio', 'kaede', 'yuna', 'chloe', 'preet'];
+  const HEROINES = ['hina', 'mio', 'kaede', 'yuna', 'chloe', 'preet', 'ava'];
   const CS = () => window.CastSim;
   const LIFE_KEYS = ['goal', 'passion', 'health', 'wallet'];
   const AXES = ['spend', 'gifts', 'family', 'career', 'children', 'childEdu', 'learning', 'friends', 'lending', 'conflict', 'honesty', 'promises', 'home'];
@@ -85,7 +85,7 @@
 
   const STAT_META = {
     hina: { icon: 'heart' }, mio: { icon: 'heart' }, kaede: { icon: 'heart' }, yuna: { icon: 'heart' },
-    chloe: { icon: 'heart' }, preet: { icon: 'heart' },
+    chloe: { icon: 'heart' }, preet: { icon: 'heart' }, ava: { icon: 'heart' },
     rei: { icon: 'heart', hidden: true }, kenta: { icon: 'heart', quiet: true },
     trust: { label: 'stat.trust', icon: 'link', routeOnly: true },
     wisdom: { label: 'stat.wisdom', icon: 'spark' },
@@ -562,8 +562,9 @@
   }
 
   // ---------- choices ----------
+  let curChoice = null; // read-only test hook (tests/playthrough.js --route=)
   function showChoice(c) {
-    busy = true;
+    busy = true; curChoice = c;
     checkpoint = fromVq ? clone({ ...S, vq: [c].concat(S.vq) }) : clone({ ...S, pc: S.pc - 1 });
     setBox('narr choicebox', '', c.choice);
     finishType();
@@ -1176,5 +1177,5 @@
     const next = () => { if (i >= urls.length) return; const img = new Image(); img.decoding = 'async'; img.onload = img.onerror = next; img.src = urls[i++]; keep.push(img); };
     for (let n = 0; n < 4; n++) next();
   }
-  window.SimEngine = { compile, fresh, openProfile: (id) => openProfile(id), openNotebook: (t) => openNotebook(t), showRecap: (n) => showRecap((S.recaps || {})[n] || S.changes || [], n, () => {}, true), get state() { return S; }, ui, nameOf, hash, tx, locale: LOCALE, music: Music };
+  window.SimEngine = { compile, fresh, openProfile: (id) => openProfile(id), openNotebook: (t) => openNotebook(t), showRecap: (n) => showRecap((S.recaps || {})[n] || S.changes || [], n, () => {}, true), get state() { return S; }, get choice() { return curChoice; }, ui, nameOf, hash, tx, locale: LOCALE, music: Music };
 })();

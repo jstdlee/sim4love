@@ -38,6 +38,11 @@ window.JUDGEMENTS = {
   'ogawa.boss': { who: 'ogawa', t: "Uncle Ong is just the boss." },
   'nurse.scary': { who: 'nurse', t: "Nurse Tan is scary.", by: ['warmth'], strike: "You thought Nurse Tan was scary. She's blunt because she wants you safe." },
   'saki.shy': { who: 'saki', t: "Sam is just shy." },
+  'ava.better': { who: 'ava', t: "She thinks she's better than us.", by: ['generosity'], strike: "You thought she looked down on how things work here. Then she went back and said sorry to Uncle Ong." },
+  'ava.leave': { who: 'ava', t: "She'll leave anyway." },
+  'ines.arrogant': { who: 'ines', t: "Inès is arrogant.", by: ['sensitivity'], strike: "You thought Inès was arrogant. She has been the only one in the room for most of her life." },
+  'mateo.clown': { who: 'mateo', t: "Mateo can't be serious about anything.", by: ['sensitivity'], strike: "You thought Mateo was just a clown. The jokes were standing in front of something." },
+  'ollie.rich': { who: 'ollie', t: "Ollie's probably rich.", by: ['generosity'], strike: "You thought Ollie was rich. He shares a room in Tiong Bahru and eats at the hawker centre every night." },
   'player.twotiming': { who: '*', t: "She saw you flirting with someone else." },
 };
 window.CAST_TEXT = {
@@ -46,7 +51,8 @@ window.CAST_TEXT = {
     rei: "The girl from the MoonRich app", chloe: "Goh's Kueh · poly business student", preet: "GP classmate · debate CCA · CC tutor",
     nana: "Ceramics student · friend of friends", kenta: "Best friend", mei: "Older sister", mom: "Mum", dad: "Dad",
     ama: "Grandmother · one block away", ogawa: "Café owner · your boss", farah: "GP teacher", nurse: "School health nurse",
-    joy: "Caregiver for Xin Yi's grandmother", takumi: "Classmate · rival", ren: "Classmate, then NS section mate", saki: "Friend of friends · gig organiser",
+    joy: "Caregiver for Xin Yi's grandmother", takumi: "Classmate · rival", ren: "Classmate, then NS section mate", saki: "Friend of friends · stage manager",
+    ava: "Transfer student · camera always out", ines: "Debate rival · French international school", mateo: "Futsal friend · later NS buddy", ollie: "Open Night host · guitar teacher",
   },
   flaw: {
     'hot-tempered': "Hot-tempered", stubborn: "Stubborn", 'yes-at-home': "Says yes at home", 'teases-to-hide': "Teases to hide",
@@ -67,5 +73,9 @@ window.CAST_TEXT = {
     'puts-everyone-first': "Puts everyone first", 'hides-homesickness': "Hides homesickness",
     'credit-taker': "Takes credit", copies: "Copies", 'crude-jokes': "Crude jokes", 'borrows-never-repays': "Borrows, never repays",
     'image-obsessed': "Image-obsessed", 'peer-pressure': "Goes with the crowd", 'people-pleaser': "People-pleaser", 'trusts-too-fast': "Trusts too fast",
+    'one-foot-out': "One foot out the door", 'blunt-without-context': "Blunt without context", 'allowance-bubble': "Allowance bubble", 'fixes-not-listens': "Fixes instead of listening",
+    contrarian: "Contrarian", 'cutting-wit': "Cutting wit", 'superior-defence': "Superiority as armour", 'wont-admit-homesick': "Won't admit she's homesick",
+    'over-promises': "Over-promises", 'hugs-first-asks-later': "Hugs first, asks later", 'jokes-past-pain': "Jokes past the pain", 'sends-too-much-home': "Sends too much home",
+    'understates-everything': "Understates everything", 'cant-ask-for-help': "Can't ask for help", 'jokes-to-avoid-conflict': "Jokes to dodge conflict", 'too-polite-to-check': "Too polite to check",
   },
 };

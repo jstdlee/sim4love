@@ -10,6 +10,7 @@
     yuna:  { n: 'Elise', dream: 'her dance academy in Seoul', place: 'a quiet table at a hawker centre, no camera', thing: 'a photo that was never posted, just printed and kept' },
     chloe: { n: 'Chloe', dream: 'her kiosk', place: 'the corner table at her kiosk after closing', thing: 'the first dollar the kiosk ever made, framed, with "not keeping score" written underneath' },
     preet: { n: 'Preet', dream: 'her social-work placement', place: 'the CC tuition room on Saturday mornings', thing: 'a fractions board game held together with tape, signed by twelve kids' },
+    ava:   { n: 'Ava', dream: 'her marine-science course in California', place: 'the frangipani tree at East Coast Park', thing: 'a film print of a frangipani flower, dated the first week of JC1' },
   };
   for (const [k, h] of Object.entries(H)) {
     E['true_' + k] = { type: "★ True End", title: "Plain Love",
@@ -26,6 +27,23 @@
         + `A year later she sends a photo from ${h.dream}. You send one back from your own first real step with {passion}. You're both, quietly, better people than the two kids who met in JC1.\n`
         + 'Mochi: "Ending well is still love. You lost a girlfriend, not yourself."' };
   }
+  // Ava's three endings have their own titles and text (docs/CAST_INTERNATIONAL.md §2.1).
+  Object.assign(E, {
+    true_ava: { type: "★ True End", title: "Two Time Zones",
+      text: "Two years of call slots, one spreadsheet of time zones, and one argument about whose turn it was to stay up late. Then an email: Ava got the NUS exchange semester.\n"
+        + "You meet her at Changi with no sign, because she said signs are cringe, and she cries anyway. The next morning you're both at the frangipani tree at East Coast Park, holding her grandpa's old camera between you, arguing about the light.\n"
+        + "\"Two time zones, one tree. Lowkey the best plan I've ever been part of.\"\n"
+        + "Mochi: \"Distance didn't break it, because you two kept saying the true thing out loud. That's the whole trick.\"" },
+    normal_ava: { type: "Normal End", title: "Still Learning",
+      text: "Ava is in California and you're here, fifteen hours apart. Most weeks the call happens. Some weeks one of you is too tired, and you both pretend it's fine instead of saying so.\n"
+        + "Nobody knows yet whose country comes next. That's not a failure. It's a question you haven't finished asking each other.\n"
+        + "Mochi: \"Keep the call slot, rookie. And when it's not fine, say it's not fine. That's the romantic part.\"" },
+    kind_goodbye_ava: { type: "Good End", title: "See You Around",
+      text: "You and Ava ended it before she flew. Not by fading out. She sat with you at the airport food court and said it properly: thank you, I'm sorry, I'll miss you, goodbye.\n"
+        + "\"Five countries,\" she said. \"First time I didn't just stop replying.\"\n"
+        + "Every year a print arrives in the post. A reef, a pier, a frangipani. No message, just the date. You keep them in a shoebox, and you're glad.\n"
+        + "Mochi: \"Ending well is still love. She learned to say goodbye, and you learned to hear it.\"" },
+  });
   Object.assign(E, {
     own_story: { type: "★ Best End", title: "Your Own Story",
       text: "Your grades got you where you wanted. {passion} turned into something real: a first gig, a first show, a first release. You sleep. You save. You're kind to your family and honest with everyone.\nWhoever you're with, or not with, you're a whole person. People notice that, without you ever trying to impress them.\nMochi: \"The secret all along: love doesn't complete you. You show up complete, and share.\"" },

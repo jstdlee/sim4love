@@ -20,6 +20,10 @@ window.VALUES = {
   chloe: { spend: -2, gifts: 0, family: 2, career: 2, children: 0, childEdu: 1, learning: 2, friends: 0, lending: -2, conflict: 1, honesty: 2, promises: 2, home: -1 },
   preet: { spend: -1, gifts: -2, family: 1, career: 0, children: 2, childEdu: -1, learning: 2, friends: 1, lending: 1, conflict: 2, honesty: 2, promises: 1, home: 0 },
   ama:   { spend: -2, gifts: -2, family: 2, career: 0, children: 2, childEdu: 0, learning: 1, friends: 0, lending: -1, conflict: 0, honesty: 1, promises: 2, home: 1 },
+  ava:   { spend: 1, gifts: 0, family: 0, career: 2, children: 0, childEdu: 1, learning: 2, friends: 2, lending: 0, conflict: 1, honesty: 2, promises: 1, home: -1 },
+  ines:  { spend: 0, gifts: -1, family: 1, career: 2, children: 0, childEdu: 0, learning: 2, friends: 1, lending: 0, conflict: 2, honesty: 2, promises: 1, home: 0 },
+  mateo: { spend: 0, gifts: 2, family: 2, career: 0, children: 1, childEdu: 0, learning: 0, friends: 2, lending: 1, conflict: -1, honesty: 1, promises: 0, home: 1 },
+  ollie: { spend: -1, gifts: 0, family: 1, career: 1, children: 0, childEdu: 0, learning: 2, friends: 1, lending: 0, conflict: -2, honesty: 1, promises: 2, home: 0 },
   nana:  { spend: 1, gifts: 0, family: 0, career: 0, children: 0, childEdu: 0, learning: 1, friends: 1, lending: -1, conflict: 0, honesty: 1, promises: 0, home: 0 },
 };
 /* The passion chosen in Ch2 ({passion} in text). */
